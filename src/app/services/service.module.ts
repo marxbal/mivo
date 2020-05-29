@@ -36,6 +36,9 @@ import {
 import {
   UtilityService
 } from './utility.service';
+import {
+  ThirdPartyService
+} from './third-party.service';
 
 /* LOV Services */
 import {
@@ -56,6 +59,9 @@ import {
 import {
   AccidentLOVServices
 } from './lov/accident.service';
+import {
+  ThirdPartyLOVServices
+} from './lov/third-party-lov-service';
 
 @NgModule({
   imports: [
@@ -74,13 +80,15 @@ import {
     AgentService, //as
     DashboardService, //ds
     UtilityService, //us
+    ThirdPartyService, //tps
 
     LovService, //ls
     GroupPolicyLOVServices, //gpls
     CarLOVServices, //cls
     HomeLOVServices, //hls
     TravelLOVServices, //tls
-    AccidentLOVServices //als
+    AccidentLOVServices, //als
+    ThirdPartyLOVServices //tpls
   ]
 })
 export class ServiceModule {}

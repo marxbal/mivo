@@ -3,32 +3,24 @@
     <strong>Individual Policy</strong>
   </div>
   <div class="card-body">
-    <div class="row">
-
-      <!-- <div class="col-md-4">
-        <div class="form-group">
-          <label for="requestType">Quotation/Policy</label>
-          <select class="custom-select mr-sm-2 required" formControlName="requestType"
-            [(ngModel)]="details.requestType">
-            <option value="Q">Quotation</option>
-            <option value="I">Issuance</option>
-          </select>
+    
+    <form [formGroup]="loadForm">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Quotation Number</label>
+            </div>
+            <input type="text" class="form-control" placeholder="Enter Quotation Number here.."
+            formControlName="quotationNumber" [(ngModel)]="details.quotationNumber">
+            <div class="input-group-append">
+              <button [disabled]="disableLoadBtn" class="btn btn-outline-secondary" type="button">Load</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-md-8">
-        <div class="form-group">
-          <label for="number">Number</label>
-          <input type="text" formControlName="number" class="form-control required" [(ngModel)]="details.number">
-        </div>
-      </div>
+    </form>
 
-      <div class="col-md-12">
-        <div class="btn-group" role="group">
-          <button [disabled]="true" type="button" class="btn btn-primary">Load</button>
-        </div>
-      </div> -->
-
-    </div>
   </div>
 </div>

@@ -17,6 +17,5 @@ export class TravelListObject {
   travelInsuranceLOV: any[];
   optionPackLOV: any[];
   medicalExpensesLOV: any[];
-  constructor() {
-  }
+  constructor() {}
 }

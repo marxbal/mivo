@@ -20,6 +20,8 @@ import {
 export class QuoteCar {
   mcaTmpPptoMph: string;
   quotationNumber: string;
+  policyNumber: string;
+
   //vehicle information
   make: number;
   model: number;

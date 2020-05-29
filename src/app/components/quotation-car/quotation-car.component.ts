@@ -119,7 +119,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   //disable change product input
   disableProductSelect = false;
 
-  //disable change product input
+  //flag if coverage is modified
   isModifiedCoverage = false;
 
   //flag to show generate btn
@@ -128,6 +128,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showIssueQuoteBtnGrp: boolean = false;
   //flag to show print quote/proceed to issuance
   showProceedToIssuanceBtnGrp: boolean = false;
+
+  //disable load button
+  disableLoadBtn: boolean = true;
 
   //modal reference
   modalRef: BsModalRef;
@@ -158,7 +161,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
         //if loaded from car quotation
-        alert(Globals.loadNumber);
+        this.carDetails.quotationNumber = Globals.loadNumber;
         this.init();
       } else {
         this.init();
@@ -214,6 +217,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   createQuoteForm() {
     this.quoteForm = this.fb.group({
+      quotationNumber: [null],
       //risk details
       make: ['', Validators.required],
       model: ['', Validators.required],
@@ -302,7 +306,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-
+    alert(this.carDetails.quotationNumber);
   }
 
   setValidations() {
@@ -311,6 +315,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     var vehicleType = this.quoteForm.get('vehicleType');
     var cbIsNotRequiredAuthNumber = this.quoteForm.get('cbIsNotRequiredAuthNumber');
     var authNumber = this.quoteForm.get('authNumber');
+    var quotationNumber = this.quoteForm.get('quotationNumber');
 
     // if vehicle type is trailer, remove plate number required validation
     vehicleType.valueChanges.pipe(distinctUntilChanged()).subscribe(type => {
@@ -331,6 +336,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
       Utility.updateValidator(authNumber, bool ? null : Validators.required);
+    });
+
+    quotationNumber.valueChanges.subscribe(number => {
+      this.disableLoadBtn = Utility.isUndefined(number);
     });
   }
 
@@ -602,10 +611,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   productOnChange() {
-    this.showCTPL = this.carDetails.productList == 10001;
-    this.cqs.activateCTPL(this.quoteForm, this.carDetails);
-    if (this.showCTPL) {
-      Utility.scroll('CTPLAuth');
+    if (this.isIssuance) {
+      this.showCTPL = this.carDetails.productList == 10001;
+      this.cqs.activateCTPL(this.quoteForm, this.carDetails);
+      if (this.showCTPL) {
+        Utility.scroll('CTPLAuth');
+      }
     }
   }
 

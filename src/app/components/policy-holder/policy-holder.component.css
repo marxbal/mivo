@@ -1,0 +1,7 @@
+.btn-group {
+  float: right !important;
+}
+
+form .required.readonly {
+  border-left: 6px solid #7e7e7e !important;
+}

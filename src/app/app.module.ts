@@ -173,6 +173,7 @@ import {
 import {
   CoverageVariableDataComponent
 } from './components/coverage-variable-data/coverage-variable-data.component';
+import { CreateThirdPartyComponent } from './components/create-third-party/create-third-party.component';
 
 const routes: Routes = [{
     path: 'login',
@@ -236,7 +237,8 @@ const routes: Routes = [{
     CoveragesComponent,
     PaymentBreakdownModalComponent,
     ReloadComponent,
-    CoverageVariableDataComponent
+    CoverageVariableDataComponent,
+    CreateThirdPartyComponent
   ],
   entryComponents: [
     ModalComponent
