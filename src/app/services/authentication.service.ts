@@ -65,7 +65,7 @@ export class AuthenticationService {
   // }
 
   login(username: String, password: String) {
-    return this.http.get(API_URL + '/api/auth', {
+    return this.http.get(API_URL + '/auth', {
       headers: {
         authorization: this.createBasicAuthToken(username, password)
       }
