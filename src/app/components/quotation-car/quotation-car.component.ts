@@ -161,7 +161,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
         //if loaded from car quotation
-        alert(Globals.loadNumber);
+        this.carDetails.quotationNumber = Globals.loadNumber;
         this.init();
       } else {
         this.init();
@@ -611,10 +611,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   productOnChange() {
-    this.showCTPL = this.carDetails.productList == 10001;
-    this.cqs.activateCTPL(this.quoteForm, this.carDetails);
-    if (this.showCTPL) {
-      Utility.scroll('CTPLAuth');
+    if (this.isIssuance) {
+      this.showCTPL = this.carDetails.productList == 10001;
+      this.cqs.activateCTPL(this.quoteForm, this.carDetails);
+      if (this.showCTPL) {
+        Utility.scroll('CTPLAuth');
+      }
     }
   }
 

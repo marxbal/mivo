@@ -1,14 +1,41 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Utility } from "../../utils/utility";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { first } from "rxjs/operators";
-import { AuthenticationService } from "../../services/authentication.service";
-import { MIVO_LOGIN } from "../../constants/local.storage";
-import { VER } from "../../constants/app.constant";
-import { Globals } from "../../utils/global";
-import { page } from "../../constants/page";
+import {
+  Component,
+  OnInit
+} from "@angular/core";
+import {
+  Router,
+  ActivatedRoute
+} from "@angular/router";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators
+} from "@angular/forms";
+import {
+  Utility
+} from "../../utils/utility";
+import {
+  BsModalService,
+  BsModalRef
+} from "ngx-bootstrap/modal";
+import {
+  first
+} from "rxjs/operators";
+import {
+  AuthenticationService
+} from "../../services/authentication.service";
+import {
+  MIVO_LOGIN
+} from "../../constants/local.storage";
+import {
+  VER
+} from "../../constants/app.constant";
+import {
+  Globals
+} from "../../utils/global";
+import {
+  page
+} from "../../constants/page";
 
 @Component({
   selector: "app-login",
@@ -94,7 +121,9 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {
-          var { error } = err;
+          var {
+            error
+          } = err;
           this.loading = false;
           this.alert = true;
           this.message = error.message;
