@@ -106,6 +106,7 @@ export class PaymentBreakdownModalComponent implements OnInit {
   }
 
   proceedToIssuance() {
+    this.dialogRef.close(false);
     this.cqs.proceedToIssuance(this.data.number);
   }
 

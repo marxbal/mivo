@@ -4,14 +4,14 @@ import {
 
 export class Globals {
   public static page: String = 'dashboard';
-  public static loadNumber: String = '';
+  public static loadNumber: string = '';
   public static isLoadQuotation: boolean = false;
 
   static setPage(val: String) {
     this.page = val;
   }
 
-  static setLoadNumber(val: String) {
+  static setLoadNumber(val: string) {
     this.loadNumber = val;
   }
 

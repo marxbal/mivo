@@ -161,7 +161,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
         //if loaded from car quotation
-        alert(Globals.loadNumber);
+        this.carDetails.quotationNumber = Globals.loadNumber;
         this.init();
       } else {
         this.init();
