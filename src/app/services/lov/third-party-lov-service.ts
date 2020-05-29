@@ -100,7 +100,7 @@ export class ThirdPartyLOVServices {
       'A1000101',
       '1',
       '');
-    return this.lov.getIntLOV(dto, 'COD_PAIS').then(lovs => lovs as any[]);
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
   async getPost(): Promise < any[] > {
@@ -126,7 +126,7 @@ export class ThirdPartyLOVServices {
       'EN',
       'COD_EST_CIVIL',
       '999');
-    return this.lov.getIntOptionList(dto, 'COD_EST_CIVIL').then(lovs => lovs as any[]);
+    return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
   }
 
   //same with occupation
