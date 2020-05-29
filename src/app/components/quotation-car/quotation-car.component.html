@@ -12,9 +12,28 @@
       <div class="card-body" id="topDiv">
         <form [formGroup]="quoteForm" class="regular-quote-form">
 
-          <app-individual-policy
-            *ngIf='isIssuance'>
-          </app-individual-policy>
+          <div *ngIf='isIssuance' class="card shadow mb-3">
+            <div class="card-header">
+              <strong>Individual Policy</strong>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Quotation Number</label>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Enter Quotation Number here.."
+                      formControlName="quotationNumber" [(ngModel)]="carDetails.quotationNumber">
+                    <div class="input-group-append">
+                      <button [disabled]="disableLoadBtn" class="btn btn-outline-secondary" (click)="loadQuotation()"
+                        type="button">Load</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div class="card shadow mb-3">
             <div class="card-header">
@@ -322,7 +341,8 @@
           <app-policy-holder
             #appPolicyHolder
             [details]="carDetails"
-            [policyHolder]="policyHolder">
+            [policyHolder]="policyHolder"
+            [isIssuance]="isIssuance">
           </app-policy-holder>
 
           <app-group-policy
@@ -670,7 +690,7 @@
             </div>
           </div>
 
-          <div *ngIf="showCTPL" class="card shadow mb-3" id="CTPLAuth">
+          <div *ngIf="isIssuance && showCTPL" class="card shadow mb-3" id="CTPLAuth">
             <div class="card-header">
               <strong>CTPL Authenctication (for products with CTPL)</strong>
             </div>
@@ -777,7 +797,8 @@
             [premiumAmount]="premiumAmount"
             [coverageAmount]="coverageAmount"
             [coverageVariableData]="coverageVariableData"
-            [isModifiedCoverage]="isModifiedCoverage">
+            [isModifiedCoverage]="isModifiedCoverage"
+            [isIssuance]="isIssuance">
           </app-coverages>
 
           <app-payment-breakdown
@@ -796,6 +817,15 @@
               <div class="row">
                 <div class="col-xl-12">
                   <h6>Product Data</h6>
+                </div>
+
+                <div class="col-xl-12">
+                  <div class="alert alert-info note">
+                    <p><strong>Important Reminder:</strong> Make sure to fill out all required fields to enable the
+                      generate button.
+                    </p>
+                  </div>
+                  <!-- .note -->
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
@@ -823,7 +853,8 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [attr.disabled]="showGenerateBtnGrp && !isModifiedCoverage ? null : true"
-                      [(ngModel)]="carDetails.productList" [attr.disabled]=" LOV.productListLOV?.length ? null : true">
+                      [(ngModel)]="carDetails.productList" [attr.disabled]=" LOV.productListLOV?.length ? null : true"
+                      (change)="productOnChange()">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}
@@ -833,15 +864,6 @@
                       * product list is required
                     </p>
                   </div>
-                </div>
-
-                <div class="col-xl-12">
-                  <div class="alert alert-info note">
-                    <p><strong>Important Reminder:</strong> Make sure to fill out all required fields to enable the
-                      generate button.
-                    </p>
-                  </div>
-                  <!-- .note -->
                 </div>
 
               </div>

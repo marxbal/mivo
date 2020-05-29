@@ -1,6 +1,8 @@
 export class PolicyHolder {
   organization: boolean = true;
-	name: String;
+  name: string;
+  documentType: string;
+  documentCode: string;
   
   constructor(init?: Partial<PolicyHolder>) {
     Object.assign(this, init);

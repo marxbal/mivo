@@ -1,10 +1,11 @@
-<div class="card shadow mb-3">
+<div class="card shadow mb-3" id="policyHolderInfoPanel">
   <div class="card-header">
     <strong>Policy Holder Information</strong>
   </div>
   <div class="card-body">
     <form [formGroup]="phForm">
-      <div class="row">
+      <!-- for quotation -->
+      <div class="row" *ngIf="!isIssuance">
         <div class="col-xl-12">
           <h6>Policy Holder</h6>
         </div>
@@ -22,6 +23,175 @@
           </div>
         </div>
       </div>
+
+      <!-- for issuance -->
+      <div class="row" *ngIf="isIssuance">
+        <div class="col-xl-12">
+          <h6>Policy Holder</h6>
+        </div>
+
+        <div class="col-xl-12">
+          <div class="alert alert-info note">
+            <p><strong>Important Reminder:</strong> Click <strong>create</strong> button to create a new policy holder
+              or click <strong>browse</strong> button to
+              search an existing policy holder. Document code and type will be automatically filled once you select or
+              create a policy holder.
+            </p>
+          </div>
+          <!-- .note -->
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group" [ngClass]="{'input-error': phForm.controls['documentType'].invalid 
+                  && (phForm.controls['documentType'].dirty 
+                  || phForm.controls['documentType'].touched)}">
+            <label for="documentType">Document Type</label>
+            <input type="text" formControlName="documentType" class="form-control required readonly"
+              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.documentType" readonly>
+            <p class="form-error" *ngIf="phForm.controls['documentType'].errors?.required">
+              * document type is required
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group" [ngClass]="{'input-error': phForm.controls['documentCode'].invalid 
+                  && (phForm.controls['documentCode'].dirty 
+                  || phForm.controls['documentCode'].touched)}">
+            <label for="documentCode">Document Code</label>
+            <input type="text" formControlName="documentCode" class="form-control required readonly"
+              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.documentCode" readonly>
+            <p class="form-error" *ngIf="phForm.controls['documentCode'].errors?.required">
+              * document code is required
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary" (click)="browse()">Browse</button>
+            <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+          </div>
+        </div>
+      </div>
     </form>
+
+    <div *ngIf="showSearch" class="row">
+      <div class="col-xl-12">
+        <form [formGroup]="searchForm">
+          <div class="form-divider"></div>
+
+          <div class="row">
+            <div class="col-xl-4 col-sm-12">
+              <div class="form-group input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Search by</label>
+                </div>
+
+                <select class="custom-select mr-sm-2" formControlName="policyHolderType" [(ngModel)]="policyHolderType">
+                  <option value="P" selected>Person</option>
+                  <option value="C">Company/Organization</option>
+                </select>
+
+              </div>
+            </div>
+
+            <div class="col-xl-4">
+              <div class="form-group" [ngClass]="{'input-error': searchForm.controls['firstName'].invalid 
+                  && (searchForm.controls['firstName'].dirty 
+                  || searchForm.controls['firstName'].touched)}">
+                <input type="text" placeholder="{{firstNameLabel}}" formControlName="firstName"
+                  class="form-control required" [(ngModel)]="firstName">
+                <p class="form-error" *ngIf="searchForm.controls['firstName'].errors?.required">
+                  * {{firstNameError}} is required
+                </p>
+              </div>
+            </div>
+
+            <div *ngIf="showLastName" class="col-xl-4">
+              <div class="form-group" [ngClass]="{'input-error': searchForm.controls['lastName'].invalid 
+                  && (searchForm.controls['lastName'].dirty 
+                  || searchForm.controls['lastName'].touched)}">
+                <input type="text" placeholder="Last Name" formControlName="lastName" class="form-control required"
+                  [(ngModel)]="lastName">
+                <p class="form-error" *ngIf="searchForm.controls['lastName'].errors?.required">
+                  * last name is required
+                </p>
+              </div>
+            </div>
+
+            <div class="col-xl-12" *ngIf="showSearchResult">
+
+              <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="documentType">
+                  <mat-header-cell *matHeaderCellDef> Document Type </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.tipDocum}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="firstName">
+                  <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.nomTercero}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="middleName">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'amount-header'"> Middle Name </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.nom2Tercero}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="lastName">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'amount-header'"> Last Name </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.ape2Tercero}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="address">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'amount-header'"> City Address </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.dirDomicilioCliente}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <mat-header-cell *matHeaderCellDef> Document Code </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <div class="input-group">
+                      <input #documentCode (keyup)="enableAddBtn($event, btn)" type="text" class="form-control">
+                      <div class="input-group-append">
+                        <button #btn (click)="add(row, documentCode)" disabled class="btn btn-outline-secondary"
+                          type="button">Add</button>
+                      </div>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+            </div>
+
+            <div class="col-md-12">
+              <div class="btn-group" role="group">
+                <button [disabled]="searchForm.pristine || searchForm.invalid" type="button" class="btn btn-primary"
+                  (click)="searchResult()">Search</button>
+                <button type="button" class="btn btn-primary" (click)="showSearch = !showSearch">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+
   </div>
 </div>
