@@ -611,10 +611,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   productOnChange() {
-    this.showCTPL = this.carDetails.productList == 10001;
-    this.cqs.activateCTPL(this.quoteForm, this.carDetails);
-    if (this.showCTPL) {
-      Utility.scroll('CTPLAuth');
+    if (this.isIssuance) {
+      this.showCTPL = this.carDetails.productList == 10001;
+      this.cqs.activateCTPL(this.quoteForm, this.carDetails);
+      if (this.showCTPL) {
+        Utility.scroll('CTPLAuth');
+      }
     }
   }
 

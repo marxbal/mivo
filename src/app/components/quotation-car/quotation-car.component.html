@@ -797,7 +797,8 @@
             [premiumAmount]="premiumAmount"
             [coverageAmount]="coverageAmount"
             [coverageVariableData]="coverageVariableData"
-            [isModifiedCoverage]="isModifiedCoverage">
+            [isModifiedCoverage]="isModifiedCoverage"
+            [isIssuance]="isIssuance">
           </app-coverages>
 
           <app-payment-breakdown
@@ -852,7 +853,8 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [attr.disabled]="showGenerateBtnGrp && !isModifiedCoverage ? null : true"
-                      [(ngModel)]="carDetails.productList" [attr.disabled]=" LOV.productListLOV?.length ? null : true">
+                      [(ngModel)]="carDetails.productList" [attr.disabled]=" LOV.productListLOV?.length ? null : true"
+                      (change)="productOnChange()">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}

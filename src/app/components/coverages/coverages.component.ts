@@ -56,6 +56,7 @@ export class CoveragesComponent implements OnInit {
   @Input() coverageAmount: any[];
   @Input() coverageVariableData: CoverageVariableData;
   @Input() isModifiedCoverage: boolean;
+  @Input() isIssuance: boolean;
 
   @Input() quoteForm: FormGroup;
   @Input() showCTPL: boolean;
@@ -144,7 +145,7 @@ export class CoveragesComponent implements OnInit {
     if (row.isRoadAssist) {
       //unselect Road Assits options
       this.unselectRAOptions(row.code);
-    } else if (row.code == 1001) {
+    } else if (row.code == 1001 && this.isIssuance) {
       //open CTPL panel
       this.showCTPL = row.included;
       this.showCTPLChange.emit(this.showCTPL);
