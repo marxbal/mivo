@@ -1,26 +1,42 @@
-﻿import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { environment } from "../../environments/environment";
-import { User } from "../objects/User";
-import { CURRENT_USER, MENU } from "../constants/local.storage";
-import { Page } from "../objects/Page";
+﻿import {
+  Injectable
+} from "@angular/core";
+import {
+  HttpClient
+} from "@angular/common/http";
+import {
+  BehaviorSubject,
+  Observable
+} from "rxjs";
+import {
+  map
+} from "rxjs/operators";
+import {
+  User
+} from "../objects/User";
+import {
+  CURRENT_USER,
+  MENU
+} from "../constants/local.storage";
+import {
+  Page
+} from "../objects/Page";
+import {
+  API_URL
+} from '../constants/app.constant';
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject < User > ;
+  public currentUser: Observable < User > ;
 
-  SESSION_KEY = 'auth_user'
-
-	username: String;
-	password: String;
+  username: String;
+  password: String;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(
+    this.currentUserSubject = new BehaviorSubject < User > (
       JSON.parse(localStorage.getItem(CURRENT_USER))
     );
     this.currentUser = this.currentUserSubject.asObservable();
@@ -42,44 +58,46 @@ export class AuthenticationService {
   //         delete user.password;
   //         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
   //         this.currentUserSubject.next(user);
-
   //         this.getPages();
-
   //         return user;
   //       })
   //     );
   // }
 
   login(username: String, password: String) {
-		return this.http.get(`http://10.145.36.107:8080/api/auth`, { 
-			headers: { authorization: this.createBasicAuthToken(username, password) }}).pipe(map((res) => {
-         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        const user =new User();
-        user.userId = 1101;
-        user.role = 1;
-        user.userName = username as string;
-        user.firstName = "Bawal";
-        user.lastName = "Lumabas";
-        user.fullName = "Bawal Lumabas";
-        user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
-        user.expiryDay = 4;
-        user.token = this.createBasicAuthToken(username, password);
-        
-          localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-          this.currentUserSubject.next(user);
+    return this.http.get(API_URL + '/api/auth', {
+      headers: {
+        authorization: this.createBasicAuthToken(username, password)
+      }
+    }).pipe(map((res) => {
+      alert(res);
+      // store user details and jwt token in local storage to keep user logged in between page refreshes
+      const user = new User();
+      user.userId = 1101;
+      user.role = 1;
+      user.userName = username as string;
+      user.firstName = "MAPFRE";
+      user.lastName = "INSULAR";
+      user.fullName = "MAPFRE INSULAR";
+      user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
+      user.expiryDay = 4;
+      user.token = this.createBasicAuthToken(username, password);
 
-          this.getPages();
+      localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+      this.currentUserSubject.next(user);
 
-          return user;
-		}));
+      this.getPages();
+
+      return user;
+    }));
   }
 
   createBasicAuthToken(username: String, password: String) {
-		return 'Basic ' + window.btoa(username + ":" + password)
-	}
+    return 'Basic ' + window.btoa(username + ":" + password)
+  }
 
   getPages() {
-    // removing unavailable pages for user
+    // removing pages for user
     const unavailablePages = [
       "commissionsPaid",
       "estimatedCommissions",
@@ -95,7 +113,7 @@ export class AuthenticationService {
       "issuanceAccident",
       "account",
       "client",
-      "issuance",
+      // "issuance",
       "query",
       "changePassword",
       "news",
