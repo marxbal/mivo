@@ -1,39 +1,28 @@
-﻿import {
-  Injectable
-} from '@angular/core';
-import {
-  HttpClient
-} from '@angular/common/http';
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
-import {
-  map
-} from 'rxjs/operators';
-import {
-  environment
-} from '../../environments/environment';
-import {
-  User
-} from '../objects/User';
-import {
-  CURRENT_USER,
-  MENU
-} from '../constants/local.storage';
-import {
-  Page
-} from '../objects/Page';
+﻿import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { environment } from "../../environments/environment";
+import { User } from "../objects/User";
+import { CURRENT_USER, MENU } from "../constants/local.storage";
+import { Page } from "../objects/Page";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject < User > ;
-  public currentUser: Observable < User > ;
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+
+  SESSION_KEY = 'auth_user'
+
+	username: String;
+	password: String;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject < User > (JSON.parse(localStorage.getItem(CURRENT_USER)));
+    this.currentUserSubject = new BehaviorSubject<User>(
+      JSON.parse(localStorage.getItem(CURRENT_USER))
+    );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -41,47 +30,76 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  // login(username: String, password: String) {
+  //   return this.http
+  //     .post<any>(`${environment.apiUrl}api/auth`, {
+  //       username,
+  //       password,
+  //     })
+  //     .pipe(
+  //       map((user) => {
+  //         // store user details and jwt token in local storage to keep user logged in between page refreshes
+  //         delete user.password;
+  //         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+  //         this.currentUserSubject.next(user);
+
+  //         this.getPages();
+
+  //         return user;
+  //       })
+  //     );
+  // }
+
   login(username: String, password: String) {
-    return this.http.post < any > (`${environment.apiUrl}/users/authenticate`, {
-        username,
-        password
-      })
-      .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        delete user.password;
-        localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-        this.currentUserSubject.next(user);
+		return this.http.get(`http://10.145.36.107:8080/api/auth`, { 
+			headers: { authorization: this.createBasicAuthToken(username, password) }}).pipe(map((res) => {
+         // store user details and jwt token in local storage to keep user logged in between page refreshes
+        const user =new User();
+        user.userId = 1101;
+        user.role = 1;
+        user.userName = username as string;
+        user.firstName = "Bawal";
+        user.lastName = "Lumabas";
+        user.fullName = "Bawal Lumabas";
+        user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
+        user.expiryDay = 4;
+        user.token = this.createBasicAuthToken(username, password);
+        
+          localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+          this.currentUserSubject.next(user);
 
-        this.getPages();
+          this.getPages();
 
-        return user;
-      }));
+          return user;
+		}));
   }
+
+  createBasicAuthToken(username: String, password: String) {
+		return 'Basic ' + window.btoa(username + ":" + password)
+	}
 
   getPages() {
     // removing unavailable pages for user
     const unavailablePages = [
-      'commissionsPaid',
-      'estimatedCommissions',
-      'premiumCollection',
-      'quickHome',
-      'quickTravel',
-      'quickAccident',
-      'quotationHome',
-      'quotationTravel',
-      'quotationAccident',
-      'issuanceHome',
-      'issuanceTravel',
-      'issuanceAccident',
-      'account',
-      'client',
-
-      // 'issuance',
-
-      'query',
-      'changePassword',
-      'news',
-      'requests'
+      "commissionsPaid",
+      "estimatedCommissions",
+      "premiumCollection",
+      "quickHome",
+      "quickTravel",
+      "quickAccident",
+      "quotationHome",
+      "quotationTravel",
+      "quotationAccident",
+      "issuanceHome",
+      "issuanceTravel",
+      "issuanceAccident",
+      "account",
+      "client",
+      "issuance",
+      "query",
+      "changePassword",
+      "news",
+      "requests",
     ];
     const page = new Page();
     for (let p in page) {
