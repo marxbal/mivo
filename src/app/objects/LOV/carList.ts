@@ -18,6 +18,7 @@ export class CarListObject {
   classificationLOV: any[];
   coverageAreaLOV: any[];
   inspectionAssessmentLOV: any[];
+  mortgageClauseLOV: any[];
 
   //ctpl
   registrationTypeLOV: any[];

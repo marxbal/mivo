@@ -68,8 +68,12 @@ import {
 import {
   Globals
 } from 'src/app/utils/global';
-import { CoverageVariableData } from 'src/app/objects/CoverageVariableData';
-import { CoveragesComponent } from '../coverages/coverages.component';
+import {
+  CoverageVariableData
+} from 'src/app/objects/CoverageVariableData';
+import {
+  CoveragesComponent
+} from '../coverages/coverages.component';
 
 @Component({
   selector: 'app-quotation-car',
@@ -87,6 +91,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   carDetails = new QuoteCar();
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
+  secondaryPolicyHolder = new PolicyHolder();
+  assigneePolicyHolder = new PolicyHolder();
+  mortgageePolicyHolder = new PolicyHolder();
   coverageVariableData = new CoverageVariableData();
 
   quoteForm: FormGroup;
@@ -104,6 +111,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showCTPL: boolean = false;
   showPaymentBreakdown: boolean = false;
   showCoverage: boolean = false;
+  showAssignee: boolean = false;
+  showMortgagee: boolean = false;
 
   //for payment breakdown
   paymentBreakdown: any[];
@@ -193,14 +202,20 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       _this.LOV.inspectionAssessmentLOV = res;
     });
 
-    this.cus.getSubagents().then(res => {
-      var subAgents = res.obj["subAgents"];
-      subAgents.forEach(subAgent => {
-        subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
-        subAgent.value = subAgent.codDocum;
+    if (this.isIssuance) {
+      this.cus.getSubagents().then(res => {
+        var subAgents = res.obj["subAgents"];
+        subAgents.forEach(subAgent => {
+          subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
+          subAgent.value = subAgent.codDocum;
+        });
+        _this.LOV.subagentLOV = subAgents;
       });
-      _this.LOV.subagentLOV = subAgents;
-    });
+
+      this.cls.getMortgageClause().then(res => {
+        _this.LOV.mortgageClauseLOV = res;
+      });
+    }
 
     this.setValue();
   }
@@ -213,6 +228,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.receivedDate = this.today; // current today
     this.carDetails.effectivityDate = this.today; // current today
     this.carDetails.automaticAuth = "N";
+    //additional policy information
+    this.carDetails.cbPolicyOnlyDriver = true;
+    this.carDetails.cbPolicyOwner = true;
   }
 
   createQuoteForm() {
@@ -269,6 +287,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       glassEtchingAvailmentDate: [null],
       existingDamages: [null],
       inspectionAssessment: [null],
+    //additional policy information for issuance
+      cbPolicyOnlyDriver: [null],
+      cbPolicyOwner: [null],
+      cbHasAssignee: [null],
+      cbVehicleMortgaged: [null],
+      mortgageClause: [null],
+
       //product data
       paymentMethod: ['', Validators.required],
       product: ['', Validators.required],

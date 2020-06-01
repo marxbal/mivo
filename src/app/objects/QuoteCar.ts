@@ -56,8 +56,12 @@ export class QuoteCar {
 
   //policy holder information
   clientName: string;
-
   policyHolder: PolicyHolder;
+  secondaryPolicyHolderPrefix: number;
+  secondaryPolicyHolderSeparator: number;
+  secondaryPolicyHolder: PolicyHolder;
+  assigneePolicyHolder: PolicyHolder;
+  mortgageePolicyHolder: PolicyHolder;
 
   //group policy
   groupPolicy: GroupPolicy;
@@ -80,6 +84,12 @@ export class QuoteCar {
   glassEtchingAvailmentDate: Date;
   existingDamages: string;
   inspectionAssessment: number;
+  //additional policy information for issuance
+  cbPolicyOnlyDriver: boolean;
+  cbPolicyOwner: boolean;
+  cbHasAssignee: boolean;
+  cbVehicleMortgaged: boolean;
+  mortgageClause: number;
 
   //subagent and policy holder
   beneficiaries: Array < Beneficiary > = [];

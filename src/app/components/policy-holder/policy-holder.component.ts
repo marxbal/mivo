@@ -30,6 +30,9 @@ import {
 import {
   CreateThirdPartyComponent
 } from '../create-third-party/create-third-party.component';
+import {
+  CarLOVServices
+} from 'src/app/services/lov/car.service';
 
 @Component({
   selector: 'app-policy-holder',
@@ -37,9 +40,13 @@ import {
   styleUrls: ['./policy-holder.component.css']
 })
 export class PolicyHolderComponent implements OnInit {
+  @Input() title: String;
+  @Input() showCreateBtn: boolean;
   @Input() policyHolder: PolicyHolder;
   @Input() details: any;
   @Input() isIssuance: boolean;
+  @Input() type: String;
+  @Input() optional: boolean;
   _details: any;
 
   displayedColumns: string[] = ['documentType', 'firstName', 'middleName', 'lastName', 'address', 'action'];
@@ -53,16 +60,22 @@ export class PolicyHolderComponent implements OnInit {
   phForm: FormGroup;
   searchForm: FormGroup;
 
+  //for optional content
+  showContent: boolean;
+
   showSearch: boolean = false;
   showSearchResult: boolean = false;
 
-  policyHolderType: string = "P";
+  policyHolderType: string;
   firstName: string;
   lastName: string;
   showLastName: boolean = true;
 
   firstNameLabel: string = "First Name";
   firstNameError: string = "first name";
+
+  prefixLOV: any[];
+  separatorLOV: any[];
 
   //modal reference
   modalRef: BsModalRef;
@@ -71,18 +84,37 @@ export class PolicyHolderComponent implements OnInit {
     private fb: FormBuilder,
     private bms: BsModalService,
     private tps: ThirdPartyService,
+    private cls: CarLOVServices,
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.createForm();
     this.setValidations();
+    this.showContent = !this.optional;
+    
+    if (this.isIssuance) {
+      //can only search company/organization if type is mortgagee
+      this.policyHolderType = this.type == 'mortgagee' ? 'C' : 'P';
+
+      if (this.type == 'secondary') {
+        var _this = this;
+        this.cls.getPHPrefix().then(res => {
+          _this.prefixLOV = res;
+        });
+        this.cls.getPHSeparator().then(res => {
+          _this.separatorLOV = res;
+        });
+      }
+    }
   }
 
   createForm() {
     if (this.isIssuance) {
       this.phForm = this.fb.group({
-        documentCode: ['', Validators.required],
-        documentType: ['', Validators.required]
+        documentCode: this.optional ? [null] : ['', Validators.required],
+        documentType: this.optional ? [null] : ['', Validators.required],
+        secondaryPolicyHolderPrefix: [null],
+        secondaryPolicyHolderSeparator: [null]
       });
     } else {
       this.phForm = this.fb.group({
@@ -118,8 +150,15 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearch = false;
     this.showSearchResult = false;
 
+
+    var label = this.type == 'secondary' ? "Alternative " :
+      this.type == 'assignee' ? "Assignee " :
+      this.type == 'morgagee' ? "Mortagee " : '';
+
+    let title = "Create " + label + "Policy Holder";
+
     const modalData = {
-      title: "Create Policy Holder"
+      title: title
     };
 
     const dialogRef = this.dialog.open(CreateThirdPartyComponent, {

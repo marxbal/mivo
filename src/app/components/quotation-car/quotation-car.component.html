@@ -340,9 +340,24 @@
 
           <app-policy-holder
             #appPolicyHolder
+            [title]="'Policy Holder Information'"
+            [showCreateBtn]="true"
             [details]="carDetails"
             [policyHolder]="policyHolder"
-            [isIssuance]="isIssuance">
+            [isIssuance]="isIssuance"
+            [type]="'primary'"
+            [optional]="false">
+          </app-policy-holder>
+
+          <app-policy-holder
+            *ngIf="isIssuance"
+            [title]="'Alternative Policy Holder (Optional)'"
+            [showCreateBtn]="true"
+            [details]="carDetails"
+            [policyHolder]="secondaryPolicyHolder"
+            [isIssuance]="isIssuance"
+            [type]="'secondary'"
+            [optional]="true">
           </app-policy-holder>
 
           <app-group-policy
@@ -589,6 +604,75 @@
                   </div>
                 </div>
 
+                <div *ngIf="isIssuance" class="col-xl-12">
+                  <div class="row">
+
+                    <div class="form-divider"></div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="cbPolicyOnlyDriver"
+                            [(ngModel)]="carDetails.cbPolicyOnlyDriver" formControlName="cbPolicyOnlyDriver" disabled>
+                          <label class="form-check-label" for="cbPolicyOnlyDriver">
+                            Is the Policy Holder the only Driver?
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="cbPolicyOwner"
+                            [(ngModel)]="carDetails.cbPolicyOwner" formControlName="cbPolicyOwner" disabled>
+                          <label class="form-check-label" for="cbPolicyOwner">
+                            Is the Policy Holder the Owner?
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="cbHasAssignee"
+                            [(ngModel)]="carDetails.cbHasAssignee" formControlName="cbHasAssignee" (change)="showAssignee = !showAssignee">
+                          <label class="form-check-label" for="cbHasAssignee">
+                            Has Assignee?
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="form-divider"></div>
+    
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="cbVehicleMortgaged"
+                            [(ngModel)]="carDetails.cbVehicleMortgaged" formControlName="cbVehicleMortgaged"
+                            (change)="showMortgagee = !showMortgagee">
+                          <label class="form-check-label" for="cbVehicleMortgaged">
+                            Vehicle Mortgaged
+                          </label>
+                        </div>
+                        <label class="form-check-label" for="mortgageClause">
+                          Mortgage Clause
+                        </label>
+                        <select class="custom-select mr-sm-2" formControlName="mortgageClause"
+                          [attr.disabled]="carDetails.cbVehicleMortgaged ? null : ''"
+                          [(ngModel)]="carDetails.mortgageClause">
+                          <option selected></option>
+                          <option *ngFor="let mortgageClause of LOV.mortgageClauseLOV"
+                            [ngValue]="mortgageClause.TIP_MORT_CLAUSE">{{ mortgageClause.NOM_VALOR }}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
                 <div class="form-divider"></div>
                 <div class="col-xl-12">
                   <h6>Other Details</h6>
@@ -662,6 +746,28 @@
               </div>
             </div>
           </div>
+
+          <app-policy-holder
+            *ngIf="isIssuance && showAssignee"
+            [title]="'Assignee Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="carDetails"
+            [policyHolder]="assigneePolicyHolder"
+            [isIssuance]="isIssuance"
+            [type]="'assignee'"
+            [optional]="false">
+          </app-policy-holder>
+
+          <app-policy-holder
+            *ngIf="isIssuance && showMortgagee"
+            [title]="'Mortgagee Policy Holder Information'"
+            [showCreateBtn]="false"
+            [details]="carDetails"
+            [policyHolder]="mortgageePolicyHolder"
+            [isIssuance]="isIssuance"
+            [type]="'mortgagee'"
+            [optional]="false">
+          </app-policy-holder>
 
           <div *ngIf='isIssuance' class="card shadow mb-3">
             <div class="card-header d-flex justify-content-between optional" (click)="showSubAgent = !showSubAgent"
