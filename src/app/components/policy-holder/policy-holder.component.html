@@ -1,4 +1,4 @@
-<div class="card shadow mb-3" id="policyHolderInfoPanel">
+<div class="card shadow mb-3" id="{{type}}_panel">
   <div *ngIf="!optional" class="card-header">
     <strong>{{title}}</strong>
   </div>
@@ -134,7 +134,7 @@
                   && (searchForm.controls['firstName'].dirty 
                   || searchForm.controls['firstName'].touched)}">
                 <input type="text" placeholder="{{firstNameLabel}}" formControlName="firstName"
-                  class="form-control required" [(ngModel)]="firstName">
+                  oninput="this.value = this.value.toUpperCase()" class="form-control required" [(ngModel)]="firstName">
                 <p class="form-error" *ngIf="searchForm.controls['firstName'].errors?.required">
                   * {{firstNameError}} is required
                 </p>
@@ -145,8 +145,8 @@
               <div class="form-group" [ngClass]="{'input-error': searchForm.controls['lastName'].invalid 
                   && (searchForm.controls['lastName'].dirty 
                   || searchForm.controls['lastName'].touched)}">
-                <input type="text" placeholder="Last Name" formControlName="lastName" class="form-control required"
-                  [(ngModel)]="lastName">
+                <input type="text" placeholder="Last Name" formControlName="lastName"
+                  oninput="this.value = this.value.toUpperCase()" class="form-control required" [(ngModel)]="lastName">
                 <p class="form-error" *ngIf="searchForm.controls['lastName'].errors?.required">
                   * last name is required
                 </p>

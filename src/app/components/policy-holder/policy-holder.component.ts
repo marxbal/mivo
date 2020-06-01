@@ -91,7 +91,7 @@ export class PolicyHolderComponent implements OnInit {
     this.createForm();
     this.setValidations();
     this.showContent = !this.optional;
-    
+
     if (this.isIssuance) {
       //can only search company/organization if type is mortgagee
       this.policyHolderType = this.type == 'mortgagee' ? 'C' : 'P';
@@ -174,6 +174,8 @@ export class PolicyHolderComponent implements OnInit {
         this.policyHolder.documentType = thirdParty.documentType;
         this.phForm.get('documentType').markAsDirty();
         this.phForm.get('documentCode').markAsDirty();
+        var id = this.type + '_panel';
+        Utility.scroll(id);
       }
     });
   }
@@ -214,7 +216,8 @@ export class PolicyHolderComponent implements OnInit {
       this.phForm.get('documentCode').markAsDirty();
       this.showSearch = false;
       this.showSearchResult = false;
-      Utility.scroll('policyHolderInfoPanel');
+      var id = this.type + '_panel';
+      Utility.scroll(id);
     } else {
       var completeName = this.policyHolderType == "P" ? this.firstName + " " + this.lastName : this.firstName;
       this.modalRef = Utility.showError(this.bms, "Incorrect document code entered for " + completeName);

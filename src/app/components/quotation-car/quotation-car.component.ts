@@ -341,6 +341,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     var cbIsNotRequiredAuthNumber = this.quoteForm.get('cbIsNotRequiredAuthNumber');
     var authNumber = this.quoteForm.get('authNumber');
     var quotationNumber = this.quoteForm.get('quotationNumber');
+    var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
 
     // if vehicle type is trailer, remove plate number required validation
     vehicleType.valueChanges.pipe(distinctUntilChanged()).subscribe(type => {
@@ -365,6 +366,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
+    });
+
+    cbVehicleMortgaged.valueChanges.subscribe(mortgaged => {
+      this.carDetails.mortgageClause = mortgaged ? 1 : 0;
     });
   }
 
