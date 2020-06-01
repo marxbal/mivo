@@ -184,6 +184,7 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearchResult = false;
     const isPerson = this.policyHolderType == "P";
     this.lastName = isPerson ? this.lastName : "";
+
     this.tps.getThirdPartyList(1, this.firstName, this.lastName).then((res) => {
       if (res.status) {
         this.source = res.obj as[];
@@ -208,8 +209,8 @@ export class PolicyHolderComponent implements OnInit {
     input.disabled = Utility.isEmpty(val);
   }
 
-  add(row: any, input: HTMLInputElement) {
-    if (row.codDocum == input.value) {
+  add(row: any, input?: HTMLInputElement) {
+    if (Utility.isUndefined(input) || row.codDocum == input.value) {
       this.policyHolder.documentCode = row.codDocum;
       this.policyHolder.documentType = row.tipDocum;
       this.phForm.get('documentType').markAsDirty();

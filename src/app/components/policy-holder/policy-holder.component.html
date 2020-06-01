@@ -194,13 +194,15 @@
                 <ng-container matColumnDef="action">
                   <mat-header-cell *matHeaderCellDef> Document Code </mat-header-cell>
                   <mat-cell *matCellDef="let row">
-                    <div class="input-group">
+                    <div *ngIf="type != 'mortgagee'" class="input-group">
                       <input #documentCode (keyup)="enableAddBtn($event, btn)" type="text" class="form-control">
                       <div class="input-group-append">
                         <button #btn (click)="add(row, documentCode)" disabled class="btn btn-outline-secondary"
                           type="button">Add</button>
                       </div>
                     </div>
+                    <button *ngIf="type == 'mortgagee'" (click)="add(row)" class="btn btn-outline-secondary"
+                      type="button">{{row.codDocum}}</button>
                   </mat-cell>
                 </ng-container>
 

@@ -288,8 +288,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       existingDamages: [null],
       inspectionAssessment: [null],
     //additional policy information for issuance
-      cbPolicyOnlyDriver: [null],
-      cbPolicyOwner: [null],
+      cbPolicyOnlyDriver: {
+        value: null,
+        disabled: true
+      },
+      cbPolicyOwner: {
+        value: null,
+        disabled: true
+      },
       cbHasAssignee: [null],
       cbVehicleMortgaged: [null],
       mortgageClause: [null],
@@ -642,7 +648,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   productOnChange() {
     if (this.isIssuance) {
-      this.showCTPL = this.carDetails.productList == 10001;
+      this.showCTPL = this.carDetails.productList == 10002;
       this.cqs.activateCTPL(this.quoteForm, this.carDetails);
       if (this.showCTPL) {
         Utility.scroll('CTPLAuth');
