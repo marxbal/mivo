@@ -13,9 +13,6 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 import {
-  ThirdParty
-} from 'src/app/objects/ThirdParty';
-import {
   ThirdPartyListObject
 } from 'src/app/objects/LOV/thirdPartyList';
 import {
@@ -24,6 +21,9 @@ import {
 import {
   ThirdPartyLOVServices
 } from 'src/app/services/lov/third-party-lov-service';
+import {
+  PolicyHolder
+} from 'src/app/objects/PolicyHolder';
 
 @Component({
   selector: 'app-create-third-party',
@@ -33,7 +33,7 @@ import {
 export class CreateThirdPartyComponent implements OnInit {
   tpForm: FormGroup;
   title: String = this.data.title;
-  thirdParty: ThirdParty = new ThirdParty();
+  thirdParty: PolicyHolder = new PolicyHolder();
 
   TPLOV = new ThirdPartyListObject();
 
@@ -53,13 +53,13 @@ export class CreateThirdPartyComponent implements OnInit {
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices) {
     this.createForm();
-    this.setDefaults();
     this.setValidations();
   }
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
     this.getLOVs();
+    this.setData();
   }
 
   createForm() {
@@ -101,7 +101,8 @@ export class CreateThirdPartyComponent implements OnInit {
     });
   }
 
-  setDefaults() {
+  setData() {
+    this.thirdParty = this.data.policyHolder;
     this.thirdParty.policyHolderType = "P"; //person
     this.thirdParty.correspondenceType = 1; //home
     this.thirdParty.personLanguage = "EN" //english
@@ -116,7 +117,7 @@ export class CreateThirdPartyComponent implements OnInit {
       this.showPersonDetails = type == "P";
       this.showOrgDetails = type == "C";
       this.firstNameLabel = type == "P" ? "First Name" : "Company/Organization";
-      this.firstNameError = type == "P" ? "first name" : "company/organization";
+      this.firstNameError = this.firstNameLabel.toLocaleLowerCase();
       Utility.updateValidator(lastName, type == "P" ? Validators.required : null);
       Utility.updateValidator(gender, type == "P" ? Validators.required : null);
     });
@@ -192,6 +193,8 @@ export class CreateThirdPartyComponent implements OnInit {
   }
 
   create(): void {
+    this.thirdParty.isExisting = false;
+    this.thirdParty.isOrganization = this.thirdParty.policyHolderType == 'C';
     this.dialogRef.close(this.thirdParty);
   }
 

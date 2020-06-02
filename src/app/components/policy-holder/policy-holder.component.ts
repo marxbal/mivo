@@ -136,7 +136,7 @@ export class PolicyHolderComponent implements OnInit {
     policyHolderType.valueChanges.subscribe(type => {
       this.showLastName = type == "P";
       this.firstNameLabel = type == "P" ? "First Name" : "Company/Organization";
-      this.firstNameError = type == "P" ? "first name" : "company/organization";
+      this.firstNameError = this.firstNameLabel.toLowerCase();
       Utility.updateValidator(lastName, type == "P" ? Validators.required : null);
     });
   }
@@ -158,7 +158,8 @@ export class PolicyHolderComponent implements OnInit {
     let title = "Create " + label + "Policy Holder";
 
     const modalData = {
-      title: title
+      title: title,
+      policyHolder: this.policyHolder
     };
 
     const dialogRef = this.dialog.open(CreateThirdPartyComponent, {
@@ -169,9 +170,6 @@ export class PolicyHolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(thirdParty => {
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
-        console.log(thirdParty);
-        this.policyHolder.documentCode = thirdParty.documentCode;
-        this.policyHolder.documentType = thirdParty.documentType;
         this.phForm.get('documentType').markAsDirty();
         this.phForm.get('documentCode').markAsDirty();
         var id = this.type + '_panel';
@@ -211,6 +209,8 @@ export class PolicyHolderComponent implements OnInit {
 
   add(row: any, input?: HTMLInputElement) {
     if (Utility.isUndefined(input) || row.codDocum == input.value) {
+      this.policyHolder.isExisting = true;
+      this.policyHolder.isOrganization = this.policyHolderType == "C";
       this.policyHolder.documentCode = row.codDocum;
       this.policyHolder.documentType = row.tipDocum;
       this.phForm.get('documentType').markAsDirty();

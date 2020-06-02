@@ -660,7 +660,7 @@
                         <label class="form-check-label" for="mortgageClause">
                           Mortgage Clause
                         </label>
-                        <select class="custom-select mr-sm-2" formControlName="mortgageClause"
+                        <select class="custom-select mr-sm-2 required" formControlName="mortgageClause"
                           [attr.disabled]="carDetails.cbVehicleMortgaged ? null : ''"
                           [(ngModel)]="carDetails.mortgageClause">
                           <option selected></option>
@@ -1008,12 +1008,14 @@
 
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
+            <button type="button" class="btn btn-primary"
+            (click)="test()">test</button>
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
               appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
-              (click)="issueQuote('S')">Save</button>
+              (click)="issuePolicy('S')">Save</button>
           </div>
 
           <div *ngIf="isIssuance && showPostBtn" class="btn-group" role="group">

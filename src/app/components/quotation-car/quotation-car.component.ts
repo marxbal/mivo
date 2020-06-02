@@ -356,6 +356,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     var authNumber = this.quoteForm.get('authNumber');
     var quotationNumber = this.quoteForm.get('quotationNumber');
     var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
+    var mortgageClause = this.quoteForm.get('mortgageClause');
 
     // if vehicle type is trailer, remove plate number required validation
     vehicleType.valueChanges.pipe(distinctUntilChanged()).subscribe(type => {
@@ -383,6 +384,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     cbVehicleMortgaged.valueChanges.subscribe(mortgaged => {
+      Utility.updateValidator(mortgageClause, mortgaged ? Validators.required : null);
       this.carDetails.mortgageClause = mortgaged ? 1 : 0;
     });
   }
@@ -695,7 +697,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   test() {
-    console.log(this.appCoverage);
+    console.log('this.policyHolder');
+    console.log(this.policyHolder);
+    console.log('this.secondaryPolicyHolder');
+    console.log(this.secondaryPolicyHolder);
+    console.log('this.assigneePolicyHolder');
+    console.log(this.assigneePolicyHolder);
+    console.log('this.mortgageePolicyHolder');
+    console.log(this.mortgageePolicyHolder);
     // this.modalRef = Utility.showHTMLError(this.bms, items);
     // this.hasIssuedQuote = true;
     // this.openPaymentBreakdownModal([], []);
@@ -703,17 +712,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     //   width: '1000px',
     //   data: 'modalData'
     // });
-    console.log(this.carDetails);
+    // console.log(this.carDetails);
   }
-
-  // copyToClipboard(item) {
-  //   document.addEventListener('copy', (e: ClipboardEvent) => {
-  //     e.clipboardData.setData('text/plain', (item));
-  //     e.preventDefault();
-  //     document.removeEventListener('copy', null);
-  //   });
-  //   document.execCommand('copy');
-  // }
 
   openPaymentBreakdownModal(receipt: any, breakdown: any) {
     let product = "";
@@ -783,6 +783,109 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
     this.carDetails.policyHolder = this.policyHolder;
+    // includes coverage variable data to car details DTO
+    this.carDetails.coverageVariableData = this.coverageVariableData;
+
+    // includes accessories to car details DTO
+    var accessories = this.quoteForm.get('accessories').value;
+    this.carDetails.accessories = accessories.length ? accessories : [];
+
+    // includes coverages to car details DTO
+    this.carDetails.coverages = [];
+    if (!Utility.isUndefined(this.appCoverage)) {
+      var coverages = this.appCoverage.cForm.get('coverages').value;
+      this.carDetails.coverages = coverages.length ? coverages : [];
+    }
+
+    // to trigger changes when regenerating quotation
+    this.showCoverage = this.isModifiedCoverage;
+    this.showPaymentBreakdown = false;
+
+    // S for generation and N for issue quotation
+    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+
+    this.cqs.getCoverageByProduct(this.carDetails).then(res => {
+      this.cqs.issueQuote(this.carDetails).then(res1 => {
+        if (res1.status) {
+          const errorCode = res1.obj["errorCode"];
+          const error = res1.obj["error"];
+          let items : any[] = ["Error code is " + errorCode + " but does not return any error message. Please contact administration."];
+          if (!Utility.isUndefined(error)) {
+            const errArr = error.split("~");
+            if (errArr.length) {
+              var arr = [];
+              errArr.forEach((err: string) => {
+                if (!Utility.isEmpty(err)) {
+                  arr.push(err);
+                }
+              });
+              
+              if (arr.length) {
+                items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
+              }
+            }
+          }
+          
+          const status = res1.obj["status"];
+          const coverageAmount = res1.obj["coverageAmount"];;
+          if (status && coverageAmount.length) {
+            if (errorCode == "S") {
+              //if quotation has a warning
+              this.modalRef = Utility.showHTMLWarning(this.bms, items);
+            }
+
+            const policyNumber = res1.obj["policyNumber"];
+            this.carDetails.quotationNumber = policyNumber;
+
+            const breakdown = res1.obj["breakdown"];
+            const receipt = res1.obj["receipt"];
+
+            if ("S" == mcaTmpPptoMph) {
+              //for generation of quote
+              const message = "You have successfully generated a quotation - " + policyNumber;
+              this.modalRef = Utility.showInfo(this.bms, message);
+
+              const coverageList = res.obj["coverageList"];
+              const amountList = res.obj["amountList"];;
+              const premiumAmount = res1.obj["premiumAmount"];;
+              const coverageVariable = res1.obj["coverageVariable"];
+
+              if (this.isModifiedCoverage) {
+                this.showCoverage = true;
+              } else {
+                this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+              }
+
+              this.isModifiedCoverage = false;
+              this.populatePaymentBreakdown(breakdown, receipt);
+              this.manageBtn(2);
+            } else {
+              // for issuing the quote
+              this.openPaymentBreakdownModal(receipt, breakdown);
+              this.manageBtn(3);
+            }
+          } else {
+            this.modalRef = Utility.showHTMLError(this.bms, items);
+          }
+        } else {
+          this.modalRef = Utility.showError(this.bms, res1.message);
+        }
+      });
+    });
+  }
+
+  //save policy button
+  issuePolicy(mcaTmpPptoMph: string) {
+    // includes group policy to car details DTO
+    this.carDetails.groupPolicy = this.groupPolicy;
+    // includes policy holder to car details DTO
+    this.carDetails.policyHolder = this.policyHolder;
+    // includes secondary policy holder to car details DTO
+    this.carDetails.secondaryPolicyHolder = this.secondaryPolicyHolder;
+    // includes assignee policy holder to car details DTO
+    this.carDetails.assigneePolicyHolder = this.assigneePolicyHolder;
+    // includes mortgagee policy holder to car details DTO
+    this.carDetails.mortgageePolicyHolder = this.mortgageePolicyHolder;
     // includes coverage variable data to car details DTO
     this.carDetails.coverageVariableData = this.coverageVariableData;
 

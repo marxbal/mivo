@@ -1,4 +1,6 @@
 export class ThirdParty {
+  isOrganization: boolean;
+  isExisting: boolean;
   documentType: string;
   documentCode: string;
   policyHolderType: string;

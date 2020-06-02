@@ -429,7 +429,7 @@
       <button type="button" class="btn btn-primary" (click)="cancel()">
         Cancel
       </button>
-      <button type="submit" class="btn btn-primary" (click)="create()">
+      <button [disabled]="tpForm.pristine || tpForm.invalid" type="submit" class="btn btn-primary" (click)="create()">
         Create
       </button>
     </div>
