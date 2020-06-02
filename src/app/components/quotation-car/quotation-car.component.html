@@ -925,15 +925,6 @@
                   <h6>Product Data</h6>
                 </div>
 
-                <div class="col-xl-12">
-                  <div class="alert alert-info note">
-                    <p><strong>Important Reminder:</strong> Make sure to fill out all required fields to enable the
-                      generate button.
-                    </p>
-                  </div>
-                  <!-- .note -->
-                </div>
-
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['paymentMethod'].invalid 
                         && (quoteForm.controls['paymentMethod'].dirty 
@@ -976,8 +967,15 @@
             </div>
           </div>
 
-          <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
-            <button type="button" (click)="test()" class="btn btn-primary">test</button>
+          <div class="alert alert-info note">
+            <p>
+              <strong>Important Reminder:</strong> Please make sure to fill out all required fields to enable the {{isIssuance ? 'save' : 'generate'}} button.
+            </p>
+          </div>
+          <!-- .note -->
+
+          <!-- button controls for quotation -->
+          <div *ngIf="!isIssuance && showGenerateBtnGrp" class="btn-group" role="group">
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -986,7 +984,7 @@
               (click)="issueQuote('S')">Generate</button>
           </div>
 
-          <div *ngIf="showIssueQuoteBtnGrp" class="btn-group" role="group">
+          <div *ngIf="!isIssuance && showIssueQuoteBtnGrp" class="btn-group" role="group">
             <button type="button" class="btn btn-primary"
               (click)="manageBtn(1)">Change Product</button>
             <button type="button" class="btn btn-primary"
@@ -999,13 +997,41 @@
               (click)="issueQuote('N')">Issue Qoute</button>
           </div>
 
-          <div *ngIf="showProceedToIssuanceBtnGrp" class="text-right">
+          <div *ngIf="!isIssuance && showProceedToIssuanceBtnGrp" class="text-right">
             <h5><small>Your quotation number:</small> {{carDetails.quotationNumber}}</h5>
           </div>
-          <div *ngIf="showProceedToIssuanceBtnGrp" class="btn-group" role="group">
+          <div *ngIf="!isIssuance && showProceedToIssuanceBtnGrp" class="btn-group" role="group">
             <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
             <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
             <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+          </div>
+
+          <!-- button controls for issuance -->
+          <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
+            <button
+              [disabled]="quoteForm.pristine || quoteForm.invalid ||
+              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+              type="button" class="btn btn-primary"
+              (click)="issueQuote('S')">Save</button>
+          </div>
+
+          <div *ngIf="isIssuance && showPostBtn" class="btn-group" role="group">
+            <button
+              [disabled]="quoteForm.pristine || quoteForm.invalid ||
+              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+              type="button" class="btn btn-primary"
+              (click)="issueQuote('S')">Post</button>
+          </div>
+
+          <div *ngIf="isIssuance && showPrintBtn" class="btn-group" role="group">
+            <button
+              [disabled]="quoteForm.pristine || quoteForm.invalid ||
+              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+              type="button" class="btn btn-primary"
+              (click)="issueQuote('S')">Print</button>
           </div>
 
         </form>

@@ -138,6 +138,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   //flag to show print quote/proceed to issuance
   showProceedToIssuanceBtnGrp: boolean = false;
 
+  //flag to show save btn
+  showSaveBtn: boolean = true;
+  //flag to show post btn
+  showPostBtn: boolean = false;
+  //flag to show print btn
+  showPrintBtn: boolean = false;
+
+
   //disable load button
   disableLoadBtn: boolean = true;
 
