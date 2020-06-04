@@ -104,6 +104,7 @@ export class CreateThirdPartyComponent implements OnInit {
     this.thirdParty = this.data.policyHolder;
     this.createForm(this.thirdParty);
     if (this.thirdParty.documentType == null || this.thirdParty.isExisting) {
+      this.thirdParty = new PolicyHolder();
       this.thirdParty.policyHolderType = "P"; //person
       this.thirdParty.correspondenceType = 1; //home
       this.thirdParty.personLanguage = "EN" //english
