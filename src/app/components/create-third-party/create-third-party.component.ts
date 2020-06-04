@@ -61,7 +61,7 @@ export class CreateThirdPartyComponent implements OnInit {
     this.setValidations();
   }
 
-  createForm(thirdParty: PolicyHolder) {
+  createForm(type: string) {
     this.tpForm = this.fb.group({
       documentCode: ['', Validators.required],
       documentType: ['', Validators.required],
@@ -70,8 +70,8 @@ export class CreateThirdPartyComponent implements OnInit {
       suffix: [null],
       firstName: ['', Validators.required],
       middleName: [null],
-      lastName: thirdParty.policyHolderType == "P" ? ['', Validators.required] : [null],
-      gender: thirdParty.policyHolderType == "P" ? ['', Validators.required] : [null],
+      lastName: type == "P" ? ['', Validators.required] : [null],
+      gender: type == "P" ? ['', Validators.required] : [null],
       birthDate: [null],
       mobileNumber: ['', Validators.required],
       correspondenceType: ['', Validators.required],
@@ -96,19 +96,20 @@ export class CreateThirdPartyComponent implements OnInit {
       personOccupation: [null],
       personNationality: [null],
       personType: [null],
-      personLanguage: thirdParty.policyHolderType == "P" ? ['', Validators.required] : [null],
+      personLanguage: type == "P" ? ['', Validators.required] : [null],
     });
   }
 
   setData() {
-    this.thirdParty = this.data.policyHolder;
-    this.createForm(this.thirdParty);
-    if (this.thirdParty.documentType == null || this.thirdParty.isExisting) {
-      this.thirdParty = new PolicyHolder();
+    const policyHolder = this.data.policyHolder;
+    const type = policyHolder.policyHolderType;
+    this.createForm(type);
+    if (policyHolder.documentType == null || policyHolder.isExisting) {
       this.thirdParty.policyHolderType = "P"; //person
       this.thirdParty.correspondenceType = 1; //home
       this.thirdParty.personLanguage = "EN" //english
     } else {
+      this.thirdParty = policyHolder;
       this.tpForm.get('documentType').markAsDirty();
       this.tpForm.get('correspondenceType').markAsDirty();
       if (this.thirdParty.policyHolderType == "P") {
