@@ -265,7 +265,7 @@
                 <label for="orgDocumentType">Contact Document Type</label>
                 <select class="custom-select mr-sm-2" formControlName="orgDocumentType"
                   [(ngModel)]="thirdParty.orgDocumentType">
-                  <option selected></option>
+                  <option></option>
                   <option *ngFor="let documentType of TPLOV.documentTypeLOV" [ngValue]="documentType.COD_DOCUM">
                     {{ documentType.NOM_DOCUM }}
                   </option>
@@ -286,7 +286,7 @@
                 <label for="orgNationality">Nationality</label>
                 <select class="custom-select mr-sm-2" formControlName="orgNationality"
                   [(ngModel)]="thirdParty.orgNationality">
-                  <option selected></option>
+                  <option></option>
                   <option *ngFor="let nationality of TPLOV.nationalityLOV" [ngValue]="nationality.COD_PAIS">
                     {{ nationality.NOM_PAIS }}
                   </option>
@@ -314,7 +314,7 @@
               <div class="form-group">
                 <label for="orgPost">Post</label>
                 <select class="custom-select mr-sm-2" formControlName="orgPost" [(ngModel)]="thirdParty.orgPost">
-                  <option selected></option>
+                  <option></option>
                   <option *ngFor="let orgPost of TPLOV.orgPostLOV" [ngValue]="orgPost.COD_MARCA">
                     {{ orgPost.NOM_MARCA }}
                   </option>
@@ -327,9 +327,9 @@
                 <label for="orgTypeOfBusiness">Type of Business</label>
                 <select class="custom-select mr-sm-2" formControlName="orgTypeOfBusiness"
                   [(ngModel)]="thirdParty.orgTypeOfBusiness">
+                  <option></option>
                   <option *ngFor="let orgTypeOfBusiness of TPLOV.orgTypeOfBusinessLOV"
                     [ngValue]="orgTypeOfBusiness.COD_MARCA">
-                    <option selected></option>
                     {{ orgTypeOfBusiness.NOM_MARCA }}
                   </option>
                 </select>
