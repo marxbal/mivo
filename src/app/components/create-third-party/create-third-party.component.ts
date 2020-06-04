@@ -52,7 +52,6 @@ export class CreateThirdPartyComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices) {
-    this.createForm();
     this.setValidations();
   }
 
@@ -62,7 +61,7 @@ export class CreateThirdPartyComponent implements OnInit {
     this.setData();
   }
 
-  createForm() {
+  createForm(thirdParty: PolicyHolder) {
     this.tpForm = this.fb.group({
       documentCode: ['', Validators.required],
       documentType: ['', Validators.required],
@@ -71,8 +70,8 @@ export class CreateThirdPartyComponent implements OnInit {
       suffix: [null],
       firstName: ['', Validators.required],
       middleName: [null],
-      lastName: ['', Validators.required],
-      gender: ['', Validators.required],
+      lastName: thirdParty.policyHolderType == "P" ? ['', Validators.required] : [null],
+      gender: thirdParty.policyHolderType == "P" ? ['', Validators.required] : [null],
       birthDate: [null],
       mobileNumber: ['', Validators.required],
       correspondenceType: ['', Validators.required],
@@ -108,15 +107,12 @@ export class CreateThirdPartyComponent implements OnInit {
       this.thirdParty.correspondenceType = 1; //home
       this.thirdParty.personLanguage = "EN" //english
     } else {
-      var lastName = this.tpForm.get('lastName');
-      var gender = this.tpForm.get('gender');
-      Utility.updateValidator(lastName, this.thirdParty.policyHolderType == "P" ? Validators.required : null);
-      Utility.updateValidator(gender, this.thirdParty.policyHolderType == "P" ? Validators.required : null);
       this.getState()
       this.getMunicipality();
       this.getCity();
       this.getZipCode();
     }
+    this.createForm(this.thirdParty);
   }
 
   setValidations() {
