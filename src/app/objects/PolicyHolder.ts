@@ -1,5 +1,5 @@
 export class PolicyHolder {
-  isOrganization: boolean; //mcaFisico
+  isPerson: boolean; //mcaFisico
   isExisting: boolean;
   documentType: string; //tipDocum
   documentCode: string; //codDocum

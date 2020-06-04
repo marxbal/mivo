@@ -215,7 +215,7 @@ export class PolicyHolderComponent implements OnInit {
   add(row: any, input?: HTMLInputElement) {
     if (Utility.isUndefined(input) || row.codDocum == input.value) {
       this.policyHolder.isExisting = true;
-      this.policyHolder.isOrganization = this.policyHolderType == "C";
+      this.policyHolder.isPerson = this.policyHolderType == "P";
       this.policyHolder.documentCode = row.codDocum;
       this.policyHolder.documentType = row.tipDocum;
       this.phForm.get('documentType').markAsDirty();
