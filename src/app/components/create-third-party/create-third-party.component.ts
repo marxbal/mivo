@@ -52,13 +52,13 @@ export class CreateThirdPartyComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices) {
-    this.setValidations();
   }
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
     this.getLOVs();
     this.setData();
+    this.setValidations();
   }
 
   createForm(thirdParty: PolicyHolder) {
