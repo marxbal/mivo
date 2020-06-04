@@ -103,9 +103,11 @@ export class CreateThirdPartyComponent implements OnInit {
 
   setData() {
     this.thirdParty = this.data.policyHolder;
-    this.thirdParty.policyHolderType = "P"; //person
-    this.thirdParty.correspondenceType = 1; //home
-    this.thirdParty.personLanguage = "EN" //english
+    if (this.thirdParty.documentType == null) {
+      this.thirdParty.policyHolderType = "P"; //person
+      this.thirdParty.correspondenceType = 1; //home
+      this.thirdParty.personLanguage = "EN" //english
+    }
   }
 
   setValidations() {

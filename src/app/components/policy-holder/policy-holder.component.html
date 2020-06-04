@@ -195,7 +195,8 @@
                   <mat-header-cell *matHeaderCellDef> Document Code </mat-header-cell>
                   <mat-cell *matCellDef="let row">
                     <div *ngIf="type != 'mortgagee'" class="input-group">
-                      <input #documentCode (keyup)="enableAddBtn($event, btn)" type="text" class="form-control">
+                      <input #documentCode (keyup)="enableAddBtn($event, btn)" 
+                        oninput="this.value = this.value.toUpperCase()" type="text" class="form-control">
                       <div class="input-group-append">
                         <button #btn (click)="add(row, documentCode)" disabled class="btn btn-outline-secondary"
                           type="button">Add</button>
