@@ -103,10 +103,16 @@ export class CreateThirdPartyComponent implements OnInit {
   setData() {
     this.thirdParty = this.data.policyHolder;
     if (this.thirdParty.documentType == null || this.thirdParty.isExisting) {
+      this.thirdParty = new PolicyHolder();
       this.thirdParty.policyHolderType = "P"; //person
       this.thirdParty.correspondenceType = 1; //home
       this.thirdParty.personLanguage = "EN" //english
     } else {
+      this.tpForm.get('documentType').markAsDirty();
+      this.tpForm.get('correspondenceType').markAsDirty();
+      if (this.thirdParty.policyHolderType == "P") {
+        this.tpForm.get('gender').markAsDirty();
+      }
       this.getState()
       this.getMunicipality();
       this.getCity();
