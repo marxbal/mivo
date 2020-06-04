@@ -1009,11 +1009,14 @@
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
             <button type="button" class="btn btn-primary"
-            (click)="test()">test</button>
+            (click)="test(appGroupPolicy, appPolicyHolder)">test</button>
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
               appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+              type="button" class="btn btn-primary"
+              (click)="issuePolicy('S')">Save</button>
+              <button 
               type="button" class="btn btn-primary"
               (click)="issuePolicy('S')">Save</button>
           </div>

@@ -696,9 +696,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.scroll('coverages');
   }
 
-  test() {
+  test(group, policyHolder) {
     // console.log(this.quoteForm);
-    // console.log(Utility.findInvalidControls(this.quoteForm));
+    console.log(Utility.findInvalidControls(this.quoteForm));
+    console.log(Utility.findInvalidControls(group.gpForm));
+    console.log(Utility.findInvalidControls(policyHolder.phForm));
+
     // this.modalRef = Utility.showHTMLError(this.bms, items);
     // this.hasIssuedQuote = true;
     // this.openPaymentBreakdownModal([], []);
