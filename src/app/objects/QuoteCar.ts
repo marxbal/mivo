@@ -71,25 +71,25 @@ export class QuoteCar {
   expiryDate: Date;
 
   //additional policy information
-  customRiskName: string;
-  seatingCapacity: number;
-  weight: string;
-  displacement: string;
-  classification: number;
-  coverageArea: number;
-  assuredsCoinsuranceShare: string;
-  cbWaivedMinPremium: boolean;
-  cbPrepaidPremium: boolean;
-  cbGlassEtchingEntitled: boolean;
-  glassEtchingAvailmentDate: Date;
-  existingDamages: string;
-  inspectionAssessment: number;
+  customRiskName: string; //NOM_RIESGO_CUSTOM
+  seatingCapacity: number; //NUM_PLAZAS
+  weight: string; //VAL_PESO
+  displacement: string; //VAL_CC
+  classification: number; //TIP_VEHI_PESO
+  coverageArea: number; //COD_AREA_COVER
+  assuredsCoinsuranceShare: string; //PCT_CLI_COINS
+  cbWaivedMinPremium: boolean; //MCA_WAIVE_MIN_PREM
+  cbPrepaidPremium: boolean; //MCA_PREPAID_PREM
+  cbGlassEtchingEntitled: boolean; //MCA_GLASS_ETCHING
+  glassEtchingAvailmentDate: Date; //FEC_GLASS_ETCHING
+  existingDamages: string; //TXT_EXT_DAM_PARTS
+  inspectionAssessment: number; //TXT_EXT_DAM_PARTS
   //additional policy information for issuance
-  cbPolicyOnlyDriver: boolean;
-  cbPolicyOwner: boolean;
-  cbHasAssignee: boolean;
-  cbVehicleMortgaged: boolean;
-  mortgageClause: number;
+  cbPolicyOnlyDriver: boolean; //MCA_DRIVER
+  cbPolicyOwner: boolean; //MCA_OWNER
+  cbHasAssignee: boolean; //MCA_ASSIGNEE
+  cbVehicleMortgaged: boolean; //MCA_MORTGAGED
+  mortgageClause: number; //TIP_MORT_CLAUSE
 
   //subagent and policy holder
   beneficiaries: Array < Beneficiary > = [];

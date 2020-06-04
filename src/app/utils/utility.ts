@@ -1,5 +1,6 @@
 import {
-  AbstractControl
+  AbstractControl,
+  FormGroup
 } from '@angular/forms';
 import {
   ModalComponent
@@ -109,5 +110,17 @@ export class Utility {
   static formatDate(d: Date, f ? : string) {
     const format = !this.isUndefined(f) ? f : "MM/DD/YYYY";
     return moment(d).format(format);
+  }
+
+  //find all invalid control to given FormGroup
+  static findInvalidControls(f: FormGroup) {
+    const invalid = [];
+    const controls = f.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    return invalid;
   }
 }

@@ -61,6 +61,10 @@ export class CarQuoteServices {
     return this.app.post(carDetails, '/quote/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
+  async issuePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
+    return this.app.post(carDetails, '/quote/issuePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
   printQuote(quotationNumber: string) {
     const documentPrintingDetails = new DocumentPrinting();
     documentPrintingDetails.quotationNumber = quotationNumber;
