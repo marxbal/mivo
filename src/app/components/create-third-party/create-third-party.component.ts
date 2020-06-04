@@ -96,7 +96,7 @@ export class CreateThirdPartyComponent implements OnInit {
       personOccupation: [null],
       personNationality: [null],
       personType: [null],
-      personLanguage: ['', Validators.required],
+      personLanguage: thirdParty.policyHolderType == "P" ? ['', Validators.required] : [null],
     });
   }
 
