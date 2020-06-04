@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   Input,
-  ViewChild
+  ViewChild,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import {
   PolicyHolder
@@ -47,6 +49,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() isIssuance: boolean;
   @Input() type: String;
   @Input() optional: boolean;
+  @Output() policyHolderChange = new EventEmitter < PolicyHolder > ();
   _details: any;
 
   displayedColumns: string[] = ['documentType', 'firstName', 'middleName', 'lastName', 'address', 'action'];
@@ -171,6 +174,7 @@ export class PolicyHolderComponent implements OnInit {
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
         this.policyHolder = thirdParty;
+        this.policyHolderChange.emit(this.policyHolder);
         this.phForm.get('documentType').markAsDirty();
         this.phForm.get('documentCode').markAsDirty();
         var id = this.type + '_panel';

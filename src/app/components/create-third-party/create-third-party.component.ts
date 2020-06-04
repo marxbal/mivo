@@ -209,7 +209,6 @@ export class CreateThirdPartyComponent implements OnInit {
   create(): void {
     this.thirdParty.isExisting = false;
     this.thirdParty.isOrganization = this.thirdParty.policyHolderType == 'C';
-    console.log(this.thirdParty);
     this.dialogRef.close(this.thirdParty);
   }
 
