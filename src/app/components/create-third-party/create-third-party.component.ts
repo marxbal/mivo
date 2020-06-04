@@ -102,6 +102,7 @@ export class CreateThirdPartyComponent implements OnInit {
 
   setData() {
     this.thirdParty = this.data.policyHolder;
+    this.createForm(this.thirdParty);
     if (this.thirdParty.documentType == null || this.thirdParty.isExisting) {
       this.thirdParty.policyHolderType = "P"; //person
       this.thirdParty.correspondenceType = 1; //home
@@ -117,7 +118,6 @@ export class CreateThirdPartyComponent implements OnInit {
       this.getCity();
       this.getZipCode();
     }
-    this.createForm(this.thirdParty);
   }
 
   setValidations() {
