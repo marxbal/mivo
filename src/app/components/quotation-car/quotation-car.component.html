@@ -354,7 +354,7 @@
             [title]="'Alternative Policy Holder (Optional)'"
             [showCreateBtn]="true"
             [details]="carDetails"
-            [policyHolder]="secondaryPolicyHolder"
+            [(policyHolder)]="secondaryPolicyHolder"
             [isIssuance]="isIssuance"
             [type]="'secondary'"
             [optional]="true">
@@ -752,7 +752,7 @@
             [title]="'Assignee Policy Holder Information'"
             [showCreateBtn]="true"
             [details]="carDetails"
-            [policyHolder]="assigneePolicyHolder"
+            [(policyHolder)]="assigneePolicyHolder"
             [isIssuance]="isIssuance"
             [type]="'assignee'"
             [optional]="false">
@@ -763,7 +763,7 @@
             [title]="'Mortgagee Policy Holder Information'"
             [showCreateBtn]="false"
             [details]="carDetails"
-            [policyHolder]="mortgageePolicyHolder"
+            [(policyHolder)]="mortgageePolicyHolder"
             [isIssuance]="isIssuance"
             [type]="'mortgagee'"
             [optional]="false">
