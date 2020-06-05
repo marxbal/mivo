@@ -649,7 +649,9 @@
                     <div class="form-divider"></div>
     
                     <div class="col-lg-3 col-md-4 col-sm-6">
-                      <div class="form-group">
+                      <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['mortgageClause'].invalid 
+                      && (quoteForm.controls['mortgageClause'].dirty 
+                      || quoteForm.controls['mortgageClause'].touched)}">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbVehicleMortgaged"
                             [(ngModel)]="carDetails.cbVehicleMortgaged" formControlName="cbVehicleMortgaged"
@@ -668,6 +670,9 @@
                           <option *ngFor="let mortgageClause of LOV.mortgageClauseLOV"
                             [ngValue]="mortgageClause.TIP_MORT_CLAUSE">{{ mortgageClause.NOM_VALOR }}</option>
                         </select>
+                        <p class="form-error" *ngIf="quoteForm.controls['mortgageClause'].errors?.required">
+                          * subline is required
+                        </p>
                       </div>
                     </div>
 
