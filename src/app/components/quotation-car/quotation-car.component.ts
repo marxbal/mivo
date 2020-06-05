@@ -375,11 +375,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
     });
 
-    if (this.carDetails.productList == 10002) {
-      cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
+    cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
+      if (this.carDetails.productList == 10002) {
         Utility.updateValidator(authNumber, bool ? null : Validators.required);
-      });
-    }
+      }
+    });
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
