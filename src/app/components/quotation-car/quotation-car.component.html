@@ -344,6 +344,7 @@
             [showCreateBtn]="true"
             [details]="carDetails"
             [(policyHolder)]="policyHolder"
+            [compareTo]="assigneePolicyHolder"
             [isIssuance]="isIssuance"
             [type]="'primary'"
             [optional]="false">
@@ -663,7 +664,7 @@
                         <select class="custom-select mr-sm-2 required" formControlName="mortgageClause"
                           [attr.disabled]="carDetails.cbVehicleMortgaged ? null : ''"
                           [(ngModel)]="carDetails.mortgageClause">
-                          <option selected></option>
+                          <option></option>
                           <option *ngFor="let mortgageClause of LOV.mortgageClauseLOV"
                             [ngValue]="mortgageClause.TIP_MORT_CLAUSE">{{ mortgageClause.NOM_VALOR }}</option>
                         </select>
@@ -753,6 +754,7 @@
             [showCreateBtn]="true"
             [details]="carDetails"
             [(policyHolder)]="assigneePolicyHolder"
+            [compareTo]="policyHolder"
             [isIssuance]="isIssuance"
             [type]="'assignee'"
             [optional]="false">
@@ -974,6 +976,30 @@
           </div>
           <!-- .note -->
 
+          <div *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined" class="alert alert-info note">
+            <p>
+              <strong>Required:</strong> You need to fill out Alternative Policy holder <strong>Separator</strong>.
+              Scroll to <button class="btn btn-info" (click)="scrollTo('secondary_panel')">Alternative</button>
+            </p>
+          </div>
+          <!-- .note -->
+
+          <div *ngIf="carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')" class="alert alert-info note">
+            <p>
+              <strong>Required:</strong> You are required to add <strong>Assignee</strong>.
+              Scroll to <button class="btn btn-info" (click)="scrollTo('assignee_panel')">Assignee</button>
+            </p>
+          </div>
+          <!-- .note -->
+
+          <div *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')" class="alert alert-info note">
+            <p>
+              <strong>Required:</strong> You are required to add <strong>Mortgagee</strong>. 
+              Scroll to <button class="btn btn-info" (click)="scrollTo('mortgagee_panel')">Mortgagee</button>
+            </p>
+          </div>
+          <!-- .note -->
+
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance && showGenerateBtnGrp" class="btn-group" role="group">
             <button
@@ -1016,7 +1042,10 @@
               appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="issuePolicy('S')">Save</button>
-              <button 
+            <button 
+              [disabled]="(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+              (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
+              (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
               (click)="issuePolicy('S')">Save</button>
           </div>

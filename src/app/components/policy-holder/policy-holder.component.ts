@@ -45,6 +45,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() title: String;
   @Input() showCreateBtn: boolean;
   @Input() policyHolder: PolicyHolder;
+  @Input() compareTo: PolicyHolder;
   @Input() details: any;
   @Input() isIssuance: boolean;
   @Input() type: String;
@@ -153,7 +154,6 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearch = false;
     this.showSearchResult = false;
 
-
     var label = this.type == 'secondary' ? "Alternative " :
       this.type == 'assignee' ? "Assignee " :
       this.type == 'morgagee' ? "Mortagee " : '';
@@ -173,14 +173,24 @@ export class PolicyHolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(thirdParty => {
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
-        this.policyHolder = thirdParty;
-        this.policyHolderChange.emit(this.policyHolder);
-        this.phForm.get('documentType').markAsDirty();
-        this.phForm.get('documentCode').markAsDirty();
-        var id = this.type + '_panel';
-        Utility.scroll(id);
+        this.setPolicyHolder(thirdParty);
       }
     });
+  }
+
+  clear() {
+    this.showSearch = false;
+    this.showSearchResult = false;
+    this.setPolicyHolder(new PolicyHolder());
+  }
+
+  setPolicyHolder(update: PolicyHolder) {
+    this.policyHolder = update;
+    this.policyHolderChange.emit(this.policyHolder);
+    this.phForm.get('documentType').markAsDirty();
+    this.phForm.get('documentCode').markAsDirty();
+    var id = this.type + '_panel';
+    Utility.scroll(id);
   }
 
   searchResult() {
@@ -212,18 +222,24 @@ export class PolicyHolderComponent implements OnInit {
     input.disabled = Utility.isEmpty(val);
   }
 
-  add(row: any, input?: HTMLInputElement) {
+  add(row: any, input ? : HTMLInputElement) {
     if (Utility.isUndefined(input) || row.codDocum == input.value) {
-      this.policyHolder.isExisting = true;
-      this.policyHolder.isPerson = this.policyHolderType == "P";
-      this.policyHolder.documentCode = row.codDocum;
-      this.policyHolder.documentType = row.tipDocum;
-      this.phForm.get('documentType').markAsDirty();
-      this.phForm.get('documentCode').markAsDirty();
-      this.showSearch = false;
-      this.showSearchResult = false;
-      var id = this.type + '_panel';
-      Utility.scroll(id);
+      if (!Utility.isUndefined(this.compareTo) &&
+        (this.type == 'primary' || this.type == 'assignee') &&
+        this.compareTo.documentCode == row.codDocum &&
+        this.compareTo.documentType == row.tipDocum) {
+        // preventing user to choose same policy holder for both primary and assignee
+        this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Assignee can not be the same, choose or create a new one.");
+      } else {
+        this.showSearch = false;
+        this.showSearchResult = false;
+
+        this.policyHolder.isExisting = true;
+        this.policyHolder.isPerson = this.policyHolderType == "P";
+        this.policyHolder.documentCode = row.codDocum;
+        this.policyHolder.documentType = row.tipDocum;
+        this.setPolicyHolder(this.policyHolder);
+      }
     } else {
       var completeName = this.policyHolderType == "P" ? this.firstName + " " + this.lastName : this.firstName;
       this.modalRef = Utility.showError(this.bms, "Incorrect document code entered for " + completeName);

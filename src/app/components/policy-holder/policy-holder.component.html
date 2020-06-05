@@ -52,9 +52,8 @@
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="secondaryPolicyHolderPrefix">Prefix</label>
-                <select class="custom-select mr-sm-2" formControlName="secondaryPolicyHolderPrefix" [(ngModel)]="details.secondaryPolicyHolderPrefix"
-                  [attr.disabled]="prefixLOV?.length ? null : true">
+                <label for="secondaryPolicyHolderPrefix">Prefix (Optional)</label>
+                <select class="custom-select mr-sm-2" formControlName="secondaryPolicyHolderPrefix" [(ngModel)]="details.secondaryPolicyHolderPrefix">
                   <option selected></option>
                   <option *ngFor="let prefix of prefixLOV" [ngValue]="prefix.TIP_ASEG_PREF">{{ prefix.NOM_VALOR }}</option>
                 </select>
@@ -64,8 +63,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="secondaryPolicyHolderSeparator">Separator</label>
-                <select class="custom-select mr-sm-2" formControlName="secondaryPolicyHolderSeparator" [(ngModel)]="details.secondaryPolicyHolderSeparator"
-                  [attr.disabled]="separatorLOV?.length ? null : true">
+                <select class="custom-select mr-sm-2 {{policyHolder.documentType != undfined && policyHolder.documentType != '' ? 'required' : ''}}" formControlName="secondaryPolicyHolderSeparator" [(ngModel)]="details.secondaryPolicyHolderSeparator">
                   <option selected></option>
                   <option *ngFor="let separator of separatorLOV" [ngValue]="separator.TIP_ASEG_SEP_LOV">{{ separator.NOM_VALOR }}</option>
                 </select>
@@ -101,10 +99,10 @@
         </div>
 
         <div class="col-md-12">
-
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="browse()">Browse</button>
             <button type="button" class="btn btn-primary" (click)="create()" *ngIf="showCreateBtn">Create</button>
+            <button type="button" class="btn btn-default" (click)="clear()">Clear</button>
           </div>
         </div>
       </div>

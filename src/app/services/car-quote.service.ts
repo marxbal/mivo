@@ -96,7 +96,7 @@ export class CarQuoteServices {
 
   activateCTPL(form: FormGroup, carDetails: QuoteCar, selectedCoverage ? : boolean) {
     //if selected product is CTPL
-    const isCTPL = carDetails.productList == 10002|| selectedCoverage;
+    const isCTPL = carDetails.productList == 10002 || selectedCoverage;
     var registrationType = form.get('registrationType');
     var cocNumber = form.get('cocNumber');
     var authNumber = form.get('authNumber');

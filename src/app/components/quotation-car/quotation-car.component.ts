@@ -387,7 +387,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     cbVehicleMortgaged.valueChanges.subscribe(mortgaged => {
       Utility.updateValidator(mortgageClause, mortgaged ? Validators.required : null);
-      this.carDetails.mortgageClause = mortgaged ? 1 : 0;
+      this.carDetails.mortgageClause = mortgaged ? 1 : null;
     });
   }
 
@@ -698,8 +698,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.scroll('coverages');
   }
 
+  scrollTo(id: string) {
+    Utility.scroll(id);
+  }
+
   test(group, policyHolder) {
     // console.log(this.quoteForm);
+    // console.log(this.policyHolder);
     console.log(Utility.findInvalidControls(this.quoteForm));
     console.log(Utility.findInvalidControls(group.gpForm));
     console.log(Utility.findInvalidControls(policyHolder.phForm));
