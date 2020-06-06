@@ -46,6 +46,7 @@
             || tpForm.controls['documentCode'].touched)}">
             <label for="documentCode">Document Code</label>
             <input type="text" formControlName="documentCode" class="form-control required"
+              oninput="this.value = this.value.toUpperCase()"
               [(ngModel)]="thirdParty.documentCode">
             <p class="form-error" *ngIf="tpForm.controls['documentCode'].errors?.required">
               * document code is required
@@ -264,6 +265,7 @@
                 <label for="orgDocumentType">Contact Document Type</label>
                 <select class="custom-select mr-sm-2" formControlName="orgDocumentType"
                   [(ngModel)]="thirdParty.orgDocumentType">
+                  <option></option>
                   <option *ngFor="let documentType of TPLOV.documentTypeLOV" [ngValue]="documentType.COD_DOCUM">
                     {{ documentType.NOM_DOCUM }}
                   </option>
@@ -284,6 +286,7 @@
                 <label for="orgNationality">Nationality</label>
                 <select class="custom-select mr-sm-2" formControlName="orgNationality"
                   [(ngModel)]="thirdParty.orgNationality">
+                  <option></option>
                   <option *ngFor="let nationality of TPLOV.nationalityLOV" [ngValue]="nationality.COD_PAIS">
                     {{ nationality.NOM_PAIS }}
                   </option>
@@ -311,6 +314,7 @@
               <div class="form-group">
                 <label for="orgPost">Post</label>
                 <select class="custom-select mr-sm-2" formControlName="orgPost" [(ngModel)]="thirdParty.orgPost">
+                  <option></option>
                   <option *ngFor="let orgPost of TPLOV.orgPostLOV" [ngValue]="orgPost.COD_MARCA">
                     {{ orgPost.NOM_MARCA }}
                   </option>
@@ -323,6 +327,7 @@
                 <label for="orgTypeOfBusiness">Type of Business</label>
                 <select class="custom-select mr-sm-2" formControlName="orgTypeOfBusiness"
                   [(ngModel)]="thirdParty.orgTypeOfBusiness">
+                  <option></option>
                   <option *ngFor="let orgTypeOfBusiness of TPLOV.orgTypeOfBusinessLOV"
                     [ngValue]="orgTypeOfBusiness.COD_MARCA">
                     {{ orgTypeOfBusiness.NOM_MARCA }}
@@ -429,7 +434,7 @@
       <button type="button" class="btn btn-primary" (click)="cancel()">
         Cancel
       </button>
-      <button type="submit" class="btn btn-primary" (click)="create()">
+      <button [disabled]="tpForm.pristine || tpForm.invalid" type="submit" class="btn btn-primary" (click)="create()">
         Create
       </button>
     </div>

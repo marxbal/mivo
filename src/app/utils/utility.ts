@@ -1,5 +1,6 @@
 import {
-  AbstractControl
+  AbstractControl,
+  FormGroup
 } from '@angular/forms';
 import {
   ModalComponent
@@ -75,13 +76,24 @@ export class Utility {
     });
   }
 
+  copyToClipboard(item: string) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+  }
+
   //smooth scroll to preferred html element
   static scroll(id: string) {
     //buffer if id is hidden
-    setTimeout(()=> {
+    setTimeout(() => {
       var el = document.getElementById(id);
       if (!this.isUndefined(el)) {
-        el.scrollIntoView({behavior: 'smooth'});
+        el.scrollIntoView({
+          behavior: 'smooth'
+        });
       }
     }, 500);
   }
@@ -95,8 +107,20 @@ export class Utility {
   }
 
   //format date string
-  static formatDate(d : Date, f ?: string) {
+  static formatDate(d: Date, f ? : string) {
     const format = !this.isUndefined(f) ? f : "MM/DD/YYYY";
     return moment(d).format(format);
+  }
+
+  //find all invalid control to given FormGroup
+  static findInvalidControls(f: FormGroup) {
+    const invalid = [];
+    const controls = f.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    return invalid;
   }
 }

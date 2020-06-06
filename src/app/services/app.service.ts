@@ -40,6 +40,7 @@ export class AppService {
     return this.http.post(API_URL + endpoint, param)
       .toPromise()
       .then(response => response)
+      // .catch(err => console.log(err));
       .catch(err => this.modalRef = Utility.showError(this.modalService, err.message));
   }
 
@@ -47,6 +48,7 @@ export class AppService {
     return this.http.get(API_URL + endpoint)
       .toPromise()
       .then(response => response)
+      // .catch(err => console.log(err));
       .catch(err => this.modalRef = Utility.showError(this.modalService, err.message));
   }
 }

@@ -1,39 +1,44 @@
 ﻿import {
   Injectable
-} from '@angular/core';
+} from "@angular/core";
 import {
   HttpClient
-} from '@angular/common/http';
+} from "@angular/common/http";
 import {
   BehaviorSubject,
   Observable
-} from 'rxjs';
+} from "rxjs";
 import {
   map
-} from 'rxjs/operators';
-import {
-  environment
-} from '../../environments/environment';
+} from "rxjs/operators";
 import {
   User
-} from '../objects/User';
+} from "../objects/User";
 import {
   CURRENT_USER,
   MENU
-} from '../constants/local.storage';
+} from "../constants/local.storage";
 import {
   Page
-} from '../objects/Page';
+} from "../objects/Page";
+import {
+  API_URL
+} from '../constants/app.constant';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject < User > ;
   public currentUser: Observable < User > ;
 
+  username: String;
+  password: String;
+
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject < User > (JSON.parse(localStorage.getItem(CURRENT_USER)));
+    this.currentUserSubject = new BehaviorSubject < User > (
+      JSON.parse(localStorage.getItem(CURRENT_USER))
+    );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -41,47 +46,78 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  // login(username: String, password: String) {
+  //   return this.http
+  //     .post<any>(`${environment.apiUrl}api/auth`, {
+  //       username,
+  //       password,
+  //     })
+  //     .pipe(
+  //       map((user) => {
+  //         // store user details and jwt token in local storage to keep user logged in between page refreshes
+  //         delete user.password;
+  //         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+  //         this.currentUserSubject.next(user);
+  //         this.getPages();
+  //         return user;
+  //       })
+  //     );
+  // }
+
   login(username: String, password: String) {
-    return this.http.post < any > (`${environment.apiUrl}/users/authenticate`, {
-        username,
-        password
-      })
-      .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        delete user.password;
-        localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-        this.currentUserSubject.next(user);
+    return this.http.get(API_URL + '/auth', {
+      headers: {
+        authorization: this.createBasicAuthToken(username, password)
+      }
+    }).pipe(map((res) => {
+      alert(res);
+      // store user details and jwt token in local storage to keep user logged in between page refreshes
+      const user = new User();
+      user.userId = 1101;
+      user.role = 1;
+      user.userName = username as string;
+      user.firstName = "MAPFRE";
+      user.lastName = "INSULAR";
+      user.fullName = "MAPFRE INSULAR";
+      user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
+      user.expiryDay = 4;
+      user.token = this.createBasicAuthToken(username, password);
 
-        this.getPages();
+      localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+      this.currentUserSubject.next(user);
 
-        return user;
-      }));
+      this.getPages();
+
+      return user;
+    }));
+  }
+
+  createBasicAuthToken(username: String, password: String) {
+    return 'Basic ' + window.btoa(username + ":" + password)
   }
 
   getPages() {
-    // removing unavailable pages for user
+    // removing pages for user
     const unavailablePages = [
-      'commissionsPaid',
-      'estimatedCommissions',
-      'premiumCollection',
-      'quickHome',
-      'quickTravel',
-      'quickAccident',
-      'quotationHome',
-      'quotationTravel',
-      'quotationAccident',
-      'issuanceHome',
-      'issuanceTravel',
-      'issuanceAccident',
-      'account',
-      'client',
-
-      // 'issuance',
-
-      'query',
-      'changePassword',
-      'news',
-      'requests'
+      "commissionsPaid",
+      "estimatedCommissions",
+      "premiumCollection",
+      "quickHome",
+      "quickTravel",
+      "quickAccident",
+      "quotationHome",
+      "quotationTravel",
+      "quotationAccident",
+      "issuanceHome",
+      "issuanceTravel",
+      "issuanceAccident",
+      "account",
+      "client",
+      // "issuance",
+      "query",
+      "changePassword",
+      "news",
+      "requests",
     ];
     const page = new Page();
     for (let p in page) {

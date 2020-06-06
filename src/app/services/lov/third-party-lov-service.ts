@@ -8,11 +8,11 @@ import {
   LOV
 } from '../../objects/LOV';
 import {
-  ThirdParty
-} from '../../objects/ThirdParty';
-import {
   OptionList
 } from 'src/app/objects/OptionList';
+import {
+  PolicyHolder
+} from 'src/app/objects/PolicyHolder';
 
 @Injectable()
 export class ThirdPartyLOVServices {
@@ -58,7 +58,7 @@ export class ThirdPartyLOVServices {
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
-  async getState(thirdParty: ThirdParty): Promise < any[] > {
+  async getState(thirdParty: PolicyHolder): Promise < any[] > {
     const dto = new LOV(
       'A1000104',
       '5',
@@ -66,7 +66,7 @@ export class ThirdPartyLOVServices {
     return this.lov.getIntLOV(dto, 'COD_ESTADO').then(lovs => lovs as any[]);
   }
 
-  async getMunicipality(thirdParty: ThirdParty): Promise < any[] > {
+  async getMunicipality(thirdParty: PolicyHolder): Promise < any[] > {
     const dto = new LOV(
       'A1000100',
       '6',
@@ -75,7 +75,7 @@ export class ThirdPartyLOVServices {
     return this.lov.getIntLOV(dto, 'COD_PROV').then(lovs => lovs as any[]);
   }
 
-  async getCity(thirdParty: ThirdParty): Promise < any[] > {
+  async getCity(thirdParty: PolicyHolder): Promise < any[] > {
     const dto = new LOV(
       'A1000102',
       '3',
@@ -84,7 +84,7 @@ export class ThirdPartyLOVServices {
     return this.lov.getIntLOV(dto, 'COD_LOCALIDAD').then(lovs => lovs as any[]);
   }
 
-  async getZipCode(thirdParty: ThirdParty): Promise < any[] > {
+  async getZipCode(thirdParty: PolicyHolder): Promise < any[] > {
     const dto = new LOV(
       'A1000103',
       '3',

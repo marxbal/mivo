@@ -88,7 +88,10 @@ export class GroupPolicyComponent {
       contract: [null],
       subContract: [null],
       commercialStructure: ['', Validators.required],
-      agentCode: ['', Validators.required],
+      agentCode: [{
+        value: '',
+        disabled: true
+      }, Validators.required],
       cbIsRenewal: [null],
       expiringPolicyNumber: [null]
     });

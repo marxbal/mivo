@@ -13,9 +13,6 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 import {
-  ThirdParty
-} from 'src/app/objects/ThirdParty';
-import {
   ThirdPartyListObject
 } from 'src/app/objects/LOV/thirdPartyList';
 import {
@@ -24,6 +21,9 @@ import {
 import {
   ThirdPartyLOVServices
 } from 'src/app/services/lov/third-party-lov-service';
+import {
+  PolicyHolder
+} from 'src/app/objects/PolicyHolder';
 
 @Component({
   selector: 'app-create-third-party',
@@ -33,7 +33,7 @@ import {
 export class CreateThirdPartyComponent implements OnInit {
   tpForm: FormGroup;
   title: String = this.data.title;
-  thirdParty: ThirdParty = new ThirdParty();
+  thirdParty: PolicyHolder = new PolicyHolder();
 
   TPLOV = new ThirdPartyListObject();
 
@@ -52,17 +52,16 @@ export class CreateThirdPartyComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices) {
-    this.createForm();
-    this.setDefaults();
-    this.setValidations();
   }
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
     this.getLOVs();
+    this.setData();
+    this.setValidations();
   }
 
-  createForm() {
+  createForm(type: string) {
     this.tpForm = this.fb.group({
       documentCode: ['', Validators.required],
       documentType: ['', Validators.required],
@@ -71,8 +70,8 @@ export class CreateThirdPartyComponent implements OnInit {
       suffix: [null],
       firstName: ['', Validators.required],
       middleName: [null],
-      lastName: ['', Validators.required],
-      gender: ['', Validators.required],
+      lastName: type == "P" ? ['', Validators.required] : [null],
+      gender: type == "P" ? ['', Validators.required] : [null],
       birthDate: [null],
       mobileNumber: ['', Validators.required],
       correspondenceType: ['', Validators.required],
@@ -97,14 +96,30 @@ export class CreateThirdPartyComponent implements OnInit {
       personOccupation: [null],
       personNationality: [null],
       personType: [null],
-      personLanguage: ['', Validators.required],
+      personLanguage: type == "P" ? ['', Validators.required] : [null],
     });
   }
 
-  setDefaults() {
-    this.thirdParty.policyHolderType = "P"; //person
-    this.thirdParty.correspondenceType = 1; //home
-    this.thirdParty.personLanguage = "EN" //english
+  setData() {
+    const policyHolder = this.data.policyHolder;
+    const type = policyHolder.policyHolderType;
+    this.createForm(type);
+    if (policyHolder.documentType == null || policyHolder.isExisting) {
+      this.thirdParty.policyHolderType = "P"; //person
+      this.thirdParty.correspondenceType = 1; //home
+      this.thirdParty.personLanguage = "EN" //english
+    } else {
+      this.thirdParty = policyHolder;
+      this.tpForm.get('documentType').markAsDirty();
+      this.tpForm.get('correspondenceType').markAsDirty();
+      if (this.thirdParty.policyHolderType == "P") {
+        this.tpForm.get('gender').markAsDirty();
+      }
+      this.getState()
+      this.getMunicipality();
+      this.getCity();
+      this.getZipCode();
+    }
   }
 
   setValidations() {
@@ -116,7 +131,7 @@ export class CreateThirdPartyComponent implements OnInit {
       this.showPersonDetails = type == "P";
       this.showOrgDetails = type == "C";
       this.firstNameLabel = type == "P" ? "First Name" : "Company/Organization";
-      this.firstNameError = type == "P" ? "first name" : "company/organization";
+      this.firstNameError = this.firstNameLabel.toLocaleLowerCase();
       Utility.updateValidator(lastName, type == "P" ? Validators.required : null);
       Utility.updateValidator(gender, type == "P" ? Validators.required : null);
     });
@@ -192,6 +207,8 @@ export class CreateThirdPartyComponent implements OnInit {
   }
 
   create(): void {
+    this.thirdParty.isExisting = false;
+    this.thirdParty.isPerson = this.thirdParty.policyHolderType == 'P';
     this.dialogRef.close(this.thirdParty);
   }
 

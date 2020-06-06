@@ -68,8 +68,12 @@ import {
 import {
   Globals
 } from 'src/app/utils/global';
-import { CoverageVariableData } from 'src/app/objects/CoverageVariableData';
-import { CoveragesComponent } from '../coverages/coverages.component';
+import {
+  CoverageVariableData
+} from 'src/app/objects/CoverageVariableData';
+import {
+  CoveragesComponent
+} from '../coverages/coverages.component';
 
 @Component({
   selector: 'app-quotation-car',
@@ -87,6 +91,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   carDetails = new QuoteCar();
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
+  secondaryPolicyHolder = new PolicyHolder();
+  assigneePolicyHolder = new PolicyHolder();
+  mortgageePolicyHolder = new PolicyHolder();
   coverageVariableData = new CoverageVariableData();
 
   quoteForm: FormGroup;
@@ -104,6 +111,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showCTPL: boolean = false;
   showPaymentBreakdown: boolean = false;
   showCoverage: boolean = false;
+  showAssignee: boolean = false;
+  showMortgagee: boolean = false;
 
   //for payment breakdown
   paymentBreakdown: any[];
@@ -128,6 +137,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showIssueQuoteBtnGrp: boolean = false;
   //flag to show print quote/proceed to issuance
   showProceedToIssuanceBtnGrp: boolean = false;
+
+  //flag to show save btn
+  showSaveBtn: boolean = true;
+  //flag to show post btn
+  showPostBtn: boolean = false;
+  //flag to show print btn
+  showPrintBtn: boolean = false;
+
 
   //disable load button
   disableLoadBtn: boolean = true;
@@ -193,14 +210,20 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       _this.LOV.inspectionAssessmentLOV = res;
     });
 
-    this.cus.getSubagents().then(res => {
-      var subAgents = res.obj["subAgents"];
-      subAgents.forEach(subAgent => {
-        subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
-        subAgent.value = subAgent.codDocum;
+    if (this.isIssuance) {
+      this.cus.getSubagents().then(res => {
+        var subAgents = res.obj["subAgents"];
+        subAgents.forEach(subAgent => {
+          subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
+          subAgent.value = subAgent.codDocum;
+        });
+        _this.LOV.subagentLOV = subAgents;
       });
-      _this.LOV.subagentLOV = subAgents;
-    });
+
+      this.cls.getMortgageClause().then(res => {
+        _this.LOV.mortgageClauseLOV = res;
+      });
+    }
 
     this.setValue();
   }
@@ -213,6 +236,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.receivedDate = this.today; // current today
     this.carDetails.effectivityDate = this.today; // current today
     this.carDetails.automaticAuth = "N";
+    //additional policy information
+    this.carDetails.cbPolicyOnlyDriver = true;
+    this.carDetails.cbPolicyOwner = true;
   }
 
   createQuoteForm() {
@@ -269,6 +295,19 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       glassEtchingAvailmentDate: [null],
       existingDamages: [null],
       inspectionAssessment: [null],
+    //additional policy information for issuance
+      cbPolicyOnlyDriver: {
+        value: null,
+        disabled: true
+      },
+      cbPolicyOwner: {
+        value: null,
+        disabled: true
+      },
+      cbHasAssignee: [null],
+      cbVehicleMortgaged: [null],
+      mortgageClause: [null],
+
       //product data
       paymentMethod: ['', Validators.required],
       product: ['', Validators.required],
@@ -316,6 +355,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     var cbIsNotRequiredAuthNumber = this.quoteForm.get('cbIsNotRequiredAuthNumber');
     var authNumber = this.quoteForm.get('authNumber');
     var quotationNumber = this.quoteForm.get('quotationNumber');
+    var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
+    var mortgageClause = this.quoteForm.get('mortgageClause');
 
     // if vehicle type is trailer, remove plate number required validation
     vehicleType.valueChanges.pipe(distinctUntilChanged()).subscribe(type => {
@@ -335,11 +376,18 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
-      Utility.updateValidator(authNumber, bool ? null : Validators.required);
+      if (this.carDetails.productList == 10002) {
+        Utility.updateValidator(authNumber, bool ? null : Validators.required);
+      }
     });
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
+    });
+
+    cbVehicleMortgaged.valueChanges.subscribe(mortgaged => {
+      Utility.updateValidator(mortgageClause, mortgaged ? Validators.required : null);
+      this.carDetails.mortgageClause = mortgaged ? 1 : null;
     });
   }
 
@@ -612,7 +660,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   productOnChange() {
     if (this.isIssuance) {
-      this.showCTPL = this.carDetails.productList == 10001;
+      this.showCTPL = this.carDetails.productList == 10002;
       this.cqs.activateCTPL(this.quoteForm, this.carDetails);
       if (this.showCTPL) {
         Utility.scroll('CTPLAuth');
@@ -650,8 +698,17 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.scroll('coverages');
   }
 
-  test() {
-    console.log(this.appCoverage);
+  scrollTo(id: string) {
+    Utility.scroll(id);
+  }
+
+  test(group, policyHolder) {
+    // console.log(this.quoteForm);
+    // console.log(this.policyHolder);
+    console.log(Utility.findInvalidControls(this.quoteForm));
+    console.log(Utility.findInvalidControls(group.gpForm));
+    console.log(Utility.findInvalidControls(policyHolder.phForm));
+
     // this.modalRef = Utility.showHTMLError(this.bms, items);
     // this.hasIssuedQuote = true;
     // this.openPaymentBreakdownModal([], []);
@@ -659,17 +716,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     //   width: '1000px',
     //   data: 'modalData'
     // });
-    console.log(this.carDetails);
+    // console.log(this.carDetails);
   }
-
-  // copyToClipboard(item) {
-  //   document.addEventListener('copy', (e: ClipboardEvent) => {
-  //     e.clipboardData.setData('text/plain', (item));
-  //     e.preventDefault();
-  //     document.removeEventListener('copy', null);
-  //   });
-  //   document.execCommand('copy');
-  // }
 
   openPaymentBreakdownModal(receipt: any, breakdown: any) {
     let product = "";
@@ -823,6 +871,50 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
+        } else {
+          this.modalRef = Utility.showError(this.bms, res1.message);
+        }
+      });
+    });
+  }
+
+  //save policy button
+  issuePolicy(mcaTmpPptoMph: string) {
+    // includes group policy to car details DTO
+    this.carDetails.groupPolicy = this.groupPolicy;
+    // includes policy holder to car details DTO
+    this.carDetails.policyHolder = this.policyHolder;
+    // includes secondary policy holder to car details DTO
+    this.carDetails.secondaryPolicyHolder = this.secondaryPolicyHolder;
+    // includes assignee policy holder to car details DTO
+    this.carDetails.assigneePolicyHolder = this.assigneePolicyHolder;
+    // includes mortgagee policy holder to car details DTO
+    this.carDetails.mortgageePolicyHolder = this.mortgageePolicyHolder;
+    // includes coverage variable data to car details DTO
+    this.carDetails.coverageVariableData = this.coverageVariableData;
+
+    // includes accessories to car details DTO
+    var accessories = this.quoteForm.get('accessories').value;
+    this.carDetails.accessories = accessories.length ? accessories : [];
+
+    // includes coverages to car details DTO
+    this.carDetails.coverages = [];
+    if (!Utility.isUndefined(this.appCoverage)) {
+      var coverages = this.appCoverage.cForm.get('coverages').value;
+      this.carDetails.coverages = coverages.length ? coverages : [];
+    }
+
+    // to trigger changes when regenerating quotation
+    this.showCoverage = this.isModifiedCoverage;
+    this.showPaymentBreakdown = false;
+
+    // S for generation and N for issue quotation
+    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+
+    this.cqs.getCoverageByProduct(this.carDetails).then(res => {
+      this.cqs.issuePolicy(this.carDetails).then(res1 => {
+        if (res1.status) {
+          this.modalRef = Utility.showInfo(this.bms, res1.message);
         } else {
           this.modalRef = Utility.showError(this.bms, res1.message);
         }

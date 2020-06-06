@@ -1,37 +1,37 @@
 <!-- Content Row -->
 <div class="row">
   <!-- Forex Exchange -->
-  <div class="col-xl-6 col-md-12 mb-4">
+  <div class="col-xl-4 col-md-12 mb-4">
     <div class="card border-left-primary shadow h-100 py-2">
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forex Exchange</div>
             <div class="row">
-              <div class="col-md-6">
-                <span class="fe-rate">
-                  <strong><i class="fas fa-dollar-sign"></i> DOLLAR</strong>:
+              <div class="col-6">
+                <h4 class="all-caps">
+                  <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x dollar"></i>
+                    <i class="fa fa-dollar-sign fa-stack-1x fa-inverse"></i>
+                  </span>
                   {{forex.dollar | currency:'PHP': 'symbol-narrow'}}
-                </span>
+                </h4>
               </div>
-              <div class="col-md-6">
-                <span class="fe-rate">
-                  <strong><i class="fas fa-euro-sign"></i> EURO</strong>:
+              <div class="col-6">
+                <h4 class="all-caps">
+                  <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x euro"></i>
+                    <i class="fa fa-euro-sign fa-stack-1x fa-inverse"></i>
+                  </span>
                   {{forex.euro | currency:'PHP': 'symbol-narrow'}}
-                </span>
+                </h4>
               </div>
             </div>
-          </div>
-          <div class="col-auto">
-            <i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Total Collected Premium -->
-  <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-success shadow h-100 py-2">
       <div class="card-body blur">
         <div class="row no-gutters align-items-center">
@@ -46,10 +46,7 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Active Policies -->
-  <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
       <div class="card-body blur">
         <div class="row no-gutters align-items-center">
@@ -64,16 +61,9 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- Content Row -->
-
-<div class="row">
-
-  <!-- Area Chart -->
-  <div class="col-xl-12">
+  <div class="col-xl-8">
     <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Agent Production</h6>
         <div class="dropdown no-arrow">
@@ -90,7 +80,6 @@
           </div>
         </div>
       </div>
-      <!-- Card Body -->
       <div class="card-body">
         <div class="chart-area">
           <canvas class="blur" id="myBarChart"></canvas>

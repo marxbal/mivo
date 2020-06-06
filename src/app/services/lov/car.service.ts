@@ -111,6 +111,14 @@ export class CarLOVServices {
     return this.lov.getIntOptionList(dto, 'COD_AREA_COVER').then(lovs => lovs as any[]);
   }
 
+  async getMortgageClause(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'TIP_MORT_CLAUSE',
+      '999');
+    return this.lov.getIntOptionList(dto, 'TIP_MORT_CLAUSE').then(lovs => lovs as any[]);
+  }
+
   async getInspectionAssessment(): Promise < any[] > {
     const dto = new LOV(
       'G1010031',
@@ -162,5 +170,23 @@ export class CarLOVServices {
       '59',
       '');
     return this.lov.getIntLOV(dto, 'COD_VALOR').then(lovs => lovs as any[]);
+  }
+
+  //get policy holder prefix
+  async getPHPrefix(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'TIP_ASEG_PREF',
+      '999');
+    return this.lov.getIntOptionList(dto, 'TIP_ASEG_PREF').then(lovs => lovs as any[]);
+  }
+  
+  //get policy holder separator
+  async getPHSeparator(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'TIP_ASEG_SEP_LOV',
+      '999');
+    return this.lov.getIntOptionList(dto, 'TIP_ASEG_SEP_LOV').then(lovs => lovs as any[]);
   }
 }

@@ -121,12 +121,9 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {
-          var {
-            error
-          } = err;
           this.loading = false;
           this.alert = true;
-          this.message = error.message;
+          this.message = err.message;
         }
       );
   }

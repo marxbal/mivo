@@ -61,6 +61,10 @@ export class CarQuoteServices {
     return this.app.post(carDetails, '/quote/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
+  async issuePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
+    return this.app.post(carDetails, '/quote/issuePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
   printQuote(quotationNumber: string) {
     const documentPrintingDetails = new DocumentPrinting();
     documentPrintingDetails.quotationNumber = quotationNumber;
@@ -92,7 +96,7 @@ export class CarQuoteServices {
 
   activateCTPL(form: FormGroup, carDetails: QuoteCar, selectedCoverage ? : boolean) {
     //if selected product is CTPL
-    const isCTPL = carDetails.productList == 10001 || selectedCoverage;
+    const isCTPL = carDetails.productList == 10002 || selectedCoverage;
     var registrationType = form.get('registrationType');
     var cocNumber = form.get('cocNumber');
     var authNumber = form.get('authNumber');

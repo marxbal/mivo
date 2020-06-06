@@ -1,8 +1,15 @@
-<div class="card shadow mb-3" id="policyHolderInfoPanel">
-  <div class="card-header">
-    <strong>Policy Holder Information</strong>
+<div class="card shadow mb-3" id="{{type}}_panel">
+  <div *ngIf="!optional" class="card-header">
+    <strong>{{title}}</strong>
   </div>
-  <div class="card-body">
+  <div *ngIf="optional" class="card-header d-flex justify-content-between optional" (click)="showContent = !showContent"
+    matTooltip="click to show/hide alternative policy holder">
+    <strong>{{title}}</strong>
+    <div class="dropdown no-arrow">
+      <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="showContent">
     <form [formGroup]="phForm">
       <!-- for quotation -->
       <div class="row" *ngIf="!isIssuance">
@@ -16,7 +23,7 @@
                   || phForm.controls['name'].touched)}">
             <label for="name">Client's Name</label>
             <input type="text" formControlName="name" class="form-control required"
-              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.name">
+              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.firstName">
             <p class="form-error" *ngIf="phForm.controls['name'].errors?.required">
               * client's name is required
             </p>
@@ -41,12 +48,36 @@
           <!-- .note -->
         </div>
 
+        <div *ngIf="optional" class="col-xl-12">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="secondaryPolicyHolderPrefix">Prefix (Optional)</label>
+                <select class="custom-select mr-sm-2" formControlName="secondaryPolicyHolderPrefix" [(ngModel)]="details.secondaryPolicyHolderPrefix">
+                  <option selected></option>
+                  <option *ngFor="let prefix of prefixLOV" [ngValue]="prefix.TIP_ASEG_PREF">{{ prefix.NOM_VALOR }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="secondaryPolicyHolderSeparator">Separator</label>
+                <select class="custom-select mr-sm-2 {{policyHolder.documentType != undefined && policyHolder.documentType != '' ? 'required' : ''}}" formControlName="secondaryPolicyHolderSeparator" [(ngModel)]="details.secondaryPolicyHolderSeparator">
+                  <option selected></option>
+                  <option *ngFor="let separator of separatorLOV" [ngValue]="separator.TIP_ASEG_SEP_LOV">{{ separator.NOM_VALOR }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="col-md-4">
           <div class="form-group" [ngClass]="{'input-error': phForm.controls['documentType'].invalid 
                   && (phForm.controls['documentType'].dirty 
                   || phForm.controls['documentType'].touched)}">
             <label for="documentType">Document Type</label>
-            <input type="text" formControlName="documentType" class="form-control required readonly"
+            <input type="text" formControlName="documentType" class="form-control required {{optional ? '': 'readonly'}}"
               oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.documentType" readonly>
             <p class="form-error" *ngIf="phForm.controls['documentType'].errors?.required">
               * document type is required
@@ -59,7 +90,7 @@
                   && (phForm.controls['documentCode'].dirty 
                   || phForm.controls['documentCode'].touched)}">
             <label for="documentCode">Document Code</label>
-            <input type="text" formControlName="documentCode" class="form-control required readonly"
+            <input type="text" formControlName="documentCode" class="form-control required {{optional ? '': 'readonly'}}"
               oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.documentCode" readonly>
             <p class="form-error" *ngIf="phForm.controls['documentCode'].errors?.required">
               * document code is required
@@ -68,10 +99,10 @@
         </div>
 
         <div class="col-md-12">
-
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="browse()">Browse</button>
-            <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+            <button type="button" class="btn btn-primary" (click)="create()" *ngIf="showCreateBtn">Create</button>
+            <button type="button" class="btn btn-default" (click)="clear()">Clear</button>
           </div>
         </div>
       </div>
@@ -88,12 +119,11 @@
                 <div class="input-group-prepend">
                   <label class="input-group-text" for="inputGroupSelect01">Search by</label>
                 </div>
-
-                <select class="custom-select mr-sm-2" formControlName="policyHolderType" [(ngModel)]="policyHolderType">
-                  <option value="P" selected>Person</option>
+                <select class="custom-select mr-sm-2" formControlName="policyHolderType" [(ngModel)]="policyHolderType"
+                  [attr.disabled]="type == 'mortgagee' ? '' : null">
+                  <option value="P">Person</option>
                   <option value="C">Company/Organization</option>
                 </select>
-
               </div>
             </div>
 
@@ -102,7 +132,7 @@
                   && (searchForm.controls['firstName'].dirty 
                   || searchForm.controls['firstName'].touched)}">
                 <input type="text" placeholder="{{firstNameLabel}}" formControlName="firstName"
-                  class="form-control required" [(ngModel)]="firstName">
+                  oninput="this.value = this.value.toUpperCase()" class="form-control required" [(ngModel)]="firstName">
                 <p class="form-error" *ngIf="searchForm.controls['firstName'].errors?.required">
                   * {{firstNameError}} is required
                 </p>
@@ -113,8 +143,8 @@
               <div class="form-group" [ngClass]="{'input-error': searchForm.controls['lastName'].invalid 
                   && (searchForm.controls['lastName'].dirty 
                   || searchForm.controls['lastName'].touched)}">
-                <input type="text" placeholder="Last Name" formControlName="lastName" class="form-control required"
-                  [(ngModel)]="lastName">
+                <input type="text" placeholder="Last Name" formControlName="lastName"
+                  oninput="this.value = this.value.toUpperCase()" class="form-control required" [(ngModel)]="lastName">
                 <p class="form-error" *ngIf="searchForm.controls['lastName'].errors?.required">
                   * last name is required
                 </p>
@@ -162,13 +192,16 @@
                 <ng-container matColumnDef="action">
                   <mat-header-cell *matHeaderCellDef> Document Code </mat-header-cell>
                   <mat-cell *matCellDef="let row">
-                    <div class="input-group">
-                      <input #documentCode (keyup)="enableAddBtn($event, btn)" type="text" class="form-control">
+                    <div *ngIf="type != 'mortgagee'" class="input-group">
+                      <input #documentCode (keyup)="enableAddBtn($event, btn)" 
+                        oninput="this.value = this.value.toUpperCase()" type="text" class="form-control">
                       <div class="input-group-append">
                         <button #btn (click)="add(row, documentCode)" disabled class="btn btn-outline-secondary"
                           type="button">Add</button>
                       </div>
                     </div>
+                    <button *ngIf="type == 'mortgagee'" (click)="add(row)" class="btn btn-outline-secondary"
+                      type="button">{{row.codDocum}}</button>
                   </mat-cell>
                 </ng-container>
 
