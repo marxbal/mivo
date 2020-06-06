@@ -22,7 +22,7 @@
   color: #c31f09;
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: block;
 }
 
@@ -31,10 +31,16 @@
 }
 
 .wrap-login {
-  top: calc(50% - 120px);
+  top: calc(50% - 180px);
   width: 80%;
   position: relative;
   margin: 0px auto;
+}
+
+.login-logo {
+  width: 80%;
+  display: block;
+  margin: 0 auto 40px;
 }
 
 .login-footer {
@@ -56,9 +62,12 @@
   margin-left: 15px;
 }
 
+.f-password {
+  color: #c31f09;
+}
+
 .login-version {
-  position: absolute;
-  right: 0;
+  font-size: 11px;
 }
 
 #rememberMe {

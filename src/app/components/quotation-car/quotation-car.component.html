@@ -1,11 +1,21 @@
 <div class="row" id="quotationCar">
   <div class="col-xl-12">
     <div class="page-header">
-      <h4>{{pageLabel}} - Car</h4>
+      <h4 class="all-caps">
+        <span class="fa-stack fa-md">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-car fa-stack-1x fa-inverse"></i>
+        </span>
+        {{pageLabel}}
+      </h4>
     </div>
     <!-- .page-header -->
   </div>
   <!-- .col-xl-12 -->
+
+  <div class="col-lg-12">
+    <img class="product-img-banner" src="./assets/images/banner-car.png" alt="banner-car" />
+  </div>
 
   <div class="col-xl-12">
     <div class="card shadow">
@@ -671,7 +681,7 @@
                             [ngValue]="mortgageClause.TIP_MORT_CLAUSE">{{ mortgageClause.NOM_VALOR }}</option>
                         </select>
                         <p class="form-error" *ngIf="quoteForm.controls['mortgageClause'].errors?.required">
-                          * subline is required
+                          * mortgage clause is required
                         </p>
                       </div>
                     </div>
