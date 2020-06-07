@@ -1,3 +1,18 @@
 .sidebar-brand img {
-    width: 90%;
+  width: 90%;
+}
+
+#sticky #accordionSidebar {
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+#sticky #accordionSidebar::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
 }

@@ -14,7 +14,7 @@
   <!-- .col-xl-12 -->
 
   <div class="col-lg-12">
-    <img class="product-img-banner" src="./assets/images/banner-car.png" alt="banner-car" />
+    <img class="product-img-banner" src="./assets/images/banner-car.jpg" alt="credits to freepik @stories" />
   </div>
 
   <div class="col-xl-12">
@@ -991,26 +991,26 @@
           </div>
           <!-- .note -->
 
-          <div *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined" class="alert alert-info note">
+          <div *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined" class="alert alert-warning note">
             <p>
               <strong>Required:</strong> You need to fill out Alternative Policy holder <strong>Separator</strong>.
-              Scroll to <button class="btn btn-info" (click)="scrollTo('secondary_panel')">Alternative</button>
+              Scroll to <button class="btn btn-warning" (click)="scrollTo('secondary_panel')">Alternative</button>
             </p>
           </div>
           <!-- .note -->
 
-          <div *ngIf="carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')" class="alert alert-info note">
+          <div *ngIf="carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')" class="alert alert-warning note">
             <p>
               <strong>Required:</strong> You are required to add <strong>Assignee</strong>.
-              Scroll to <button class="btn btn-info" (click)="scrollTo('assignee_panel')">Assignee</button>
+              Scroll to <button class="btn btn-warning" (click)="scrollTo('assignee_panel')">Assignee</button>
             </p>
           </div>
           <!-- .note -->
 
-          <div *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')" class="alert alert-info note">
+          <div *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')" class="alert alert-warning note">
             <p>
               <strong>Required:</strong> You are required to add <strong>Mortgagee</strong>. 
-              Scroll to <button class="btn btn-info" (click)="scrollTo('mortgagee_panel')">Mortgagee</button>
+              Scroll to <button class="btn btn-warning" (click)="scrollTo('mortgagee_panel')">Mortgagee</button>
             </p>
           </div>
           <!-- .note -->

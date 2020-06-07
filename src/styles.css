@@ -91,8 +91,13 @@ body,
 
 app-sidenav {
   background: #c31f09;
-  background-image: url('./assets/images/bg.jpg');
+  background-image: url('./assets/images/bg_red.jpg');
   background-size: cover;
+}
+
+#sticky app-sidenav {
+  position: fixed;
+  z-index: 999;
 }
 
 form .required {
@@ -148,7 +153,7 @@ form .form-group.input-error .multiselect-dropdown {
 }
 
 form .card-header {
-  background: #6a6a6a;
+  background: #3e3e3e;
   color: #fff;
 }
 
@@ -268,4 +273,31 @@ form .card-header.optional {
 .blur {
   filter: blur(8px);
   -webkit-filter: blur(8px);
+}
+
+.sidebar-toggled #sticky #content-wrapper {
+  margin-left: 0;
+}
+
+#sticky .sidebar .nav-item .collapse {
+  position: fixed;
+  margin-top: -60px;
+  top: unset;
+}
+
+#sticky #content-wrapper {
+  margin-left: 6.5rem;
+  height: 100vh;
+}
+
+@media (min-width: 768px) {
+  #sticky #content-wrapper {
+    margin-left: 250px;
+    height: 100vh;
+  }
+
+  #sticky .sidebar .nav-item .collapse {
+    position: relative;
+    margin-top: auto;
+  }
 }
