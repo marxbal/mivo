@@ -288,7 +288,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       displacement: [null],
       classification: [null],
       coverageArea: [null],
-      assuredsCoinsuranceShare: [null],
+      assuredsCoinsuranceShare: ['', Validators.max(100)],
       cbWaivedMinPremium: [null],
       cbPrepaidPremium: [null],
       cbGlassEtchingEntitled: [null],

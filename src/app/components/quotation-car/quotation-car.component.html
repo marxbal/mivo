@@ -596,10 +596,15 @@
                 </div>
 
                 <div class="col-md-3">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['assuredsCoinsuranceShare'].invalid 
+                  && (quoteForm.controls['assuredsCoinsuranceShare'].dirty 
+                  || quoteForm.controls['assuredsCoinsuranceShare'].touched)}">
                     <label for="assuredCoinsuranceShare">Assured's Coinsurance Share</label>
-                    <input type="text" class="form-control" [(ngModel)]="carDetails.assuredsCoinsuranceShare"
+                    <input type="number" class="form-control" [(ngModel)]="carDetails.assuredsCoinsuranceShare"
                       formControlName="assuredsCoinsuranceShare">
+                    <p class="form-error" *ngIf="quoteForm.controls['assuredsCoinsuranceShare'].errors?.max">
+                      * assured's coinsurance share max value is 100
+                    </p>
                   </div>
                 </div>
 
