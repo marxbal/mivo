@@ -879,7 +879,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   //save policy button
-  issuePolicy(mcaTmpPptoMph: string) {
+  issuePolicy() {
     // includes group policy to car details DTO
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
@@ -908,8 +908,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.showCoverage = this.isModifiedCoverage;
     this.showPaymentBreakdown = false;
 
-    // S for generation and N for issue quotation
-    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+    // always N for issue policy
+    this.carDetails.mcaTmpPptoMph = "N";
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issuePolicy(this.carDetails).then(res1 => {

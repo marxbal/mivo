@@ -1061,13 +1061,13 @@
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
               appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
-              (click)="issuePolicy('S')">Save</button>
+              (click)="issuePolicy()">Save</button>
             <button 
               [disabled]="(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
               (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
               (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
-              (click)="issuePolicy('S')">Save</button>
+              (click)="issuePolicy()">Save</button>
           </div>
 
           <div *ngIf="isIssuance && showPostBtn" class="btn-group" role="group">
