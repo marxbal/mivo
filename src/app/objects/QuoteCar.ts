@@ -58,7 +58,7 @@ export class QuoteCar {
   clientName: string;
   policyHolder: PolicyHolder;
   secondaryPolicyHolderPrefix: number;
-  secondaryPolicyHolderSeparator: number;
+  secondaryPolicyHolderSeparator: string;
   secondaryPolicyHolder: PolicyHolder;
   assigneePolicyHolder: PolicyHolder;
   mortgageePolicyHolder: PolicyHolder;
