@@ -74,6 +74,9 @@ import {
 import {
   CoveragesComponent
 } from '../coverages/coverages.component';
+import {
+  ReturnDTO
+} from 'src/app/objects/ReturnDTO';
 
 @Component({
   selector: 'app-quotation-car',
@@ -749,20 +752,26 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  manageBtn(opt: number) {
-    this.showGenerateBtnGrp = (opt == 1 || opt == 4);
-    if (opt == 1 || opt == 4) {
-      const isModified = (opt == 4);
-      this.isModifiedCoverage = isModified;
-      this.showCoverage = isModified;
-      this.showPaymentBreakdown = false;
-      if (isModified) {
-        Utility.scroll('coverages');
+  manageBtn(opt: number, isIssuance: boolean) {
+    if (isIssuance) {
+      this.showSaveBtn = (opt == 1);
+      this.showPostBtn = (opt == 2);
+      this.showPrintBtn = (opt == 3);
+    } else {
+      this.showGenerateBtnGrp = (opt == 1 || opt == 4);
+      if (opt == 1 || opt == 4) {
+        const isModified = (opt == 4);
+        this.isModifiedCoverage = isModified;
+        this.showCoverage = isModified;
+        this.showPaymentBreakdown = false;
+        if (isModified) {
+          Utility.scroll('coverages');
+        }
       }
+  
+      this.showIssueQuoteBtnGrp = (opt == 2);
+      this.showProceedToIssuanceBtnGrp = (opt == 3);
     }
-
-    this.showIssueQuoteBtnGrp = (opt == 2);
-    this.showProceedToIssuanceBtnGrp = (opt == 3);
   }
 
   newQuote() {
@@ -811,28 +820,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
         if (res1.status) {
-          const errorCode = res1.obj["errorCode"];
-          const error = res1.obj["error"];
-          let items : any[] = ["Error code is " + errorCode + " but does not return any error message. Please contact administration."];
-          if (!Utility.isUndefined(error)) {
-            const errArr = error.split("~");
-            if (errArr.length) {
-              var arr = [];
-              errArr.forEach((err: string) => {
-                if (!Utility.isEmpty(err)) {
-                  arr.push(err);
-                }
-              });
-              
-              if (arr.length) {
-                items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
-              }
-            }
-          }
-          
+          const items = this.getErrorItems(res1, mcaTmpPptoMph, false);
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];;
           if (status && coverageAmount.length) {
+            const errorCode = res1.obj["errorCode"];
             if (errorCode == "S") {
               //if quotation has a warning
               this.modalRef = Utility.showHTMLWarning(this.bms, items);
@@ -862,11 +854,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
-              this.manageBtn(2);
+              this.manageBtn(2, false);
             } else {
               // for issuing the quote
               this.openPaymentBreakdownModal(receipt, breakdown);
-              this.manageBtn(3);
+              this.manageBtn(3, false);
             }
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
@@ -911,14 +903,91 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     // always N for issue policy
     this.carDetails.mcaTmpPptoMph = "N";
 
+    const affecting: boolean = true; //TODO
+
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issuePolicy(this.carDetails).then(res1 => {
         if (res1.status) {
-          this.modalRef = Utility.showInfo(this.bms, res1.message);
+          var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, false);
+          const status = res1.obj["status"];
+          const coverageAmount = res1.obj["coverageAmount"];;
+          if (status && coverageAmount.length) {
+            const errorCode = res1.obj["errorCode"];
+            const policyNumber = res1.obj["policyNumber"];
+            this.carDetails.quotationNumber = policyNumber;
+
+            const message = "You have successfully generated a new quotation - " + policyNumber;
+            this.modalRef = Utility.showInfo(this.bms, message);
+
+            const coverageList = res.obj["coverageList"];
+            const amountList = res.obj["amountList"];;
+            const premiumAmount = res1.obj["premiumAmount"];;
+            const coverageVariable = res1.obj["coverageVariable"];
+
+            if (this.isModifiedCoverage) {
+              this.showCoverage = true;
+            } else {
+              this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+            }
+            this.isModifiedCoverage = false;
+
+            const breakdown = res1.obj["breakdown"];
+            const receipt = res1.obj["receipt"];
+            this.populatePaymentBreakdown(breakdown, receipt);
+
+            if (errorCode == "S") {
+              //if quotation has a warning
+              if (affecting) {
+                items = ["Updated quotation number is: " + policyNumber].concat(items);
+              }
+              this.modalRef = Utility.showHTMLWarning(this.bms, items);
+            } else {
+              const message = "Saving successful: " + policyNumber;
+              this.modalRef = Utility.showInfo(this.bms, message);
+              this.manageBtn(2, true);
+            }
+          } else {
+            this.modalRef = Utility.showHTMLError(this.bms, items);
+          }
         } else {
           this.modalRef = Utility.showError(this.bms, res1.message);
         }
       });
     });
+  }
+
+  //getting error or warning items
+  getErrorItems(res1: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    const resErrorCode = res1.obj["errorCode"];
+    const resError = res1.obj["error"];
+    let items : any[] = ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+    if (!Utility.isUndefined(resError)) {
+      const errArr = resError.split("~");
+      if (errArr.length) {
+        var arr = [];
+        errArr.forEach((err: string) => {
+          if (!Utility.isEmpty(err)) {
+            arr.push(err);
+          }
+        });
+        
+        const resStatus = res1.obj["status"];
+        const resCoverageAmount = res1.obj["coverageAmount"];
+        if (arr.length) {
+          if (resStatus && resCoverageAmount.length) {
+            //has error - can't proceed
+            items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
+          } else {
+            // has warning - can proceed
+            if (isIssuance) {
+              items = ["Policy has technical control due to following reason/s:"].concat(arr);
+            } else {
+              items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
+            }
+          }
+        }
+      }
+    }
+    return items;
   }
 }

@@ -1032,9 +1032,9 @@
 
           <div *ngIf="!isIssuance && showIssueQuoteBtnGrp" class="btn-group" role="group">
             <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1)">Change Product</button>
+              (click)="manageBtn(1, false)">Change Product</button>
             <button type="button" class="btn btn-primary"
-              (click)="manageBtn(4)">Edit Coverage</button>
+              (click)="manageBtn(4, false)">Edit Coverage</button>
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1054,14 +1054,14 @@
 
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
-            <button type="button" class="btn btn-primary"
+            <!-- <button type="button" class="btn btn-primary"
             (click)="test(appGroupPolicy, appPolicyHolder)">test</button>
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
               appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
-              (click)="issuePolicy()">Save</button>
+              (click)="issuePolicy()">Save</button> -->
             <button 
               [disabled]="(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
               (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
