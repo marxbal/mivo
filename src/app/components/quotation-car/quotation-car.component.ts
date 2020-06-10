@@ -908,7 +908,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issuePolicy(this.carDetails).then(res1 => {
         if (res1.status) {
-          var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, false);
+          var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];;
           if (status && coverageAmount.length) {
@@ -974,7 +974,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         const resStatus = res1.obj["status"];
         const resCoverageAmount = res1.obj["coverageAmount"];
         if (arr.length) {
-          if (resStatus && resCoverageAmount.length) {
+          if (!resStatus && !resCoverageAmount.length) {
             //has error - can't proceed
             items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
           } else {

@@ -1063,7 +1063,10 @@
               type="button" class="btn btn-primary"
               (click)="issuePolicy()">Save</button> -->
             <button 
-              [disabled]="(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+              [disabled]="quoteForm.pristine || quoteForm.invalid ||
+              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+              (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
               (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
               (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
