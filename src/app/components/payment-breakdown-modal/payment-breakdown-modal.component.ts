@@ -42,6 +42,7 @@ export class PaymentBreakdownModalComponent implements OnInit {
   number = this.data.number;
   product = this.data.product;
   payment = this.data.payment;
+  isPostPolicy = this.data.isPostPolicy;
 
   ngOnInit(): void {
     this.data.receipt.forEach((receipt)=>{
@@ -99,6 +100,10 @@ export class PaymentBreakdownModalComponent implements OnInit {
 
   close(b: boolean): void {
     this.dialogRef.close(b);
+  }
+
+  printPolicy() {
+    this.cqs.printPolicy(this.data.number);
   }
 
   printQuote() {

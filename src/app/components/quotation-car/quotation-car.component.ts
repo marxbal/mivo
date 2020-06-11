@@ -722,7 +722,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     // console.log(this.carDetails);
   }
 
-  openPaymentBreakdownModal(receipt: any, breakdown: any) {
+  openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
     let product = "";
     this.LOV.productListLOV.forEach((p) => {
       if (p.COD_MODALIDAD == this.carDetails.productList) {
@@ -738,12 +738,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     const modalData = {
-      number: this.carDetails.quotationNumber,
+      number: isPostPolicy ? this.carDetails.policyNumber : this.carDetails.quotationNumber,
       product: product,
       payment: payment,
       receipt: receipt,
       breakdown: breakdown,
       showExchangeRate: false,
+      isPostPolicy: isPostPolicy
     };
 
     this.dialog.open(PaymentBreakdownModalComponent, {
@@ -784,6 +785,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   printQuote() {
     this.cqs.printQuote(this.carDetails.quotationNumber);
+  }
+
+  printPolicy() {
+    this.cqs.printPolicy(this.carDetails.policyNumber);
   }
 
   proceedToIssuance() {
@@ -857,7 +862,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.manageBtn(2, false);
             } else {
               // for issuing the quote
-              this.openPaymentBreakdownModal(receipt, breakdown);
+              this.openPaymentBreakdownModal(receipt, breakdown, false);
               this.manageBtn(3, false);
             }
           } else {
@@ -1021,7 +1026,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const breakdown = res1.obj["breakdown"];
           const receipt = res1.obj["receipt"];
           this.populatePaymentBreakdown(breakdown, receipt);
-          this.openPaymentBreakdownModal(receipt, breakdown);
+          this.openPaymentBreakdownModal(receipt, breakdown, true);
           this.manageBtn(3, true);
         } else {
           this.modalRef = Utility.showHTMLError(this.bms, items);

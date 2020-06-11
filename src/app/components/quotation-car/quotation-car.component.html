@@ -1079,13 +1079,12 @@
               (click)="postPolicy()">Post</button>
           </div>
 
+          <div *ngIf="isIssuance && showPrintBtn" class="text-right">
+            <h5><small>Your policy number:</small> {{carDetails.policyNumber}}</h5>
+          </div>
           <div *ngIf="isIssuance && showPrintBtn" class="btn-group" role="group">
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
-              type="button" class="btn btn-primary"
-              (click)="issueQuote('S')">Print</button>
+            <button type="button" class="btn btn-primary"
+              (click)="printPolicy()">Print</button>
           </div>
 
         </form>
