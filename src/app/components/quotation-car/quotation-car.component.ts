@@ -154,7 +154,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //modal reference
   modalRef: BsModalRef;
-  
+
   constructor(
     private fb: FormBuilder,
     private cus: CarUtilityServices,
@@ -298,7 +298,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       glassEtchingAvailmentDate: [null],
       existingDamages: [null],
       inspectionAssessment: [null],
-    //additional policy information for issuance
+      //additional policy information for issuance
       cbPolicyOnlyDriver: {
         value: null,
         disabled: true
@@ -671,7 +671,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  authCOCRegistration(){
+  authCOCRegistration() {
     this.cus.authCOCRegistration(this.carDetails).then(res => {
       if (res.status) {
         if (res.obj['status']) {
@@ -724,14 +724,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   openPaymentBreakdownModal(receipt: any, breakdown: any) {
     let product = "";
-    this.LOV.productListLOV.forEach((p)=> {
+    this.LOV.productListLOV.forEach((p) => {
       if (p.COD_MODALIDAD == this.carDetails.productList) {
         product = p.NOM_MODALIDAD;
       }
     });
 
-    let payment = "";    
-    this.LOV.paymentMethodLOV.forEach((p)=> {
+    let payment = "";
+    this.LOV.paymentMethodLOV.forEach((p) => {
       if (p.COD_FRACC_PAGO == this.carDetails.paymentMethod) {
         payment = p.NOM_FRACC_PAGO;
       }
@@ -768,7 +768,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           Utility.scroll('coverages');
         }
       }
-  
+
       this.showIssueQuoteBtnGrp = (opt == 2);
       this.showProceedToIssuanceBtnGrp = (opt == 3);
     }
@@ -870,8 +870,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  //save policy button
-  issuePolicy() {
+  assembleIssuePolicyData() {
     // includes group policy to car details DTO
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
@@ -896,17 +895,56 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
 
+    // always N for issue policy
+    this.carDetails.mcaTmpPptoMph = "N";
+  }
+
+  //getting error or warning items
+  getErrorItems(res1: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    const resErrorCode = res1.obj["errorCode"];
+    const resError = res1.obj["error"];
+    let items: any[] = ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+    if (!Utility.isUndefined(resError)) {
+      const errArr = resError.split("~");
+      if (errArr.length) {
+        var arr = [];
+        errArr.forEach((err: string) => {
+          if (!Utility.isEmpty(err)) {
+            arr.push(err);
+          }
+        });
+
+        const resStatus = res1.obj["status"];
+        const resCoverageAmount = res1.obj["coverageAmount"];
+        if (arr.length) {
+          if (!resStatus && !resCoverageAmount.length) {
+            //has error - can't proceed
+            items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
+          } else {
+            // has warning - can proceed
+            if (isIssuance) {
+              items = ["Policy has technical control due to following reason/s:"].concat(arr);
+            } else {
+              items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
+            }
+          }
+        }
+      }
+    }
+    return items;
+  }
+
+  //save policy button
+  savePolicy() {
+    this.assembleIssuePolicyData();
+
     // to trigger changes when regenerating quotation
     this.showCoverage = this.isModifiedCoverage;
     this.showPaymentBreakdown = false;
-
-    // always N for issue policy
-    this.carDetails.mcaTmpPptoMph = "N";
-
     const affecting: boolean = true; //TODO
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
-      this.cqs.issuePolicy(this.carDetails).then(res1 => {
+      this.cqs.savePolicy(this.carDetails).then(res1 => {
         if (res1.status) {
           var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
@@ -956,38 +994,38 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  //getting error or warning items
-  getErrorItems(res1: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
-    const resErrorCode = res1.obj["errorCode"];
-    const resError = res1.obj["error"];
-    let items : any[] = ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
-    if (!Utility.isUndefined(resError)) {
-      const errArr = resError.split("~");
-      if (errArr.length) {
-        var arr = [];
-        errArr.forEach((err: string) => {
-          if (!Utility.isEmpty(err)) {
-            arr.push(err);
-          }
-        });
-        
-        const resStatus = res1.obj["status"];
-        const resCoverageAmount = res1.obj["coverageAmount"];
-        if (arr.length) {
-          if (!resStatus && !resCoverageAmount.length) {
-            //has error - can't proceed
-            items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
+  //post policy button
+  postPolicy() {
+    this.assembleIssuePolicyData();
+
+    // to trigger changes when regenerating quotation
+    this.showCoverage = this.isModifiedCoverage;
+    this.showPaymentBreakdown = false;
+    //const affecting: boolean = true; //TODO
+
+    this.cqs.getCoverageByProduct(this.carDetails).then(res => {
+      this.cqs.postPolicy(this.carDetails).then(res1 => {
+        if (res1.status) {
+          var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
+          const status = res1.obj["status"];
+          const policyNumber = res1.obj["policyNumber"];
+          if (status && !Utility.isUndefined(policyNumber)) {
+            this.carDetails.policyNumber = policyNumber;
+
+            const message = "You have successfully post a policy: " + policyNumber;
+            this.modalRef = Utility.showInfo(this.bms, message);
+
+            this.isModifiedCoverage = false;
+            const breakdown = res1.obj["breakdown"];
+            const receipt = res1.obj["receipt"];
+            this.populatePaymentBreakdown(breakdown, receipt);
           } else {
-            // has warning - can proceed
-            if (isIssuance) {
-              items = ["Policy has technical control due to following reason/s:"].concat(arr);
-            } else {
-              items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
-            }
+            this.modalRef = Utility.showHTMLError(this.bms, items);
           }
+        } else {
+          this.modalRef = Utility.showError(this.bms, res1.message);
         }
-      }
-    }
-    return items;
+      });
+    });
   }
 }

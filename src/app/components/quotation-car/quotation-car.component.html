@@ -1055,13 +1055,7 @@
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
             <!-- <button type="button" class="btn btn-primary"
-            (click)="test(appGroupPolicy, appPolicyHolder)">test</button>
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
-              type="button" class="btn btn-primary"
-              (click)="issuePolicy()">Save</button> -->
+            (click)="test(appGroupPolicy, appPolicyHolder)">test</button>-->
             <button 
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1070,16 +1064,19 @@
               (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
               (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
-              (click)="issuePolicy()">Save</button>
+              (click)="savePolicy()">Save</button>
           </div>
 
           <div *ngIf="isIssuance && showPostBtn" class="btn-group" role="group">
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+              (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+              (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
+              (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
-              (click)="issueQuote('S')">Post</button>
+              (click)="postPolicy()">Post</button>
           </div>
 
           <div *ngIf="isIssuance && showPrintBtn" class="btn-group" role="group">
