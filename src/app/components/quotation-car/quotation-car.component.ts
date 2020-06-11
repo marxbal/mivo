@@ -960,7 +960,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const policyNumber = res1.obj["policyNumber"];
             this.carDetails.quotationNumber = policyNumber;
 
-            const message = "You have successfully generated a new quotation - " + policyNumber;
+            const message = "You have successfully generated a new quotation: " + policyNumber;
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
@@ -986,7 +986,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               }
               this.modalRef = Utility.showHTMLWarning(this.bms, items);
             } else {
-              const message = "Saving successful: " + policyNumber;
+              const message = "Policy saved successfully.";
               this.modalRef = Utility.showInfo(this.bms, message);
               this.manageBtn(2, true);
             }
@@ -1009,29 +1009,26 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.showPaymentBreakdown = false;
     //const affecting: boolean = true; //TODO
 
-    this.cqs.getCoverageByProduct(this.carDetails).then(res => {
-      this.cqs.postPolicy(this.carDetails).then(res1 => {
-        if (res1.status) {
-          var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
-          const status = res1.obj["status"];
-          const policyNumber = res1.obj["policyNumber"];
-          if (status && !Utility.isUndefined(policyNumber)) {
-            this.carDetails.policyNumber = policyNumber;
+    this.cqs.postPolicy(this.carDetails).then(res1 => {
+      if (res1.status) {
+        var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
+        const status = res1.obj["status"];
+        const policyNumber = res1.obj["policyNumber"];
+        if (status && !Utility.isUndefined(policyNumber)) {
+          this.carDetails.policyNumber = policyNumber;
 
-            const message = "You have successfully post a policy: " + policyNumber;
-            this.modalRef = Utility.showInfo(this.bms, message);
-
-            this.isModifiedCoverage = false;
-            const breakdown = res1.obj["breakdown"];
-            const receipt = res1.obj["receipt"];
-            this.populatePaymentBreakdown(breakdown, receipt);
-          } else {
-            this.modalRef = Utility.showHTMLError(this.bms, items);
-          }
+          this.isModifiedCoverage = false;
+          const breakdown = res1.obj["breakdown"];
+          const receipt = res1.obj["receipt"];
+          this.populatePaymentBreakdown(breakdown, receipt);
+          this.openPaymentBreakdownModal(receipt, breakdown);
+          this.manageBtn(3, true);
         } else {
-          this.modalRef = Utility.showError(this.bms, res1.message);
+          this.modalRef = Utility.showHTMLError(this.bms, items);
         }
-      });
+      } else {
+        this.modalRef = Utility.showError(this.bms, res1.message);
+      }
     });
   }
 }
