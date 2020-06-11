@@ -901,9 +901,16 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //getting error or warning items
   getErrorItems(res1: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    const resCoverageAmount = res1.obj["coverageAmount"];
     const resErrorCode = res1.obj["errorCode"];
     const resError = res1.obj["error"];
-    let items: any[] = ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+
+    const coverageAmountIsUndefined = Utility.isUndefined(resCoverageAmount);
+    const isPostPolicy = coverageAmountIsUndefined && Utility.isUndefined(resErrorCode);
+    let items: any[] = isPostPolicy
+      ? ["Error occured while posting policy. Please contact administration."]
+      : ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+
     if (!Utility.isUndefined(resError)) {
       const errArr = resError.split("~");
       if (errArr.length) {
@@ -915,9 +922,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         });
 
         const resStatus = res1.obj["status"];
-        const resCoverageAmount = res1.obj["coverageAmount"];
         if (arr.length) {
-          if (!resStatus && !resCoverageAmount.length) {
+          if (!resStatus && (isPostPolicy || (coverageAmountIsUndefined && !resCoverageAmount.length))) {
             //has error - can't proceed
             items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
           } else {
