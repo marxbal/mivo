@@ -60,7 +60,8 @@
                     && (quoteForm.controls['make'].dirty 
                     || quoteForm.controls['make'].touched)}">
                     <label for="make">Make</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="make" (change)="makeOnchange()"
+                    <select class="custom-select mr-sm-2 required" formControlName="make"
+                      (change)="makeOnchange(); affecting('make', 'Make')"
                       [(ngModel)]="carDetails.make">
                       <option *ngFor="let make of LOV.makeLOV" [ngValue]="make.COD_MARCA">{{ make.NOM_MARCA }}</option>
                     </select>
@@ -75,7 +76,8 @@
                   && (quoteForm.controls['model'].dirty 
                   || quoteForm.controls['model'].touched)}">
                     <label for="model">Model</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="model" (change)="modelOnchange()"
+                    <select class="custom-select mr-sm-2 required" formControlName="model"
+                      (change)="modelOnchange(); affecting('model', 'Model')"
                       [(ngModel)]="carDetails.model" [attr.disabled]=" LOV.modelLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let model of LOV.modelLOV" [ngValue]="model.COD_MODELO">{{ model.NOM_MODELO }}
@@ -93,7 +95,8 @@
                   || quoteForm.controls['vehicleType'].touched)}">
                     <label for="vehicleType">Vehicle Type</label>
                     <select class="custom-select mr-sm-2 required" formControlName="vehicleType"
-                      (change)="vehicleTypeOnchange()" [(ngModel)]="carDetails.vehicleType"
+                      (change)="vehicleTypeOnchange(); affecting('vehicleType', 'Vehicle Type')"
+                      [(ngModel)]="carDetails.vehicleType"
                       [attr.disabled]=" LOV.vehicleTypeLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let vehicleType of LOV.vehicleTypeLOV" [ngValue]="vehicleType.COD_TIP_VEHI">
@@ -111,7 +114,8 @@
                   || quoteForm.controls['modelYear'].touched)}">
                     <label for="modelYear">Model Year</label>
                     <select class="custom-select mr-sm-2 required" formControlName="modelYear"
-                      (change)="modelYearOnchange()" [(ngModel)]="carDetails.modelYear"
+                      (change)="modelYearOnchange(); affecting('modelYear', 'Model Year')"
+                      [(ngModel)]="carDetails.modelYear"
                       [attr.disabled]=" LOV.modelYearLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let modelYear of LOV.modelYearLOV" [ngValue]="modelYear.ANIO_SUB_MODELO">
@@ -129,7 +133,8 @@
                   || quoteForm.controls['subModel'].touched)}">
                     <label for="subModel">Sub Model</label>
                     <select class="custom-select mr-sm-2 required" formControlName="subModel"
-                      (change)="subModelOnchange()" [(ngModel)]="carDetails.subModel"
+                      (change)="subModelOnchange(); affecting('subModel', 'Sub Model')"
+                      [(ngModel)]="carDetails.subModel"
                       [attr.disabled]=" LOV.subModelLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let subModel of LOV.subModelLOV" [ngValue]="subModel.COD_SUB_MODELO">
@@ -148,7 +153,8 @@
                   || quoteForm.controls['typeOfUse'].touched)}">
                     <label for="typeOfUse">Type of Use</label>
                     <select class="custom-select mr-sm-2 required" formControlName="typeOfUse"
-                      (change)="typeOfUseOnchange()" [(ngModel)]="carDetails.typeOfUse"
+                      (change)="typeOfUseOnchange(); affecting('typeOfUse', 'Type of Use')"
+                      [(ngModel)]="carDetails.typeOfUse"
                       [attr.disabled]=" LOV.typeOfUseLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let typeOfUse of LOV.typeOfUseLOV" [ngValue]="typeOfUse.COD_USO_VEHI">
@@ -166,7 +172,8 @@
                   || quoteForm.controls['subline'].touched)}">
                     <label for="subline">Subline</label>
                     <select class="custom-select mr-sm-2 required" formControlName="subline"
-                      (change)="sublineOnchange($event)" [(ngModel)]="carDetails.subline"
+                      (change)="sublineOnchange($event); affecting('subline', 'Subline')"
+                      [(ngModel)]="carDetails.subline"
                       [attr.disabled]=" LOV.sublineLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let subline of LOV.sublineLOV" [ngValue]="subline.value"
@@ -185,6 +192,7 @@
                   || quoteForm.controls['vehicleValue'].touched)}">
                     <label for="vehicleValue">Vehicle Value</label>
                     <input type="text" formControlName="vehicleValue" class="form-control"
+                      (change)="affecting('vehicleValue', 'Vehicle Value')"
                       [(ngModel)]="carDetails.vehicleValue">
                     <p class="form-error" *ngIf="quoteForm.controls['vehicleValue'].errors?.required">
                       * vehicle value is required
@@ -375,7 +383,9 @@
             #appGroupPolicy
             [subline]="carDetails.subline"
             [details]="carDetails"
-            [groupPolicy]="groupPolicy">
+            [prevDetails]="prevCarDetails"
+            [groupPolicy]="groupPolicy"
+            [(changedValues)]="changedValues">
           </app-group-policy>
 
           <div class="card shadow mb-3">
@@ -1055,8 +1065,8 @@
 
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
-            <!-- <button type="button" class="btn btn-primary"
-            (click)="test(appGroupPolicy, appPolicyHolder)">test</button>-->
+            <button type="button" class="btn btn-primary"
+            (click)="proceed(2)">test</button>
             <button 
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1065,7 +1075,7 @@
               (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
               (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
-              (click)="savePolicy()">Save</button>
+              (click)="proceed(3)">Save</button>
           </div>
 
           <div *ngIf="isIssuance && showPostBtn" class="btn-group" role="group">
@@ -1077,7 +1087,7 @@
               (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
               (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
               type="button" class="btn btn-primary"
-              (click)="postPolicy()">Post</button>
+              (click)="proceed(4)">Post</button>
           </div>
 
           <div *ngIf="isIssuance && showPrintBtn" class="text-right">
@@ -1098,3 +1108,41 @@
   <!-- .col-xl-12 -->
 </div>
 <!-- #quotationCar -->
+
+<ng-template #proceedModal let-data>
+  <div class="mat-dialog-header border-bottom">
+    <div class="header row">
+      <div class="col-md-12">
+        <h4>Are you sure?</h4>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content>
+    <br>
+    <h6>You have changes to this following field/s: </h6>
+    <ul>
+      <li *ngFor="let item of changedValues">
+        {{item}}
+      </li>
+    </ul>
+  </mat-dialog-content>
+  <div mat-dialog-actions align="end">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-primary" matDialogClose>
+        Cancel
+      </button>
+      <button *ngIf="data.generateBtn" type="button" class="btn btn-primary" (click)="issueQuote('S')">
+        Generate
+      </button>
+      <button *ngIf="data.issueQuoteBtn" type="button" class="btn btn-primary" matDialogClose (click)="issueQuote('N')">
+        Issue Quote
+      </button>
+      <button *ngIf="data.saveBtn" type="button" class="btn btn-primary" (click)="savePolicy()">
+        Save
+      </button>
+      <button *ngIf="data.postPolicyBtn" type="button" class="btn btn-primary" (click)="postPolicy()">
+        Post
+      </button>
+    </div>
+  </div>
+</ng-template>

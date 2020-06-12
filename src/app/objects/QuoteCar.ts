@@ -18,6 +18,7 @@ import {
 } from './CoverageVariableData';
 
 export class QuoteCar {
+  affecting: boolean;
   mcaTmpPptoMph: string;
   quotationNumber: string;
   policyNumber: string;

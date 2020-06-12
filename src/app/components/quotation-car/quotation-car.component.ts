@@ -3,7 +3,8 @@ import {
   OnInit,
   AfterViewChecked,
   ChangeDetectorRef,
-  ViewChild
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import {
   FormGroup,
@@ -54,7 +55,9 @@ import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
 import {
-  MatDialog
+  MatDialog,
+  MatDialogRef,
+  MatDialogConfig
 } from '@angular/material';
 import {
   PaymentBreakdownModalComponent
@@ -85,6 +88,7 @@ import {
 })
 export class QuotationCarComponent implements OnInit, AfterViewChecked {
   @ViewChild(CoveragesComponent) appCoverage: CoveragesComponent;
+  @ViewChild('proceedModal') proceedModal: TemplateRef<any>;
 
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
@@ -92,6 +96,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
 
   carDetails = new QuoteCar();
+  prevCarDetails = new QuoteCar();
+  changedValues: any[] =  [];
+
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   secondaryPolicyHolder = new PolicyHolder();
@@ -154,6 +161,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //modal reference
   modalRef: BsModalRef;
+  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   constructor(
     private fb: FormBuilder,
@@ -705,21 +713,51 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.scroll(id);
   }
 
-  test(group, policyHolder) {
-    // console.log(this.quoteForm);
-    // console.log(this.policyHolder);
-    console.log(Utility.findInvalidControls(this.quoteForm));
-    console.log(Utility.findInvalidControls(group.gpForm));
-    console.log(Utility.findInvalidControls(policyHolder.phForm));
+  test() {
+    this.openProceedModal(1);
+  }
 
-    // this.modalRef = Utility.showHTMLError(this.bms, items);
-    // this.hasIssuedQuote = true;
-    // this.openPaymentBreakdownModal([], []);
-    // this.dialog.open(CoverageVariableDataComponent, {
-    //   width: '1000px',
-    //   data: 'modalData'
-    // });
-    // console.log(this.carDetails);
+  proceed(type: number) {
+    //if user changes affecting values
+    this.carDetails.affecting = !Utility.isUndefined(this.carDetails.quotationNumber) && this.changedValues.length != 0;
+    if (this.carDetails.affecting) {
+      this.openProceedModal(type);
+    } else {
+      switch(type) { 
+        case 1: { 
+           this.issueQuote('S');
+           break; 
+        } 
+        case 2: { 
+          this.issueQuote('N');
+           break; 
+        }
+        case 3: {
+          this.savePolicy();
+          break;
+        }
+        default: { 
+           this.postPolicy();
+           break; 
+        } 
+     } 
+    }
+  }
+
+  openProceedModal(type: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '500px';
+    dialogConfig.data = {
+      generateBtn: type == 1,
+      issueQuoteBtn: type == 2,
+      saveBtn: type == 3,
+      postPolicyBtn: type == 4
+    };
+
+    this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
   }
 
   openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
@@ -781,6 +819,20 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       Globals.setPage(page.QUO.CAR);
       this.router.navigate(['/reload']);
     }, 500);
+  }
+
+  affecting(key: string, label: string) {
+    const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
+    const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+    if (prev != curr) {
+      if (!this.changedValues.includes(label)) {
+        //if changedValues length is greater than 0, request is affecting
+        this.changedValues.push(label);
+      }
+    } else {
+      //remove all occurence
+      this.changedValues = this.changedValues.filter(v => v !== label); 
+    }
   }
 
   printQuote() {
@@ -952,7 +1004,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     // to trigger changes when regenerating quotation
     this.showCoverage = this.isModifiedCoverage;
     this.showPaymentBreakdown = false;
-    const affecting: boolean = true; //TODO
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.savePolicy(this.carDetails).then(res1 => {
@@ -961,6 +1012,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];;
           if (status && coverageAmount.length) {
+            //duplicating car details for comparison
+            this.prevCarDetails = this.carDetails;
+
             const errorCode = res1.obj["errorCode"];
             const policyNumber = res1.obj["policyNumber"];
             this.carDetails.quotationNumber = policyNumber;
@@ -986,7 +1040,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
             if (errorCode == "S") {
               //if quotation has a warning
-              if (affecting) {
+              if (this.carDetails.affecting) {
                 items = ["Updated quotation number is: " + policyNumber].concat(items);
               }
               this.modalRef = Utility.showHTMLWarning(this.bms, items);

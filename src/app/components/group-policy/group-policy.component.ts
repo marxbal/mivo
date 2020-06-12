@@ -1,6 +1,8 @@
 import {
   Component,
-  Input
+  Input,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import {
   FormGroup,
@@ -38,6 +40,9 @@ export class GroupPolicyComponent {
   @Input() subline: String;
   @Input() groupPolicy: GroupPolicy;
   @Input() details: any;
+  @Input() prevDetails: any;
+  @Input() changedValues: any[] = [];
+  @Output() changedValuesChange = new EventEmitter < any[] > ();
   _details: any;
 
   gpForm: FormGroup;
@@ -111,5 +116,22 @@ export class GroupPolicyComponent {
     this.gpls.getSubContract(this._details.subline, this.groupPolicy).then(res => {
       _this.GPLOV.subContractLOV = res;
     });
+  }
+
+  affecting(key: string, label: string) {
+    if ('groupPolicy' in this.prevDetails) {
+      const prev = this.prevDetails.groupPolicy[key] == undefined ? "" : this.prevDetails.groupPolicy[key];
+      const curr = this.groupPolicy[key] == undefined ? "" : this.groupPolicy[key];
+      if (prev != curr) {
+        if (!this.changedValues.includes(label)) {
+          //if changedValues length is greater than 0, request is affecting
+          this.changedValues.push(label);
+        }
+      } else {
+        //remove all occurence
+        this.changedValues = this.changedValues.filter(v => v !== label); 
+      }
+      this.changedValuesChange.emit(this.changedValues);
+    }
   }
 }
