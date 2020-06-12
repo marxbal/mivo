@@ -37,13 +37,13 @@ import {
 
 export class GroupPolicyComponent {
   user = this.auths.currentUserValue;
-  @Input() subline: String;
+  @Input() subline: number;
   @Input() groupPolicy: GroupPolicy;
-  @Input() details: any;
+  // @Input() subline: number;
   @Input() prevDetails: any;
   @Input() changedValues: any[] = [];
   @Output() changedValuesChange = new EventEmitter < any[] > ();
-  _details: any;
+  _subline: number;
 
   gpForm: FormGroup;
   GPLOV = new GroupPolicyListObject();
@@ -79,9 +79,9 @@ export class GroupPolicyComponent {
   }
 
   ngOnChanges() {
-    this._details = this.details;
+    this._subline = this.subline;
     const _this = this;
-    this.gpls.getGroupPolicy(this._details.subline).then(res => {
+    this.gpls.getGroupPolicy(this._subline).then(res => {
       _this.GPLOV.groupPolicyLOV = res;
     });
   }
@@ -105,7 +105,7 @@ export class GroupPolicyComponent {
   groupPolicyOnChange() {
     const _this = this;
     _this.GPLOV.contractLOV = []
-    this.gpls.getContract(this._details.subline, this.groupPolicy).then(res => {
+    this.gpls.getContract(this._subline, this.groupPolicy).then(res => {
       _this.GPLOV.contractLOV = res;
     });
   }
@@ -113,7 +113,7 @@ export class GroupPolicyComponent {
   contractOnChange() {
     const _this = this;
     _this.GPLOV.subContractLOV = []
-    this.gpls.getSubContract(this._details.subline, this.groupPolicy).then(res => {
+    this.gpls.getSubContract(this._subline, this.groupPolicy).then(res => {
       _this.GPLOV.subContractLOV = res;
     });
   }

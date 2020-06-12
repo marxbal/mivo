@@ -822,16 +822,19 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   affecting(key: string, label: string) {
-    const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
-    const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
-    if (prev != curr) {
-      if (!this.changedValues.includes(label)) {
-        //if changedValues length is greater than 0, request is affecting
-        this.changedValues.push(label);
+    debugger
+    if (Utility.isUndefined(this.carDetails.quotationNumber)) {
+      const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
+      const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+      if (prev != curr) {
+        if (!this.changedValues.includes(label)) {
+          //if changedValues length is greater than 0, request is affecting
+          this.changedValues.push(label);
+        }
+      } else {
+        //remove all occurence
+        this.changedValues = this.changedValues.filter(v => v !== label);
       }
-    } else {
-      //remove all occurence
-      this.changedValues = this.changedValues.filter(v => v !== label); 
     }
   }
 
@@ -1010,7 +1013,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         if (res1.status) {
           var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
-          const coverageAmount = res1.obj["coverageAmount"];;
+          const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
             //duplicating car details for comparison
             this.prevCarDetails = this.carDetails;
