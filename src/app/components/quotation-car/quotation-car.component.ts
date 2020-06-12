@@ -822,10 +822,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   affecting(key: string, label: string) {
-    debugger
+    console.log("quotationNubmer: " + this.carDetails.quotationNumber);
     if (!Utility.isUndefined(this.carDetails.quotationNumber)) {
+      console.log("key: " + key);
+      console.log("prevCarDetails: " + this.prevCarDetails);
       const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
       const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+      console.log("prev: " + prev);
+      console.log("curr: " + curr);
       if (prev != curr) {
         if (!this.changedValues.includes(label)) {
           //if changedValues length is greater than 0, request is affecting
