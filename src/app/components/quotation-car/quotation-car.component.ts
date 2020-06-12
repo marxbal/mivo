@@ -823,7 +823,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   affecting(key: string, label: string) {
     debugger
-    if (Utility.isUndefined(this.carDetails.quotationNumber)) {
+    if (!Utility.isUndefined(this.carDetails.quotationNumber)) {
       const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
       const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
       if (prev != curr) {
