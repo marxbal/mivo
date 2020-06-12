@@ -1020,7 +1020,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
             //duplicating car details for comparison
-            this.prevCarDetails = this.carDetails;
+            const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+            this.prevCarDetails = deepClone;
 
             const errorCode = res1.obj["errorCode"];
             const policyNumber = res1.obj["policyNumber"];
