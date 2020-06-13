@@ -719,8 +719,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   proceed(type: number) {
     //if user changes affecting values
-    this.carDetails.affecting = !Utility.isUndefined(this.carDetails.quotationNumber) && this.changedValues.length != 0;
-    if (this.carDetails.affecting) {
+    const hasChanges = this.changedValues.length != 0;
+    this.carDetails.affecting = 
+      Utility.isUndefined(this.carDetails.quotationNumber) ||
+      (!Utility.isUndefined(this.carDetails.quotationNumber) && hasChanges);
+    if (hasChanges) {
       this.openProceedModal(type);
     } else {
       switch(type) { 
