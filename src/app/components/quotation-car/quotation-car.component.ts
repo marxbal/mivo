@@ -882,6 +882,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
         if (res1.status) {
+          //clear affecting fields
+          this.changedValues = [];
+
           const items = this.getErrorItems(res1, mcaTmpPptoMph, false);
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];;
@@ -1013,6 +1016,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.savePolicy(this.carDetails).then(res1 => {
         if (res1.status) {
+          //clear affecting fields
+          this.changedValues = [];
+
           var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];
@@ -1076,6 +1082,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     this.cqs.postPolicy(this.carDetails).then(res1 => {
       if (res1.status) {
+        //clear affecting fields
+        this.changedValues = [];
+
         var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
         const status = res1.obj["status"];
         const policyNumber = res1.obj["policyNumber"];
