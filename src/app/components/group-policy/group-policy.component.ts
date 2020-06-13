@@ -108,6 +108,11 @@ export class GroupPolicyComponent {
     this.gpls.getContract(this._subline, this.groupPolicy).then(res => {
       _this.GPLOV.contractLOV = res;
     });
+    if (this.groupPolicy.groupPolicy == undefined || this.groupPolicy.groupPolicy == 0) {
+      this.changedValues = this.changedValues.filter(v => v !== 'Contract');
+      this.changedValues = this.changedValues.filter(v => v !== 'Sub Contract');
+      this.changedValuesChange.emit(this.changedValues);
+    }
   }
 
   contractOnChange() {
