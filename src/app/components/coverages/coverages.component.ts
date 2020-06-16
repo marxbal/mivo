@@ -124,20 +124,6 @@ export class CoveragesComponent implements OnInit {
     d.forEach((coverage) => {
       control.push(this.setCoverageFormArray(coverage));
     });
-
-    // this.cForm.get('coverages').valueChanges.subscribe(coverages => {
-    //   console.log(coverages);
-    //   this.dataSource = coverages;
-    // });
-
-    // this.coverages.controls.forEach(control => {
-    //   console.log(control);
-    //   control.valueChanges.subscribe(coverage => {
-    //     console.log(coverage);
-    //     this.updateRow(coverage);
-    //     // this.dataSource = coverage;
-    //   });
-    // });
   }
 
   updateRow(row: TablesDTO) {

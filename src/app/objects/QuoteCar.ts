@@ -19,6 +19,7 @@ import {
 
 export class QuoteCar {
   affecting: boolean;
+  isModifiedCoverage: boolean;
   mcaTmpPptoMph: string;
   quotationNumber: string;
   policyNumber: string;

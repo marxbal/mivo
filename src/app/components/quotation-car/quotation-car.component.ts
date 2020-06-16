@@ -722,30 +722,30 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   proceed(type: number) {
     //if user changes affecting values
     const hasChanges = this.changedValues.length != 0;
-    this.carDetails.affecting = 
+    this.carDetails.affecting =
       Utility.isUndefined(this.carDetails.quotationNumber) ||
       (!Utility.isUndefined(this.carDetails.quotationNumber) && hasChanges);
     if (hasChanges) {
       this.openProceedModal(type);
     } else {
-      switch(type) { 
-        case 1: { 
-           this.issueQuote('S');
-           break; 
-        } 
-        case 2: { 
+      switch (type) {
+        case 1: {
+          this.issueQuote('S');
+          break;
+        }
+        case 2: {
           this.issueQuote('N');
-           break; 
+          break;
         }
         case 3: {
           this.savePolicy();
           break;
         }
-        default: { 
-           this.postPolicy();
-           break; 
-        } 
-     } 
+        default: {
+          this.postPolicy();
+          break;
+        }
+      }
     }
   }
 
@@ -825,14 +825,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   affecting(key: string, label: string) {
-    console.log("quotationNubmer: " + this.carDetails.quotationNumber);
     if (!Utility.isUndefined(this.carDetails.quotationNumber)) {
-      console.log("key: " + key);
-      console.log("prevCarDetails: " + this.prevCarDetails);
       const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
       const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
-      console.log("prev: " + prev);
-      console.log("curr: " + curr);
       if (prev != curr) {
         if (!this.changedValues.includes(label)) {
           //if changedValues length is greater than 0, request is affecting
@@ -883,6 +878,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // S for generation and N for issue quotation
     this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
