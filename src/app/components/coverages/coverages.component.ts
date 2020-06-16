@@ -59,6 +59,7 @@ export class CoveragesComponent implements OnInit {
   @Input() coverageVariableData: CoverageVariableData;
   @Input() isModifiedCoverage: boolean;
   @Input() isIssuance: boolean;
+  @Input() hasRoadAssist: boolean;
 
   @Input() quoteForm: FormGroup;
   @Input() showCTPL: boolean;
@@ -236,13 +237,7 @@ export class CoveragesComponent implements OnInit {
       });
 
       if (code == "1040") {
-        included = true; //TODO
-        // var isRa1040Checked = $("#chk1040").is(':checked');
-        // var isRa1029Checked = $("#chk1029").is(':checked');
-        // var isRa1027Checked = $("#chk1027").is(':checked');
-        // if (checkRa() == "S" && (!isRa1029Checked && !isRa1027Checked)) {
-        //   chked = 'checked=checked';
-        // }
+        included = this.hasRoadAssist;
       } else if (code == "1001" && included && this.isIssuance) {
         this.showCTPL = included;
         this.showCTPLChange.emit(this.showCTPL);
@@ -349,8 +344,6 @@ export class CoveragesComponent implements OnInit {
 }
 
 // function generateCoverageAmountByProduct(obj, quoteDetail, isLoadQuotation) {
-
-
 const coverageList: any[] = [{
   "MCA_TIP_CAPITAL": "4",
   "MCA_OBLIGATORIO": "N",

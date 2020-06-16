@@ -49,8 +49,8 @@ export class CarQuoteServices {
     private router: Router
   ) {}
 
-  async checkRoadAssist(carDetails: QuoteCar): Promise < ReturnDTO > {
-    return this.app.post(carDetails, '/quote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async checkRoadAssist(subline: number, vehicelType: number, modelYear: string, productList: number, coverageCode: number): Promise < ReturnDTO > {
+    return this.app.post({subline, vehicelType, modelYear, productList, coverageCode}, '/quote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async getCoverageByProduct(carDetails: QuoteCar): Promise < ReturnDTO > {

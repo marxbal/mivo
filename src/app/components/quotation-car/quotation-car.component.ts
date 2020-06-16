@@ -99,6 +99,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   prevCarDetails = new QuoteCar();
   changedValues: any[] =  [];
 
+  hasRoadAssist = false;
+
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   secondaryPolicyHolder = new PolicyHolder();
@@ -892,6 +894,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];;
           if (status && coverageAmount.length) {
+            this.hasRoadAssist = res1.obj["hasRoadAssist"];
             const errorCode = res1.obj["errorCode"];
             if (errorCode == "S") {
               //if quotation has a warning
@@ -1029,6 +1032,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             //duplicating car details for comparison
             const deepClone = JSON.parse(JSON.stringify(this.carDetails));
             this.prevCarDetails = deepClone;
+            
+            this.hasRoadAssist = res1.obj["hasRoadAssist"];
 
             const errorCode = res1.obj["errorCode"];
             const policyNumber = res1.obj["policyNumber"];
