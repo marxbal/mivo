@@ -151,8 +151,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   //flag to show print quote/proceed to issuance
   showProceedToIssuanceBtnGrp: boolean = false;
 
+  //flat to show issuance generate btn
+  showIssuanceGenerateBtn = true;
   //flag to show save btn
-  showSaveBtn: boolean = true;
+  showSaveBtn: boolean = false;
   //flag to show post btn
   showPostBtn: boolean = false;
   //flag to show print btn
@@ -717,6 +719,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   test() {
     this.openProceedModal(1);
+    this.manageBtn(1);
   }
 
   proceed(type: number) {
@@ -794,23 +797,25 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  manageBtn(opt: number, isIssuance: boolean) {
-    if (isIssuance) {
-      this.showSaveBtn = (opt == 1);
-      this.showPostBtn = (opt == 2);
-      this.showPrintBtn = (opt == 3);
-    } else {
-      this.showGenerateBtnGrp = (opt == 1 || opt == 4);
-      if (opt == 1 || opt == 4) {
-        const isModified = (opt == 4);
-        this.isModifiedCoverage = isModified;
-        this.showCoverage = isModified;
-        this.showPaymentBreakdown = false;
-        if (isModified) {
-          Utility.scroll('coverages');
-        }
-      }
+  manageBtn(opt: number, isModified?: boolean) {
+    if (opt == 1) {
+      this.showPaymentBreakdown = false;
 
+      const modified = !Utility.isUndefined(isModified);
+      this.showCoverage = modified;
+      this.isModifiedCoverage = modified;
+      if (modified) {
+        Utility.scroll('coverages');
+      }
+    }
+
+    if (this.isIssuance) {
+      this.showIssuanceGenerateBtn = (opt == 1);
+      this.showSaveBtn = (opt == 2);
+      this.showPostBtn = (opt == 3);
+      this.showPrintBtn = (opt == 4);
+    } else {
+      this.showGenerateBtnGrp = (opt == 1);
       this.showIssueQuoteBtnGrp = (opt == 2);
       this.showProceedToIssuanceBtnGrp = (opt == 3);
     }
@@ -820,6 +825,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.scroll('topDiv');
     setTimeout(() => {
       Globals.setPage(page.QUO.CAR);
+      this.router.navigate(['/reload']);
+    }, 500);
+  }
+
+  newPolicy() {
+    Utility.scroll('topDiv');
+    setTimeout(() => {
+      Globals.setPage(page.ISS.CAR);
       this.router.navigate(['/reload']);
     }, 500);
   }
@@ -921,11 +934,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
-              this.manageBtn(2, false);
+              this.manageBtn(2);
             } else {
               // for issuing the quote
               this.openPaymentBreakdownModal(receipt, breakdown, false);
-              this.manageBtn(3, false);
+              this.manageBtn(3);
             }
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
@@ -1065,7 +1078,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             } else {
               const message = "Policy saved successfully.";
               this.modalRef = Utility.showInfo(this.bms, message);
-              this.manageBtn(2, true);
+              this.manageBtn(3);
             }
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
@@ -1086,7 +1099,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.showPaymentBreakdown = false;
 
     if (this.withTechControl) {
-      this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+      this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     } else {
       this.cqs.postPolicy(this.carDetails).then(res1 => {
         if (res1.status) {
@@ -1104,7 +1117,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const receipt = res1.obj["receipt"];
             this.populatePaymentBreakdown(breakdown, receipt);
             this.openPaymentBreakdownModal(receipt, breakdown, true);
-            this.manageBtn(3, true);
+            this.manageBtn(4);
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }

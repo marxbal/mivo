@@ -1013,7 +1013,7 @@
 
           <div class="alert alert-info note">
             <p>
-              <strong>Important Reminder:</strong> Please make sure to fill out all required fields to enable the {{isIssuance ? 'save' : 'generate'}} button.
+              <strong>Important Reminder:</strong> Please make sure to fill out all required fields to enable the button bellow.
             </p>
           </div>
           <!-- .note -->
@@ -1044,6 +1044,8 @@
 
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance && showGenerateBtnGrp" class="btn-group" role="group">
+            <!-- <button type="button" class="btn btn-primary"
+              (click)="test()">test</button> -->
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1054,9 +1056,9 @@
 
           <div *ngIf="!isIssuance && showIssueQuoteBtnGrp" class="btn-group" role="group">
             <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1, false)">Change Product</button>
+              (click)="manageBtn(1)">Change Product</button>
             <button type="button" class="btn btn-primary"
-              (click)="manageBtn(4, false)">Edit Coverage</button>
+              (click)="manageBtn(1, true)">Edit Coverage</button>
             <button
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1075,9 +1077,23 @@
           </div>
 
           <!-- button controls for issuance -->
+          <div *ngIf="isIssuance && showIssuanceGenerateBtn" class="btn-group" role="group">
+            <button 
+              [disabled]="quoteForm.pristine || quoteForm.invalid ||
+              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+              (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+              (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
+              (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+              type="button" class="btn btn-primary"
+              (click)="proceed(1)">Generate</button>
+          </div>
+
           <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
             <button type="button" class="btn btn-primary"
-            (click)="proceed(2)">test</button>
+              (click)="manageBtn(1)">Change Product</button>
+            <button type="button" class="btn btn-primary"
+              (click)="manageBtn(1, true)">Edit Coverage</button>
             <button 
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1105,6 +1121,8 @@
             <h5><small>Your policy number:</small> {{carDetails.policyNumber}}</h5>
           </div>
           <div *ngIf="isIssuance && showPrintBtn" class="btn-group" role="group">
+            <button type="button" class="btn btn-primary"
+              (click)="newPolicy()">New Policy</button>
             <button type="button" class="btn btn-primary"
               (click)="printPolicy()">Print</button>
           </div>
