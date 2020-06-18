@@ -87,7 +87,7 @@ export class CoveragesComponent implements OnInit {
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
     this.cvddv = cvd.getDefaultValues(this.coverageVariable, this.coverageVariableData);
-    this.source = this.getData();
+    this.source = this.getCoverageData();
     if (this.source.length) {
       this.dataSource = new MatTableDataSource < TablesDTO > (this.source);
       this.setForm(this.dataSource.filteredData);
@@ -130,6 +130,11 @@ export class CoveragesComponent implements OnInit {
     row.included = !row.included;
     let updateItem = this.source.find(this.findIndexToUpdate, row.coverage);
     let index = this.source.indexOf(updateItem);
+
+    if (row.code == 1020 || row.code == 1008) {
+      //if acts of nature or strike and riots is selected
+      row.sumInsured = row.included ? this.carDetails.vehicleValue : 0;
+    }
 
     if (row.isRoadAssist) {
       //unselect Road Assits options
@@ -181,7 +186,151 @@ export class CoveragesComponent implements OnInit {
     });
   }
 
-  private getData() {
+  // private getData() {
+  //   var returnData: any[] = [];
+
+  //   this.coverageList.forEach((cov) => {
+  //     var code = parseInt(cov.COD_COB);
+  //     var vehicleValue = this.carDetails.vehicleValue;
+  //     var product = this.carDetails.productList;
+  //     // for testing
+  //     // vehicleValue = 775000;
+  //     // product = 10001;
+  //     var name = cov.NOM_COB;
+  //     var type = cov.MCA_TIP_CAPITAL;
+  //     var isMandatory = cov.MCA_OBLIGATORIO == "S";
+  //     var included = isMandatory;
+
+  //     var options = [];
+  //     var isSelect = false;
+  //     var sumaAsegA = 0;
+  //     var netPremium = 0;
+
+  //     this.premiumAmount.forEach((prem) => {
+  //       if (code == prem.codCob) {
+  //         netPremium = prem.impSpto;
+  //       }
+  //     });
+
+  //     var hasRAIncluded = false;
+  //     this.coverageAmount.forEach((covAmount) => {
+  //       if (covAmount.codCob == 1040 || covAmount.codCob == 1029 || covAmount.codCob == 1027) {
+  //         hasRAIncluded = true;
+  //       }
+
+  //       if (code == covAmount.codCob) {
+  //         sumaAsegA = covAmount.sumaAseg;
+  //         included = true;
+  //       }
+  //     });
+
+  //     if (code == 1040 && !hasRAIncluded) {
+  //       included = this.hasRoadAssist;
+  //     } else if (code == 1001 && included && this.isIssuance) {
+  //       this.showCTPL = included;
+  //       this.showCTPLChange.emit(this.showCTPL);
+  //       this.cqs.activateCTPL(this.quoteForm, this.carDetails, this.showCTPL);
+  //     }
+
+  //     var k = 0;
+  //     var selectedOpt = "";
+  //     if (type == 4) {
+  //       isSelect = true;
+  //       // if (code == 1036 || code == 1001) {
+  //       //   // isSelect = true;
+  //       //   // create += '<td class="col-md-3">' +
+  //       //   //   '<select disabled="disabled" style="width:100%" onChange="updateSumaAseg(' +
+  //       //   //   cod_cob + ')" id="' + cod_cob + '">' +
+  //       //   //   suma_asegDD + '</select>' + '</td>';
+  //       // } else {
+  //       //   // selectMandatoryCov
+  //       // }
+
+  //       this.amountList.forEach((amount) => {
+  //         if (code == amount.codCob) {
+  //           k = +k + +1;
+  //           if (k == 1) {
+  //             if (sumaAsegA == 0) {
+  //               sumaAsegA = amount.impLimite;
+  //             }
+  //           }
+
+  //           if (sumaAsegA == amount.impLimite) {
+  //             selectedOpt = amount.impLimite;
+  //           }
+
+  //           options.push({
+  //             value: amount.impLimite
+  //           });
+  //         }
+  //       });
+  //     } else if (type == 5) {
+  //       //do nothing
+  //     } else if (type == 3) {
+  //       this.amountList.forEach((amount) => {
+  //         if (code == amount.codCob) {
+  //           k = +k + +1;
+  //           if (k == 1) {
+  //             vehicleValue = sumaAsegA;
+  //           }
+  //         }
+  //       });
+  //       vehicleValue = sumaAsegA;
+  //     } else {
+  //       vehicleValue = sumaAsegA;
+  //     }
+
+  //     let sumInsured = isMandatory ? vehicleValue : isSelect ? selectedOpt : 0;
+  //     if (isSelect) {
+  //       var hasCounterpart = false;
+  //       options.forEach((o) => {
+  //         if (o.value == sumInsured) {
+  //           hasCounterpart = true;
+  //         }
+  //       });
+  //       //if has no counterpart to sum insured select options, gets the first option value
+  //       if (!hasCounterpart) {
+  //         sumInsured = options[0].value;
+  //       }
+  //     }
+
+  //     var returnObj = {
+  //       isMandatory: isMandatory,
+  //       included: included,
+  //       code: code,
+  //       coverage: name,
+  //       options: options,
+  //       sumInsured: sumInsured,
+  //       netPremium: netPremium,
+  //       isRoadAssist: (
+  //         code == 1027 ||
+  //         code == 1029 ||
+  //         code == 1040),
+  //       hasVariableData: (
+  //         code == 1100 ||
+  //         code == 1002 ||
+  //         code == 1003 ||
+  //         code == 1007 ||
+  //         code == 1008 ||
+  //         code == 1020 ||
+  //         code == 1029 ||
+  //         code == 1040),
+  //       isSelect: isSelect
+  //     }
+
+  //     //exclude to coverages list
+  //     if (code != 1018 &&
+  //       code != 1037 &&
+  //       code != 1026 &&
+  //       !(code == 1036 && product == 10001)) {
+  //       returnData.push(returnObj);
+  //     }
+  //   });
+
+  //   return returnData;
+  // };
+
+  private getCoverageData() {
     var returnData: any[] = [];
 
     this.coverageList.forEach((cov) => {
@@ -207,19 +356,14 @@ export class CoveragesComponent implements OnInit {
         }
       });
 
-      var hasRAIncluded = false;
       this.coverageAmount.forEach((covAmount) => {
-        if (covAmount.codCob == 1040 || covAmount.codCob == 1029 || covAmount.codCob == 1027) {
-          hasRAIncluded = true;
-        }
-
         if (code == covAmount.codCob) {
           sumaAsegA = covAmount.sumaAseg;
           included = true;
         }
       });
 
-      if (code == 1040 && !hasRAIncluded) {
+      if (code == 1040) {
         included = this.hasRoadAssist;
       } else if (code == 1001 && included && this.isIssuance) {
         this.showCTPL = included;
@@ -231,16 +375,6 @@ export class CoveragesComponent implements OnInit {
       var selectedOpt = "";
       if (type == 4) {
         isSelect = true;
-        // if (code == 1036 || code == 1001) {
-        //   // isSelect = true;
-        //   // create += '<td class="col-md-3">' +
-        //   //   '<select disabled="disabled" style="width:100%" onChange="updateSumaAseg(' +
-        //   //   cod_cob + ')" id="' + cod_cob + '">' +
-        //   //   suma_asegDD + '</select>' + '</td>';
-        // } else {
-        //   // selectMandatoryCov
-        // }
-
         this.amountList.forEach((amount) => {
           if (code == amount.codCob) {
             k = +k + +1;
@@ -289,6 +423,10 @@ export class CoveragesComponent implements OnInit {
         }
       }
 
+      if ((code == 1020 || code == 1008) && included ) {
+        sumInsured = vehicleValue;
+      }
+
       var returnObj = {
         isMandatory: isMandatory,
         included: included,
@@ -297,10 +435,7 @@ export class CoveragesComponent implements OnInit {
         options: options,
         sumInsured: sumInsured,
         netPremium: netPremium,
-        isRoadAssist: (
-          code == 1027 ||
-          code == 1029 ||
-          code == 1040),
+        isRoadAssist: (code == 1040),
         hasVariableData: (
           code == 1100 ||
           code == 1002 ||
@@ -308,13 +443,16 @@ export class CoveragesComponent implements OnInit {
           code == 1007 ||
           code == 1008 ||
           code == 1020 ||
-          code == 1029 ||
           code == 1040),
         isSelect: isSelect
       }
 
       //exclude to coverages list
-      if (code != 1018 &&
+      if (
+        code != 1006 &&
+        code != 1027 &&
+        code != 1029 &&
+        code != 1018 &&
         code != 1037 &&
         code != 1026 &&
         !(code == 1036 && product == 10001)) {
