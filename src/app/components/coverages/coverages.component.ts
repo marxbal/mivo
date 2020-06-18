@@ -82,7 +82,7 @@ export class CoveragesComponent implements OnInit {
     // this.amountList = amountList;
     // this.coverageVariable = coverageVariable;
     // this.premiumAmount = premiumAmount;
-    // this.coverageAmount = coverageAmount;
+    // this.coverageAmount = coverageAmount2;
 
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
@@ -185,7 +185,7 @@ export class CoveragesComponent implements OnInit {
     var returnData: any[] = [];
 
     this.coverageList.forEach((cov) => {
-      var code = cov.COD_COB;
+      var code = parseInt(cov.COD_COB);
       var vehicleValue = this.carDetails.vehicleValue;
       var product = this.carDetails.productList;
       // for testing
@@ -207,25 +207,21 @@ export class CoveragesComponent implements OnInit {
         }
       });
 
+      var hasRAIncluded = false;
       this.coverageAmount.forEach((covAmount) => {
+        if (covAmount.codCob == 1040 || covAmount.codCob == 1029 || covAmount.codCob == 1027) {
+          hasRAIncluded = true;
+        }
+
         if (code == covAmount.codCob) {
           sumaAsegA = covAmount.sumaAseg;
           included = true;
-          //TODO
-          // if (isLoadQuotation) {
-          //   chked = 'checked=checked';
-          //   optPremium = premium;
-          //   optSumaAseg = covAmount[y].sumaAseg;
-          //   if (cod_cob === '1001') {
-          //     addCtplNeededManipulation();
-          //   }
-          // }
         }
       });
 
-      if (code == "1040") {
+      if (code == 1040 && !hasRAIncluded) {
         included = this.hasRoadAssist;
-      } else if (code == "1001" && included && this.isIssuance) {
+      } else if (code == 1001 && included && this.isIssuance) {
         this.showCTPL = included;
         this.showCTPLChange.emit(this.showCTPL);
         this.cqs.activateCTPL(this.quoteForm, this.carDetails, this.showCTPL);
@@ -235,15 +231,15 @@ export class CoveragesComponent implements OnInit {
       var selectedOpt = "";
       if (type == 4) {
         isSelect = true;
-        if (code == "1036" || code == "1001") {
-          // isSelect = true;
-          // create += '<td class="col-md-3">' +
-          //   '<select disabled="disabled" style="width:100%" onChange="updateSumaAseg(' +
-          //   cod_cob + ')" id="' + cod_cob + '">' +
-          //   suma_asegDD + '</select>' + '</td>';
-        } else {
-          // selectMandatoryCov
-        }
+        // if (code == 1036 || code == 1001) {
+        //   // isSelect = true;
+        //   // create += '<td class="col-md-3">' +
+        //   //   '<select disabled="disabled" style="width:100%" onChange="updateSumaAseg(' +
+        //   //   cod_cob + ')" id="' + cod_cob + '">' +
+        //   //   suma_asegDD + '</select>' + '</td>';
+        // } else {
+        //   // selectMandatoryCov
+        // }
 
         this.amountList.forEach((amount) => {
           if (code == amount.codCob) {
@@ -283,7 +279,7 @@ export class CoveragesComponent implements OnInit {
       if (isSelect) {
         var hasCounterpart = false;
         options.forEach((o) => {
-          if (o == sumInsured) {
+          if (o.value == sumInsured) {
             hasCounterpart = true;
           }
         });
@@ -302,26 +298,26 @@ export class CoveragesComponent implements OnInit {
         sumInsured: sumInsured,
         netPremium: netPremium,
         isRoadAssist: (
-          code == '1027' ||
-          code == '1029' ||
-          code == '1040'),
+          code == 1027 ||
+          code == 1029 ||
+          code == 1040),
         hasVariableData: (
-          code == '1100' ||
-          code == '1002' ||
-          code == '1003' ||
-          code == '1007' ||
-          code == '1008' ||
-          code == '1020' ||
-          code == '1029' ||
-          code == '1040'),
+          code == 1100 ||
+          code == 1002 ||
+          code == 1003 ||
+          code == 1007 ||
+          code == 1008 ||
+          code == 1020 ||
+          code == 1029 ||
+          code == 1040),
         isSelect: isSelect
       }
 
       //exclude to coverages list
-      if (code != '1018' &&
-        code != '1037' &&
-        code != '1026' &&
-        !(code == '1036' && product == 10001)) {
+      if (code != 1018 &&
+        code != 1037 &&
+        code != 1026 &&
+        !(code == 1036 && product == 10001)) {
         returnData.push(returnObj);
       }
     });
@@ -357,25 +353,31 @@ const coverageList: any[] = [{
   "NOM_COB": "THEFT"
 }, {
   "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "S",
+  "MCA_OBLIGATORIO": "N",
   "COD_COB": "1004",
   "IMP_CALCULO": "0",
   "NOM_COB": "VTPL-BODILY INJURY"
 }, {
   "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "S",
+  "MCA_OBLIGATORIO": "N",
   "COD_COB": "1005",
   "IMP_CALCULO": "0",
   "NOM_COB": "VTPL-PROPERTY DAMAGE"
 }, {
   "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
+  "MCA_OBLIGATORIO": "N",
   "COD_COB": "1007",
   "IMP_CALCULO": "0",
   "NOM_COB": "UNNAMED PASS. P.A."
 }, {
   "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
+  "MCA_OBLIGATORIO": "N",
+  "COD_COB": "1018",
+  "IMP_CALCULO": "0",
+  "NOM_COB": "UPPA - MR"
+}, {
+  "MCA_TIP_CAPITAL": "5",
+  "MCA_OBLIGATORIO": "N",
   "COD_COB": "1008",
   "IMP_CALCULO": "0",
   "NOM_COB": "ACTS OF NATURE"
@@ -391,6 +393,12 @@ const coverageList: any[] = [{
   "COD_COB": "1026",
   "IMP_CALCULO": "0",
   "NOM_COB": "ACCD'L DEATH/DISABL."
+}, {
+  "MCA_TIP_CAPITAL": "4",
+  "MCA_OBLIGATORIO": "N",
+  "COD_COB": "1006",
+  "IMP_CALCULO": "0",
+  "NOM_COB": "CSL-BI/PD"
 }, {
   "MCA_TIP_CAPITAL": "",
   "MCA_OBLIGATORIO": "N",
@@ -411,10 +419,16 @@ const coverageList: any[] = [{
   "NOM_COB": "MAPFRE ROAD ASSIST"
 }, {
   "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "S",
+  "MCA_OBLIGATORIO": "N",
   "COD_COB": "1036",
   "IMP_CALCULO": "1",
   "NOM_COB": "PERSONAL PROPERTY COVER"
+}, {
+  "MCA_TIP_CAPITAL": "",
+  "MCA_OBLIGATORIO": "N",
+  "COD_COB": "1037",
+  "IMP_CALCULO": "150",
+  "NOM_COB": "ALTERNATIVE TRANSPORT BENEFIT"
 }];
 
 const amountList: any[] = [{
@@ -1197,6 +1211,242 @@ const premiumAmount: any[] = [{
   "codCob": 1040,
   "numRiesgo": 1,
   "impSpto": 0
+}];
+
+const coverageAmount2: any[] = [{
+  "codCia": 1,
+  "numPoliza": "1002002006184",
+  "numSpto": 0,
+  "numApli": 0,
+  "numSptoApli": 0,
+  "numRiesgo": 1,
+  "numPeriodo": 1,
+  "codCob": 1002,
+  "codRamo": 100,
+  "numSecu": 3,
+  "sumaAseg": 1035000,
+  "impUnidad": null,
+  "pctParticipacion": null,
+  "codMonCapital": 1,
+  "sumaAsegBajaStro": null,
+  "sumaAsegSpto": 1035000,
+  "tasaCob": 13,
+  "codFranquicia": 2,
+  "codLimite": null,
+  "sumaAsegSup": null,
+  "mcaBajaRiesgo": "N",
+  "mcaVigente": "S",
+  "mcaVigenteApli": "S",
+  "mcaBajaCob": "N",
+  "codSeccReas": 101,
+  "impAgr": 0,
+  "impAgrRel": null,
+  "impAgrSpto": 0,
+  "impAgrRelSpto": 0,
+  "mesBaseRegulariza": null,
+  "anioBaseRegulariza": null,
+  "pctEnfermedad": null,
+  "duracionProfesion": null,
+  "pctProfesion": null,
+  "duracionEnfermedad": null,
+  "valFranquiciaMin": 2000,
+  "valFranquiciaMax": null,
+  "sumaAsegBajaStroAcc": null
+}, {
+  "codCia": 1,
+  "numPoliza": "1002002006184",
+  "numSpto": 0,
+  "numApli": 0,
+  "numSptoApli": 0,
+  "numRiesgo": 1,
+  "numPeriodo": 1,
+  "codCob": 1003,
+  "codRamo": 100,
+  "numSecu": 4,
+  "sumaAseg": 1035000,
+  "impUnidad": null,
+  "pctParticipacion": null,
+  "codMonCapital": 1,
+  "sumaAsegBajaStro": null,
+  "sumaAsegSpto": 1035000,
+  "tasaCob": 9,
+  "codFranquicia": 2,
+  "codLimite": null,
+  "sumaAsegSup": null,
+  "mcaBajaRiesgo": "N",
+  "mcaVigente": "S",
+  "mcaVigenteApli": "S",
+  "mcaBajaCob": "N",
+  "codSeccReas": 101,
+  "impAgr": 0,
+  "impAgrRel": null,
+  "impAgrSpto": 0,
+  "impAgrRelSpto": 0,
+  "mesBaseRegulariza": null,
+  "anioBaseRegulariza": null,
+  "pctEnfermedad": null,
+  "duracionProfesion": null,
+  "pctProfesion": null,
+  "duracionEnfermedad": null,
+  "valFranquiciaMin": 2000,
+  "valFranquiciaMax": null,
+  "sumaAsegBajaStroAcc": null
+}, {
+  "codCia": 1,
+  "numPoliza": "1002002006184",
+  "numSpto": 0,
+  "numApli": 0,
+  "numSptoApli": 0,
+  "numRiesgo": 1,
+  "numPeriodo": 1,
+  "codCob": 1004,
+  "codRamo": 100,
+  "numSecu": 5,
+  "sumaAseg": 500000,
+  "impUnidad": null,
+  "pctParticipacion": null,
+  "codMonCapital": 1,
+  "sumaAsegBajaStro": null,
+  "sumaAsegSpto": 500000,
+  "tasaCob": 1,
+  "codFranquicia": null,
+  "codLimite": 9,
+  "sumaAsegSup": null,
+  "mcaBajaRiesgo": "N",
+  "mcaVigente": "S",
+  "mcaVigenteApli": "S",
+  "mcaBajaCob": "N",
+  "codSeccReas": 101,
+  "impAgr": 0,
+  "impAgrRel": null,
+  "impAgrSpto": 0,
+  "impAgrRelSpto": 0,
+  "mesBaseRegulariza": null,
+  "anioBaseRegulariza": null,
+  "pctEnfermedad": null,
+  "duracionProfesion": null,
+  "pctProfesion": null,
+  "duracionEnfermedad": null,
+  "valFranquiciaMin": null,
+  "valFranquiciaMax": null,
+  "sumaAsegBajaStroAcc": null
+}, {
+  "codCia": 1,
+  "numPoliza": "1002002006184",
+  "numSpto": 0,
+  "numApli": 0,
+  "numSptoApli": 0,
+  "numRiesgo": 1,
+  "numPeriodo": 1,
+  "codCob": 1005,
+  "codRamo": 100,
+  "numSecu": 6,
+  "sumaAseg": 500000,
+  "impUnidad": null,
+  "pctParticipacion": null,
+  "codMonCapital": 1,
+  "sumaAsegBajaStro": null,
+  "sumaAsegSpto": 500000,
+  "tasaCob": 3,
+  "codFranquicia": null,
+  "codLimite": 9,
+  "sumaAsegSup": null,
+  "mcaBajaRiesgo": "N",
+  "mcaVigente": "S",
+  "mcaVigenteApli": "S",
+  "mcaBajaCob": "N",
+  "codSeccReas": 101,
+  "impAgr": 0,
+  "impAgrRel": null,
+  "impAgrSpto": 0,
+  "impAgrRelSpto": 0,
+  "mesBaseRegulariza": null,
+  "anioBaseRegulariza": null,
+  "pctEnfermedad": null,
+  "duracionProfesion": null,
+  "pctProfesion": null,
+  "duracionEnfermedad": null,
+  "valFranquiciaMin": null,
+  "valFranquiciaMax": null,
+  "sumaAsegBajaStroAcc": null
+}, {
+  "codCia": 1,
+  "numPoliza": "1002002006184",
+  "numSpto": 0,
+  "numApli": 0,
+  "numSptoApli": 0,
+  "numRiesgo": 1,
+  "numPeriodo": 1,
+  "codCob": 1040,
+  "codRamo": 100,
+  "numSecu": 16,
+  "sumaAseg": 0,
+  "impUnidad": null,
+  "pctParticipacion": null,
+  "codMonCapital": 1,
+  "sumaAsegBajaStro": null,
+  "sumaAsegSpto": 0,
+  "tasaCob": 250000,
+  "codFranquicia": null,
+  "codLimite": null,
+  "sumaAsegSup": null,
+  "mcaBajaRiesgo": "N",
+  "mcaVigente": "S",
+  "mcaVigenteApli": "S",
+  "mcaBajaCob": "N",
+  "codSeccReas": 0,
+  "impAgr": 0,
+  "impAgrRel": null,
+  "impAgrSpto": 0,
+  "impAgrRelSpto": 0,
+  "mesBaseRegulariza": null,
+  "anioBaseRegulariza": null,
+  "pctEnfermedad": null,
+  "duracionProfesion": null,
+  "pctProfesion": null,
+  "duracionEnfermedad": null,
+  "valFranquiciaMin": null,
+  "valFranquiciaMax": null,
+  "sumaAsegBajaStroAcc": null
+}, {
+  "codCia": 1,
+  "numPoliza": "1002002006184",
+  "numSpto": 0,
+  "numApli": 0,
+  "numSptoApli": 0,
+  "numRiesgo": 1,
+  "numPeriodo": 1,
+  "codCob": 1100,
+  "codRamo": 100,
+  "numSecu": 2,
+  "sumaAseg": 1035000,
+  "impUnidad": null,
+  "pctParticipacion": null,
+  "codMonCapital": 1,
+  "sumaAsegBajaStro": null,
+  "sumaAsegSpto": 1035000,
+  "tasaCob": 0,
+  "codFranquicia": null,
+  "codLimite": null,
+  "sumaAsegSup": null,
+  "mcaBajaRiesgo": "N",
+  "mcaVigente": "S",
+  "mcaVigenteApli": "S",
+  "mcaBajaCob": "N",
+  "codSeccReas": 0,
+  "impAgr": 0,
+  "impAgrRel": null,
+  "impAgrSpto": null,
+  "impAgrRelSpto": null,
+  "mesBaseRegulariza": null,
+  "anioBaseRegulariza": null,
+  "pctEnfermedad": null,
+  "duracionProfesion": null,
+  "pctProfesion": null,
+  "duracionEnfermedad": null,
+  "valFranquiciaMin": null,
+  "valFranquiciaMax": null,
+  "sumaAsegBajaStroAcc": null
 }];
 
 const coverageAmount: any[] = [{
