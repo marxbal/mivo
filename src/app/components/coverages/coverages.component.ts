@@ -78,11 +78,11 @@ export class CoveragesComponent implements OnInit {
 
   ngOnInit() {
     // for testing purposes
-    // this.coverageList = coverageList;
-    // this.amountList = amountList;
-    // this.coverageVariable = coverageVariable;
-    // this.premiumAmount = premiumAmount;
-    // this.coverageAmount = coverageAmount2;
+      // this.coverageList = coverageList;
+      // this.amountList = amountList;
+      // this.coverageVariable = coverageVariable;
+      // this.premiumAmount = premiumAmount;
+      // this.coverageAmount = coverageAmount2;
 
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
@@ -335,11 +335,9 @@ export class CoveragesComponent implements OnInit {
 
     this.coverageList.forEach((cov) => {
       var code = parseInt(cov.COD_COB);
-      var vehicleValue = this.carDetails.vehicleValue;
       var product = this.carDetails.productList;
       // for testing
-      // vehicleValue = 775000;
-      // product = 10001;
+      // product = 10002;
       var name = cov.NOM_COB;
       var type = cov.MCA_TIP_CAPITAL;
       var isMandatory = cov.MCA_OBLIGATORIO == "S";
@@ -347,7 +345,7 @@ export class CoveragesComponent implements OnInit {
 
       var options = [];
       var isSelect = false;
-      var sumaAsegA = 0;
+      var sumInsured = 0;
       var netPremium = 0;
 
       this.premiumAmount.forEach((prem) => {
@@ -358,7 +356,7 @@ export class CoveragesComponent implements OnInit {
 
       this.coverageAmount.forEach((covAmount) => {
         if (code == covAmount.codCob) {
-          sumaAsegA = covAmount.sumaAseg;
+          sumInsured = covAmount.sumaAseg;
           included = true;
         }
       });
@@ -379,12 +377,12 @@ export class CoveragesComponent implements OnInit {
           if (code == amount.codCob) {
             k = +k + +1;
             if (k == 1) {
-              if (sumaAsegA == 0) {
-                sumaAsegA = amount.impLimite;
+              if (sumInsured == 0) {
+                sumInsured = amount.impLimite;
               }
             }
 
-            if (sumaAsegA == amount.impLimite) {
+            if (sumInsured == amount.impLimite) {
               selectedOpt = amount.impLimite;
             }
 
@@ -393,23 +391,8 @@ export class CoveragesComponent implements OnInit {
             });
           }
         });
-      } else if (type == 5) {
-        //do nothing
-      } else if (type == 3) {
-        this.amountList.forEach((amount) => {
-          if (code == amount.codCob) {
-            k = +k + +1;
-            if (k == 1) {
-              vehicleValue = sumaAsegA;
-            }
-          }
-        });
-        vehicleValue = sumaAsegA;
-      } else {
-        vehicleValue = sumaAsegA;
       }
 
-      let sumInsured = isMandatory ? vehicleValue : isSelect ? selectedOpt : 0;
       if (isSelect) {
         var hasCounterpart = false;
         options.forEach((o) => {
@@ -423,8 +406,9 @@ export class CoveragesComponent implements OnInit {
         }
       }
 
-      if ((code == 1020 || code == 1008) && included ) {
-        sumInsured = vehicleValue;
+      if (!included) {
+        sumInsured = 0;
+        netPremium = 0;
       }
 
       var returnObj = {
