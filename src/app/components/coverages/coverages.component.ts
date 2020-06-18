@@ -210,6 +210,7 @@ export class CoveragesComponent implements OnInit {
       this.coverageAmount.forEach((covAmount) => {
         if (code == covAmount.codCob) {
           sumaAsegA = covAmount.sumaAseg;
+          included = true;
           //TODO
           // if (isLoadQuotation) {
           //   chked = 'checked=checked';
