@@ -1027,7 +1027,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.assembleIssuePolicyData();
 
     // to trigger changes when regenerating quotation
-    this.showCoverage = this.isModifiedCoverage;
+    this.showCoverage = false;
     this.showPaymentBreakdown = false;
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
@@ -1058,12 +1058,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const premiumAmount = res1.obj["premiumAmount"];;
             const coverageVariable = res1.obj["coverageVariable"];
 
-            if (this.isModifiedCoverage || !this.carDetails.affecting) {
-              this.showCoverage = true;
-            } else {
-              this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-            }
-            this.isModifiedCoverage = false;
+            // if (this.isModifiedCoverage || !this.carDetails.affecting) {
+            //   this.showCoverage = true;
+            // } else {
+            //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+            // }
+            // this.isModifiedCoverage = false;
+            this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
 
             const breakdown = res1.obj["breakdown"];
             const receipt = res1.obj["receipt"];
