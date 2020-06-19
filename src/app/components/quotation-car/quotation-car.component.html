@@ -1079,7 +1079,7 @@
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance && showIssuanceGenerateBtn" class="btn-group" role="group">
             <button type="button" class="btn btn-primary"
-              (click)="test(quoteForm, gpForm, phForm)">test</button>
+              (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button>
             <button 
               [disabled]="quoteForm.pristine || quoteForm.invalid ||
               appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
