@@ -408,6 +408,33 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           }
         }
       });
+
+      var _this = this;
+      this.cls.getModelList(this.carDetails).then(res => {
+        _this.LOV.modelLOV = res;
+      });
+
+      this.cls.getVehicleTypeList(this.carDetails).then(res => {
+        _this.LOV.vehicleTypeLOV = res;
+      });
+
+      this.cls.getModelYearList(this.carDetails).then(res => {
+        _this.LOV.modelYearLOV = res;
+      });
+
+      this.cls.getSubModelList(this.carDetails).then(res => {
+        _this.LOV.subModelLOV = res;
+      });
+
+      this.cls.getTypeOfUseList(this.carDetails).then(res => {
+        _this.LOV.typeOfUseLOV = res;
+      });
+
+      this.cus.getSubline(qqDetails).then(res => {
+        _this.LOV.sublineLOV = res.obj["list"];
+      });
+
+      
       
       console.log(this.carDetails);
     });
