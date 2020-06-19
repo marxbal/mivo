@@ -457,6 +457,26 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
       });
 
+      const generalInfo = res.obj["generalInfo"] as any;
+      this.carDetails.subline = generalInfo.codRamo;
+      this.carDetails.sublineEffectivityDate = generalInfo.fecValidez;
+
+      this.carDetails.groupPolicy.agentCode = generalInfo.codAgt;
+      this.carDetails.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
+      this.carDetails.groupPolicy.contract = generalInfo.numSubcontrato;
+      this.carDetails.groupPolicy.subContract = generalInfo.numSubcontrato;
+      this.carDetails.groupPolicy.commercialStructure = generalInfo.codNivel3;
+
+      this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+      this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+
+      this.policyHolder.documentCode = generalInfo.codDocum;
+      this.policyHolder.documentType = generalInfo.tipDocum;
+      this.policyHolder.isExisting = true;
+      this.policyHolder.isPerson = true; //TODO
+
+      this.carDetails.paymentMethod = generalInfo.codFraccPago;
+
       //loading risk details
       var _this = this;
       this.cls.getModelList(this.carDetails).then(res => {
