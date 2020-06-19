@@ -360,7 +360,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    this.cqs.loadQuotation(this.carDetails).then(res => {
+    this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       this.carDetails = res.obj as QuoteCar;
       console.log(this.carDetails);
     });
