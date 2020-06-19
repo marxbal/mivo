@@ -374,6 +374,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
 
         switch (code) {
+          //risk details
           case "COD_MARCA": {
             this.carDetails.make = valueInt;
             break;
@@ -403,12 +404,60 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             break;
           }
 
+          //vehicle information
+          case "COD_COLOR": {
+            this.carDetails.color = valueInt;
+            break;
+          }
+          case "COD_AREA_USAGE": {
+            this.carDetails.areaOfUsage = valueInt;
+            break;
+          }
+          case "NUM_CONDUCTION": {
+            this.carDetails.conductionNumber = value;
+            break;
+          }
+          case "NUM_MATRICULA": {
+            this.carDetails.plateNumber = value;
+            break;
+          }
+          case "NUM_SERIAL": {
+            this.carDetails.serialNumber = value;
+            break;
+          }
+          case "NUM_MOTOR": {
+            this.carDetails.engineNumber = value;
+            break;
+          }
+          case "NUM_MV_FILE": {
+            this.carDetails.mvFileNumber = value;
+            break;
+          }
+          case "FEC_PURCHASE": {
+            this.carDetails.purchaseDate = new Date(value);
+            break;
+          }
+          case "NOM_RECEIVED_BY": {
+            this.carDetails.receivedBy = value;
+            break;
+          }
+          case "FEC_RECEIVED": {
+            this.carDetails.receivedDate = new Date(value);
+            break;
+          }
+          
+          case "COD_MODALIDAD": {
+            this.carDetails.productList = valueInt;
+            break;
+          }
+
           default: {
             // do nothing
           }
         }
       });
 
+      //loading risk details
       var _this = this;
       this.cls.getModelList(this.carDetails).then(res => {
         _this.LOV.modelLOV = res;
@@ -430,12 +479,46 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         _this.LOV.typeOfUseLOV = res;
       });
 
+      var qqDetails = new QQCar;
+      qqDetails.vehicleType = this.carDetails.vehicleType;
+      qqDetails.typeOfUse = this.carDetails.typeOfUse;
       this.cus.getSubline(qqDetails).then(res => {
         _this.LOV.sublineLOV = res.obj["list"];
       });
 
-      
-      
+      //loading vehicle information
+      this.cls.getAreaOfUsage(this.carDetails).then(res => {
+        _this.LOV.areaOfUsageLOV = res;
+      });
+  
+      this.cls.getAccessoryList(this.carDetails).then(res => {
+        _this.LOV.accessoryListLOV = res;
+      });
+      this.removeAccessories();
+  
+      this.cls.getRegistrationType().then(res => {
+        _this.LOV.registrationTypeLOV = res;
+      });
+  
+      this.cls.getMVType().then(res => {
+        _this.LOV.mvTypeLOV = res;
+      });
+  
+      this.cls.getPaymentPlan(this.carDetails).then(res => {
+        _this.LOV.paymentMethodLOV = res;
+      });
+  
+      this.cls.getProduct(this.carDetails).then(res => {
+        let avalidableProducts = [];
+        res.forEach((e) => {
+          //removing not MSO products
+          if (e.COD_MODALIDAD != 10011 && e.COD_MODALIDAD != 10010) {
+            avalidableProducts.push(e);
+          }
+        });
+        _this.LOV.productListLOV = avalidableProducts;
+      });
+
       console.log(this.carDetails);
     });
   }
