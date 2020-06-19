@@ -944,6 +944,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         if (controls[name].invalid) {
             invalid.push(name);
         }
+        if (controls[name].pristine) {
+          invalid.push(name);
+      }
     }
     return invalid;
 }
