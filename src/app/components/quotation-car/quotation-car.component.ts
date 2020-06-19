@@ -479,27 +479,35 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
       //loading risk details
+      this.cForm.get('make').markAsDirty();
+
       var _this = this;
+      this.cForm.get('model').markAsDirty();
       this.cls.getModelList(this.carDetails).then(res => {
         _this.LOV.modelLOV = res;
       });
 
+      this.cForm.get('vehicleType').markAsDirty();
       this.cls.getVehicleTypeList(this.carDetails).then(res => {
         _this.LOV.vehicleTypeLOV = res;
       });
 
+      this.cForm.get('modelYear').markAsDirty();
       this.cls.getModelYearList(this.carDetails).then(res => {
         _this.LOV.modelYearLOV = res;
       });
 
+      this.cForm.get('subModel').markAsDirty();
       this.cls.getSubModelList(this.carDetails).then(res => {
         _this.LOV.subModelLOV = res;
       });
 
+      this.cForm.get('typeOfUse').markAsDirty();
       this.cls.getTypeOfUseList(this.carDetails).then(res => {
         _this.LOV.typeOfUseLOV = res;
       });
 
+      this.cForm.get('subline').markAsDirty();
       var qqDetails = new QQCar;
       qqDetails.vehicleType = this.carDetails.vehicleType;
       qqDetails.typeOfUse = this.carDetails.typeOfUse;
@@ -508,6 +516,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       });
 
       //loading vehicle information
+      this.cForm.get('areaOfUsage').markAsDirty();
       this.cls.getAreaOfUsage(this.carDetails).then(res => {
         _this.LOV.areaOfUsageLOV = res;
       });
@@ -525,10 +534,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         _this.LOV.mvTypeLOV = res;
       });
   
+      this.cForm.get('paymentPlan').markAsDirty();
       this.cls.getPaymentPlan(this.carDetails).then(res => {
         _this.LOV.paymentMethodLOV = res;
       });
   
+      this.cForm.get('product').markAsDirty();
       this.cls.getProduct(this.carDetails).then(res => {
         let avalidableProducts = [];
         res.forEach((e) => {
