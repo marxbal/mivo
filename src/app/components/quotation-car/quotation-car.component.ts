@@ -907,10 +907,42 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.scroll(id);
   }
 
-  test() {
-    this.openProceedModal(1);
-    this.manageBtn(1);
+  test(q: FormGroup, g: FormGroup, c: FormGroup) {
+    let invalid = [];
+
+    invalid = this.findInvalidControls(invalid, q);
+    invalid = this.findInvalidControls(invalid, g);
+    invalid = this.findInvalidControls(invalid, c);
+    // const qcontrols = q.controls;
+    // for (const name in qcontrols) {
+    //     if (qcontrols[name].invalid) {
+    //         invalid.push(name);
+    //     }
+    // }
+    // const gcontrols = g.controls;
+    // for (const name in gcontrols) {
+    //     if (gcontrols[name].invalid) {
+    //         invalid.push(name);
+    //     }
+    // }
+    // const ccontrols = c.controls;
+    // for (const name in ccontrols) {
+    //     if (ccontrols[name].invalid) {
+    //         invalid.push(name);
+    //     }
+    // }
+    alert(invalid);
   }
+
+  public findInvalidControls(invalid: any[], form: FormGroup) {
+    const controls = form.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    return invalid;
+}
 
   proceed(type: number) {
     //if user changes affecting values
