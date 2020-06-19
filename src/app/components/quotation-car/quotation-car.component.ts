@@ -361,7 +361,54 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   loadQuotation() {
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
-      this.carDetails = res.obj as QuoteCar;
+      const variableData = res.obj["variableData"] as any[];
+      variableData.forEach(v => {
+        const code = v.codCampo;
+        const value : string = v.valCampo;
+        let valueInt : number = undefined;
+        
+        try {
+          valueInt = parseInt(value);
+        } catch(e) {
+          // do nothing
+        }
+
+        switch (code) {
+          case "COD_MARCA": {
+            this.carDetails.make = valueInt;
+            break;
+          }
+          case "COD_MODELO": {
+            this.carDetails.model = valueInt;
+            break;
+          }
+          case "COD_TIP_VEHI": {
+            this.carDetails.vehicleType = valueInt;
+            break;
+          }
+          case "ANIO_SUB_MODELO": {
+            this.carDetails.modelYear = value;
+            break;
+          }
+          case "COD_SUB_MODELO": {
+            this.carDetails.subModel = valueInt;
+            break;
+          }
+          case "COD_USO_VEHI": {
+            this.carDetails.typeOfUse = valueInt;
+            break;
+          }
+          case "VAL_SUB_MODELO": {
+            this.carDetails.vehicleValue = valueInt;
+            break;
+          }
+
+          default: {
+            // do nothing
+          }
+        }
+      });
+      
       console.log(this.carDetails);
     });
   }
