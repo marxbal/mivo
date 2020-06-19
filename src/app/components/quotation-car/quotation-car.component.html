@@ -320,7 +320,7 @@
                       && (quoteForm.controls['purchaseDate'].dirty 
                       || quoteForm.controls['purchaseDate'].touched)}">
                     <label for="purchaseDate">Purchase Date</label>
-                    <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="today"
+                    <input type="text" placeholder="Datepicker" class="form-control required" [maxDate]="today"
                       formControlName="purchaseDate" [(ngModel)]="carDetails.purchaseDate" bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['purchaseDate'].errors?.required">
                       * purchase date is required
@@ -346,7 +346,7 @@
                       && (quoteForm.controls['receivedDate'].dirty 
                       || quoteForm.controls['receivedDate'].touched)}">
                     <label for="receivedDate">Received Date</label>
-                    <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="today"
+                    <input type="text" placeholder="Datepicker" class="form-control required" [maxDate]="today"
                       formControlName="receivedDate" [(ngModel)]="carDetails.receivedDate" bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['receivedDate'].errors?.required">
                       * received date is required
@@ -405,7 +405,7 @@
                     && (quoteForm.controls['effectivityDate'].dirty 
                     || quoteForm.controls['effectivityDate'].touched)}">
                     <label for="effectivityDate">Effectivity Date</label>
-                    <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="today"
+                    <input type="text" placeholder="Datepicker" class="form-control required"
                       (bsValueChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
                       formControlName="effectivityDate"
                       [(ngModel)]="carDetails.effectivityDate" bsDatepicker>
