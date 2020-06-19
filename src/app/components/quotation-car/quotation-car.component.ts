@@ -391,9 +391,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
-      if (this.carDetails.productList == 10002) {
-        Utility.updateValidator(authNumber, bool ? null : Validators.required);
-      }
+      Utility.updateValidator(authNumber, bool ? null : Validators.required);
     });
 
     quotationNumber.valueChanges.subscribe(number => {
