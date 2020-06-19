@@ -435,6 +435,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           }
           case "FEC_PURCHASE": {
             this.carDetails.purchaseDate = new Date(value);
+            this.quoteForm.get('purchaseDate').markAsDirty();
             break;
           }
           case "NOM_RECEIVED_BY": {
@@ -443,6 +444,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           }
           case "FEC_RECEIVED": {
             this.carDetails.receivedDate = new Date(value);
+            this.quoteForm.get('receivedDate').markAsDirty();
             break;
           }
           
@@ -469,7 +471,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.carDetails.groupPolicy.commercialStructure = generalInfo.codNivel3;
 
       this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+      this.quoteForm.get('effectivityDate').markAsDirty();
       this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+      this.quoteForm.get('expiryDate').markAsDirty();
 
       this.policyHolder.documentCode = generalInfo.codDocum;
       this.policyHolder.documentType = generalInfo.tipDocum;
