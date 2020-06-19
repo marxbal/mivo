@@ -78,11 +78,11 @@ export class CoveragesComponent implements OnInit {
 
   ngOnInit() {
     // for testing purposes
-      // this.coverageList = coverageList;
-      // this.amountList = amountList;
-      // this.coverageVariable = coverageVariable;
-      // this.premiumAmount = premiumAmount;
-      // this.coverageAmount = coverageAmount2;
+    // this.coverageList = coverageList;
+    // this.amountList = amountList;
+    // this.coverageVariable = coverageVariable;
+    // this.premiumAmount = premiumAmount;
+    // this.coverageAmount = coverageAmount2;
 
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
@@ -186,7 +186,112 @@ export class CoveragesComponent implements OnInit {
     });
   }
 
-  // private getData() {
+  private getCoverageData() {
+    var returnData: any[] = [];
+
+    this.coverageList.forEach((cov) => {
+      var code = parseInt(cov.COD_COB);
+      var product = this.carDetails.productList;
+      // for testing
+      // product = 10002;
+      var name = cov.NOM_COB;
+      var type = cov.MCA_TIP_CAPITAL;
+      var isMandatory = cov.MCA_OBLIGATORIO == "S";
+      var included = isMandatory;
+
+      var options = [];
+      var isSelect = false;
+      var sumInsured = 0;
+      var netPremium = 0;
+
+      //gets the net premium per code
+      this.premiumAmount.forEach((prem) => {
+        if (code == prem.codCob) {
+          netPremium = prem.impSpto;
+        }
+      });
+
+      //gets sum insured per code
+      this.coverageAmount.forEach((covAmount) => {
+        if (code == covAmount.codCob) {
+          sumInsured = covAmount.sumaAseg;
+          included = true;
+        }
+      });
+
+      if (code == 1040) {
+        // checking for product with Road Assist if code is 1040 or ROAD ASSIST
+        included = this.hasRoadAssist;
+      } else if (code == 1001 && included && this.isIssuance) {
+        // opens CTPL panel if code is 1001 or COMP. THIRD PAR. LIAB.
+        this.showCTPL = included;
+        this.showCTPLChange.emit(this.showCTPL);
+        this.cqs.activateCTPL(this.quoteForm, this.carDetails, this.showCTPL);
+      }
+
+      if (type == 4) {
+        isSelect = true;
+        this.amountList.forEach((amount) => {
+          if (code == amount.codCob) {
+            options.push({
+              value: amount.impLimite
+            });
+          }
+        });
+
+        var hasCounterpart = false;
+        options.forEach((o) => {
+          if (o.value == sumInsured) {
+            hasCounterpart = true;
+          }
+        });
+        //if has no counterpart to sum insured select options, gets the first option value
+        if (!hasCounterpart) {
+          sumInsured = options[0].value;
+        }
+      } else {
+        sumInsured = 0;
+        netPremium = 0;
+      }
+
+      var returnObj = {
+        isMandatory: isMandatory,
+        included: included,
+        code: code,
+        coverage: name,
+        options: options,
+        sumInsured: sumInsured,
+        netPremium: netPremium,
+        isRoadAssist: (code == 1040),
+        hasVariableData: (
+          code == 1100 ||
+          code == 1002 ||
+          code == 1003 ||
+          code == 1007 ||
+          code == 1008 ||
+          code == 1020 ||
+          code == 1040),
+        isSelect: isSelect
+      }
+
+      //exclude to coverages list
+      if (
+        code != 1006 &&
+        code != 1018 &&
+        code != 1026 &&
+        code != 1027 &&
+        code != 1029 &&
+        code != 1037 &&
+        !(code == 1036 && product == 10001)) {
+        returnData.push(returnObj);
+      }
+    });
+
+    return returnData;
+  };
+}
+
+// private getData() {
   //   var returnData: any[] = [];
 
   //   this.coverageList.forEach((cov) => {
@@ -329,124 +434,6 @@ export class CoveragesComponent implements OnInit {
 
   //   return returnData;
   // };
-
-  private getCoverageData() {
-    var returnData: any[] = [];
-
-    this.coverageList.forEach((cov) => {
-      var code = parseInt(cov.COD_COB);
-      var product = this.carDetails.productList;
-      // for testing
-      // product = 10002;
-      var name = cov.NOM_COB;
-      var type = cov.MCA_TIP_CAPITAL;
-      var isMandatory = cov.MCA_OBLIGATORIO == "S";
-      var included = isMandatory;
-
-      var options = [];
-      var isSelect = false;
-      var sumInsured = 0;
-      var netPremium = 0;
-
-      this.premiumAmount.forEach((prem) => {
-        if (code == prem.codCob) {
-          netPremium = prem.impSpto;
-        }
-      });
-
-      this.coverageAmount.forEach((covAmount) => {
-        if (code == covAmount.codCob) {
-          sumInsured = covAmount.sumaAseg;
-          included = true;
-        }
-      });
-
-      if (code == 1040) {
-        included = this.hasRoadAssist;
-      } else if (code == 1001 && included && this.isIssuance) {
-        this.showCTPL = included;
-        this.showCTPLChange.emit(this.showCTPL);
-        this.cqs.activateCTPL(this.quoteForm, this.carDetails, this.showCTPL);
-      }
-
-      var k = 0;
-      var selectedOpt = "";
-      if (type == 4) {
-        isSelect = true;
-        this.amountList.forEach((amount) => {
-          if (code == amount.codCob) {
-            k = +k + +1;
-            if (k == 1) {
-              if (sumInsured == 0) {
-                sumInsured = amount.impLimite;
-              }
-            }
-
-            if (sumInsured == amount.impLimite) {
-              selectedOpt = amount.impLimite;
-            }
-
-            options.push({
-              value: amount.impLimite
-            });
-          }
-        });
-      }
-
-      if (isSelect) {
-        var hasCounterpart = false;
-        options.forEach((o) => {
-          if (o.value == sumInsured) {
-            hasCounterpart = true;
-          }
-        });
-        //if has no counterpart to sum insured select options, gets the first option value
-        if (!hasCounterpart) {
-          sumInsured = options[0].value;
-        }
-      }
-
-      if (!included) {
-        sumInsured = 0;
-        netPremium = 0;
-      }
-
-      var returnObj = {
-        isMandatory: isMandatory,
-        included: included,
-        code: code,
-        coverage: name,
-        options: options,
-        sumInsured: sumInsured,
-        netPremium: netPremium,
-        isRoadAssist: (code == 1040),
-        hasVariableData: (
-          code == 1100 ||
-          code == 1002 ||
-          code == 1003 ||
-          code == 1007 ||
-          code == 1008 ||
-          code == 1020 ||
-          code == 1040),
-        isSelect: isSelect
-      }
-
-      //exclude to coverages list
-      if (
-        code != 1006 &&
-        code != 1027 &&
-        code != 1029 &&
-        code != 1018 &&
-        code != 1037 &&
-        code != 1026 &&
-        !(code == 1036 && product == 10001)) {
-        returnData.push(returnObj);
-      }
-    });
-
-    return returnData;
-  };
-}
 
 // function generateCoverageAmountByProduct(obj, quoteDetail, isLoadQuotation) {
 const coverageList: any[] = [{
