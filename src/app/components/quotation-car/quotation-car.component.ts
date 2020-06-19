@@ -534,7 +534,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         _this.LOV.mvTypeLOV = res;
       });
   
-      this.quoteForm.get('paymentPlan').markAsDirty();
+      this.quoteForm.get('paymentMethod').markAsDirty();
       this.cls.getPaymentPlan(this.carDetails).then(res => {
         _this.LOV.paymentMethodLOV = res;
       });
