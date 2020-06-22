@@ -50,8 +50,19 @@ export class PolicyHolderComponent implements OnInit {
   @Input() isIssuance: boolean;
   @Input() type: String;
   @Input() optional: boolean;
+  @Input()
+  set loadQuotation(value: number) {
+    this.triggerCounter = value;
+    if (!Utility.isUndefined(this.policyHolder.documentCode)) {
+      this.phForm.get('documentType').markAsDirty();
+      this.phForm.get('documentCode').markAsDirty();
+    }
+  }
+
   @Output() policyHolderChange = new EventEmitter < PolicyHolder > ();
+  
   _details: any;
+  triggerCounter: number;
 
   displayedColumns: string[] = ['documentType', 'firstName', 'middleName', 'lastName', 'address', 'action'];
   source: any[];

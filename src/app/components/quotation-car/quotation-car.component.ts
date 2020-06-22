@@ -94,6 +94,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
   pageLabel: String = 'Quotation';
+  triggerCounter: number = 0;
 
   carDetails = new QuoteCar();
   prevCarDetails = new QuoteCar();
@@ -554,8 +555,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         });
         _this.LOV.productListLOV = avalidableProducts;
       });
-
-      console.log(this.carDetails);
+    }).finally(() => {
+      //trigger child component load quotation function
+      this.triggerCounter = this.triggerCounter+1;
     });
   }
 
