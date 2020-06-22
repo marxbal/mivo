@@ -463,7 +463,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const generalInfo = res.obj["generalInfo"] as any;
       this.carDetails.subline = generalInfo.codRamo;
       console.log("fecValidez: " + generalInfo.fecValidez);
+      console.log("new Date: " + new Date(generalInfo.fecValidez));
+      
+
       this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
+      console.log("sublineEffectivityDate: " +  this.carDetails.sublineEffectivityDate);
 
       this.carDetails.groupPolicy = new GroupPolicy();
       this.carDetails.groupPolicy.agentCode = generalInfo.codAgt;
