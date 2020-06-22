@@ -572,6 +572,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter+1;
+      alert(this.triggerCounter);
     });
   }
 
