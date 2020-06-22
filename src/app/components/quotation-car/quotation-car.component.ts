@@ -555,6 +555,20 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         });
         _this.LOV.productListLOV = avalidableProducts;
       });
+
+      this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
+        const coverageList = res1.obj["coverageList"];
+        const amountList = res1.obj["amountList"];
+        const premiumAmount = res.obj["premiumAmount"];
+        const coverageVariable = res.obj["coverageVariable"];
+        const coverageAmount = res.obj["coverageAmount"];
+
+        this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+      });
+
+      const breakdown = res.obj["breakdown"];
+      const receipt = res.obj["receipt"];
+      this.populatePaymentBreakdown(breakdown, receipt);
     }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter+1;
@@ -1132,7 +1146,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
           const items = this.getErrorItems(res1, mcaTmpPptoMph, false);
           const status = res1.obj["status"];
-          const coverageAmount = res1.obj["coverageAmount"];;
+          const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
             const errorCode = res1.obj["errorCode"];
@@ -1153,8 +1167,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.modalRef = Utility.showInfo(this.bms, message);
 
               const coverageList = res.obj["coverageList"];
-              const amountList = res.obj["amountList"];;
-              const premiumAmount = res1.obj["premiumAmount"];;
+              const amountList = res.obj["amountList"];
+              const premiumAmount = res1.obj["premiumAmount"];
               const coverageVariable = res1.obj["coverageVariable"];
 
               if (this.isModifiedCoverage) {
@@ -1285,8 +1299,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
-            const amountList = res.obj["amountList"];;
-            const premiumAmount = res1.obj["premiumAmount"];;
+            const amountList = res.obj["amountList"];
+            const premiumAmount = res1.obj["premiumAmount"];
             const coverageVariable = res1.obj["coverageVariable"];
 
             // if (this.isModifiedCoverage || !this.carDetails.affecting) {
