@@ -460,9 +460,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
       });
 
-      const generalInfo = res.obj["generalInfo"] as any;
+      const generalInfo = res.obj["generalInfo"];
       this.carDetails.subline = generalInfo.codRamo;
       console.log("generalInfo " + generalInfo);
+      console.log("codRamo " + generalInfo.codRamo);
       console.log("fecValidez: " + generalInfo.fecValidez);
       console.log("new Date: " + new Date(generalInfo.fecValidez));
       
