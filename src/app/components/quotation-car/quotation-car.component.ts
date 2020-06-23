@@ -972,9 +972,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   proceed(type: number) {
     //if user changes affecting values
     const hasChanges = this.changedValues.length != 0;
-    this.carDetails.affecting =
-      Utility.isUndefined(this.carDetails.quotationNumber) ||
-      (!Utility.isUndefined(this.carDetails.quotationNumber) && hasChanges);
+    const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
+    const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
+    this.carDetails.affecting = !hasQuotationNumber ||
+      (hasQuotationNumber && isTemporaryQuotation) ||
+      (hasQuotationNumber && !isTemporaryQuotation && hasChanges);
     if (hasChanges) {
       this.openProceedModal(type);
     } else {
