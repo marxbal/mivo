@@ -362,6 +362,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   loadQuotation() {
     this.prevCarDetails = null;
+    this.manageBtn(2);
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       const variableData = res.obj["variableData"] as any[];
       variableData.forEach(v => {
