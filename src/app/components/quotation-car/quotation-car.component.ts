@@ -97,7 +97,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   triggerCounter: number = 0;
 
   carDetails = new QuoteCar();
-  prevCarDetails = new QuoteCar();
+  prevCarDetails : QuoteCar = null;
   changedValues: any[] =  [];
 
   hasRoadAssist = false;
@@ -361,6 +361,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
+    this.prevCarDetails = null;
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       const variableData = res.obj["variableData"] as any[];
       variableData.forEach(v => {
@@ -572,7 +573,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter+1;
-      alert(this.triggerCounter);
     });
   }
 
@@ -1084,7 +1084,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   affecting(key: string, label: string) {
-    if (!Utility.isUndefined(this.carDetails.quotationNumber)) {
+    if (!Utility.isUndefined(this.carDetails.quotationNumber) && this.prevCarDetails != null) {
       const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
       const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
       if (prev != curr) {
