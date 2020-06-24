@@ -37,12 +37,33 @@ import {
 
 export class GroupPolicyComponent {
   user = this.auths.currentUserValue;
-  @Input() subline: number;
   @Input() groupPolicy: GroupPolicy;
-  // @Input() subline: number;
   @Input() prevDetails: any;
   @Input() changedValues: any[] = [];
+  @Input()
+  set subline(subline: number) {
+    this._subline = subline;
+    this.getGroupPolicyLOV();
+  }
+  @Input()
+  set loadQuotation(value: number) {
+    this.triggerCounter = value;
+    if (!Utility.isUndefined(this.groupPolicy.commercialStructure)) {
+      this.gpForm.get('commercialStructure').markAsDirty();
+    }
+    if (!Utility.isUndefined(this.groupPolicy.groupPolicy)) {
+      this.gpForm.get('groupPolicy').markAsDirty();
+    }
+    if (!Utility.isUndefined(this.groupPolicy.contract)) {
+      this.gpForm.get('contract').markAsDirty();
+    }
+    if (!Utility.isUndefined(this.groupPolicy.subContract)) {
+      this.gpForm.get('subContract').markAsDirty();
+    }
+  }
+
   @Output() changedValuesChange = new EventEmitter < any[] > ();
+  triggerCounter: number;
   _subline: number;
 
   gpForm: FormGroup;
@@ -78,8 +99,7 @@ export class GroupPolicyComponent {
     });
   }
 
-  ngOnChanges() {
-    this._subline = this.subline;
+  getGroupPolicyLOV() {
     const _this = this;
     this.gpls.getGroupPolicy(this._subline).then(res => {
       _this.GPLOV.groupPolicyLOV = res;

@@ -466,12 +466,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.carDetails.subline = generalInfo.codRamo;
       this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
 
-      this.carDetails.groupPolicy = new GroupPolicy();
-      this.carDetails.groupPolicy.agentCode = generalInfo.codAgt;
-      this.carDetails.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
-      this.carDetails.groupPolicy.contract = generalInfo.numSubcontrato;
-      this.carDetails.groupPolicy.subContract = generalInfo.numSubcontrato;
-      this.carDetails.groupPolicy.commercialStructure = generalInfo.codNivel3;
+      this.groupPolicy.agentCode = generalInfo.codAgt;
+      this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
+      this.groupPolicy.contract = generalInfo.numSubcontrato;
+      this.groupPolicy.subContract = generalInfo.numSubcontrato;
+      this.groupPolicy.commercialStructure = generalInfo.codNivel3;
 
       this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
       this.quoteForm.get('effectivityDate').markAsDirty();
