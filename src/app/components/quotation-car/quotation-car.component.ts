@@ -1312,8 +1312,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             // } else {
             //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
             // }
-            // this.isModifiedCoverage = false;
+            // 
             this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+            this.isModifiedCoverage = false;
 
             const breakdown = res1.obj["breakdown"];
             const receipt = res1.obj["receipt"];
