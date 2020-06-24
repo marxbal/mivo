@@ -190,17 +190,16 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.createQuoteForm();
     this.setValidations();
+    this.init();
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
         //if loaded from car quotation
         this.carDetails.quotationNumber = Globals.loadNumber;
-        this.init();
-      } else {
-        this.init();
+        this.loadQuotation();
+        Globals.setLoadNumber('');
+        Globals.setLoadQuotation(false);
       }
-    } else {
-      this.init();
     }
   }
 
@@ -276,7 +275,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       plateNumber: ['', Validators.required, this.validatePlateNumber.bind(this)],
       serialNumber: ['', Validators.required],
       engineNumber: ['', Validators.required],
-      mvFileNumber: [null],
+      mvFileNumber: this.isIssuance ? ['', Validators.required] : [null],
       purchaseDate: [null],
       receivedBy: ['', Validators.required],
       receivedDate: ['', Validators.required],
@@ -450,7 +449,77 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.quoteForm.get('receivedDate').markAsDirty();
             break;
           }
-          
+          case "NUM_PLAZAS": {
+            this.carDetails.seatingCapacity = valueInt;
+            break;
+          }
+          case "VAL_PESO": {
+            this.carDetails.weight = value;
+            break;
+          }
+          case "VAL_CC": {
+            this.carDetails.displacement = value;
+            break;
+          }
+          case "TIP_VEHI_PESO": {
+            this.carDetails.classification = valueInt;
+            break;
+          }
+          case "COD_AREA_COVER": {
+            this.carDetails.coverageArea = valueInt;
+            break;
+          }
+          case "PCT_CLI_COINS": {
+            this.carDetails.assuredsCoinsuranceShare = value;
+            break;
+          }
+          case "MCA_WAIVE_MIN_PREM": {
+            // this.carDetails.cbWaivedMinPremium = valueInt;
+            break;
+          }
+          case "MCA_PREPAID_PREM": {
+            // this.carDetails.cbPrepaidPremium = valueInt;
+            break;
+          }
+          case "MCA_GLASS_ETCHING": {
+            // this.carDetails.cbGlassEtchingEntitled = value;
+            break;
+          }
+          case "FEC_GLASS_ETCHING": {
+            this.carDetails.glassEtchingAvailmentDate = new Date(value);
+            break;
+          }
+          case "TXT_EXT_DAM_PARTS": {
+            this.carDetails.existingDamages = value;
+            break;
+          }
+          case "TXT_EXT_DAM_PARTS": {
+            this.carDetails.inspectionAssessment = valueInt;
+            break;
+          }
+
+          //additional policy information for issuance
+          case "MCA_DRIVER": {
+            // this.carDetails.cbPolicyOnlyDriver = valueInt;
+            break;
+          }
+          case "MCA_OWNER": {
+            // this.carDetails.cbPolicyOwner = value;
+            break;
+          }
+          case "MCA_ASSIGNEE": {
+            // this.carDetails.cbHasAssignee = new Date(value);
+            break;
+          }
+          case "MCA_MORTGAGED": {
+            // this.carDetails.cbVehicleMortgaged = valueInt;
+            break;
+          }
+          case "TIP_MORT_CLAUSE": {
+            this.carDetails.mortgageClause = valueInt;
+            break;
+          }
+
           case "COD_MODALIDAD": {
             this.carDetails.productList = valueInt;
             break;
@@ -484,77 +553,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
-      //loading risk details
-      this.quoteForm.get('make').markAsDirty();
-
-      var _this = this;
-      this.quoteForm.get('model').markAsDirty();
-      this.cls.getModelList(this.carDetails).then(res => {
-        _this.LOV.modelLOV = res;
-      });
-
-      this.quoteForm.get('vehicleType').markAsDirty();
-      this.cls.getVehicleTypeList(this.carDetails).then(res => {
-        _this.LOV.vehicleTypeLOV = res;
-      });
-
-      this.quoteForm.get('modelYear').markAsDirty();
-      this.cls.getModelYearList(this.carDetails).then(res => {
-        _this.LOV.modelYearLOV = res;
-      });
-
-      this.quoteForm.get('subModel').markAsDirty();
-      this.cls.getSubModelList(this.carDetails).then(res => {
-        _this.LOV.subModelLOV = res;
-      });
-
-      this.quoteForm.get('typeOfUse').markAsDirty();
-      this.cls.getTypeOfUseList(this.carDetails).then(res => {
-        _this.LOV.typeOfUseLOV = res;
-      });
-
-      this.quoteForm.get('subline').markAsDirty();
-      var qqDetails = new QQCar;
-      qqDetails.vehicleType = this.carDetails.vehicleType;
-      qqDetails.typeOfUse = this.carDetails.typeOfUse;
-      this.cus.getSubline(qqDetails).then(res => {
-        _this.LOV.sublineLOV = res.obj["list"];
-      });
-
-      //loading vehicle information
-      this.quoteForm.get('areaOfUsage').markAsDirty();
-      this.cls.getAreaOfUsage(this.carDetails).then(res => {
-        _this.LOV.areaOfUsageLOV = res;
-      });
-  
-      this.cls.getAccessoryList(this.carDetails).then(res => {
-        _this.LOV.accessoryListLOV = res;
-      });
-      this.removeAccessories();
-  
-      this.cls.getRegistrationType().then(res => {
-        _this.LOV.registrationTypeLOV = res;
-      });
-  
-      this.cls.getMVType().then(res => {
-        _this.LOV.mvTypeLOV = res;
-      });
-  
-      this.quoteForm.get('paymentMethod').markAsDirty();
-      this.cls.getPaymentPlan(this.carDetails).then(res => {
-        _this.LOV.paymentMethodLOV = res;
-      });
-  
-      this.quoteForm.get('product').markAsDirty();
-      this.cls.getProduct(this.carDetails).then(res => {
-        let avalidableProducts = [];
-        res.forEach((e) => {
-          //removing not MSO products
-          if (e.COD_MODALIDAD != 10011 && e.COD_MODALIDAD != 10010) {
-            avalidableProducts.push(e);
-          }
-        });
-        _this.LOV.productListLOV = avalidableProducts;
+      const accessories = res.obj["accessories"];
+      accessories.forEach((arr) => {
+        this.accessory().push(this.loadAccessory(1, 1, 100, 'desc'));
       });
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
@@ -567,12 +568,91 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
       });
 
+      //breakdwon
       const breakdown = res.obj["breakdown"];
       const receipt = res.obj["receipt"];
       this.populatePaymentBreakdown(breakdown, receipt);
+
+      this.loadLOVs();
     }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter+1;
+    });
+  }
+
+  //loading of all LOV's for load quotation
+  loadLOVs() {
+    var _this = this;
+    //loading risk information
+    this.quoteForm.get('make').markAsDirty();
+    this.quoteForm.get('model').markAsDirty();
+    this.cls.getModelList(this.carDetails).then(res => {
+      _this.LOV.modelLOV = res;
+    });
+
+    this.quoteForm.get('vehicleType').markAsDirty();
+    this.cls.getVehicleTypeList(this.carDetails).then(res => {
+      _this.LOV.vehicleTypeLOV = res;
+    });
+
+    this.quoteForm.get('modelYear').markAsDirty();
+    this.cls.getModelYearList(this.carDetails).then(res => {
+      _this.LOV.modelYearLOV = res;
+    });
+
+    this.quoteForm.get('subModel').markAsDirty();
+    this.cls.getSubModelList(this.carDetails).then(res => {
+      _this.LOV.subModelLOV = res;
+    });
+
+    this.quoteForm.get('typeOfUse').markAsDirty();
+    this.cls.getTypeOfUseList(this.carDetails).then(res => {
+      _this.LOV.typeOfUseLOV = res;
+    });
+
+    this.quoteForm.get('subline').markAsDirty();
+    var qqDetails = new QQCar;
+    qqDetails.vehicleType = this.carDetails.vehicleType;
+    qqDetails.typeOfUse = this.carDetails.typeOfUse;
+    this.cus.getSubline(qqDetails).then(res => {
+      _this.LOV.sublineLOV = res.obj["list"];
+    });
+
+    //loading vehicle information
+    this.quoteForm.get('areaOfUsage').markAsDirty();
+    this.cls.getAreaOfUsage(this.carDetails).then(res => {
+      _this.LOV.areaOfUsageLOV = res;
+    });
+
+    //loading accessory list
+    this.cls.getAccessoryList(this.carDetails).then(res => {
+      _this.LOV.accessoryListLOV = res;
+    });
+    this.removeAccessories();
+
+    this.cls.getRegistrationType().then(res => {
+      _this.LOV.registrationTypeLOV = res;
+    });
+
+    this.cls.getMVType().then(res => {
+      _this.LOV.mvTypeLOV = res;
+    });
+
+    this.quoteForm.get('paymentMethod').markAsDirty();
+    this.cls.getPaymentPlan(this.carDetails).then(res => {
+      _this.LOV.paymentMethodLOV = res;
+    });
+
+    this.quoteForm.get('product').markAsDirty();
+    this.cls.getProduct(this.carDetails).then(res => {
+      let avalidableProducts = [];
+      res.forEach((e) => {
+        //removing not MSO products
+        if (e.COD_MODALIDAD != 10011 && e.COD_MODALIDAD != 10010) {
+          avalidableProducts.push(e);
+        }
+      });
+      _this.LOV.productListLOV = avalidableProducts;
     });
   }
 
@@ -618,7 +698,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   accessory(): FormArray {
-    return this.quoteForm.get("accessories") as FormArray
+    return this.quoteForm.get("accessories") as FormArray;
   }
 
   newAccessory(): FormGroup {
@@ -627,6 +707,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       accessoryType: ['', Validators.required],
       price: ['', Validators.required],
       description: ['', Validators.required]
+    });
+  }
+
+  loadAccessory(accessory: number, accessoryType: number, price: number, description: string): FormGroup {
+    return this.fb.group({
+      accessory: [accessory, Validators.required],
+      accessoryType: [accessoryType, Validators.required],
+      price: [price, Validators.required],
+      description: [description, Validators.required]
     });
   }
 
@@ -664,22 +753,26 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   clearRiskDetails(level: number, type ? : boolean) {
-    if (level <= 1) { //if user changes car make
+    //if user changes car make
+    if (level <= 1) {
       this.LOV.modelLOV = [];
       this.carDetails.model = undefined;
       this.quoteForm.get('model').reset();
     }
-    if (level <= 2) { //if user changes car model
+    //if user changes car model
+    if (level <= 2) {
       this.LOV.vehicleTypeLOV = [];
       this.carDetails.vehicleType = undefined;
       this.quoteForm.get('vehicleType').reset();
     }
-    if (level <= 3) { //if user changes vehicle type
+    //if user changes vehicle type
+    if (level <= 3) {
       this.LOV.modelYearLOV = [];
       this.carDetails.modelYear = undefined;
       this.quoteForm.get('modelYear').reset();
     }
-    if (level <= 4) { //if user changes car model year
+    //if user changes car model year
+    if (level <= 4) {
       this.LOV.subModelLOV = [];
       this.LOV.typeOfUseLOV = [];
       this.carDetails.subModel = undefined;
@@ -687,7 +780,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.quoteForm.get('subModel').reset();
       this.quoteForm.get('typeOfUse').reset();
     }
-    if (level <= 5) { //if user changes car sub model or type of use
+    //if user changes car sub model or type of use
+    if (level <= 5) {
       this.removeAccessories();
       if (level == 5) {
         if (type) {

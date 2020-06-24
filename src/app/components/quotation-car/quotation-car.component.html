@@ -191,7 +191,7 @@
                   && (quoteForm.controls['vehicleValue'].dirty 
                   || quoteForm.controls['vehicleValue'].touched)}">
                     <label for="vehicleValue">Vehicle Value</label>
-                    <input type="text" formControlName="vehicleValue" class="form-control"
+                    <input type="text" formControlName="vehicleValue" class="form-control required"
                       (change)="affecting('vehicleValue', 'Vehicle Value')"
                       [(ngModel)]="carDetails.vehicleValue">
                     <p class="form-error" *ngIf="quoteForm.controls['vehicleValue'].errors?.required">
@@ -307,11 +307,16 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['mvFileNumber'].invalid 
+                    && (quoteForm.controls['mvFileNumber'].dirty 
+                    || quoteForm.controls['mvFileNumber'].touched)}">
                     <label for="mvFileNumber">MV File Number</label>
-                    <input type="text" formControlName="mvFileNumber" class="form-control"
+                    <input type="text" formControlName="mvFileNumber" class="form-control {{isIssuance ? 'required' : ''}}"
                       [(ngModel)]="carDetails.mvFileNumber"
                       oninput="this.value = this.value.toUpperCase()">
+                      <p class="form-error" *ngIf="quoteForm.controls['mvFileNumber'].errors?.required">
+                        * MV File Number is required
+                      </p>
                   </div>
                 </div>
 
