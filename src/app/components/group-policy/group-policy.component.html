@@ -17,7 +17,7 @@
             <label for="groupPolicy">Group Policy</label>
             <select class="custom-select mr-sm-2" formControlName="groupPolicy"
               [attr.disabled]=" GPLOV.groupPolicyLOV?.length ? null : true" [(ngModel)]="groupPolicy.groupPolicy"
-              (change)="groupPolicyOnChange()">
+              (change)="groupPolicyOnChange(); affecting('groupPolicy', 'Group Policy')">
               <option></option>
               <option *ngFor="let groupPolicy of GPLOV.groupPolicyLOV" [ngValue]="groupPolicy.NUM_POLIZA">
                 {{ groupPolicy.NOM_POLIZA }}</option>
@@ -33,7 +33,8 @@
             && (gpForm.controls['contract'].dirty 
             || gpForm.controls['contract'].touched)}">
             <label for="contract">Contract</label>
-            <select class="custom-select mr-sm-2 required" formControlName="contract" (change)="contractOnChange()"
+            <select class="custom-select mr-sm-2 required" formControlName="contract"
+              (change)="contractOnChange(); affecting('contract', 'Contract')"
               [(ngModel)]="groupPolicy.contract" [attr.disabled]=" groupPolicy.groupPolicy ? null : true">
               <option></option>
               <option *ngFor="let contract of GPLOV.contractLOV" [ngValue]="contract.NUM_CONTRATO">
@@ -52,6 +53,7 @@
             || gpForm.controls['subContract'].touched)}">
             <label for="subContract">Sub Contract</label>
             <select class="custom-select mr-sm-2 required" formControlName="subContract"
+              (change)="affecting('subContract', 'Sub Contract')"
               [(ngModel)]="groupPolicy.subContract"
               [attr.disabled]=" groupPolicy.groupPolicy && groupPolicy.contract ? null : true">
               <option></option>

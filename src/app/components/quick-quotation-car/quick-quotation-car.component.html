@@ -157,7 +157,7 @@
               && (quickQuoteForm.controls['vehicleValue'].dirty 
               || quickQuoteForm.controls['vehicleValue'].touched)}">
                 <label for="vehicleValue">Vehicle Value</label>
-                <input type="text" formControlName="vehicleValue" class="form-control"
+                <input type="text" formControlName="vehicleValue" class="form-control required"
                   [(ngModel)]="carDetails.vehicleValue">
                 <p class="form-error" *ngIf="quickQuoteForm.controls['vehicleValue'].errors?.required">
                   * vehicle value is required

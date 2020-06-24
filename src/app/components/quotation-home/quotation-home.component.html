@@ -332,8 +332,19 @@
             </div>
           </div>
 
-          <app-group-policy #appGroupPolicy [subline]="homeDetails.businessLine" [details]="homeDetails"
-            [groupPolicy]="groupPolicy"> </app-group-policy>
+          <!-- <app-group-policy
+            #appGroupPolicy
+            [subline]="homeDetails.businessLine"
+            [details]="homeDetails"
+            [groupPolicy]="groupPolicy">
+          </app-group-policy>
+          <app-group-policy
+            #appGroupPolicy
+            [subline]="carDetails.subline"
+            [prevDetails]="prevCarDetails"
+            [groupPolicy]="groupPolicy"
+            [(changedValues)]="changedValues">
+          </app-group-policy> -->
 
           <div class="card shadow mb-3">
             <div class="card-header">

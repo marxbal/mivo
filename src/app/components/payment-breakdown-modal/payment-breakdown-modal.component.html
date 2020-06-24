@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header row">
       <div class="col-md-4">
-        <h6>Quotation Number</h6>
+        <h6>{{isPostPolicy ? 'Policy' : 'Quotation'}} Number</h6>
         <h4>{{number}}</h4>
       </div>
       <div class="col-md-4">
@@ -94,10 +94,13 @@
     <button type="button" class="btn btn-primary" (click)="close(false)">
       Close
     </button>
-    <button type="button" class="btn btn-primary" (click)="printQuote()">
+    <button *ngIf="isPostPolicy" type="button" class="btn btn-primary" (click)="printPolicy()">
+      Print Policy
+    </button>
+    <button *ngIf="!isPostPolicy" type="button" class="btn btn-primary" (click)="printQuote()">
       Print Quote
     </button>
-    <button type="button" class="btn btn-primary" (click)="proceedToIssuance()">
+    <button *ngIf="!isPostPolicy" type="button" class="btn btn-primary" (click)="proceedToIssuance()">
       Proceed to Issuance
     </button>
   </div>

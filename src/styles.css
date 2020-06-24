@@ -45,7 +45,7 @@ body,
 
 #login .left-container {
   background: #c31f09;
-  background-image: url('./assets/images/main-banner.png');
+  background-image: url('./assets/images/main-banner.jpg');
   background-size: cover;
 }
 
@@ -293,7 +293,7 @@ form .card-header.optional {
 @media (min-width: 768px) {
   #sticky #content-wrapper {
     margin-left: 250px;
-    height: 100vh;
+    /* height: 100vh; */
   }
 
   #sticky .sidebar .nav-item .collapse {

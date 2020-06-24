@@ -49,8 +49,8 @@ export class CarQuoteServices {
     private router: Router
   ) {}
 
-  async checkRoadAssist(carDetails: QuoteCar): Promise < ReturnDTO > {
-    return this.app.post(carDetails, '/quote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async checkRoadAssist(subline: number, vehicelType: number, modelYear: string, productList: number, coverageCode: number): Promise < ReturnDTO > {
+    return this.app.post({subline, vehicelType, modelYear, productList, coverageCode}, '/quote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async getCoverageByProduct(carDetails: QuoteCar): Promise < ReturnDTO > {
@@ -61,14 +61,41 @@ export class CarQuoteServices {
     return this.app.post(carDetails, '/quote/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async issuePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
-    return this.app.post(carDetails, '/quote/issuePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async savePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
+    return this.app.post(carDetails, '/quote/savePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
+  async postPolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
+    return this.app.post(carDetails, '/quote/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
+  async loadQuotation(quotationNumber: string): Promise < ReturnDTO > {
+    return this.app.post({quotationNumber}, '/quote/loadQuotation').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   printQuote(quotationNumber: string) {
     const documentPrintingDetails = new DocumentPrinting();
     documentPrintingDetails.quotationNumber = quotationNumber;
     documentPrintingDetails.documentType = "Q";
+
+    this.us.validatePrinting(documentPrintingDetails).then((res) => {
+      if (res.status) {
+        var ext = res.obj;
+        this.us.printDocument(ext.toString()).subscribe(data => {
+          if (data != null) {
+            window.open(URL.createObjectURL(data));
+          }
+        });
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
+    });
+  }
+
+  printPolicy(policyNumber: string) {
+    const documentPrintingDetails = new DocumentPrinting();
+    documentPrintingDetails.policyNumber = policyNumber;
+    documentPrintingDetails.documentType = "P";
 
     this.us.validatePrinting(documentPrintingDetails).then((res) => {
       if (res.status) {

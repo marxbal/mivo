@@ -49,7 +49,7 @@
                     && (documentPrintingForm.controls['policyNumber'].dirty 
                     || documentPrintingForm.controls['policyNumber'].touched)}">
                 <label for="policyNumber">Policy Number</label>
-                <input type="text" formControlName="policyNumber" class="form-control"
+                <input type="text" formControlName="policyNumber" class="form-control required"
                   (change)="policyNumberOnChange()"
                   [(ngModel)]="documentPrintingDetails.policyNumber">
                 <p class="form-error" *ngIf="documentPrintingForm.controls['policyNumber'].errors?.required">
@@ -63,7 +63,7 @@
                     && (documentPrintingForm.controls['quotationNumber'].dirty 
                     || documentPrintingForm.controls['quotationNumber'].touched)}">
                 <label for="quotationNumber">Quotation Number</label>
-                <input type="text" formControlName="quotationNumber" class="form-control"
+                <input type="text" formControlName="quotationNumber" class="form-control required"
                   [(ngModel)]="documentPrintingDetails.quotationNumber">
                 <p class="form-error" *ngIf="documentPrintingForm.controls['quotationNumber'].errors?.required">
                   * quotation number is required
@@ -104,7 +104,7 @@
                     && (documentPrintingForm.controls['csPass'].dirty 
                     || documentPrintingForm.controls['csPass'].touched)}">
                     <label for="csPass">Password</label>
-                    <input type="password" formControlName="csPass" class="form-control"
+                    <input type="password" formControlName="csPass" class="form-control required"
                       [(ngModel)]="documentPrintingDetails.csPass">
                     <p class="form-error" *ngIf="documentPrintingForm.controls['csPass'].errors?.required">
                       * password is required
@@ -141,7 +141,7 @@
                       && (documentPrintingForm.controls['soaPass'].dirty 
                       || documentPrintingForm.controls['soaPass'].touched)}">
                     <label for="soaPass">Password</label>
-                    <input type="password" formControlName="soaPass" class="form-control"
+                    <input type="password" formControlName="soaPass" class="form-control required"
                       [(ngModel)]="documentPrintingDetails.soaPass">
                     <p class="form-error" *ngIf="documentPrintingForm.controls['soaPass'].errors?.required">
                       * password is required

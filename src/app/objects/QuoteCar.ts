@@ -18,6 +18,8 @@ import {
 } from './CoverageVariableData';
 
 export class QuoteCar {
+  affecting: boolean;
+  isModifiedCoverage: boolean;
   mcaTmpPptoMph: string;
   quotationNumber: string;
   policyNumber: string;
@@ -58,7 +60,7 @@ export class QuoteCar {
   clientName: string;
   policyHolder: PolicyHolder;
   secondaryPolicyHolderPrefix: number;
-  secondaryPolicyHolderSeparator: number;
+  secondaryPolicyHolderSeparator: string;
   secondaryPolicyHolder: PolicyHolder;
   assigneePolicyHolder: PolicyHolder;
   mortgageePolicyHolder: PolicyHolder;

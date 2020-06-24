@@ -3,7 +3,7 @@
 }
 
 #sticky #accordionSidebar {
-  height: 100vh;
+  height: 100vh !important;
   overflow-y: scroll;
   overflow-x: hidden;
   -ms-overflow-style: none;
@@ -15,4 +15,9 @@
 #sticky #accordionSidebar::-webkit-scrollbar {
   display: none;
   /* Safari and Chrome */
+}
+
+.navbar-nav {
+  height: 100vh !important;
+  overflow-y: scroll;
 }
