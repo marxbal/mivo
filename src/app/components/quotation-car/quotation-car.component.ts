@@ -1240,8 +1240,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   affecting(key: string, label: string) {
     if (!Utility.isUndefined(this.carDetails.quotationNumber) && this.prevCarDetails != null) {
-      const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
-      const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+      let prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
+      let curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+
+      if (curr instanceof Date) {
+        curr= curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
+        prev = prev.getMonth() + "/" + prev.getDate() + "/" + prev.getFullYear();
+      }
+
       if (prev != curr) {
         if (!this.changedValues.includes(label)) {
           //if changedValues length is greater than 0, request is affecting
