@@ -360,7 +360,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    this.prevCarDetails = null;
     this.manageBtn(2);
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       const variableData = res.obj["variableData"] as any[];
@@ -635,6 +634,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const breakdown = res.obj["breakdown"];
       const receipt = res.obj["receipt"];
       this.populatePaymentBreakdown(breakdown, receipt);
+
+      //cloning details from load quotation
+      const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+      this.prevCarDetails = deepClone;
     }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter + 1;
@@ -684,12 +687,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cls.getAreaOfUsage(this.carDetails).then(res => {
       _this.LOV.areaOfUsageLOV = res;
     });
-
-    //loading accessory list
-    // this.cls.getAccessoryList(this.carDetails).then(res => {
-    //   console.log("getAccessoryList load");
-    //   _this.LOV.accessoryListLOV = res;
-    // });
 
     this.cls.getRegistrationType().then(res => {
       _this.LOV.registrationTypeLOV = res;
