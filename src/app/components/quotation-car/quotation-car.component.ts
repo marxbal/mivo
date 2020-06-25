@@ -535,6 +535,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       alternative.forEach(a => {
         const code = a.codCampo;
         const value : string = a.valCampo;
+        const text : string = a.txtCampo;
         let valueInt : number = undefined;
         
         try {
@@ -546,7 +547,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         switch (code) {
           //risk details
           case "TIP_ASEG_SEP_LOV": {
-            this.carDetails.secondaryPolicyHolderSeparator = value;
+            this.carDetails.secondaryPolicyHolderSeparator = text;
             break;
           }
 
