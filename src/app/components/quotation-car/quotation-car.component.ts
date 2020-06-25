@@ -603,11 +603,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       const accessories = res.obj["accessories"];
       if (accessories.length) {
+        //dispalys the accessory panel 
         this.showAccessories = true;
+        //removes all accessories
         this.removeAccessories();
         accessories.forEach((acc: any) => {
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
+        //disables selected accessory
+        this.disableAccessory();
       }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
