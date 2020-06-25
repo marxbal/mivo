@@ -465,7 +465,7 @@
                                 || accessories.controls['accessory'].touched)}">
                                 <label for="accessory">Accessory List</label>
                                 <select class="custom-select mr-sm-2 required" formControlName="accessory"
-                                  [(ngModel)]="accessory"
+                                  [(ngModel)]="accessory[i]"
                                   (change)="accessoryOnchange($event, i)">
                                   <option *ngFor="let accessoryList of LOV.accessoryListLOV"
                                     [ngValue]="accessoryList.COD_ACCESORIO"
