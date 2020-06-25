@@ -982,7 +982,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="paymentMethod"
                       [(ngModel)]="carDetails.paymentMethod"
                       (change)="affecting('paymentMethod', 'Payment Method')"
-                      [attr.disabled]="(showGenerateBtnGrp && !isModifiedCoverage) && LOV.paymentMethodLOV?.length ? null : true">
+                      [attr.disabled]="((showIssuanceGenerateBtn || showGenerateBtnGrp) && !isModifiedCoverage) && LOV.paymentMethodLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let paymentMethod of LOV.paymentMethodLOV"
                         [ngValue]="paymentMethod.COD_FRACC_PAGO">
@@ -1001,7 +1001,7 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [(ngModel)]="carDetails.productList"
-                      [attr.disabled]="(showGenerateBtnGrp && !isModifiedCoverage) && LOV.productListLOV?.length ? null : true"
+                      [attr.disabled]="((showIssuanceGenerateBtn || showGenerateBtnGrp) && !isModifiedCoverage) && LOV.productListLOV?.length ? null : true"
                       (change)="productOnChange(); affecting('productList', 'Product List')">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">

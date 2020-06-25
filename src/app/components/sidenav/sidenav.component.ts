@@ -6,6 +6,9 @@ import {
   Globals
 } from '../../utils/global';
 import {
+  Router
+} from '@angular/router';
+import {
   page
 } from '../../constants/page';
 import {
@@ -29,7 +32,9 @@ export class SidenavComponent implements OnInit {
   p = page; //constant pages
   menu = JSON.parse(localStorage.getItem(MENU));
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router) {}
 
   ngOnInit() {}
 
@@ -37,9 +42,10 @@ export class SidenavComponent implements OnInit {
     Globals.setPage(val);
   }
 
-  setAppPage(val: String, t: String) {
+  setAppPage(val: String) {
     Globals.setPage(val);
     Globals.setLoadQuotation(false);
+    this.router.navigate(['/reload']);
   }
 
   get page() {
