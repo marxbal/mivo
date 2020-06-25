@@ -626,9 +626,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const breakdown = res.obj["breakdown"];
       const receipt = res.obj["receipt"];
       this.populatePaymentBreakdown(breakdown, receipt);
-    }).finally(() => {
+
       //disables selected accessory
       this.disableAccessory();
+    }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter + 1;
     });
