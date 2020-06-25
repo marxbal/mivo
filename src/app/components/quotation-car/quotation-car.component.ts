@@ -565,6 +565,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.groupPolicy.contract = generalInfo.numSubcontrato;
       this.groupPolicy.subContract = generalInfo.numSubcontrato;
       this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+      this.carDetails.groupPolicy = this.groupPolicy;
 
       this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
       this.quoteForm.get('effectivityDate').markAsDirty();
