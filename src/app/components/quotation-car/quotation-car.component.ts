@@ -600,20 +600,25 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       }
 
       this.loadLOVs();
+
       const accessories = res.obj["accessories"];
-      
       if (accessories.length) {
         //dispalys the accessory panel 
         this.showAccessories = true;
         //removes all accessories
         this.removeAccessories();
+        var temp: any[] = [];
         accessories.forEach((acc: any) => {
+          temp.push({
+            accessory: acc.codAccesorio
+          });
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
-        setTimeout(() => {
-          console.log("disableAccessory");
-          this.disableAccessory();
-        }, 500);
+        const _this = this;
+        this.cls.getAccessoryList(this.carDetails).then(res => {
+          _this.LOV.accessoryListLOV = res;
+          this.disableAccessory(temp);
+        });
       }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
@@ -681,10 +686,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     //loading accessory list
-    this.cls.getAccessoryList(this.carDetails).then(res => {
-      console.log("getAccessoryList load");
-      _this.LOV.accessoryListLOV = res;
-    });
+    // this.cls.getAccessoryList(this.carDetails).then(res => {
+    //   console.log("getAccessoryList load");
+    //   _this.LOV.accessoryListLOV = res;
+    // });
 
     this.cls.getRegistrationType().then(res => {
       _this.LOV.registrationTypeLOV = res;
@@ -785,8 +790,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.disableAccessory();
   }
 
-  disableAccessory() {
-    var accessories = this.quoteForm.get('accessories').value;
+  disableAccessory(acc ? : any[]) {
+    var accessories = Utility.isUndefined(acc) ? this.quoteForm.get('accessories').value : acc;
     if (accessories.length > 0) {
       var temp = [];
       accessories.forEach(accessory => {
