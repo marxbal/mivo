@@ -492,7 +492,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.carDetails.existingDamages = value;
             break;
           }
-          case "TXT_EXT_DAM_PARTS": {
+          case "TIP_EXT_DAM_PARTS": {
             this.carDetails.inspectionAssessment = valueInt;
             break;
           }
