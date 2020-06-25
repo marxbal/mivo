@@ -974,6 +974,8 @@
                   <h6>Product Data</h6>
                 </div>
 
+                {{showIssuanceGenerateBtn}} {{showGenerateBtnGrp}} {{!isModifiedCoverage}}
+
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['paymentMethod'].invalid 
                         && (quoteForm.controls['paymentMethod'].dirty 
@@ -1001,8 +1003,8 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [(ngModel)]="carDetails.productList"
-                      [attr.disabled]="((showIssuanceGenerateBtn || showGenerateBtnGrp) && !isModifiedCoverage) && LOV.productListLOV?.length ? null : true"
-                      (change)="productOnChange(); affecting('productList', 'Product List')">
+                      (change)="productOnChange(); affecting('productList', 'Product List')"
+                      [attr.disabled]="((showIssuanceGenerateBtn || showGenerateBtnGrp) && !isModifiedCoverage) && LOV.productListLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}
