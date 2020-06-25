@@ -1242,9 +1242,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     if (!Utility.isUndefined(this.carDetails.quotationNumber) && this.prevCarDetails != null) {
       let prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
       let curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
-
+      debugger
       if (curr instanceof Date) {
-        curr= curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
+        curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
         prev = prev.getMonth() + "/" + prev.getDate() + "/" + prev.getFullYear();
       }
 
