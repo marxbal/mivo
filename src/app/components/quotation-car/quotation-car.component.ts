@@ -474,15 +474,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             break;
           }
           case "MCA_WAIVE_MIN_PREM": {
-            // this.carDetails.cbWaivedMinPremium = valueInt;
+            this.carDetails.cbWaivedMinPremium = (value == 'S');
             break;
           }
           case "MCA_PREPAID_PREM": {
-            // this.carDetails.cbPrepaidPremium = valueInt;
+            this.carDetails.cbPrepaidPremium = (value == 'S');
             break;
           }
           case "MCA_GLASS_ETCHING": {
-            // this.carDetails.cbGlassEtchingEntitled = value;
+            this.carDetails.cbGlassEtchingEntitled = (value == 'S');
             break;
           }
           case "FEC_GLASS_ETCHING": {
@@ -500,19 +500,19 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
           //additional policy information for issuance
           case "MCA_DRIVER": {
-            // this.carDetails.cbPolicyOnlyDriver = valueInt;
+            this.carDetails.cbPolicyOnlyDriver = (value == 'S');
             break;
           }
           case "MCA_OWNER": {
-            // this.carDetails.cbPolicyOwner = value;
+            this.carDetails.cbPolicyOwner = (value == 'S');
             break;
           }
           case "MCA_ASSIGNEE": {
-            // this.carDetails.cbHasAssignee = new Date(value);
+            this.carDetails.cbHasAssignee = (value == 'S');
             break;
           }
           case "MCA_MORTGAGED": {
-            // this.carDetails.cbVehicleMortgaged = valueInt;
+            this.carDetails.cbVehicleMortgaged = (value == 'S');
             break;
           }
           case "TIP_MORT_CLAUSE": {
@@ -522,6 +522,31 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
           case "COD_MODALIDAD": {
             this.carDetails.productList = valueInt;
+            break;
+          }
+
+          default: {
+            // do nothing
+          }
+        }
+      });
+
+      const alternative = res.obj["alternative"] as any[];
+      alternative.forEach(a => {
+        const code = a.codCampo;
+        const value : string = a.valCampo;
+        let valueInt : number = undefined;
+        
+        try {
+          valueInt = parseInt(value);
+        } catch(e) {
+          // do nothing
+        }
+
+        switch (code) {
+          //risk details
+          case "TIP_ASEG_SEP_LOV": {
+            this.carDetails.secondaryPolicyHolderSeparator = value;
             break;
           }
 
@@ -549,14 +574,36 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.policyHolder.documentCode = generalInfo.codDocum;
       this.policyHolder.documentType = generalInfo.tipDocum;
       this.policyHolder.isExisting = true;
-      this.policyHolder.isPerson = true; //TODO
 
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
       const accessories = res.obj["accessories"];
-      accessories.forEach((arr) => {
-        this.accessory().push(this.loadAccessory(1, 1, 100, 'desc'));
-      });
+      if (accessories.length) {
+        accessories.forEach((arr: any) => {
+          this.accessory().push(this.loadAccessory(arr.codAccesorio, arr.nomAgrupAccesorio, arr.impAccesorio, arr.txtAccesorio));
+        });
+      }
+      
+      const beneficiary = res.obj["beneficiary"];
+      if (beneficiary.length) {
+        beneficiary.forEach((ben: any) => {
+          if (ben.tipBenef == 1) {
+            this.secondaryPolicyHolder.documentCode = ben.codDocum;
+            this.secondaryPolicyHolder.documentType = ben.tipDocum;
+            this.secondaryPolicyHolder.isExisting = true;
+          } else if (ben.tipBenef == 27) {
+            this.showAssignee = true;
+            this.assigneePolicyHolder.documentCode = ben.codDocum;
+            this.assigneePolicyHolder.documentType = ben.tipDocum;
+            this.assigneePolicyHolder.isExisting = true;
+          } else if (ben.tipBenef == 1) {
+            this.showMortgagee = true;
+            this.mortgageePolicyHolder.documentCode = ben.codDocum;
+            this.mortgageePolicyHolder.documentType = ben.tipDocum;
+            this.mortgageePolicyHolder.isExisting = true;
+          }
+        });
+      }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
         const coverageList = res1.obj["coverageList"];
@@ -710,7 +757,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadAccessory(accessory: number, accessoryType: number, price: number, description: string): FormGroup {
+  loadAccessory(accessory: number, accessoryType: string, price: number, description: string): FormGroup {
     return this.fb.group({
       accessory: [accessory, Validators.required],
       accessoryType: [accessoryType, Validators.required],

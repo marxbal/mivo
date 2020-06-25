@@ -47,10 +47,8 @@ export class GroupPolicyComponent {
   }
   @Input()
   set loadQuotation(value: number) {
-    debugger
     this.triggerCounter = value;
     if (!Utility.isUndefined(this.groupPolicy.commercialStructure)) {
-      alert('comss');
       this.gpForm.get('commercialStructure').markAsDirty();
     }
     if (!Utility.isUndefined(this.groupPolicy.groupPolicy)) {
