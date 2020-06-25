@@ -592,12 +592,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.secondaryPolicyHolder.documentType = ben.tipDocum;
             this.secondaryPolicyHolder.isExisting = true;
           } else if (ben.tipBenef == 27) {
-            this.showAssignee = true;
             this.assigneePolicyHolder.documentCode = ben.codDocum;
             this.assigneePolicyHolder.documentType = ben.tipDocum;
             this.assigneePolicyHolder.isExisting = true;
           } else if (ben.tipBenef == 1) {
-            this.showMortgagee = true;
             this.mortgageePolicyHolder.documentCode = ben.codDocum;
             this.mortgageePolicyHolder.documentType = ben.tipDocum;
             this.mortgageePolicyHolder.isExisting = true;
