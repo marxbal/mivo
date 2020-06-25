@@ -88,7 +88,7 @@ import {
 })
 export class QuotationCarComponent implements OnInit, AfterViewChecked {
   @ViewChild(CoveragesComponent) appCoverage: CoveragesComponent;
-  @ViewChild('proceedModal') proceedModal: TemplateRef<any>;
+  @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
 
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
@@ -97,8 +97,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   triggerCounter: number = 0;
 
   carDetails = new QuoteCar();
-  prevCarDetails : QuoteCar = null;
-  changedValues: any[] =  [];
+  prevCarDetails: QuoteCar = null;
+  changedValues: any[] = [];
 
   hasRoadAssist = false;
   withTechControl = false;
@@ -166,7 +166,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //modal reference
   modalRef: BsModalRef;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
+  dialogRef: MatDialogRef < TemplateRef < any >> ;
 
   constructor(
     private fb: FormBuilder,
@@ -366,12 +366,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const variableData = res.obj["variableData"] as any[];
       variableData.forEach(v => {
         const code = v.codCampo;
-        const value : string = v.valCampo;
-        let valueInt : number = undefined;
-        
+        const value: string = v.valCampo;
+        let valueInt: number = undefined;
+
         try {
           valueInt = parseInt(value);
-        } catch(e) {
+        } catch (e) {
           // do nothing
         }
 
@@ -534,13 +534,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const alternative = res.obj["alternative"] as any[];
       alternative.forEach(a => {
         const code = a.codCampo;
-        const value : string = a.valCampo;
-        const text : string = a.txtCampo;
-        let valueInt : number = undefined;
-        
+        const value: string = a.valCampo;
+        const text: string = a.txtCampo;
+        let valueInt: number = undefined;
+
         try {
           valueInt = parseInt(value);
-        } catch(e) {
+        } catch (e) {
           // do nothing
         }
 
@@ -578,15 +578,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
-      const accessories = res.obj["accessories"];
-      if (accessories.length) {
-        this.showAccessories = true;
-        this.removeAccessories();
-        accessories.forEach((acc: any) => {
-          this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
-        });
-      }
-      
       const beneficiary = res.obj["beneficiary"];
       if (beneficiary.length) {
         beneficiary.forEach((ben: any) => {
@@ -608,6 +599,17 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         });
       }
 
+      this.loadLOVs();
+
+      const accessories = res.obj["accessories"];
+      if (accessories.length) {
+        this.showAccessories = true;
+        this.removeAccessories();
+        accessories.forEach((acc: any) => {
+          this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
+        });
+      }
+
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
         const coverageList = res1.obj["coverageList"];
         const amountList = res1.obj["amountList"];
@@ -622,11 +624,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const breakdown = res.obj["breakdown"];
       const receipt = res.obj["receipt"];
       this.populatePaymentBreakdown(breakdown, receipt);
-
-      this.loadLOVs();
     }).finally(() => {
       //trigger child component load quotation function
-      this.triggerCounter = this.triggerCounter+1;
+      this.triggerCounter = this.triggerCounter + 1;
     });
   }
 
@@ -1101,15 +1101,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   public findInvalidControls(invalid: any[], form: FormGroup) {
     const controls = form.controls;
     for (const name in controls) {
-        if (controls[name].invalid) {
-            invalid.push(name);
-        }
-        if (controls[name].pristine) {
-          invalid.push(name);
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+      if (controls[name].pristine) {
+        invalid.push(name);
       }
     }
     return invalid;
-}
+  }
 
   proceed(type: number) {
     //if user changes affecting values
@@ -1188,7 +1188,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  manageBtn(opt: number, isModified?: boolean) {
+  manageBtn(opt: number, isModified ? : boolean) {
     if (opt == 1) {
       this.showPaymentBreakdown = false;
 
@@ -1379,9 +1379,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     const coverageAmountIsUndefined = Utility.isUndefined(resCoverageAmount);
     const isPostPolicy = coverageAmountIsUndefined && Utility.isUndefined(resErrorCode);
-    let items: any[] = isPostPolicy
-      ? ["Error occured while posting policy. Please contact administration."]
-      : ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+    let items: any[] = isPostPolicy ?
+      ["Error occured while posting policy. Please contact administration."] :
+      ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
 
     if (!Utility.isUndefined(resError)) {
       const errArr = resError.split("~");
@@ -1434,7 +1434,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             //duplicating car details for comparison
             const deepClone = JSON.parse(JSON.stringify(this.carDetails));
             this.prevCarDetails = deepClone;
-            
+
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
 
             const errorCode = res1.obj["errorCode"];
@@ -1498,13 +1498,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         if (res1.status) {
           //clear affecting fields
           this.changedValues = [];
-  
+
           var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
           const policyNumber = res1.obj["policyNumber"];
           if (status && !Utility.isUndefined(policyNumber)) {
             this.carDetails.policyNumber = policyNumber;
-  
+
             this.isModifiedCoverage = false;
             const breakdown = res1.obj["breakdown"];
             const receipt = res1.obj["receipt"];
