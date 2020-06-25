@@ -92,7 +92,7 @@ export class CarLOVServices {
       '|COD_CIA~1' +
       '|cod_tip_vehi~' + carDetails.vehicleType +
       '|fec_validez~' + carDetails.sublineEffectivityDate);
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, 'COD_ACCESORIO').then(lovs => lovs as any[]);
   }
 
   async getClassification(): Promise < any[] > {
