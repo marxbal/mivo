@@ -1245,7 +1245,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       debugger
       if (curr instanceof Date) {
         curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
-        prev = prev.getMonth() + "/" + prev.getDate() + "/" + prev.getFullYear();
+        if (!Utility.isUndefined(prev)) {
+          var prevDate = new Date(prev);
+          prev = prevDate.getMonth() + "/" + prevDate.getDate() + "/" + prevDate.getFullYear();
+        }
       }
 
       if (prev != curr) {
