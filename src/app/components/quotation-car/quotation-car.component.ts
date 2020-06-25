@@ -611,6 +611,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
         setTimeout(() => {
+          console.log("disableAccessory");
           this.disableAccessory();
         }, 500);
       }
@@ -681,6 +682,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     //loading accessory list
     this.cls.getAccessoryList(this.carDetails).then(res => {
+      console.log("getAccessoryList load");
       _this.LOV.accessoryListLOV = res;
     });
 
@@ -977,6 +979,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     this.cls.getAccessoryList(this.carDetails).then(res => {
+      console.log("getAccessoryList sublineChange");
       _this.LOV.accessoryListLOV = res;
     });
     this.removeAccessories();
