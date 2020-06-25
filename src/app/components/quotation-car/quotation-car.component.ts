@@ -610,8 +610,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         accessories.forEach((acc: any) => {
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
-        //disables selected accessory
-        this.disableAccessory();
       }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
@@ -629,6 +627,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       const receipt = res.obj["receipt"];
       this.populatePaymentBreakdown(breakdown, receipt);
     }).finally(() => {
+      //disables selected accessory
+      this.disableAccessory();
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter + 1;
     });
