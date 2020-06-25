@@ -219,7 +219,7 @@ export class CoveragesComponent implements OnInit {
         }
       });
 
-      if (code == 1040) {
+      if (code == 1040 && !included) {
         // checking for product with Road Assist if code is 1040 or ROAD ASSIST
         included = this.hasRoadAssist;
       } else if (code == 1001 && included && this.isIssuance) {
