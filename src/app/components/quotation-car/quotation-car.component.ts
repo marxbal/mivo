@@ -1469,12 +1469,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const premiumAmount = res1.obj["premiumAmount"];
             const coverageVariable = res1.obj["coverageVariable"];
 
-            // if (this.isModifiedCoverage || !this.carDetails.affecting) {
-            //   this.showCoverage = true;
-            // } else {
-            //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-            // }
-            // 
             this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
             this.isModifiedCoverage = false;
 
@@ -1491,8 +1485,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             } else {
               const message = "Policy saved successfully.";
               this.modalRef = Utility.showInfo(this.bms, message);
-              this.manageBtn(3);
             }
+            this.manageBtn(3);
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
