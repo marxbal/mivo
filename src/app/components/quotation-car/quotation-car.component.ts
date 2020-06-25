@@ -578,10 +578,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
+      debugger
       const accessories = res.obj["accessories"];
       if (accessories.length) {
-        accessories.forEach((arr: any) => {
-          this.accessory().push(this.loadAccessory(arr.codAccesorio, arr.nomAgrupAccesorio, arr.impAccesorio, arr.txtAccesorio));
+        accessories.forEach((acc: any) => {
+          this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
       }
       
@@ -593,10 +594,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.secondaryPolicyHolder.documentType = ben.tipDocum;
             this.secondaryPolicyHolder.isExisting = true;
           } else if (ben.tipBenef == 27) {
+            this.showAssignee = true;
             this.assigneePolicyHolder.documentCode = ben.codDocum;
             this.assigneePolicyHolder.documentType = ben.tipDocum;
             this.assigneePolicyHolder.isExisting = true;
-          } else if (ben.tipBenef == 1) {
+          } else if (ben.tipBenef == 8) {
+            this.showMortgagee = true;
             this.mortgageePolicyHolder.documentCode = ben.codDocum;
             this.mortgageePolicyHolder.documentType = ben.tipDocum;
             this.mortgageePolicyHolder.isExisting = true;
