@@ -578,9 +578,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
-      debugger
       const accessories = res.obj["accessories"];
       if (accessories.length) {
+        this.removeAccessories();
         accessories.forEach((acc: any) => {
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
@@ -677,7 +677,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cls.getAccessoryList(this.carDetails).then(res => {
       _this.LOV.accessoryListLOV = res;
     });
-    this.removeAccessories();
 
     this.cls.getRegistrationType().then(res => {
       _this.LOV.registrationTypeLOV = res;
