@@ -250,9 +250,7 @@ export class CoveragesComponent implements OnInit {
         if (!hasCounterpart) {
           sumInsured = options[0].value;
         }
-      }
-
-      if (!included) {
+      } else if (!included) {
         sumInsured = 0;
         netPremium = 0;
       }
