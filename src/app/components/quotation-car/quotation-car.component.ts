@@ -580,6 +580,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       const accessories = res.obj["accessories"];
       if (accessories.length) {
+        this.showAccessories = true;
         this.removeAccessories();
         accessories.forEach((acc: any) => {
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
