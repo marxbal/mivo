@@ -1161,8 +1161,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     dialogConfig.role = 'dialog';
     dialogConfig.width = '500px';
     dialogConfig.data = {
-      generateBtn: type == 1 || type == 2,
-      saveBtn: type == 3 || type == 4
+      generateBtn: type == 1 || type == 2 || type == 3,
+      saveBtn: type == 4
     };
 
     this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
