@@ -599,8 +599,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         });
       }
 
+      this.loadLOVs();
       const accessories = res.obj["accessories"];
-      this.loadLOVs(accessories);
+      
       if (accessories.length) {
         //dispalys the accessory panel 
         this.showAccessories = true;
@@ -609,6 +610,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         accessories.forEach((acc: any) => {
           this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
         });
+        setTimeout(() => {
+          this.disableAccessory();
+        }, 500);
       }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
@@ -632,7 +636,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   //loading of all LOV's for load quotation
-  loadLOVs(accessories: any[]) {
+  loadLOVs() {
     var _this = this;
     //loading risk information
     this.quoteForm.get('make').markAsDirty();
@@ -678,15 +682,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     //loading accessory list
     this.cls.getAccessoryList(this.carDetails).then(res => {
       _this.LOV.accessoryListLOV = res;
-      if (accessories.length) {
-        var temp = [];
-        accessories.forEach(accessory => {
-          temp.push(accessory.accessory);
-        });
-        this.LOV.accessoryListLOV.forEach(accessory => {
-          accessory.disabled = temp.indexOf(accessory.COD_ACCESORIO) !== -1;
-        });
-      }
     });
 
     this.cls.getRegistrationType().then(res => {
