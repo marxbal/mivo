@@ -16,7 +16,7 @@
             || gpForm.controls['groupPolicy'].touched)}">
             <label for="groupPolicy">Group Policy</label>
             <select class="custom-select mr-sm-2" formControlName="groupPolicy"
-              [attr.disabled]=" GPLOV.groupPolicyLOV?.length ? null : true" [(ngModel)]="groupPolicy.groupPolicy"
+              [attr.disabled]="editMode && GPLOV.groupPolicyLOV?.length ? null : true" [(ngModel)]="groupPolicy.groupPolicy"
               (change)="groupPolicyOnChange(); affecting('groupPolicy', 'Group Policy')">
               <option></option>
               <option *ngFor="let groupPolicy of GPLOV.groupPolicyLOV" [ngValue]="groupPolicy.NUM_POLIZA">
@@ -35,7 +35,8 @@
             <label for="contract">Contract</label>
             <select class="custom-select mr-sm-2 required" formControlName="contract"
               (change)="contractOnChange(); affecting('contract', 'Contract')"
-              [(ngModel)]="groupPolicy.contract" [attr.disabled]=" groupPolicy.groupPolicy ? null : true">
+              [(ngModel)]="groupPolicy.contract"
+              [attr.disabled]="editMode && groupPolicy.groupPolicy ? null : true">
               <option></option>
               <option *ngFor="let contract of GPLOV.contractLOV" [ngValue]="contract.NUM_CONTRATO">
                 {{ contract.NOM_CONTRATO }}
@@ -55,7 +56,7 @@
             <select class="custom-select mr-sm-2 required" formControlName="subContract"
               (change)="affecting('subContract', 'Sub Contract')"
               [(ngModel)]="groupPolicy.subContract"
-              [attr.disabled]=" groupPolicy.groupPolicy && groupPolicy.contract ? null : true">
+              [attr.disabled]="editMode && groupPolicy.groupPolicy && groupPolicy.contract ? null : true">
               <option></option>
               <option *ngFor="let subContract of GPLOV.subContractLOV" [ngValue]="subContract.NUM_SUBCONTRATO">
                 {{ subContract.NOM_SUBCONTRATO }}</option>
@@ -72,8 +73,8 @@
             || gpForm.controls['commercialStructure'].touched)}">
             <label for="commercialStructure">Commercial Structure</label>
             <select class="custom-select mr-sm-2 required" formControlName="commercialStructure"
-              [attr.disabled]=" GPLOV.commercialStructureLOV?.length ? null : true"
-              [(ngModel)]="groupPolicy.commercialStructure">
+              [(ngModel)]="groupPolicy.commercialStructure"
+              [attr.disabled]="editMode && GPLOV.commercialStructureLOV?.length ? null : true">
               <option></option>
               <option *ngFor="let commercialStructure of GPLOV.commercialStructureLOV"
                 [ngValue]="commercialStructure.COD_NIVEL3">{{ commercialStructure.NOM_NIVEL3 }}</option>
@@ -103,7 +104,8 @@
             || gpForm.controls['expiringPolicyNumber'].touched)}">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="cbIsRenewal" formControlName="cbIsRenewal"
-                [(ngModel)]="groupPolicy.cbIsRenewal">
+                [(ngModel)]="groupPolicy.cbIsRenewal"
+                [attr.disabled]="editMode ? null : true">
               <label class="form-check-label" for="cbIsRenewal">
                 Renewal
               </label>
@@ -111,9 +113,9 @@
             <label class="form-check-label" for="cbIsRenewal">
               Expiring Policy Number
             </label>
-            <input type="text" formControlName="expiringPolicyNumber"
-              [attr.disabled]="groupPolicy.cbIsRenewal ? null : ''" class="form-control required"
-              [(ngModel)]="groupPolicy.expiringPolicyNumber">
+            <input type="text" formControlName="expiringPolicyNumber" class="form-control required"
+              [(ngModel)]="groupPolicy.expiringPolicyNumber"
+              [attr.disabled]="editMode && groupPolicy.cbIsRenewal ? null : ''">
             <p class="form-error" *ngIf="gpForm.controls['expiringPolicyNumber'].errors?.required">
               * expiring policy number is required
             </p>

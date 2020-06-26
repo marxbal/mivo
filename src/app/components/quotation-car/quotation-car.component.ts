@@ -139,6 +139,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   coverageAmount: any[];
   coverageVariable: any[];
 
+  //allow user to edit the form
+  editMode = true;
+
   //disable change product input
   disableProductSelect = false;
 
@@ -572,9 +575,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
       this.quoteForm.get('expiryDate').markAsDirty();
 
-      this.policyHolder.documentCode = generalInfo.codDocum;
-      this.policyHolder.documentType = generalInfo.tipDocum;
-      this.policyHolder.isExisting = true;
+      const docType = generalInfo.tipDocum;
+      const docCode = generalInfo.codDocum;
+      // preventing generic document type and code
+      if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+        this.policyHolder.documentType = docType;
+        this.policyHolder.documentCode = docCode;
+        this.policyHolder.isExisting = true;
+      }
 
       this.carDetails.paymentMethod = generalInfo.codFraccPago;
 
@@ -1201,9 +1209,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   manageBtn(opt: number, isModified ? : boolean) {
     if (opt == 1) {
+      //hides payment breakdown panel
       this.showPaymentBreakdown = false;
 
+      // flag to edit coverage
       const modified = !Utility.isUndefined(isModified);
+
+      this.editMode = !modified;
       this.showCoverage = modified;
       this.isModifiedCoverage = modified;
       if (modified) {
@@ -1314,6 +1326,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
+            this.editMode = false;
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
             const errorCode = res1.obj["errorCode"];
             if (errorCode == "S") {
@@ -1486,6 +1499,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               const message = "Policy saved successfully.";
               this.modalRef = Utility.showInfo(this.bms, message);
             }
+            this.editMode = false;
             this.manageBtn(3);
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
@@ -1517,6 +1531,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const status = res1.obj["status"];
           const policyNumber = res1.obj["policyNumber"];
           if (status && !Utility.isUndefined(policyNumber)) {
+            this.editMode = false;
             this.carDetails.policyNumber = policyNumber;
 
             this.isModifiedCoverage = false;

@@ -23,7 +23,8 @@
                   || phForm.controls['name'].touched)}">
             <label for="name">Client's Name</label>
             <input type="text" formControlName="name" class="form-control required"
-              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.firstName">
+              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="policyHolder.firstName"
+              [attr.disabled]="editMode ? null : true">
             <p class="form-error" *ngIf="phForm.controls['name'].errors?.required">
               * client's name is required
             </p>
@@ -53,7 +54,9 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="secondaryPolicyHolderPrefix">Prefix (Optional)</label>
-                <select class="custom-select mr-sm-2" formControlName="secondaryPolicyHolderPrefix" [(ngModel)]="details.secondaryPolicyHolderPrefix">
+                <select class="custom-select mr-sm-2" formControlName="secondaryPolicyHolderPrefix"
+                  [(ngModel)]="details.secondaryPolicyHolderPrefix"
+                  [attr.disabled]="editMode ? null : true">
                   <option selected></option>
                   <option *ngFor="let prefix of prefixLOV" [ngValue]="prefix.TIP_ASEG_PREF">{{ prefix.NOM_VALOR }}</option>
                 </select>
@@ -63,7 +66,10 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="secondaryPolicyHolderSeparator">Separator</label>
-                <select class="custom-select mr-sm-2 {{policyHolder.documentType != undefined && policyHolder.documentType != '' ? 'required' : ''}}" formControlName="secondaryPolicyHolderSeparator" [(ngModel)]="details.secondaryPolicyHolderSeparator">
+                <select class="custom-select mr-sm-2 {{policyHolder.documentType != undefined && policyHolder.documentType != '' ? 'required' : ''}}"
+                  formControlName="secondaryPolicyHolderSeparator"
+                  [(ngModel)]="details.secondaryPolicyHolderSeparator"
+                  [attr.disabled]="editMode ? null : true">
                   <option selected></option>
                   <option *ngFor="let separator of separatorLOV" [ngValue]="separator.NOM_VALOR">{{ separator.NOM_VALOR }}</option>
                 </select>
@@ -98,7 +104,7 @@
           </div>
         </div>
 
-        <div class="col-md-12">
+        <div *ngIf="editMode" class="col-md-12">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="browse()">Browse</button>
             <button type="button" class="btn btn-primary" (click)="create()" *ngIf="showCreateBtn">Create</button>
@@ -108,7 +114,7 @@
       </div>
     </form>
 
-    <div *ngIf="showSearch" class="row">
+    <div *ngIf="editMode && showSearch" class="row">
       <div class="col-xl-12">
         <form [formGroup]="searchForm">
           <div class="form-divider"></div>
