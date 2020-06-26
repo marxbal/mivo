@@ -631,6 +631,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           var accessories = this.quoteForm.get('accessories').value;
           this.carDetails.accessories = accessories;
         });
+      } else {
+        const _this = this;
+        this.cls.getAccessoryList(this.carDetails).then(res => {
+          _this.LOV.accessoryListLOV = res;
+        });
       }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
