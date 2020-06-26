@@ -636,6 +636,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.cls.getAccessoryList(this.carDetails).then(res => {
           _this.LOV.accessoryListLOV = res;
         });
+        this.carDetails.accessories = [];
       }
 
       this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
@@ -1195,6 +1196,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               }
             }
           });
+          if (!matched) {
+            this.changedAccessoryValues.push(
+              "Accessory: Changed Accessory List");
+          }
         });
       }
     }
