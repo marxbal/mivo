@@ -1165,9 +1165,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
       var accessories = this.quoteForm.get('accessories').value;
       const length = accessories.length;
-      const prevlength = 0;
+      let prevlength = 0;
       if ('accessories' in this.prevCarDetails) {
         const prevAccessories = this.prevCarDetails.accessories;
+        prevlength = prevAccessories.length;
         if (prevlength != length) {
           hasAccessoryChanges = true;
           if (prevlength > length) {
