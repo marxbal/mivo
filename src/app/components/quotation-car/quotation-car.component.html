@@ -1099,37 +1099,40 @@
           <!-- .note -->
 
           <!-- button controls for quotation -->
-          <div *ngIf="!isIssuance && showGenerateBtnGrp" class="btn-group" role="group">
-            <!-- <button type="button" class="btn btn-primary"
-              (click)="test()">test</button> -->
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
-              type="button" class="btn btn-primary"
-              (click)="proceed(1)">Generate</button>
-          </div>
-
-          <div *ngIf="!isIssuance && showIssueQuoteBtnGrp" class="btn-group" role="group">
-            <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1)">Change Product</button>
-            <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1, true)">Edit Coverage</button>
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
-              type="button" class="btn btn-primary"
-              (click)="proceed(2)">Issue Qoute</button>
-          </div>
-
-          <div *ngIf="!isIssuance && showProceedToIssuanceBtnGrp" class="text-right">
-            <h5><small>Your quotation number:</small> {{carDetails.quotationNumber}}</h5>
-          </div>
-          <div *ngIf="!isIssuance && showProceedToIssuanceBtnGrp" class="btn-group" role="group">
-            <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
-            <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
-            <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+          <div *ngIf="!isIssuance">
+            <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
+              <!-- <button type="button" class="btn btn-primary"
+                (click)="test()">test</button> -->
+              <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(1)">Generate</button>
+            </div>
+  
+            <div *ngIf="showIssueQuoteBtnGrp" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="manageBtn(1)">Edit Details</button>
+              <button type="button" class="btn btn-primary"
+                (click)="manageBtn(1, true)">Edit Coverage</button>
+              <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(2)">Issue Qoute</button>
+            </div>
+  
+            <div *ngIf="showProceedToIssuanceBtnGrp" class="text-right">
+              <h5><small>Your quotation number:</small> {{carDetails.quotationNumber}}</h5>
+            </div>
+            <div *ngIf="showProceedToIssuanceBtnGrp" class="btn-group" role="group">
+              <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
+              <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
+              <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+            </div>
           </div>
 
           <!-- button controls for issuance -->
@@ -1149,7 +1152,7 @@
             </div>
 
             <div *ngIf="showSaveBtn" class="btn-group" role="group">
-              <button *ngIf="!editMode" type="button"
+              <button *ngIf="!editMode"
                 type="button" class="btn btn-primary"
                 (click)="manageBtn(1)">Edit Details</button>
               <button type="button" class="btn btn-primary"
@@ -1166,6 +1169,9 @@
             </div>
 
             <div *ngIf="showPostBtn" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="editMode = !editMode">Edit Details</button>
               <button
                 [disabled]="quoteForm.pristine || quoteForm.invalid ||
                 appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1212,6 +1218,10 @@
     <h6>You have changes to this following field/s: </h6>
     <ul>
       <li *ngFor="let item of changedValues">
+        {{item}}
+      </li>
+
+      <li *ngFor="let item of changedAccessoryValues">
         {{item}}
       </li>
     </ul>

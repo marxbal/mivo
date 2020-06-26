@@ -80,6 +80,7 @@ import {
 import {
   ReturnDTO
 } from 'src/app/objects/ReturnDTO';
+import { Accessory } from 'src/app/objects/Accessory';
 
 @Component({
   selector: 'app-quotation-car',
@@ -99,6 +100,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   carDetails = new QuoteCar();
   prevCarDetails: QuoteCar = null;
   changedValues: any[] = [];
+  changedAccessoryValues: any[] = [];
 
   hasRoadAssist = false;
   withTechControl = false;
@@ -626,6 +628,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.cls.getAccessoryList(this.carDetails).then(res => {
           _this.LOV.accessoryListLOV = res;
           this.disableAccessory(temp);
+          var accessories = this.quoteForm.get('accessories').value;
+          this.carDetails.accessories = accessories;
         });
       }
 
@@ -1096,24 +1100,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     invalid = this.findInvalidControls(invalid, q);
     invalid = this.findInvalidControls(invalid, g);
     invalid = this.findInvalidControls(invalid, c);
-    // const qcontrols = q.controls;
-    // for (const name in qcontrols) {
-    //     if (qcontrols[name].invalid) {
-    //         invalid.push(name);
-    //     }
-    // }
-    // const gcontrols = g.controls;
-    // for (const name in gcontrols) {
-    //     if (gcontrols[name].invalid) {
-    //         invalid.push(name);
-    //     }
-    // }
-    // const ccontrols = c.controls;
-    // for (const name in ccontrols) {
-    //     if (ccontrols[name].invalid) {
-    //         invalid.push(name);
-    //     }
-    // }
     alert(invalid);
   }
 
@@ -1132,7 +1118,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   proceed(type: number) {
     //if user changes affecting values
-    const hasChanges = this.changedValues.length != 0;
+    const hasChanges = this.changedValues.length != 0 || this.checkAffectingAccessories();
+
     const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
     this.carDetails.affecting = !hasQuotationNumber ||
@@ -1160,6 +1147,54 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
       }
     }
+  }
+
+  checkAffectingAccessories() {
+    let hasAccessoryChanges = false;
+
+    if (!Utility.isUndefined(this.prevCarDetails)) {
+      this.changedAccessoryValues = [];
+
+      var accessories = this.quoteForm.get('accessories').value;
+      const length = accessories.length;
+      const prevlength = 0;
+      if ('accessories' in this.prevCarDetails) {
+        const prevAccessories = this.prevCarDetails.accessories;
+        if (prevlength != length) {
+          hasAccessoryChanges = true;
+          if (prevlength > length) {
+            var diff = prevlength - length;
+            var label = diff == 1 ? " accessory" : " accessories";
+            this.changedAccessoryValues.push(
+              "Accessory: Deleted " + diff + label);
+          } else {
+            var diff = length - prevlength;
+            var label = diff == 1 ? " accessory" : " accessories";
+            this.changedAccessoryValues.push(
+              "Accessory: Added" + diff + label);
+          }
+        }
+
+        prevAccessories.forEach((acc : Accessory) => {
+          let matched = false;
+          accessories.forEach((acc1: Accessory) => {
+            if (acc.accessory == acc1.accessory) {
+              matched = true;
+              if (acc.description != acc1.description) {
+                this.changedAccessoryValues.push(
+                  "Accessory Description: Changed " + acc.description + " to " + acc1.description);
+              }
+              if (acc.price != acc1.price) {
+                this.changedAccessoryValues.push(
+                  "Accessory Price: Changed " + acc.price + " to " + acc1.price);
+              }
+            }
+          });
+        });
+      }
+    }
+
+    return hasAccessoryChanges;
   }
 
   openProceedModal(type: number): void {
