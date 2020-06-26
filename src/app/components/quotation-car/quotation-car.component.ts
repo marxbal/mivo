@@ -628,9 +628,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.cls.getAccessoryList(this.carDetails).then(res => {
           _this.LOV.accessoryListLOV = res;
           this.disableAccessory(temp);
-          var accessories = this.quoteForm.get('accessories').value;
-          this.carDetails.accessories = accessories;
         });
+
+        var accessoriesForm = this.quoteForm.get('accessories').value;
+        this.carDetails.accessories = accessoriesForm;
       } else {
         const _this = this;
         this.cls.getAccessoryList(this.carDetails).then(res => {
@@ -1124,7 +1125,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   proceed(type: number) {
     //if user changes affecting values
-    const hasChanges = this.changedValues.length != 0 || this.checkAffectingAccessories();
+    const hasAffectingAccessories = this.checkAffectingAccessories()
+    const hasChanges = this.changedValues.length != 0 || hasAffectingAccessories;
 
     const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
@@ -1177,7 +1179,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             var diff = length - prevlength;
             var label = diff == 1 ? " accessory" : " accessories";
             this.changedAccessoryValues.push(
-              "Accessory: Added" + diff + label);
+              "Accessory: Added " + diff + label);
           }
         }
 
@@ -1300,7 +1302,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     if (!Utility.isUndefined(this.carDetails.quotationNumber) && this.prevCarDetails != null) {
       let prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
       let curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
-      debugger
       if (curr instanceof Date) {
         curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
         if (!Utility.isUndefined(prev)) {
