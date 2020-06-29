@@ -195,7 +195,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.createQuoteForm();
     this.setValidations();
-    this.init();
+    this.loadInit();
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
@@ -208,7 +208,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  init() {
+  loadInit() {
     var _this = this;
     this.cls.getMakeList().then(res => {
       _this.LOV.makeLOV = res;
@@ -245,10 +245,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       });
     }
 
-    this.setValue();
+    this.setDefaultValue();
   }
 
-  setValue() {
+  setDefaultValue() {
     //setting default value
     this.carDetails.color = 9999; // undeclared
     this.carDetails.receivedBy = this.currentUser.userName; //TODO
@@ -1350,7 +1350,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // includes coverages to car details DTO
     this.carDetails.coverages = [];
-    if (!Utility.isUndefined(this.appCoverage)) {
+    if (!Utility.isUndefined(this.appCoverage) && this.carDetails.isModifiedCoverage) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
@@ -1373,6 +1373,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
+            //duplicating car details for comparison
+            const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+            this.prevCarDetails = deepClone;
+
             this.editMode = false;
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
             const errorCode = res1.obj["errorCode"];
@@ -1441,7 +1445,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // includes coverages to car details DTO
     this.carDetails.coverages = [];
-    if (!Utility.isUndefined(this.appCoverage)) {
+    if (!Utility.isUndefined(this.appCoverage) && this.carDetails.isModifiedCoverage) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
@@ -1514,6 +1518,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             //duplicating car details for comparison
             const deepClone = JSON.parse(JSON.stringify(this.carDetails));
             this.prevCarDetails = deepClone;
+
+            this.editMode = false;
 
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
 
