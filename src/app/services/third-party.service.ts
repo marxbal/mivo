@@ -19,4 +19,11 @@ export class ThirdPartyService {
       lastName
     }, '/thirdParty/getThirdPartyList').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getThirdPartyDetails(documentType: string, documentCode: string): Promise < ReturnDTO > {
+    return this.app.post({
+      documentType,
+      documentCode
+    }, '/thirdParty/getThirdPartyDetails').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }
