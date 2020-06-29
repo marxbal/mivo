@@ -367,297 +367,306 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   loadQuotation() {
     this.manageBtn(2);
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
-      const variableData = res.obj["variableData"] as any[];
-      variableData.forEach(v => {
-        const code = v.codCampo;
-        const value: string = v.valCampo;
-        let valueInt: number = undefined;
-
-        try {
-          valueInt = parseInt(value);
-        } catch (e) {
-          // do nothing
-        }
-
-        switch (code) {
-          //risk details
-          case "COD_MARCA": {
-            this.carDetails.make = valueInt;
-            break;
-          }
-          case "COD_MODELO": {
-            this.carDetails.model = valueInt;
-            break;
-          }
-          case "COD_TIP_VEHI": {
-            this.carDetails.vehicleType = valueInt;
-            break;
-          }
-          case "ANIO_SUB_MODELO": {
-            this.carDetails.modelYear = value;
-            break;
-          }
-          case "COD_SUB_MODELO": {
-            this.carDetails.subModel = valueInt;
-            break;
-          }
-          case "COD_USO_VEHI": {
-            this.carDetails.typeOfUse = valueInt;
-            break;
-          }
-          case "VAL_SUB_MODELO": {
-            this.carDetails.vehicleValue = valueInt;
-            break;
-          }
-
-          //vehicle information
-          case "COD_COLOR": {
-            this.carDetails.color = valueInt;
-            break;
-          }
-          case "COD_AREA_USAGE": {
-            this.carDetails.areaOfUsage = valueInt;
-            break;
-          }
-          case "NUM_CONDUCTION": {
-            this.carDetails.conductionNumber = value;
-            break;
-          }
-          case "NUM_MATRICULA": {
-            this.carDetails.plateNumber = value;
-            break;
-          }
-          case "NUM_SERIAL": {
-            this.carDetails.serialNumber = value;
-            break;
-          }
-          case "NUM_MOTOR": {
-            this.carDetails.engineNumber = value;
-            break;
-          }
-          case "NUM_MV_FILE": {
-            this.carDetails.mvFileNumber = value;
-            break;
-          }
-          case "FEC_PURCHASE": {
-            this.carDetails.purchaseDate = new Date(value);
-            this.quoteForm.get('purchaseDate').markAsDirty();
-            break;
-          }
-          case "NOM_RECEIVED_BY": {
-            this.carDetails.receivedBy = value;
-            break;
-          }
-          case "FEC_RECEIVED": {
-            this.carDetails.receivedDate = new Date(value);
-            this.quoteForm.get('receivedDate').markAsDirty();
-            break;
-          }
-          case "NUM_PLAZAS": {
-            this.carDetails.seatingCapacity = valueInt;
-            break;
-          }
-          case "VAL_PESO": {
-            this.carDetails.weight = value;
-            break;
-          }
-          case "VAL_CC": {
-            this.carDetails.displacement = value;
-            break;
-          }
-          case "TIP_VEHI_PESO": {
-            this.carDetails.classification = valueInt;
-            break;
-          }
-          case "COD_AREA_COVER": {
-            this.carDetails.coverageArea = valueInt;
-            break;
-          }
-          case "PCT_CLI_COINS": {
-            this.carDetails.assuredsCoinsuranceShare = value;
-            break;
-          }
-          case "MCA_WAIVE_MIN_PREM": {
-            this.carDetails.cbWaivedMinPremium = (value == 'S');
-            break;
-          }
-          case "MCA_PREPAID_PREM": {
-            this.carDetails.cbPrepaidPremium = (value == 'S');
-            break;
-          }
-          case "MCA_GLASS_ETCHING": {
-            this.carDetails.cbGlassEtchingEntitled = (value == 'S');
-            break;
-          }
-          case "FEC_GLASS_ETCHING": {
-            this.carDetails.glassEtchingAvailmentDate = new Date(value);
-            break;
-          }
-          case "TXT_EXT_DAM_PARTS": {
-            this.carDetails.existingDamages = value;
-            break;
-          }
-          case "TIP_EXT_DAM_PARTS": {
-            this.carDetails.inspectionAssessment = valueInt;
-            break;
-          }
-
-          //additional policy information for issuance
-          case "MCA_DRIVER": {
-            this.carDetails.cbPolicyOnlyDriver = (value == 'S');
-            break;
-          }
-          case "MCA_OWNER": {
-            this.carDetails.cbPolicyOwner = (value == 'S');
-            break;
-          }
-          case "MCA_ASSIGNEE": {
-            this.carDetails.cbHasAssignee = (value == 'S');
-            break;
-          }
-          case "MCA_MORTGAGED": {
-            this.carDetails.cbVehicleMortgaged = (value == 'S');
-            break;
-          }
-          case "TIP_MORT_CLAUSE": {
-            this.carDetails.mortgageClause = valueInt;
-            break;
-          }
-
-          case "COD_MODALIDAD": {
-            this.carDetails.productList = valueInt;
-            break;
-          }
-
-          default: {
+      if (res.status) {
+        const variableData = res.obj["variableData"] as any[];
+        variableData.forEach(v => {
+          const code = v.codCampo;
+          const value: string = v.valCampo;
+          let valueInt: number = undefined;
+  
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
             // do nothing
           }
-        }
-      });
-
-      const alternative = res.obj["alternative"] as any[];
-      alternative.forEach(a => {
-        const code = a.codCampo;
-        const value: string = a.valCampo;
-        const text: string = a.txtCampo;
-        let valueInt: number = undefined;
-
-        try {
-          valueInt = parseInt(value);
-        } catch (e) {
-          // do nothing
-        }
-
-        switch (code) {
-          //risk details
-          case "TIP_ASEG_SEP_LOV": {
-            this.carDetails.secondaryPolicyHolderSeparator = text;
-            break;
-          }
-
-          default: {
-            // do nothing
-          }
-        }
-      });
-
-      const generalInfo = res.obj["generalInfo"];
-      this.carDetails.subline = generalInfo.codRamo;
-      this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
-
-      this.groupPolicy.agentCode = generalInfo.codAgt;
-      this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
-      this.groupPolicy.contract = generalInfo.numSubcontrato;
-      this.groupPolicy.subContract = generalInfo.numSubcontrato;
-      this.groupPolicy.commercialStructure = generalInfo.codNivel3;
-      this.carDetails.groupPolicy = this.groupPolicy;
-
-      this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-      this.quoteForm.get('effectivityDate').markAsDirty();
-      this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-      this.quoteForm.get('expiryDate').markAsDirty();
-
-      const docType = generalInfo.tipDocum;
-      const docCode = generalInfo.codDocum;
-      // preventing generic document type and code
-      if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
-        this.policyHolder.documentType = docType;
-        this.policyHolder.documentCode = docCode;
-        this.policyHolder.isExisting = true;
-      }
-
-      this.carDetails.paymentMethod = generalInfo.codFraccPago;
-
-      const beneficiary = res.obj["beneficiary"];
-      if (beneficiary.length) {
-        beneficiary.forEach((ben: any) => {
-          if (ben.tipBenef == 1) {
-            this.secondaryPolicyHolder.documentCode = ben.codDocum;
-            this.secondaryPolicyHolder.documentType = ben.tipDocum;
-            this.secondaryPolicyHolder.isExisting = true;
-          } else if (ben.tipBenef == 27) {
-            this.showAssignee = true;
-            this.assigneePolicyHolder.documentCode = ben.codDocum;
-            this.assigneePolicyHolder.documentType = ben.tipDocum;
-            this.assigneePolicyHolder.isExisting = true;
-          } else if (ben.tipBenef == 8) {
-            this.showMortgagee = true;
-            this.mortgageePolicyHolder.documentCode = ben.codDocum;
-            this.mortgageePolicyHolder.documentType = ben.tipDocum;
-            this.mortgageePolicyHolder.isExisting = true;
+  
+          switch (code) {
+            //risk details
+            case "COD_MARCA": {
+              this.carDetails.make = valueInt;
+              break;
+            }
+            case "COD_MODELO": {
+              this.carDetails.model = valueInt;
+              break;
+            }
+            case "COD_TIP_VEHI": {
+              this.carDetails.vehicleType = valueInt;
+              break;
+            }
+            case "ANIO_SUB_MODELO": {
+              this.carDetails.modelYear = value;
+              break;
+            }
+            case "COD_SUB_MODELO": {
+              this.carDetails.subModel = valueInt;
+              break;
+            }
+            case "COD_USO_VEHI": {
+              this.carDetails.typeOfUse = valueInt;
+              break;
+            }
+            case "VAL_SUB_MODELO": {
+              this.carDetails.vehicleValue = valueInt;
+              break;
+            }
+  
+            //vehicle information
+            case "COD_COLOR": {
+              this.carDetails.color = valueInt;
+              break;
+            }
+            case "COD_AREA_USAGE": {
+              this.carDetails.areaOfUsage = valueInt;
+              break;
+            }
+            case "NUM_CONDUCTION": {
+              this.carDetails.conductionNumber = value;
+              break;
+            }
+            case "NUM_MATRICULA": {
+              this.carDetails.plateNumber = value;
+              break;
+            }
+            case "NUM_SERIAL": {
+              this.carDetails.serialNumber = value;
+              break;
+            }
+            case "NUM_MOTOR": {
+              this.carDetails.engineNumber = value;
+              break;
+            }
+            case "NUM_MV_FILE": {
+              this.carDetails.mvFileNumber = value;
+              break;
+            }
+            case "FEC_PURCHASE": {
+              this.carDetails.purchaseDate = new Date(value);
+              this.quoteForm.get('purchaseDate').markAsDirty();
+              break;
+            }
+            case "NOM_RECEIVED_BY": {
+              this.carDetails.receivedBy = value;
+              break;
+            }
+            case "FEC_RECEIVED": {
+              this.carDetails.receivedDate = new Date(value);
+              this.quoteForm.get('receivedDate').markAsDirty();
+              break;
+            }
+            case "NUM_PLAZAS": {
+              this.carDetails.seatingCapacity = valueInt;
+              break;
+            }
+            case "VAL_PESO": {
+              this.carDetails.weight = value;
+              break;
+            }
+            case "VAL_CC": {
+              this.carDetails.displacement = value;
+              break;
+            }
+            case "TIP_VEHI_PESO": {
+              this.carDetails.classification = valueInt;
+              break;
+            }
+            case "COD_AREA_COVER": {
+              this.carDetails.coverageArea = valueInt;
+              break;
+            }
+            case "PCT_CLI_COINS": {
+              this.carDetails.assuredsCoinsuranceShare = value;
+              break;
+            }
+            case "MCA_WAIVE_MIN_PREM": {
+              this.carDetails.cbWaivedMinPremium = (value == 'S');
+              break;
+            }
+            case "MCA_PREPAID_PREM": {
+              this.carDetails.cbPrepaidPremium = (value == 'S');
+              break;
+            }
+            case "MCA_GLASS_ETCHING": {
+              this.carDetails.cbGlassEtchingEntitled = (value == 'S');
+              break;
+            }
+            case "FEC_GLASS_ETCHING": {
+              this.carDetails.glassEtchingAvailmentDate = new Date(value);
+              break;
+            }
+            case "TXT_EXT_DAM_PARTS": {
+              this.carDetails.existingDamages = value;
+              break;
+            }
+            case "TIP_EXT_DAM_PARTS": {
+              this.carDetails.inspectionAssessment = valueInt;
+              break;
+            }
+  
+            //additional policy information for issuance
+            case "MCA_DRIVER": {
+              this.carDetails.cbPolicyOnlyDriver = (value == 'S');
+              break;
+            }
+            case "MCA_OWNER": {
+              this.carDetails.cbPolicyOwner = (value == 'S');
+              break;
+            }
+            case "MCA_ASSIGNEE": {
+              this.carDetails.cbHasAssignee = (value == 'S');
+              break;
+            }
+            case "MCA_MORTGAGED": {
+              this.carDetails.cbVehicleMortgaged = (value == 'S');
+              break;
+            }
+            case "TIP_MORT_CLAUSE": {
+              this.carDetails.mortgageClause = valueInt;
+              break;
+            }
+  
+            case "COD_MODALIDAD": {
+              this.carDetails.productList = valueInt;
+              break;
+            }
+  
+            default: {
+              // do nothing
+            }
           }
         });
-      }
-
-      this.loadLOVs();
-
-      const accessories = res.obj["accessories"];
-      if (accessories.length) {
-        //dispalys the accessory panel 
-        this.showAccessories = true;
-        //removes all accessories
-        this.removeAccessories();
-        var temp: any[] = [];
-        accessories.forEach((acc: any) => {
-          temp.push({
-            accessory: acc.codAccesorio
+  
+        const alternative = res.obj["alternative"] as any[];
+        alternative.forEach(a => {
+          const code = a.codCampo;
+          const value: string = a.valCampo;
+          const text: string = a.txtCampo;
+          let valueInt: number = undefined;
+  
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
+  
+          switch (code) {
+            //risk details
+            case "TIP_ASEG_SEP_LOV": {
+              this.carDetails.secondaryPolicyHolderSeparator = text;
+              break;
+            }
+  
+            default: {
+              // do nothing
+            }
+          }
+        });
+  
+        const generalInfo = res.obj["generalInfo"];
+        this.carDetails.subline = generalInfo.codRamo;
+        this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
+  
+        this.groupPolicy.agentCode = generalInfo.codAgt;
+        this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
+        this.groupPolicy.contract = generalInfo.numSubcontrato;
+        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        this.carDetails.groupPolicy = this.groupPolicy;
+  
+        this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.quoteForm.get('effectivityDate').markAsDirty();
+        this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.quoteForm.get('expiryDate').markAsDirty();
+  
+        const docType = generalInfo.tipDocum;
+        const docCode = generalInfo.codDocum;
+        // preventing generic document type and code
+        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+          this.policyHolder.documentType = docType;
+          this.policyHolder.documentCode = docCode;
+          this.policyHolder.isExisting = true;
+        }
+  
+        this.carDetails.paymentMethod = generalInfo.codFraccPago;
+  
+        const beneficiary = res.obj["beneficiary"];
+        if (beneficiary.length) {
+          beneficiary.forEach((ben: any) => {
+            if (ben.tipBenef == 1) {
+              this.secondaryPolicyHolder.documentCode = ben.codDocum;
+              this.secondaryPolicyHolder.documentType = ben.tipDocum;
+              this.secondaryPolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 27) {
+              this.showAssignee = true;
+              this.assigneePolicyHolder.documentCode = ben.codDocum;
+              this.assigneePolicyHolder.documentType = ben.tipDocum;
+              this.assigneePolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 8) {
+              this.showMortgagee = true;
+              this.mortgageePolicyHolder.documentCode = ben.codDocum;
+              this.mortgageePolicyHolder.documentType = ben.tipDocum;
+              this.mortgageePolicyHolder.isExisting = true;
+            }
           });
-          this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
+        }
+  
+        this.loadLOVs();
+  
+        const accessories = res.obj["accessories"];
+        if (accessories.length) {
+          //dispalys the accessory panel 
+          this.showAccessories = true;
+          //removes all accessories
+          this.removeAccessories();
+          var temp: any[] = [];
+          accessories.forEach((acc: any) => {
+            temp.push({
+              accessory: acc.codAccesorio
+            });
+            this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
+          });
+          const _this = this;
+          this.cls.getAccessoryList(this.carDetails).then(res => {
+            _this.LOV.accessoryListLOV = res;
+            this.disableAccessory(temp);
+          });
+  
+          var accessoriesForm = this.quoteForm.get('accessories').value;
+          this.carDetails.accessories = accessoriesForm;
+        } else {
+          const _this = this;
+          this.cls.getAccessoryList(this.carDetails).then(res => {
+            _this.LOV.accessoryListLOV = res;
+          });
+          this.carDetails.accessories = [];
+        }
+  
+        this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
+          const coverageList = res1.obj["coverageList"];
+          const amountList = res1.obj["amountList"];
+          const premiumAmount = res.obj["premiumAmount"];
+          const coverageVariable = res.obj["coverageVariable"];
+          const coverageAmount = res.obj["coverageAmount"];
+  
+          this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
         });
-        const _this = this;
-        this.cls.getAccessoryList(this.carDetails).then(res => {
-          _this.LOV.accessoryListLOV = res;
-          this.disableAccessory(temp);
-        });
+  
+        //breakdwon
+        const breakdown = res.obj["breakdown"];
+        const receipt = res.obj["receipt"];
+        this.populatePaymentBreakdown(breakdown, receipt);
+  
+        //cloning details from load quotation
+        const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+        this.prevCarDetails = deepClone;
 
-        var accessoriesForm = this.quoteForm.get('accessories').value;
-        this.carDetails.accessories = accessoriesForm;
+        const technicalControl = res.obj["technicalControl"];
+        if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+        }
       } else {
-        const _this = this;
-        this.cls.getAccessoryList(this.carDetails).then(res => {
-          _this.LOV.accessoryListLOV = res;
-        });
-        this.carDetails.accessories = [];
+        this.modalRef = Utility.showError(this.bms, res.obj['message']);
       }
-
-      this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
-        const coverageList = res1.obj["coverageList"];
-        const amountList = res1.obj["amountList"];
-        const premiumAmount = res.obj["premiumAmount"];
-        const coverageVariable = res.obj["coverageVariable"];
-        const coverageAmount = res.obj["coverageAmount"];
-
-        this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-      });
-
-      //breakdwon
-      const breakdown = res.obj["breakdown"];
-      const receipt = res.obj["receipt"];
-      this.populatePaymentBreakdown(breakdown, receipt);
-
-      //cloning details from load quotation
-      const deepClone = JSON.parse(JSON.stringify(this.carDetails));
-      this.prevCarDetails = deepClone;
     }).finally(() => {
       //trigger child component load quotation function
       this.triggerCounter = this.triggerCounter + 1;
@@ -1486,7 +1495,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.withTechControl = true;
             // has warning - can proceed
             if (isIssuance) {
-              items = ["Policy has technical control due to following reason/s:"].concat(arr);
+              items = ["Quotation has technical control due to following reason/s:"].concat(arr);
             } else {
               items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
             }
