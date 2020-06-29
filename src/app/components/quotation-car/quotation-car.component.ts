@@ -662,6 +662,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
         const technicalControl = res.obj["technicalControl"];
         if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.withTechControl = true;
           this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
         }
       } else {
