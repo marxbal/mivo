@@ -666,6 +666,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
       } else {
         this.modalRef = Utility.showError(this.bms, res.obj['message']);
+        this.carDetails.quotationNumber = "";
       }
     }).finally(() => {
       //trigger child component load quotation function
