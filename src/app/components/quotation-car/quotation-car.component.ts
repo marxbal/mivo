@@ -1348,6 +1348,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //generate and issue quote button
   issueQuote(mcaTmpPptoMph: string) {
+    // S for generation and N for issue quotation
+    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
+
     // includes group policy to car details DTO
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
@@ -1364,15 +1368,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     if (!Utility.isUndefined(this.appCoverage) && this.carDetails.isModifiedCoverage) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
+      this.showCoverage = false;
     }
 
     // to trigger changes when regenerating quotation
-    this.showCoverage = this.isModifiedCoverage;
     this.showPaymentBreakdown = false;
-
-    // S for generation and N for issue quotation
-    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
-    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
@@ -1437,6 +1437,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   assembleIssuePolicyData() {
+    // always N for issue policy
+    this.carDetails.mcaTmpPptoMph = "N";
+    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
+
     // includes group policy to car details DTO
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
@@ -1460,9 +1464,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
-
-    // always N for issue policy
-    this.carDetails.mcaTmpPptoMph = "N";
   }
 
   //getting error or warning items
