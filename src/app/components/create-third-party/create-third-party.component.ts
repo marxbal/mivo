@@ -220,7 +220,7 @@ export class CreateThirdPartyComponent implements OnInit {
   create(): void {
     this.tps.getThirdPartyDetails(this.thirdParty.documentType, this.thirdParty.documentCode).then((res) => {
       if (res.status) {
-        this.modalRef = Utility.showWarning(this.bms, "Client information is already existing in the system. Search the client instead or create with different document ID.");
+        this.modalRef = Utility.showWarning(this.bms, "Client information is already existing in the system. Search the client instead or create with a different document ID.");
       } else {
         this.thirdParty.isExisting = false;
         this.thirdParty.isPerson = this.thirdParty.policyHolderType == 'P';
