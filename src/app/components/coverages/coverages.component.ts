@@ -63,6 +63,12 @@ export class CoveragesComponent implements OnInit {
 
   @Input() quoteForm: FormGroup;
   @Input() showCTPL: boolean;
+  @Input()
+  set loadCoverage(value: number) {
+    this.triggerCounter = value;
+    this.generateCoverage();
+  }
+
   @Output() showCTPLChange = new EventEmitter < boolean > ();
 
   cForm: FormGroup;
@@ -70,6 +76,7 @@ export class CoveragesComponent implements OnInit {
   source: any[];
   dataSource = new MatTableDataSource < TablesDTO > (this.source);
   cvddv: CoverageVariableData;
+  triggerCounter: number;
 
   constructor(
     private fb: FormBuilder,
@@ -83,7 +90,10 @@ export class CoveragesComponent implements OnInit {
     // this.coverageVariable = coverageVariable;
     // this.premiumAmount = premiumAmount;
     // this.coverageAmount = coverageAmount2;
+    this.generateCoverage();
+  }
 
+  generateCoverage() {
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
     this.cvddv = cvd.getDefaultValues(this.coverageVariable, this.coverageVariableData);
@@ -219,7 +229,7 @@ export class CoveragesComponent implements OnInit {
         }
       });
 
-      if (code == 1040) {
+      if (code == 1040 && !included) {
         // checking for product with Road Assist if code is 1040 or ROAD ASSIST
         included = this.hasRoadAssist;
       } else if (code == 1001 && included && this.isIssuance) {
@@ -250,9 +260,7 @@ export class CoveragesComponent implements OnInit {
         if (!hasCounterpart) {
           sumInsured = options[0].value;
         }
-      }
-
-      if (!included) {
+      } else if (!included) {
         sumInsured = 0;
         netPremium = 0;
       }

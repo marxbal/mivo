@@ -40,6 +40,7 @@ export class GroupPolicyComponent {
   @Input() groupPolicy: GroupPolicy;
   @Input() prevDetails: any;
   @Input() changedValues: any[] = [];
+  @Input() editMode: boolean;
   @Input()
   set subline(subline: number) {
     this._subline = subline;

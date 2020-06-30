@@ -24,6 +24,13 @@ import {
 import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
+import {
+  ThirdPartyService
+} from 'src/app/services/third-party.service';
+import {
+  BsModalService,
+  BsModalRef
+} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-create-third-party',
@@ -48,11 +55,15 @@ export class CreateThirdPartyComponent implements OnInit {
   //flag to show data for creating organization/company 
   showOrgDetails: boolean = false;
 
+  //modal reference
+  modalRef: BsModalRef;
+
   constructor(public dialogRef: MatDialogRef < CreateThirdPartyComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private tpls: ThirdPartyLOVServices) {
-  }
+    private tpls: ThirdPartyLOVServices,
+    private tps: ThirdPartyService,
+    private bms: BsModalService) {}
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
@@ -207,9 +218,15 @@ export class CreateThirdPartyComponent implements OnInit {
   }
 
   create(): void {
-    this.thirdParty.isExisting = false;
-    this.thirdParty.isPerson = this.thirdParty.policyHolderType == 'P';
-    this.dialogRef.close(this.thirdParty);
+    this.tps.getThirdPartyDetails(this.thirdParty.documentType, this.thirdParty.documentCode).then((res) => {
+      if (res.status) {
+        this.modalRef = Utility.showWarning(this.bms, "Client information is already existing in the system. Search the client instead or create with a different document ID.");
+      } else {
+        this.thirdParty.isExisting = false;
+        this.thirdParty.isPerson = this.thirdParty.policyHolderType == 'P';
+        this.dialogRef.close(this.thirdParty);
+      }
+    });
   }
 
   cancel(): void {

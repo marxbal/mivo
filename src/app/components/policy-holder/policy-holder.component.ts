@@ -50,6 +50,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() isIssuance: boolean;
   @Input() type: String;
   @Input() optional: boolean;
+  @Input() editMode: boolean;
   @Input()
   set loadQuotation(value: number) {
     this.triggerCounter = value;

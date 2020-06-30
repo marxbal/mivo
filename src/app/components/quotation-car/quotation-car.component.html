@@ -62,7 +62,8 @@
                     <label for="make">Make</label>
                     <select class="custom-select mr-sm-2 required" formControlName="make"
                       (change)="makeOnchange(); affecting('make', 'Make')"
-                      [(ngModel)]="carDetails.make">
+                      [(ngModel)]="carDetails.make"
+                      [attr.disabled]="editMode && LOV.makeLOV?.length ? null : true">
                       <option *ngFor="let make of LOV.makeLOV" [ngValue]="make.COD_MARCA">{{ make.NOM_MARCA }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['make'].errors?.required">
@@ -78,7 +79,8 @@
                     <label for="model">Model</label>
                     <select class="custom-select mr-sm-2 required" formControlName="model"
                       (change)="modelOnchange(); affecting('model', 'Model')"
-                      [(ngModel)]="carDetails.model" [attr.disabled]=" LOV.modelLOV?.length ? null : true">
+                      [(ngModel)]="carDetails.model"
+                      [attr.disabled]="editMode && LOV.modelLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let model of LOV.modelLOV" [ngValue]="model.COD_MODELO">{{ model.NOM_MODELO }}
                       </option>
@@ -97,7 +99,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="vehicleType"
                       (change)="vehicleTypeOnchange(); affecting('vehicleType', 'Vehicle Type')"
                       [(ngModel)]="carDetails.vehicleType"
-                      [attr.disabled]=" LOV.vehicleTypeLOV?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.vehicleTypeLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let vehicleType of LOV.vehicleTypeLOV" [ngValue]="vehicleType.COD_TIP_VEHI">
                         {{ vehicleType.NOM_TIP_VEHI }}</option>
@@ -116,7 +118,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="modelYear"
                       (change)="modelYearOnchange(); affecting('modelYear', 'Model Year')"
                       [(ngModel)]="carDetails.modelYear"
-                      [attr.disabled]=" LOV.modelYearLOV?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.modelYearLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let modelYear of LOV.modelYearLOV" [ngValue]="modelYear.ANIO_SUB_MODELO">
                         {{ modelYear.ANIO_SUB_MODELO }}</option>
@@ -135,7 +137,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="subModel"
                       (change)="subModelOnchange(); affecting('subModel', 'Sub Model')"
                       [(ngModel)]="carDetails.subModel"
-                      [attr.disabled]=" LOV.subModelLOV?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.subModelLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let subModel of LOV.subModelLOV" [ngValue]="subModel.COD_SUB_MODELO">
                         {{subModel.NOM_SUB_MODELO + '('+ subModel.TIP_CAJA_CAMBIO+ ') '+ (subModel.NOM_TRACCION == 'UNKNOWN' ? "": subModel.NOM_TRACCION)}}
@@ -155,7 +157,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="typeOfUse"
                       (change)="typeOfUseOnchange(); affecting('typeOfUse', 'Type of Use')"
                       [(ngModel)]="carDetails.typeOfUse"
-                      [attr.disabled]=" LOV.typeOfUseLOV?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.typeOfUseLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let typeOfUse of LOV.typeOfUseLOV" [ngValue]="typeOfUse.COD_USO_VEHI">
                         {{ typeOfUse.NOM_USO_VEHI }}</option>
@@ -174,7 +176,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="subline"
                       (change)="sublineOnchange($event); affecting('subline', 'Subline')"
                       [(ngModel)]="carDetails.subline"
-                      [attr.disabled]=" LOV.sublineLOV?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.sublineLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let subline of LOV.sublineLOV" [ngValue]="subline.value"
                         [attr.data-sublinedate]="subline.effectivityDate">{{ subline.name }}
@@ -193,7 +195,8 @@
                     <label for="vehicleValue">Vehicle Value</label>
                     <input type="text" formControlName="vehicleValue" class="form-control required"
                       (change)="affecting('vehicleValue', 'Vehicle Value')"
-                      [(ngModel)]="carDetails.vehicleValue">
+                      [(ngModel)]="carDetails.vehicleValue"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['vehicleValue'].errors?.required">
                       * vehicle value is required
                     </p>
@@ -212,7 +215,8 @@
                     || quoteForm.controls['color'].touched)}">
                     <label for="color">Color</label>
                     <select class="custom-select mr-sm-2 required" formControlName="color"
-                      [(ngModel)]="carDetails.color">
+                      [(ngModel)]="carDetails.color"
+                      [attr.disabled]="editMode ? null : true">
                       <option *ngFor="let color of LOV.colorLOV" [ngValue]="color.COD_COLOR">{{ color.NOM_COLOR }}
                       </option>
                     </select>
@@ -228,7 +232,8 @@
                     || quoteForm.controls['areaOfUsage'].touched)}">
                     <label for="areaOfUsage">Area of Usage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="areaOfUsage"
-                      [(ngModel)]="carDetails.areaOfUsage" [attr.disabled]=" LOV.areaOfUsageLOV?.length ? null : true">
+                      [(ngModel)]="carDetails.areaOfUsage"
+                      [attr.disabled]="editMode && LOV.areaOfUsageLOV?.length ? null : true">
                       <option *ngFor="let areaOfUsage of LOV.areaOfUsageLOV" [ngValue]="areaOfUsage.COD_VALOR">
                         {{ areaOfUsage.NOM_VALOR }}</option>
                     </select>
@@ -243,11 +248,14 @@
                   && (quoteForm.controls['conductionNumber'].dirty 
                   || quoteForm.controls['conductionNumber'].touched)}">
                     <label for="conductionNumber">Conduction Number</label>
-                    <input type="text" formControlName="conductionNumber" class="form-control" [ngClass]="{'required' : carDetails.plateNumber === undefined
+                    <input type="text" formControlName="conductionNumber" class="form-control" 
+                      [ngClass]="{'required' : carDetails.plateNumber === undefined
                       || carDetails.plateNumber === null
-                      || carDetails.plateNumber === ''}" [(ngModel)]="carDetails.conductionNumber"
+                      || carDetails.plateNumber === ''}"
+                      [(ngModel)]="carDetails.conductionNumber"
                       (change)="affecting('conductionNumber', 'Conduction Number')"
-                      oninput="this.value = this.value.toUpperCase()">
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['conductionNumber'].errors?.required">
                       * conduction number is required
                     </p>
@@ -264,11 +272,12 @@
                   || quoteForm.controls['plateNumber'].touched)}">
                     <label for="plateNumber">Plate Number</label>
                     <input type="text" formControlName="plateNumber" class="form-control"
-                      [attr.disabled]=" (LOV.sublineLOV?.length && LOV.modelYearLOV?.length) ? null : true" [ngClass]="{'required' : carDetails.conductionNumber === undefined
+                      [ngClass]="{'required' : carDetails.conductionNumber === undefined
                       || carDetails.conductionNumber === null
                       || carDetails.conductionNumber === ''}" [(ngModel)]="carDetails.plateNumber"
                       (change)="affecting('plateNumber', 'Plate Number')"
-                      oninput="this.value = this.value.toUpperCase()">
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode && (LOV.sublineLOV?.length && LOV.modelYearLOV?.length) ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['plateNumber'].errors?.required">
                       * plate number is required
                     </p>
@@ -285,7 +294,8 @@
                     <label for="serialNumber">Chassis Number/Serial Number</label>
                     <input type="text" formControlName="serialNumber" class="form-control required"
                       [(ngModel)]="carDetails.serialNumber"
-                      oninput="this.value = this.value.toUpperCase()">
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['serialNumber'].errors?.required">
                       * serial number is required
                     </p>
@@ -299,7 +309,8 @@
                     <label for="engineNumber">Motor Number/Engine Number</label>
                     <input type="text" formControlName="engineNumber" class="form-control required"
                       [(ngModel)]="carDetails.engineNumber"
-                      oninput="this.value = this.value.toUpperCase()">
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['engineNumber'].errors?.required">
                       * engine number is required
                     </p>
@@ -313,7 +324,8 @@
                     <label for="mvFileNumber">MV File Number</label>
                     <input type="text" formControlName="mvFileNumber" class="form-control {{isIssuance ? 'required' : ''}}"
                       [(ngModel)]="carDetails.mvFileNumber"
-                      oninput="this.value = this.value.toUpperCase()">
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                       <p class="form-error" *ngIf="quoteForm.controls['mvFileNumber'].errors?.required">
                         * MV File Number is required
                       </p>
@@ -326,7 +338,9 @@
                       || quoteForm.controls['purchaseDate'].touched)}">
                     <label for="purchaseDate">Purchase Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [maxDate]="today"
-                      formControlName="purchaseDate" [(ngModel)]="carDetails.purchaseDate" bsDatepicker>
+                      formControlName="purchaseDate" [(ngModel)]="carDetails.purchaseDate"
+                      [attr.disabled]="editMode ? null : true"
+                      bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['purchaseDate'].errors?.required">
                       * purchase date is required
                     </p>
@@ -339,7 +353,8 @@
                   || quoteForm.controls['receivedBy'].touched)}">
                     <label for="receivedBy">Received By</label>
                     <input type="text" formControlName="receivedBy" class="form-control required"
-                      [(ngModel)]="carDetails.receivedBy">
+                      [(ngModel)]="carDetails.receivedBy"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['receivedBy'].errors?.required">
                       * received by is required
                     </p>
@@ -352,7 +367,9 @@
                       || quoteForm.controls['receivedDate'].touched)}">
                     <label for="receivedDate">Received Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [maxDate]="today"
-                      formControlName="receivedDate" [(ngModel)]="carDetails.receivedDate" bsDatepicker>
+                      formControlName="receivedDate" [(ngModel)]="carDetails.receivedDate"
+                      [attr.disabled]="editMode ? null : true"
+                      bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['receivedDate'].errors?.required">
                       * received date is required
                     </p>
@@ -371,6 +388,7 @@
             [(policyHolder)]="policyHolder"
             [compareTo]="assigneePolicyHolder"
             [isIssuance]="isIssuance"
+            [editMode]="editMode"
             [type]="'primary'"
             [optional]="false"
             [loadQuotation]="triggerCounter">
@@ -383,6 +401,7 @@
             [details]="carDetails"
             [(policyHolder)]="secondaryPolicyHolder"
             [isIssuance]="isIssuance"
+            [editMode]="editMode"
             [type]="'secondary'"
             [optional]="true">
           </app-policy-holder>
@@ -392,7 +411,9 @@
             [subline]="carDetails.subline"
             [prevDetails]="prevCarDetails"
             [groupPolicy]="groupPolicy"
-            [(changedValues)]="changedValues">
+            [editMode]="editMode"
+            [(changedValues)]="changedValues"
+            [loadQuotation]="triggerCounter">
           </app-group-policy>
 
           <div class="card shadow mb-3">
@@ -414,7 +435,9 @@
                     <input type="text" placeholder="Datepicker" class="form-control required"
                       (bsValueChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
                       formControlName="effectivityDate"
-                      [(ngModel)]="carDetails.effectivityDate" bsDatepicker>
+                      [(ngModel)]="carDetails.effectivityDate"
+                      [attr.disabled]="editMode ? null : true"
+                      bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['effectivityDate'].errors?.required">
                       * effectivity date is required
                     </p>
@@ -429,7 +452,9 @@
                     <input type="text" placeholder="Datepicker" class="form-control required"
                       [minDate]="expiryDateMinDate"
                       (bsValueChange)="affecting('expiryDate', 'Expirty Date')"
-                      formControlName="expiryDate" [(ngModel)]="carDetails.expiryDate"
+                      formControlName="expiryDate"
+                      [(ngModel)]="carDetails.expiryDate"
+                      [attr.disabled]="editMode ? null : true"
                       bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['expiryDate'].errors?.required">
                       * expiry date is required
@@ -464,7 +489,8 @@
                                 || accessories.controls['accessory'].touched)}">
                                 <label for="accessory">Accessory List</label>
                                 <select class="custom-select mr-sm-2 required" formControlName="accessory"
-                                  (change)="accessoryOnchange($event, i)">
+                                  (change)="accessoryOnchange($event, i)"
+                                  [attr.disabled]="editMode ? null : true">
                                   <option *ngFor="let accessoryList of LOV.accessoryListLOV"
                                     [ngValue]="accessoryList.COD_ACCESORIO"
                                     [attr.disabled]="accessoryList.disabled ? '' : null"
@@ -500,7 +526,9 @@
                                 && (accessories.controls['price'].dirty 
                                 || accessories.controls['price'].touched)}">
                                 <label for="price">Price</label>
-                                <input type="number" class="form-control required" formControlName="price">
+                                <input type="number"  class="form-control required"
+                                  formControlName="price"
+                                  [attr.disabled]="editMode ? null : true">
                                 <p class="form-error" *ngIf="accessories.controls['price'].errors?.required">
                                   * price is required
                                 </p>
@@ -513,7 +541,8 @@
                                 || accessories.controls['description'].touched)}">
                                 <label for="description">Description</label>
                                 <textarea type="text" formControlName="description"
-                                  class="form-control required"></textarea>
+                                  class="form-control required"
+                                  [attr.disabled]="editMode ? null : true"></textarea>
                                 <p class="form-error" *ngIf="accessories.controls['description'].errors?.required">
                                   * description is required
                                 </p>
@@ -535,7 +564,7 @@
               </div>
 
               <div class="btn-group">
-                <button [disabled]="quoteForm.get('accessories').status !== 'VALID' || !carDetails.subline"
+                <button [disabled]="!editMode || quoteForm.get('accessories').status !== 'VALID' || !carDetails.subline"
                   type="button" (click)="addAccessory()" class="btn btn-primary">Add Accessory</button>
               </div>
 
@@ -573,7 +602,8 @@
                     <input type="number" class="form-control"
                       (change)="affecting('seatingCapacity', 'Seating Capacity')"
                       [(ngModel)]="carDetails.seatingCapacity"
-                      formControlName="seatingCapacity">
+                      formControlName="seatingCapacity"
+                      [attr.disabled]="editMode ? null : true">
                   </div>
                 </div>
 
@@ -597,7 +627,8 @@
                   <div class="form-group">
                     <label for="classification">Classification</label>
                     <select class="custom-select mr-sm-2" formControlName="classification"
-                      [(ngModel)]="carDetails.classification">
+                      [(ngModel)]="carDetails.classification"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let classification of LOV.classificationLOV"
                         [ngValue]="classification.TIP_VEHI_PESO">{{ classification.NOM_VALOR }}</option>
@@ -610,7 +641,8 @@
                     <label for="price">Coverage Area</label>
                     <select class="custom-select mr-sm-2" formControlName="coverageArea"
                       (change)="affecting('coverageArea', 'Coverage Area')"
-                      [(ngModel)]="carDetails.coverageArea">
+                      [(ngModel)]="carDetails.coverageArea"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let coverageArea of LOV.coverageAreaLOV" [ngValue]="coverageArea.COD_AREA_COVER">
                         {{ coverageArea.NOM_VALOR }}</option>
@@ -624,7 +656,8 @@
                   || quoteForm.controls['assuredsCoinsuranceShare'].touched)}">
                     <label for="assuredCoinsuranceShare">Assured's Coinsurance Share</label>
                     <input type="number" class="form-control" [(ngModel)]="carDetails.assuredsCoinsuranceShare"
-                      formControlName="assuredsCoinsuranceShare">
+                      formControlName="assuredsCoinsuranceShare"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['assuredsCoinsuranceShare'].errors?.max">
                       * assured's coinsurance share max value is 100
                     </p>
@@ -637,7 +670,8 @@
                       <input class="form-check-input" type="checkbox" id="cbWaivedMinPremium"
                         (change)="affecting('cbWaivedMinPremium', 'Waived Min. Premium')"
                         [(ngModel)]="carDetails.cbWaivedMinPremium"
-                        formControlName="cbWaivedMinPremium">
+                        formControlName="cbWaivedMinPremium"
+                        [attr.disabled]="editMode ? null : true">
                       <label class="form-check-label" for="cbWaivedMinPremium">
                         Waived Min. Premium
                       </label>
@@ -678,7 +712,10 @@
                       <div class="form-group">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbHasAssignee"
-                            [(ngModel)]="carDetails.cbHasAssignee" formControlName="cbHasAssignee" (change)="showAssignee = !showAssignee">
+                            [(ngModel)]="carDetails.cbHasAssignee"
+                            formControlName="cbHasAssignee"
+                            (change)="showAssignee = !showAssignee"
+                            [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbHasAssignee">
                             Has Assignee?
                           </label>
@@ -694,8 +731,10 @@
                       || quoteForm.controls['mortgageClause'].touched)}">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbVehicleMortgaged"
-                            [(ngModel)]="carDetails.cbVehicleMortgaged" formControlName="cbVehicleMortgaged"
-                            (change)="showMortgagee = !showMortgagee">
+                            [(ngModel)]="carDetails.cbVehicleMortgaged"
+                            formControlName="cbVehicleMortgaged"
+                            (change)="showMortgagee = !showMortgagee"
+                            [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbVehicleMortgaged">
                             Vehicle Mortgaged
                           </label>
@@ -704,7 +743,7 @@
                           Mortgage Clause
                         </label>
                         <select class="custom-select mr-sm-2 required" formControlName="mortgageClause"
-                          [attr.disabled]="carDetails.cbVehicleMortgaged ? null : ''"
+                          [attr.disabled]="editMode && carDetails.cbVehicleMortgaged ? null : ''"
                           [(ngModel)]="carDetails.mortgageClause">
                           <option></option>
                           <option *ngFor="let mortgageClause of LOV.mortgageClauseLOV"
@@ -728,7 +767,8 @@
                   <div class="form-group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbGlassEtchingEntitled"
-                        [(ngModel)]="carDetails.cbGlassEtchingEntitled" formControlName="cbGlassEtchingEntitled">
+                        [(ngModel)]="carDetails.cbGlassEtchingEntitled" formControlName="cbGlassEtchingEntitled"
+                        [attr.disabled]="editMode ? null : true">
                       <label class="form-check-label" for="cbGlassEtchingEntitled">
                         Glass Etching Entitled
                       </label>
@@ -737,7 +777,7 @@
                       Glass Etching Availment Date
                     </label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="today"
-                      [attr.disabled]="carDetails.cbGlassEtchingEntitled ? null : ''"
+                      [attr.disabled]="editMode && carDetails.cbGlassEtchingEntitled ? null : ''"
                       formControlName="glassEtchingAvailmentDate" [(ngModel)]="carDetails.glassEtchingAvailmentDate"
                       bsDatepicker>
                   </div>
@@ -747,7 +787,8 @@
                   <div class="form-group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbPrepaidPremium"
-                        [(ngModel)]="carDetails.cbPrepaidPremium" formControlName="cbPrepaidPremium">
+                        [(ngModel)]="carDetails.cbPrepaidPremium" formControlName="cbPrepaidPremium"
+                        [attr.disabled]="editMode ? null : true">
                       <label class="form-check-label" for="cbPrepaidPremium">
                         Prepaid Premium
                       </label>
@@ -773,7 +814,8 @@
                   <div class="form-group">
                     <label for="existingDamages">Existing Damages</label>
                     <input type="text" class="form-control" [(ngModel)]="carDetails.existingDamages"
-                      formControlName="existingDamages">
+                      formControlName="existingDamages"
+                      [attr.disabled]="editMode ? null : true">
                   </div>
                 </div>
 
@@ -781,7 +823,8 @@
                   <div class="form-group">
                     <label for="price">Inspection Assessment</label>
                     <select class="custom-select mr-sm-2" formControlName="inspectionAssessment"
-                      [(ngModel)]="carDetails.inspectionAssessment">
+                      [(ngModel)]="carDetails.inspectionAssessment"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let inspectionAssessment of LOV.inspectionAssessmentLOV"
                         [ngValue]="inspectionAssessment.COD_VALOR">{{ inspectionAssessment.NOM_VALOR }}</option>
@@ -801,6 +844,7 @@
             [(policyHolder)]="assigneePolicyHolder"
             [compareTo]="policyHolder"
             [isIssuance]="isIssuance"
+            [editMode]="editMode"
             [type]="'assignee'"
             [optional]="false">
           </app-policy-holder>
@@ -812,6 +856,7 @@
             [details]="carDetails"
             [(policyHolder)]="mortgageePolicyHolder"
             [isIssuance]="isIssuance"
+            [editMode]="editMode"
             [type]="'mortgagee'"
             [optional]="false">
           </app-policy-holder>
@@ -856,7 +901,8 @@
                     || quoteForm.controls['automaticAuth'].touched)}">
                     <label for="automaticAuth">Automatic Authentication</label>
                     <select class="custom-select mr-sm-2 required" formControlName="automaticAuth"
-                      [(ngModel)]="carDetails.automaticAuth">
+                      [(ngModel)]="carDetails.automaticAuth"
+                      [attr.disabled]="editMode ? null : true">
                       <option value="S">YES</option>
                       <option value="N">NO</option>
                     </select>
@@ -872,7 +918,8 @@
                     || quoteForm.controls['registrationType'].touched)}">
                     <label for="registrationType">Registration Type</label>
                     <select class="custom-select mr-sm-2 required" formControlName="registrationType"
-                      [(ngModel)]="carDetails.registrationType">
+                      [(ngModel)]="carDetails.registrationType"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let rType of LOV.registrationTypeLOV" [ngValue]="rType.COD_VALOR">
                         {{ rType.NOM_VALOR }}</option>
@@ -886,7 +933,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="form-group">
                     <label for="mvType">MV Type (leave blank to set default value)</label>
-                    <select class="custom-select mr-sm-2" formControlName="mvType" [(ngModel)]="carDetails.mvType">
+                    <select class="custom-select mr-sm-2" formControlName="mvType" [(ngModel)]="carDetails.mvType"
+                    [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let mv of LOV.mvTypeLOV" [ngValue]="mv.COD_VALOR">{{ mv.NOM_VALOR }}</option>
                     </select>
@@ -899,7 +947,8 @@
                   || quoteForm.controls['cocNumber'].touched)}">
                     <label for="cocNumber">COC Number</label>
                     <input type="text" formControlName="cocNumber" class="form-control required"
-                      [(ngModel)]="carDetails.cocNumber">
+                      [(ngModel)]="carDetails.cocNumber"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['cocNumber'].errors?.required">
                       * coc number is required
                     </p>
@@ -912,7 +961,8 @@
                     || quoteForm.controls['authNumber'].touched)}">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbIsNotRequiredAuthNumber"
-                        formControlName="cbIsNotRequiredAuthNumber" [(ngModel)]="carDetails.cbIsNotRequiredAuthNumber">
+                        formControlName="cbIsNotRequiredAuthNumber" [(ngModel)]="carDetails.cbIsNotRequiredAuthNumber"
+                        [attr.disabled]="editMode ? null : true">
                       <label class="form-check-label" for="cbIsNotRequiredAuthNumber">
                         Do not require Authentication Number
                       </label>
@@ -922,10 +972,10 @@
                     </label>
                     <div class="input-group mb-3">
                       <input type="text" formControlName="authNumber"
-                        [attr.disabled]="carDetails.cbIsNotRequiredAuthNumber ? '' : null" class="form-control required"
+                        [attr.disabled]="editMode && carDetails.cbIsNotRequiredAuthNumber ? '' : null" class="form-control required"
                         [(ngModel)]="carDetails.authNumber">
                       <div class="input-group-append">
-                        <button (click)="authCOCRegistration()" [attr.disabled]="carDetails.cbIsNotRequiredAuthNumber ? '' : null"
+                        <button (click)="authCOCRegistration()" [attr.disabled]="editMode && carDetails.cbIsNotRequiredAuthNumber ? '' : null"
                           class="btn btn-primary" type="button">Authenticate</button>
                       </div>
                       <p class="form-error" *ngIf="quoteForm.controls['authNumber'].errors?.required">
@@ -952,7 +1002,8 @@
             [coverageVariableData]="coverageVariableData"
             [isModifiedCoverage]="isModifiedCoverage"
             [isIssuance]="isIssuance"
-            [hasRoadAssist]="hasRoadAssist">
+            [hasRoadAssist]="hasRoadAssist"
+            [loadCoverage]="triggerCoverage">
           </app-coverages>
 
           <app-payment-breakdown
@@ -981,7 +1032,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="paymentMethod"
                       [(ngModel)]="carDetails.paymentMethod"
                       (change)="affecting('paymentMethod', 'Payment Method')"
-                      [attr.disabled]="(showGenerateBtnGrp && !isModifiedCoverage) && LOV.paymentMethodLOV?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.paymentMethodLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let paymentMethod of LOV.paymentMethodLOV"
                         [ngValue]="paymentMethod.COD_FRACC_PAGO">
@@ -1000,8 +1051,8 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [(ngModel)]="carDetails.productList"
-                      [attr.disabled]="(showGenerateBtnGrp && !isModifiedCoverage) && LOV.productListLOV?.length ? null : true"
-                      (change)="productOnChange(); affecting('productList', 'Product List')">
+                      (change)="productOnChange(); affecting('productList', 'Product List')"
+                      [attr.disabled]="editMode && LOV.productListLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}
@@ -1049,90 +1100,99 @@
           <!-- .note -->
 
           <!-- button controls for quotation -->
-          <div *ngIf="!isIssuance && showGenerateBtnGrp" class="btn-group" role="group">
-            <!-- <button type="button" class="btn btn-primary"
-              (click)="test()">test</button> -->
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
-              type="button" class="btn btn-primary"
-              (click)="proceed(1)">Generate</button>
-          </div>
-
-          <div *ngIf="!isIssuance && showIssueQuoteBtnGrp" class="btn-group" role="group">
-            <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1)">Change Product</button>
-            <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1, true)">Edit Coverage</button>
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
-              type="button" class="btn btn-primary"
-              (click)="proceed(2)">Issue Qoute</button>
-          </div>
-
-          <div *ngIf="!isIssuance && showProceedToIssuanceBtnGrp" class="text-right">
-            <h5><small>Your quotation number:</small> {{carDetails.quotationNumber}}</h5>
-          </div>
-          <div *ngIf="!isIssuance && showProceedToIssuanceBtnGrp" class="btn-group" role="group">
-            <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
-            <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
-            <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+          <div *ngIf="!isIssuance">
+            <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
+              <!-- <button type="button" class="btn btn-primary"
+                (click)="test()">test</button> -->
+              <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(1)">Generate</button>
+            </div>
+  
+            <div *ngIf="showIssueQuoteBtnGrp" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="manageBtn(1)">Edit Details</button>
+              <button type="button" class="btn btn-primary"
+                (click)="manageBtn(1, true)">Edit Coverage</button>
+              <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(2)">Issue Qoute</button>
+            </div>
+  
+            <div *ngIf="showProceedToIssuanceBtnGrp" class="text-right">
+              <h5><small>Your quotation number:</small> {{carDetails.quotationNumber}}</h5>
+            </div>
+            <div *ngIf="showProceedToIssuanceBtnGrp" class="btn-group" role="group">
+              <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
+              <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
+              <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+            </div>
           </div>
 
           <!-- button controls for issuance -->
-          <div *ngIf="isIssuance && showIssuanceGenerateBtn" class="btn-group" role="group">
-            <!-- <button type="button" class="btn btn-primary"
-              (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
-            <button 
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
-              (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
-              (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
-              (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
-              type="button" class="btn btn-primary"
-              (click)="proceed(1)">Generate</button>
-          </div>
+          <div *ngIf="isIssuance">
+            <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
+              <!-- <button type="button" class="btn btn-primary"
+                (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
+              <button 
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+                (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+                (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
+                (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                type="button" class="btn btn-primary"
+                (click)="proceed(1)">Generate</button>
+            </div>
 
-          <div *ngIf="isIssuance && showSaveBtn" class="btn-group" role="group">
-            <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1)">Change Product</button>
-            <button type="button" class="btn btn-primary"
-              (click)="manageBtn(1, true)">Edit Coverage</button>
-            <button 
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
-              (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
-              (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
-              (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
-              type="button" class="btn btn-primary"
-              (click)="proceed(3)">Save</button>
-          </div>
+            <div *ngIf="showSaveBtn" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="manageBtn(1)">Edit Details</button>
+              <button type="button" class="btn btn-primary"
+                (click)="manageBtn(1, true)">Edit Coverage</button>
+              <button 
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+                (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+                (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
+                (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                type="button" class="btn btn-primary"
+                (click)="proceed(3)">Save</button>
+            </div>
 
-          <div *ngIf="isIssuance && showPostBtn" class="btn-group" role="group">
-            <button
-              [disabled]="quoteForm.pristine || quoteForm.invalid ||
-              appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-              appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
-              (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
-              (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
-              (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
-              type="button" class="btn btn-primary"
-              (click)="proceed(4)">Post</button>
-          </div>
+            <div *ngIf="showPostBtn" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="editMode = !editMode">Edit Details</button>
+              <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+                (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
+                (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
+                (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                type="button" class="btn btn-primary"
+                (click)="proceed(4)">Post</button>
+            </div>
 
-          <div *ngIf="isIssuance && showPrintBtn" class="text-right">
-            <h5><small>Your policy number:</small> {{carDetails.policyNumber}}</h5>
-          </div>
-          <div *ngIf="isIssuance && showPrintBtn" class="btn-group" role="group">
-            <button type="button" class="btn btn-primary"
-              (click)="newPolicy()">New Policy</button>
-            <button type="button" class="btn btn-primary"
-              (click)="printPolicy()">Print</button>
+            <div *ngIf="showPrintBtn" class="text-right">
+              <h5><small>Your policy number:</small> {{carDetails.policyNumber}}</h5>
+            </div>
+            <div *ngIf="showPrintBtn" class="btn-group" role="group">
+              <button type="button" class="btn btn-primary"
+                (click)="newPolicy()">New Policy</button>
+              <button type="button" class="btn btn-primary"
+                (click)="printPolicy()">Print</button>
+            </div>
           </div>
 
         </form>
@@ -1159,6 +1219,10 @@
     <h6>You have changes to this following field/s: </h6>
     <ul>
       <li *ngFor="let item of changedValues">
+        {{item}}
+      </li>
+
+      <li *ngFor="let item of changedAccessoryValues">
         {{item}}
       </li>
     </ul>

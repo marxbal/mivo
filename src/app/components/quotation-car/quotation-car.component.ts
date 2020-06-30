@@ -80,6 +80,7 @@ import {
 import {
   ReturnDTO
 } from 'src/app/objects/ReturnDTO';
+import { Accessory } from 'src/app/objects/Accessory';
 
 @Component({
   selector: 'app-quotation-car',
@@ -88,17 +89,19 @@ import {
 })
 export class QuotationCarComponent implements OnInit, AfterViewChecked {
   @ViewChild(CoveragesComponent) appCoverage: CoveragesComponent;
-  @ViewChild('proceedModal') proceedModal: TemplateRef<any>;
+  @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
 
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
+  triggerCoverage: number = 0;
 
   carDetails = new QuoteCar();
-  prevCarDetails : QuoteCar = null;
-  changedValues: any[] =  [];
+  prevCarDetails: QuoteCar = null;
+  changedValues: any[] = [];
+  changedAccessoryValues: any[] = [];
 
   hasRoadAssist = false;
   withTechControl = false;
@@ -139,11 +142,16 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   coverageAmount: any[];
   coverageVariable: any[];
 
+  //allow user to edit the form
+  editMode = true;
+
   //disable change product input
   disableProductSelect = false;
 
   //flag if coverage is modified
   isModifiedCoverage = false;
+  //flag to include covergae
+  includeCoverage = false;
 
   //flag to show generate btn
   showGenerateBtnGrp: boolean = true;
@@ -166,7 +174,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //modal reference
   modalRef: BsModalRef;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
+  dialogRef: MatDialogRef < TemplateRef < any >> ;
 
   constructor(
     private fb: FormBuilder,
@@ -190,7 +198,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.createQuoteForm();
     this.setValidations();
-    this.init();
+    this.loadInit();
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
@@ -203,7 +211,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  init() {
+  loadInit() {
     var _this = this;
     this.cls.getMakeList().then(res => {
       _this.LOV.makeLOV = res;
@@ -240,10 +248,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       });
     }
 
-    this.setValue();
+    this.setDefaultValue();
   }
 
-  setValue() {
+  setDefaultValue() {
     //setting default value
     this.carDetails.color = 9999; // undeclared
     this.carDetails.receivedBy = this.currentUser.userName; //TODO
@@ -360,223 +368,313 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    this.prevCarDetails = null;
-    this.manageBtn(2);
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
-      const variableData = res.obj["variableData"] as any[];
-      variableData.forEach(v => {
-        const code = v.codCampo;
-        const value : string = v.valCampo;
-        let valueInt : number = undefined;
-        
-        try {
-          valueInt = parseInt(value);
-        } catch(e) {
-          // do nothing
-        }
-
-        switch (code) {
-          //risk details
-          case "COD_MARCA": {
-            this.carDetails.make = valueInt;
-            break;
-          }
-          case "COD_MODELO": {
-            this.carDetails.model = valueInt;
-            break;
-          }
-          case "COD_TIP_VEHI": {
-            this.carDetails.vehicleType = valueInt;
-            break;
-          }
-          case "ANIO_SUB_MODELO": {
-            this.carDetails.modelYear = value;
-            break;
-          }
-          case "COD_SUB_MODELO": {
-            this.carDetails.subModel = valueInt;
-            break;
-          }
-          case "COD_USO_VEHI": {
-            this.carDetails.typeOfUse = valueInt;
-            break;
-          }
-          case "VAL_SUB_MODELO": {
-            this.carDetails.vehicleValue = valueInt;
-            break;
-          }
-
-          //vehicle information
-          case "COD_COLOR": {
-            this.carDetails.color = valueInt;
-            break;
-          }
-          case "COD_AREA_USAGE": {
-            this.carDetails.areaOfUsage = valueInt;
-            break;
-          }
-          case "NUM_CONDUCTION": {
-            this.carDetails.conductionNumber = value;
-            break;
-          }
-          case "NUM_MATRICULA": {
-            this.carDetails.plateNumber = value;
-            break;
-          }
-          case "NUM_SERIAL": {
-            this.carDetails.serialNumber = value;
-            break;
-          }
-          case "NUM_MOTOR": {
-            this.carDetails.engineNumber = value;
-            break;
-          }
-          case "NUM_MV_FILE": {
-            this.carDetails.mvFileNumber = value;
-            break;
-          }
-          case "FEC_PURCHASE": {
-            this.carDetails.purchaseDate = new Date(value);
-            this.quoteForm.get('purchaseDate').markAsDirty();
-            break;
-          }
-          case "NOM_RECEIVED_BY": {
-            this.carDetails.receivedBy = value;
-            break;
-          }
-          case "FEC_RECEIVED": {
-            this.carDetails.receivedDate = new Date(value);
-            this.quoteForm.get('receivedDate').markAsDirty();
-            break;
-          }
-          case "NUM_PLAZAS": {
-            this.carDetails.seatingCapacity = valueInt;
-            break;
-          }
-          case "VAL_PESO": {
-            this.carDetails.weight = value;
-            break;
-          }
-          case "VAL_CC": {
-            this.carDetails.displacement = value;
-            break;
-          }
-          case "TIP_VEHI_PESO": {
-            this.carDetails.classification = valueInt;
-            break;
-          }
-          case "COD_AREA_COVER": {
-            this.carDetails.coverageArea = valueInt;
-            break;
-          }
-          case "PCT_CLI_COINS": {
-            this.carDetails.assuredsCoinsuranceShare = value;
-            break;
-          }
-          case "MCA_WAIVE_MIN_PREM": {
-            // this.carDetails.cbWaivedMinPremium = valueInt;
-            break;
-          }
-          case "MCA_PREPAID_PREM": {
-            // this.carDetails.cbPrepaidPremium = valueInt;
-            break;
-          }
-          case "MCA_GLASS_ETCHING": {
-            // this.carDetails.cbGlassEtchingEntitled = value;
-            break;
-          }
-          case "FEC_GLASS_ETCHING": {
-            this.carDetails.glassEtchingAvailmentDate = new Date(value);
-            break;
-          }
-          case "TXT_EXT_DAM_PARTS": {
-            this.carDetails.existingDamages = value;
-            break;
-          }
-          case "TXT_EXT_DAM_PARTS": {
-            this.carDetails.inspectionAssessment = valueInt;
-            break;
-          }
-
-          //additional policy information for issuance
-          case "MCA_DRIVER": {
-            // this.carDetails.cbPolicyOnlyDriver = valueInt;
-            break;
-          }
-          case "MCA_OWNER": {
-            // this.carDetails.cbPolicyOwner = value;
-            break;
-          }
-          case "MCA_ASSIGNEE": {
-            // this.carDetails.cbHasAssignee = new Date(value);
-            break;
-          }
-          case "MCA_MORTGAGED": {
-            // this.carDetails.cbVehicleMortgaged = valueInt;
-            break;
-          }
-          case "TIP_MORT_CLAUSE": {
-            this.carDetails.mortgageClause = valueInt;
-            break;
-          }
-
-          case "COD_MODALIDAD": {
-            this.carDetails.productList = valueInt;
-            break;
-          }
-
-          default: {
+      if (res.status) {
+        this.manageBtn(2);
+        const variableData = res.obj["variableData"] as any[];
+        variableData.forEach(v => {
+          const code = v.codCampo;
+          const value: string = v.valCampo;
+          let valueInt: number = undefined;
+  
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
             // do nothing
           }
+  
+          switch (code) {
+            //risk details
+            case "COD_MARCA": {
+              this.carDetails.make = valueInt;
+              break;
+            }
+            case "COD_MODELO": {
+              this.carDetails.model = valueInt;
+              break;
+            }
+            case "COD_TIP_VEHI": {
+              this.carDetails.vehicleType = valueInt;
+              break;
+            }
+            case "ANIO_SUB_MODELO": {
+              this.carDetails.modelYear = value;
+              break;
+            }
+            case "COD_SUB_MODELO": {
+              this.carDetails.subModel = valueInt;
+              break;
+            }
+            case "COD_USO_VEHI": {
+              this.carDetails.typeOfUse = valueInt;
+              break;
+            }
+            case "VAL_SUB_MODELO": {
+              this.carDetails.vehicleValue = valueInt;
+              break;
+            }
+  
+            //vehicle information
+            case "COD_COLOR": {
+              this.carDetails.color = valueInt;
+              break;
+            }
+            case "COD_AREA_USAGE": {
+              this.carDetails.areaOfUsage = valueInt;
+              break;
+            }
+            case "NUM_CONDUCTION": {
+              this.carDetails.conductionNumber = value;
+              break;
+            }
+            case "NUM_MATRICULA": {
+              this.carDetails.plateNumber = value;
+              break;
+            }
+            case "NUM_SERIAL": {
+              this.carDetails.serialNumber = value;
+              break;
+            }
+            case "NUM_MOTOR": {
+              this.carDetails.engineNumber = value;
+              break;
+            }
+            case "NUM_MV_FILE": {
+              this.carDetails.mvFileNumber = value;
+              break;
+            }
+            case "FEC_PURCHASE": {
+              this.carDetails.purchaseDate = new Date(value);
+              this.quoteForm.get('purchaseDate').markAsDirty();
+              break;
+            }
+            case "NOM_RECEIVED_BY": {
+              this.carDetails.receivedBy = value;
+              break;
+            }
+            case "FEC_RECEIVED": {
+              this.carDetails.receivedDate = new Date(value);
+              this.quoteForm.get('receivedDate').markAsDirty();
+              break;
+            }
+            case "NUM_PLAZAS": {
+              this.carDetails.seatingCapacity = valueInt;
+              break;
+            }
+            case "VAL_PESO": {
+              this.carDetails.weight = value;
+              break;
+            }
+            case "VAL_CC": {
+              this.carDetails.displacement = value;
+              break;
+            }
+            case "TIP_VEHI_PESO": {
+              this.carDetails.classification = valueInt;
+              break;
+            }
+            case "COD_AREA_COVER": {
+              this.carDetails.coverageArea = valueInt;
+              break;
+            }
+            case "PCT_CLI_COINS": {
+              this.carDetails.assuredsCoinsuranceShare = value;
+              break;
+            }
+            case "MCA_WAIVE_MIN_PREM": {
+              this.carDetails.cbWaivedMinPremium = (value == 'S');
+              break;
+            }
+            case "MCA_PREPAID_PREM": {
+              this.carDetails.cbPrepaidPremium = (value == 'S');
+              break;
+            }
+            case "MCA_GLASS_ETCHING": {
+              this.carDetails.cbGlassEtchingEntitled = (value == 'S');
+              break;
+            }
+            case "FEC_GLASS_ETCHING": {
+              this.carDetails.glassEtchingAvailmentDate = new Date(value);
+              break;
+            }
+            case "TXT_EXT_DAM_PARTS": {
+              this.carDetails.existingDamages = value;
+              break;
+            }
+            case "TIP_EXT_DAM_PARTS": {
+              this.carDetails.inspectionAssessment = valueInt;
+              break;
+            }
+  
+            //additional policy information for issuance
+            case "MCA_DRIVER": {
+              this.carDetails.cbPolicyOnlyDriver = (value == 'S');
+              break;
+            }
+            case "MCA_OWNER": {
+              this.carDetails.cbPolicyOwner = (value == 'S');
+              break;
+            }
+            case "MCA_ASSIGNEE": {
+              this.carDetails.cbHasAssignee = (value == 'S');
+              break;
+            }
+            case "MCA_MORTGAGED": {
+              this.carDetails.cbVehicleMortgaged = (value == 'S');
+              break;
+            }
+            case "TIP_MORT_CLAUSE": {
+              this.carDetails.mortgageClause = valueInt;
+              break;
+            }
+  
+            case "COD_MODALIDAD": {
+              this.carDetails.productList = valueInt;
+              break;
+            }
+  
+            default: {
+              // do nothing
+            }
+          }
+        });
+  
+        const alternative = res.obj["alternative"] as any[];
+        alternative.forEach(a => {
+          const code = a.codCampo;
+          const value: string = a.valCampo;
+          const text: string = a.txtCampo;
+          let valueInt: number = undefined;
+  
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
+  
+          switch (code) {
+            //risk details
+            case "TIP_ASEG_SEP_LOV": {
+              this.carDetails.secondaryPolicyHolderSeparator = text;
+              break;
+            }
+  
+            default: {
+              // do nothing
+            }
+          }
+        });
+  
+        const generalInfo = res.obj["generalInfo"];
+        this.carDetails.subline = generalInfo.codRamo;
+        this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
+  
+        this.groupPolicy.agentCode = generalInfo.codAgt;
+        this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
+        this.groupPolicy.contract = generalInfo.numSubcontrato;
+        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        this.carDetails.groupPolicy = this.groupPolicy;
+  
+        this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.quoteForm.get('effectivityDate').markAsDirty();
+        this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.quoteForm.get('expiryDate').markAsDirty();
+  
+        const docType = generalInfo.tipDocum;
+        const docCode = generalInfo.codDocum;
+        // preventing generic document type and code
+        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+          this.policyHolder.documentType = docType;
+          this.policyHolder.documentCode = docCode;
+          this.policyHolder.isExisting = true;
         }
-      });
+  
+        this.carDetails.paymentMethod = generalInfo.codFraccPago;
+  
+        const beneficiary = res.obj["beneficiary"];
+        if (beneficiary.length) {
+          beneficiary.forEach((ben: any) => {
+            if (ben.tipBenef == 1) {
+              this.secondaryPolicyHolder.documentCode = ben.codDocum;
+              this.secondaryPolicyHolder.documentType = ben.tipDocum;
+              this.secondaryPolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 27) {
+              this.showAssignee = true;
+              this.assigneePolicyHolder.documentCode = ben.codDocum;
+              this.assigneePolicyHolder.documentType = ben.tipDocum;
+              this.assigneePolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 8) {
+              this.showMortgagee = true;
+              this.mortgageePolicyHolder.documentCode = ben.codDocum;
+              this.mortgageePolicyHolder.documentType = ben.tipDocum;
+              this.mortgageePolicyHolder.isExisting = true;
+            }
+          });
+        }
+  
+        this.loadLOVs();
+  
+        const accessories = res.obj["accessories"];
+        if (accessories.length) {
+          //dispalys the accessory panel 
+          this.showAccessories = true;
+          //removes all accessories
+          this.removeAccessories();
+          var temp: any[] = [];
+          accessories.forEach((acc: any) => {
+            temp.push({
+              accessory: acc.codAccesorio
+            });
+            this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
+          });
+          const _this = this;
+          this.cls.getAccessoryList(this.carDetails).then(res => {
+            _this.LOV.accessoryListLOV = res;
+            this.disableAccessory(temp);
+          });
+  
+          var accessoriesForm = this.quoteForm.get('accessories').value;
+          this.carDetails.accessories = accessoriesForm;
+        } else {
+          const _this = this;
+          this.cls.getAccessoryList(this.carDetails).then(res => {
+            _this.LOV.accessoryListLOV = res;
+          });
+          this.carDetails.accessories = [];
+        }
+  
+        this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
+          const coverageList = res1.obj["coverageList"];
+          const amountList = res1.obj["amountList"];
+          const premiumAmount = res.obj["premiumAmount"];
+          const coverageVariable = res.obj["coverageVariable"];
+          const coverageAmount = res.obj["coverageAmount"];
+  
+          this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+        });
+  
+        //breakdwon
+        const breakdown = res.obj["breakdown"];
+        const receipt = res.obj["receipt"];
+        this.populatePaymentBreakdown(breakdown, receipt);
+  
+        //cloning details from load quotation
+        const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+        this.prevCarDetails = deepClone;
 
-      const generalInfo = res.obj["generalInfo"];
-      this.carDetails.subline = generalInfo.codRamo;
-      this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
-
-      this.groupPolicy.agentCode = generalInfo.codAgt;
-      this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
-      this.groupPolicy.contract = generalInfo.numSubcontrato;
-      this.groupPolicy.subContract = generalInfo.numSubcontrato;
-      this.groupPolicy.commercialStructure = generalInfo.codNivel3;
-
-      this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-      this.quoteForm.get('effectivityDate').markAsDirty();
-      this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-      this.quoteForm.get('expiryDate').markAsDirty();
-
-      this.policyHolder.documentCode = generalInfo.codDocum;
-      this.policyHolder.documentType = generalInfo.tipDocum;
-      this.policyHolder.isExisting = true;
-      this.policyHolder.isPerson = true; //TODO
-
-      this.carDetails.paymentMethod = generalInfo.codFraccPago;
-
-      const accessories = res.obj["accessories"];
-      accessories.forEach((arr) => {
-        this.accessory().push(this.loadAccessory(1, 1, 100, 'desc'));
-      });
-
-      this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
-        const coverageList = res1.obj["coverageList"];
-        const amountList = res1.obj["amountList"];
-        const premiumAmount = res.obj["premiumAmount"];
-        const coverageVariable = res.obj["coverageVariable"];
-        const coverageAmount = res.obj["coverageAmount"];
-
-        this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-      });
-
-      //breakdwon
-      const breakdown = res.obj["breakdown"];
-      const receipt = res.obj["receipt"];
-      this.populatePaymentBreakdown(breakdown, receipt);
-
-      this.loadLOVs();
+        const technicalControl = res.obj["technicalControl"];
+        if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.withTechControl = true;
+          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+        }
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.obj['message']);
+        this.carDetails.quotationNumber = "";
+      }
     }).finally(() => {
       //trigger child component load quotation function
-      this.triggerCounter = this.triggerCounter+1;
+      this.triggerCounter = this.triggerCounter + 1;
     });
   }
 
@@ -623,12 +721,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cls.getAreaOfUsage(this.carDetails).then(res => {
       _this.LOV.areaOfUsageLOV = res;
     });
-
-    //loading accessory list
-    this.cls.getAccessoryList(this.carDetails).then(res => {
-      _this.LOV.accessoryListLOV = res;
-    });
-    this.removeAccessories();
 
     this.cls.getRegistrationType().then(res => {
       _this.LOV.registrationTypeLOV = res;
@@ -710,7 +802,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadAccessory(accessory: number, accessoryType: number, price: number, description: string): FormGroup {
+  loadAccessory(accessory: number, accessoryType: string, price: number, description: string): FormGroup {
     return this.fb.group({
       accessory: [accessory, Validators.required],
       accessoryType: [accessoryType, Validators.required],
@@ -729,8 +821,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.disableAccessory();
   }
 
-  disableAccessory() {
-    var accessories = this.quoteForm.get('accessories').value;
+  disableAccessory(acc ? : any[]) {
+    var accessories = Utility.isUndefined(acc) ? this.quoteForm.get('accessories').value : acc;
     if (accessories.length > 0) {
       var temp = [];
       accessories.forEach(accessory => {
@@ -923,6 +1015,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     this.cls.getAccessoryList(this.carDetails).then(res => {
+      console.log("getAccessoryList sublineChange");
       _this.LOV.accessoryListLOV = res;
     });
     this.removeAccessories();
@@ -1009,6 +1102,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.coverageAmount = coverageAmount;
     this.coverageVariable = coverageVariable;
     this.showCoverage = true;
+    this.triggerCoverage = this.triggerCoverage + 1;
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
@@ -1028,43 +1122,28 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     invalid = this.findInvalidControls(invalid, q);
     invalid = this.findInvalidControls(invalid, g);
     invalid = this.findInvalidControls(invalid, c);
-    // const qcontrols = q.controls;
-    // for (const name in qcontrols) {
-    //     if (qcontrols[name].invalid) {
-    //         invalid.push(name);
-    //     }
-    // }
-    // const gcontrols = g.controls;
-    // for (const name in gcontrols) {
-    //     if (gcontrols[name].invalid) {
-    //         invalid.push(name);
-    //     }
-    // }
-    // const ccontrols = c.controls;
-    // for (const name in ccontrols) {
-    //     if (ccontrols[name].invalid) {
-    //         invalid.push(name);
-    //     }
-    // }
     alert(invalid);
   }
 
   public findInvalidControls(invalid: any[], form: FormGroup) {
     const controls = form.controls;
     for (const name in controls) {
-        if (controls[name].invalid) {
-            invalid.push(name);
-        }
-        if (controls[name].pristine) {
-          invalid.push(name);
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+      if (controls[name].pristine) {
+        invalid.push(name);
       }
     }
     return invalid;
-}
+  }
 
   proceed(type: number) {
     //if user changes affecting values
-    const hasChanges = this.changedValues.length != 0;
+    const hasAffectingAccessories = this.checkAffectingAccessories()
+    const hasChanges = this.changedValues.length != 0 || hasAffectingAccessories;
+    this.includeCoverage = !hasChanges;
+
     const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
     this.carDetails.affecting = !hasQuotationNumber ||
@@ -1094,6 +1173,59 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  checkAffectingAccessories() {
+    let hasAccessoryChanges = false;
+
+    if (!Utility.isUndefined(this.prevCarDetails)) {
+      this.changedAccessoryValues = [];
+
+      var accessories = this.quoteForm.get('accessories').value;
+      const length = accessories.length;
+      let prevlength = 0;
+      if ('accessories' in this.prevCarDetails) {
+        const prevAccessories = this.prevCarDetails.accessories;
+        prevlength = prevAccessories.length;
+        if (prevlength != length) {
+          hasAccessoryChanges = true;
+          if (prevlength > length) {
+            var diff = prevlength - length;
+            var label = diff == 1 ? " accessory" : " accessories";
+            this.changedAccessoryValues.push(
+              "Accessory: Deleted " + diff + label);
+          } else {
+            var diff = length - prevlength;
+            var label = diff == 1 ? " accessory" : " accessories";
+            this.changedAccessoryValues.push(
+              "Accessory: Added " + diff + label);
+          }
+        }
+
+        prevAccessories.forEach((acc : Accessory) => {
+          let matched = false;
+          accessories.forEach((acc1: Accessory) => {
+            if (acc.accessory == acc1.accessory) {
+              matched = true;
+              if (acc.description != acc1.description) {
+                this.changedAccessoryValues.push(
+                  "Accessory Description: Changed " + acc.description + " to " + acc1.description);
+              }
+              if (acc.price != acc1.price) {
+                this.changedAccessoryValues.push(
+                  "Accessory Price: Changed " + acc.price + " to " + acc1.price);
+              }
+            }
+          });
+          if (!matched) {
+            this.changedAccessoryValues.push(
+              "Accessory: Changed Accessory List");
+          }
+        });
+      }
+    }
+
+    return hasAccessoryChanges;
+  }
+
   openProceedModal(type: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.restoreFocus = false;
@@ -1101,8 +1233,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     dialogConfig.role = 'dialog';
     dialogConfig.width = '500px';
     dialogConfig.data = {
-      generateBtn: type == 1 || type == 2,
-      saveBtn: type == 3 || type == 4
+      generateBtn: type == 1 || type == 2 || type == 3,
+      saveBtn: type == 4
     };
 
     this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
@@ -1139,11 +1271,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  manageBtn(opt: number, isModified?: boolean) {
+  manageBtn(opt: number, isModified ? : boolean) {
     if (opt == 1) {
+      //hides payment breakdown panel
       this.showPaymentBreakdown = false;
 
+      // flag to edit coverage
       const modified = !Utility.isUndefined(isModified);
+
+      this.editMode = !modified;
       this.showCoverage = modified;
       this.isModifiedCoverage = modified;
       if (modified) {
@@ -1181,8 +1317,16 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   affecting(key: string, label: string) {
     if (!Utility.isUndefined(this.carDetails.quotationNumber) && this.prevCarDetails != null) {
-      const prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
-      const curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+      let prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
+      let curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+      if (curr instanceof Date) {
+        curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
+        if (!Utility.isUndefined(prev)) {
+          var prevDate = new Date(prev);
+          prev = prevDate.getMonth() + "/" + prevDate.getDate() + "/" + prevDate.getFullYear();
+        }
+      }
+
       if (prev != curr) {
         if (!this.changedValues.includes(label)) {
           //if changedValues length is greater than 0, request is affecting
@@ -1209,6 +1353,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //generate and issue quote button
   issueQuote(mcaTmpPptoMph: string) {
+    // S for generation and N for issue quotation
+    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
+
     // includes group policy to car details DTO
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
@@ -1222,18 +1370,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // includes coverages to car details DTO
     this.carDetails.coverages = [];
-    if (!Utility.isUndefined(this.appCoverage)) {
+    if (!Utility.isUndefined(this.appCoverage) && (this.carDetails.isModifiedCoverage || this.includeCoverage)) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
 
     // to trigger changes when regenerating quotation
-    this.showCoverage = this.isModifiedCoverage;
     this.showPaymentBreakdown = false;
-
-    // S for generation and N for issue quotation
-    this.carDetails.mcaTmpPptoMph = mcaTmpPptoMph;
-    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
+    this.showCoverage = false;
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
@@ -1245,6 +1389,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
+            //duplicating car details for comparison
+            const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+            this.prevCarDetails = deepClone;
+
+            this.editMode = false;
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
             const errorCode = res1.obj["errorCode"];
             if (errorCode == "S") {
@@ -1268,11 +1417,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               const premiumAmount = res1.obj["premiumAmount"];
               const coverageVariable = res1.obj["coverageVariable"];
 
-              if (this.isModifiedCoverage) {
-                this.showCoverage = true;
-              } else {
-                this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-              }
+              this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+              // if (this.isModifiedCoverage) {
+              //   this.showCoverage = true;
+              // } else {
+              //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+              // }
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
@@ -1293,6 +1443,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   assembleIssuePolicyData() {
+    // always N for issue policy
+    this.carDetails.mcaTmpPptoMph = "N";
+    this.carDetails.isModifiedCoverage = this.isModifiedCoverage;
+
     // includes group policy to car details DTO
     this.carDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to car details DTO
@@ -1312,13 +1466,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // includes coverages to car details DTO
     this.carDetails.coverages = [];
-    if (!Utility.isUndefined(this.appCoverage)) {
+    if (!Utility.isUndefined(this.appCoverage) && (this.carDetails.isModifiedCoverage || this.includeCoverage)) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
-
-    // always N for issue policy
-    this.carDetails.mcaTmpPptoMph = "N";
   }
 
   //getting error or warning items
@@ -1330,9 +1481,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     const coverageAmountIsUndefined = Utility.isUndefined(resCoverageAmount);
     const isPostPolicy = coverageAmountIsUndefined && Utility.isUndefined(resErrorCode);
-    let items: any[] = isPostPolicy
-      ? ["Error occured while posting policy. Please contact administration."]
-      : ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+    let items: any[] = isPostPolicy ?
+      ["Error occured while posting policy. Please contact administration."] :
+      ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
 
     if (!Utility.isUndefined(resError)) {
       const errArr = resError.split("~");
@@ -1353,7 +1504,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.withTechControl = true;
             // has warning - can proceed
             if (isIssuance) {
-              items = ["Policy has technical control due to following reason/s:"].concat(arr);
+              items = ["Quotation has technical control due to following reason/s:"].concat(arr);
             } else {
               items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
             }
@@ -1385,7 +1536,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             //duplicating car details for comparison
             const deepClone = JSON.parse(JSON.stringify(this.carDetails));
             this.prevCarDetails = deepClone;
-            
+
+            this.editMode = false;
+
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
 
             const errorCode = res1.obj["errorCode"];
@@ -1400,12 +1553,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const premiumAmount = res1.obj["premiumAmount"];
             const coverageVariable = res1.obj["coverageVariable"];
 
-            // if (this.isModifiedCoverage || !this.carDetails.affecting) {
-            //   this.showCoverage = true;
-            // } else {
-            //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-            // }
-            // 
             this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
             this.isModifiedCoverage = false;
 
@@ -1422,8 +1569,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             } else {
               const message = "Policy saved successfully.";
               this.modalRef = Utility.showInfo(this.bms, message);
-              this.manageBtn(3);
             }
+            this.editMode = false;
+            this.manageBtn(3);
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
@@ -1449,13 +1597,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         if (res1.status) {
           //clear affecting fields
           this.changedValues = [];
-  
+
           var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
           const policyNumber = res1.obj["policyNumber"];
           if (status && !Utility.isUndefined(policyNumber)) {
+            this.editMode = false;
             this.carDetails.policyNumber = policyNumber;
-  
+
             this.isModifiedCoverage = false;
             const breakdown = res1.obj["breakdown"];
             const receipt = res1.obj["receipt"];
