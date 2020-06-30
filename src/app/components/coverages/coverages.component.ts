@@ -53,16 +53,20 @@ export class CoveragesComponent implements OnInit {
   @Input() carDetails: QuoteCar;
   @Input() coverageList: any[];
   @Input() amountList: any[];
-  @Input() coverageVariable: any[];
   @Input() premiumAmount: any[];
   @Input() coverageAmount: any[];
   @Input() coverageVariableData: CoverageVariableData;
   @Input() isModifiedCoverage: boolean;
   @Input() isIssuance: boolean;
   @Input() hasRoadAssist: boolean;
-
   @Input() quoteForm: FormGroup;
   @Input() showCTPL: boolean;
+  @Input()
+  set coverageVariable(variable: any[]) {
+    this.coverageVariable = variable;
+    this.generateCoverage();
+  }
+
   @Output() showCTPLChange = new EventEmitter < boolean > ();
 
   cForm: FormGroup;
@@ -83,7 +87,10 @@ export class CoveragesComponent implements OnInit {
     // this.coverageVariable = coverageVariable;
     // this.premiumAmount = premiumAmount;
     // this.coverageAmount = coverageAmount2;
+    this.generateCoverage();
+  }
 
+  generateCoverage() {
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
     this.cvddv = cvd.getDefaultValues(this.coverageVariable, this.coverageVariableData);
