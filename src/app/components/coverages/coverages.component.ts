@@ -53,17 +53,19 @@ export class CoveragesComponent implements OnInit {
   @Input() carDetails: QuoteCar;
   @Input() coverageList: any[];
   @Input() amountList: any[];
+  @Input() coverageVariable: any[];
   @Input() premiumAmount: any[];
   @Input() coverageAmount: any[];
   @Input() coverageVariableData: CoverageVariableData;
   @Input() isModifiedCoverage: boolean;
   @Input() isIssuance: boolean;
   @Input() hasRoadAssist: boolean;
+
   @Input() quoteForm: FormGroup;
   @Input() showCTPL: boolean;
   @Input()
-  set coverageVariable(variable: any[]) {
-    this._coverageVariable = variable;
+  set loadCoverage(value: number) {
+    this.triggerCounter = value;
     this.generateCoverage();
   }
 
@@ -74,7 +76,7 @@ export class CoveragesComponent implements OnInit {
   source: any[];
   dataSource = new MatTableDataSource < TablesDTO > (this.source);
   cvddv: CoverageVariableData;
-  _coverageVariable: any[];
+  triggerCounter: number;
 
   constructor(
     private fb: FormBuilder,
@@ -94,7 +96,7 @@ export class CoveragesComponent implements OnInit {
   generateCoverage() {
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
-    this.cvddv = cvd.getDefaultValues(this._coverageVariable, this.coverageVariableData);
+    this.cvddv = cvd.getDefaultValues(this.coverageVariable, this.coverageVariableData);
     this.source = this.getCoverageData();
     if (this.source.length) {
       this.dataSource = new MatTableDataSource < TablesDTO > (this.source);

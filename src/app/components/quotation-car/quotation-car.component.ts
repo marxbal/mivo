@@ -96,6 +96,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   isLoadQuotation: boolean = Globals.isLoadQuotation;
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
+  triggerCoverage: number = 0;
 
   carDetails = new QuoteCar();
   prevCarDetails: QuoteCar = null;
