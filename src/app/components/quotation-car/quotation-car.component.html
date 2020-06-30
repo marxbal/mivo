@@ -552,7 +552,7 @@
                         </div>
 
                         <div class="col-lg-2 col-md-3">
-                          <div class="btn-group">
+                          <div *ngIf="editMode" class="btn-group">
                             <button class="btn btn-primary" (click)="removeAccessory(i)">Remove</button>
                           </div>
                         </div>
