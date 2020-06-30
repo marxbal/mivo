@@ -63,7 +63,7 @@ export class CoveragesComponent implements OnInit {
   @Input() showCTPL: boolean;
   @Input()
   set coverageVariable(variable: any[]) {
-    this.coverageVariable = variable;
+    this._coverageVariable = variable;
     this.generateCoverage();
   }
 
@@ -74,6 +74,7 @@ export class CoveragesComponent implements OnInit {
   source: any[];
   dataSource = new MatTableDataSource < TablesDTO > (this.source);
   cvddv: CoverageVariableData;
+  _coverageVariable: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -93,7 +94,7 @@ export class CoveragesComponent implements OnInit {
   generateCoverage() {
     //getting and setting defaults to variable data
     const cvd = new CoverageVariableData();
-    this.cvddv = cvd.getDefaultValues(this.coverageVariable, this.coverageVariableData);
+    this.cvddv = cvd.getDefaultValues(this._coverageVariable, this.coverageVariableData);
     this.source = this.getCoverageData();
     if (this.source.length) {
       this.dataSource = new MatTableDataSource < TablesDTO > (this.source);
