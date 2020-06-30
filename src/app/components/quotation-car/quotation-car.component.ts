@@ -1102,6 +1102,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.coverageAmount = coverageAmount;
     this.coverageVariable = coverageVariable;
     this.showCoverage = true;
+    this.triggerCoverage = this.triggerCoverage + 1;
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
@@ -1372,11 +1373,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     if (!Utility.isUndefined(this.appCoverage) && (this.carDetails.isModifiedCoverage || this.includeCoverage)) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
-      this.showCoverage = false;
     }
 
     // to trigger changes when regenerating quotation
     this.showPaymentBreakdown = false;
+    this.showCoverage = false;
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
