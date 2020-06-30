@@ -149,6 +149,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //flag if coverage is modified
   isModifiedCoverage = false;
+  //flag to include covergae
+  includeCoverage = false;
 
   //flag to show generate btn
   showGenerateBtnGrp: boolean = true;
@@ -1138,6 +1140,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     //if user changes affecting values
     const hasAffectingAccessories = this.checkAffectingAccessories()
     const hasChanges = this.changedValues.length != 0 || hasAffectingAccessories;
+    this.includeCoverage = !hasChanges;
 
     const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
@@ -1365,7 +1368,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // includes coverages to car details DTO
     this.carDetails.coverages = [];
-    if (!Utility.isUndefined(this.appCoverage) && this.carDetails.isModifiedCoverage) {
+    if (!Utility.isUndefined(this.appCoverage) && (this.carDetails.isModifiedCoverage || this.includeCoverage)) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
       this.showCoverage = false;
@@ -1412,11 +1415,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               const premiumAmount = res1.obj["premiumAmount"];
               const coverageVariable = res1.obj["coverageVariable"];
 
-              if (this.isModifiedCoverage) {
-                this.showCoverage = true;
-              } else {
-                this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-              }
+              this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+              // if (this.isModifiedCoverage) {
+              //   this.showCoverage = true;
+              // } else {
+              //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+              // }
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
@@ -1460,7 +1464,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     // includes coverages to car details DTO
     this.carDetails.coverages = [];
-    if (!Utility.isUndefined(this.appCoverage) && this.carDetails.isModifiedCoverage) {
+    if (!Utility.isUndefined(this.appCoverage) && (this.carDetails.isModifiedCoverage || this.includeCoverage)) {
       var coverages = this.appCoverage.cForm.get('coverages').value;
       this.carDetails.coverages = coverages.length ? coverages : [];
     }
