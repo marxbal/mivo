@@ -3,7 +3,9 @@ import {
   OnInit,
   Input,
   AfterViewChecked,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import {
   FormGroup,
@@ -13,8 +15,8 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 import {
-  QuoteTravel
-} from '../../objects/QuoteTravel';
+  Travel
+} from '../../objects/Travel';
 import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
@@ -33,7 +35,29 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
-
+import {
+  AuthenticationService
+} from 'src/app/services/authentication.service';
+import {
+  BsModalService,
+  BsModalRef
+} from 'ngx-bootstrap/modal';
+import {
+  Router
+} from '@angular/router';
+import {
+  MatDialog,
+  MatDialogRef
+} from '@angular/material';
+import {
+  Globals
+} from 'src/app/utils/global';
+import {
+  CoveragesComponent
+} from '../coverages/coverages.component';
+import {
+  PolicyHolder
+} from 'src/app/objects/PolicyHolder';
 
 @Component({
   selector: 'app-quotation-travel',
@@ -41,8 +65,26 @@ import {
   styleUrls: ['./quotation-travel.component.css']
 })
 export class QuotationTravelComponent implements OnInit, AfterViewChecked {
-  @Input() travelDetails = new QuoteTravel();
-  @Input() groupPolicy = new GroupPolicy();
+  @ViewChild(CoveragesComponent) appCoverage: CoveragesComponent;
+  @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
+
+  currentUser = this.auths.currentUserValue;
+  isIssuance: boolean = Globals.getAppType() == "I";
+  isLoadQuotation: boolean = Globals.isLoadQuotation;
+  pageLabel: String = 'Quotation';
+  triggerCounter: number = 0;
+  triggerCoverage: number = 0;
+
+  travelDetails = new Travel();
+  prevTravelDetails: Travel = null;
+  changedValues: any[] = [];
+  changedAccessoryValues: any[] = [];
+
+  withTechControl = false;
+
+  groupPolicy = new GroupPolicy();
+  policyHolder = new PolicyHolder();
+
   quoteForm: FormGroup;
 
   mindate: Date = new Date();
@@ -53,10 +95,57 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   LOV = new TravelListObject();
   GPLOV = new GroupPolicyListObject();
 
+  showPaymentBreakdown: boolean = false;
+  showCoverage: boolean = false;
+
+  //for payment breakdown
+  paymentBreakdown: any[];
+  paymentReceipt: {};
+
+  //for coverage
+  // coverageList: any[];
+  // amountList: any[];
+  // premiumAmount: any[];
+  // coverageAmount: any[];
+  // coverageVariable: any[];
+
+  //allow user to edit the form
+  editMode = true;
+
+  //flag if coverage is modified
+  // isModifiedCoverage = false;
+  //flag to include covergae
+  // includeCoverage = false;
+
+  //flag to show generate btn
+  showGenerateBtn: boolean = true;
+  //flag to show issue btn
+  showIssueQuoteBtn: boolean = false;
+  //flag to show print quote/proceed to issuance
+  showProceedToIssuanceBtn: boolean = false;
+
+  //flat to show issuance generate btn
+  showIssuanceGenerateBtn = true;
+  //flag to show save btn
+  showSaveBtn: boolean = false;
+  //flag to show post btn
+  showPostBtn: boolean = false;
+  //flag to show print btn
+  showPrintBtn: boolean = false;
+
+  //disable load button
+  disableLoadBtn: boolean = true;
+
+  //modal reference
+  modalRef: BsModalRef;
+  dialogRef: MatDialogRef < TemplateRef < any >> ;
+
   constructor(
     private fb: FormBuilder,
-    // private qq: QuickQuoteService,
-    // private lov: LovService,
+    private auths: AuthenticationService,
+    private bms: BsModalService,
+    private router: Router,
+    public dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {
     this.createQuoteForm();
@@ -68,6 +157,20 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.loadInit();
+    if (this.isIssuance) {
+      this.pageLabel = 'Issuance';
+      if (this.isLoadQuotation) {
+        //if loaded from car quotation
+        this.travelDetails.quotationNumber = Globals.loadNumber;
+        // this.loadQuotation();
+        Globals.setLoadNumber('');
+        Globals.setLoadQuotation(false);
+      }
+    }
+  }
+
+  loadInit() {
     this.getCountry();
     this.getCurrency();
 
@@ -78,10 +181,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
     this.getRelationship();
 
-    this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
-    this.GPLOV.contractLOV = lovUtil.getContract();
-    this.GPLOV.subContractLOV = lovUtil.getSubContract();
-    this.GPLOV.commercialStructureLOV = lovUtil.getCommercialStructure();
+    // this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
+    // this.GPLOV.contractLOV = lovUtil.getContract();
+    // this.GPLOV.subContractLOV = lovUtil.getSubContract();
+    // this.GPLOV.commercialStructureLOV = lovUtil.getCommercialStructure();
 
     this.getTravelInsurance();
     this.getOptionPack();
@@ -290,8 +393,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     }];
   }
 
-  issueQuote(travelDetails: QuoteTravel, groupPolicy: GroupPolicy) {
-    var check = new QuoteTravel(this.quoteForm.value);
+  issueQuote(travelDetails: Travel, groupPolicy: GroupPolicy) {
+    var check = new Travel(this.quoteForm.value);
     console.log(check);
     console.log(travelDetails, groupPolicy);
   }

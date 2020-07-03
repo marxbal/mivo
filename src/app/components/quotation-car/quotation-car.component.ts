@@ -145,9 +145,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   //allow user to edit the form
   editMode = true;
 
-  //disable change product input
-  disableProductSelect = false;
-
   //flag if coverage is modified
   isModifiedCoverage = false;
   //flag to include covergae

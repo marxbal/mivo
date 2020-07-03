@@ -1,7 +1,13 @@
 <div class="row" id="quickQuotationTravel">
   <div class="col-xl-12">
     <div class="page-header">
-      <h4>Quick Quotation - Travel</h4>
+      <h4 class="all-caps">
+        <span class="fa-stack fa-md">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-car fa-stack-1x fa-inverse"></i>
+        </span>
+        {{pageLabel}}
+      </h4>
     </div>
     <!-- .page-header -->
   </div>
@@ -17,7 +23,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-3 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['currency'].invalid 
                     && (quoteForm.controls['currency'].dirty 
                     || quoteForm.controls['currency'].touched)}">
@@ -184,120 +190,19 @@
                   </div>
                 </div>
 
-                <div class="form-divider"></div>
-                <div class="col-xl-12">
-                  <h6>Group Policy</h6>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['groupPolicy'].invalid 
-                        && (quoteForm.controls['groupPolicy'].dirty 
-                        || quoteForm.controls['groupPolicy'].touched)}">
-                    <label for="groupPolicy">Group Policy</label>
-                    <select class="custom-select mr-sm-2" formControlName="groupPolicy"
-                      [(ngModel)]="groupPolicy.groupPolicy">
-                      <option></option>
-                      <option *ngFor="let groupPolicy of GPLOV.groupPolicyLOV" [ngValue]="groupPolicy.value">
-                        {{ groupPolicy.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['groupPolicy'].errors?.required">
-                      * group policy is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['contract'].invalid 
-                        && (quoteForm.controls['contract'].dirty 
-                        || quoteForm.controls['contract'].touched)}">
-                    <label for="contract">Contract</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="contract"
-                      [(ngModel)]="groupPolicy.contract" [attr.disabled]=" groupPolicy.groupPolicy ? null : true">
-                      <option></option>
-                      <option *ngFor="let contract of GPLOV.contractLOV" [ngValue]="contract.value">{{ contract.name }}
-                      </option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['contract'].errors?.required">
-                      * contract is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subContract'].invalid 
-                        && (quoteForm.controls['subContract'].dirty 
-                        || quoteForm.controls['subContract'].touched)}">
-                    <label for="subContract">Sub Contract</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="subContract"
-                      [(ngModel)]="groupPolicy.subContract" [attr.disabled]=" groupPolicy.groupPolicy ? null : true">
-                      <option></option>
-                      <option *ngFor="let subContract of GPLOV.subContractLOV" [ngValue]="subContract.value">
-                        {{ subContract.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['subContract'].errors?.required">
-                      * sub contract is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['commercialStructure'].invalid 
-                        && (quoteForm.controls['commercialStructure'].dirty 
-                        || quoteForm.controls['commercialStructure'].touched)}">
-                    <label for="commercialStructure">Commercial Structure</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="commercialStructure"
-                      [(ngModel)]="groupPolicy.commercialStructure">
-                      <option></option>
-                      <option *ngFor="let commercialStructure of GPLOV.commercialStructureLOV"
-                        [ngValue]="commercialStructure.value">{{ commercialStructure.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['commercialStructure'].errors?.required">
-                      * commercial structure is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['agentCode'].invalid 
-                      && (quoteForm.controls['agentCode'].dirty 
-                      || quoteForm.controls['agentCode'].touched)}">
-                    <label for="agentCode">Agent Code</label>
-                    <input type="text" formControlName="agentCode" class="form-control required"
-                      [(ngModel)]="groupPolicy.agentCode">
-                    <p class="form-error" *ngIf="quoteForm.controls['agentCode'].errors?.required">
-                      * agent code is required
-                    </p>
-                  </div>
-                </div>
-
-                <!-- <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['expiringPolicyNumber'].invalid 
-                      && (quoteForm.controls['expiringPolicyNumber'].dirty 
-                      || quoteForm.controls['expiringPolicyNumber'].touched)}">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox"
-                          id="cbIsRenewal" formControlName="cbIsRenewal"
-                          [(ngModel)]="groupPolicy.cbIsRenewal">
-                        <label class="form-check-label" for="cbIsRenewal">
-                          Renewal
-                        </label>
-                      </div>
-                    <label class="form-check-label" for="cbIsRenewal">
-                      Expiring Policy Number
-                    </label>
-                    <input type="text" formControlName="expiringPolicyNumber" 
-                      [attr.disabled]="groupPolicy.cbIsRenewal ? null : ''"
-                      class="form-control required"
-                      [(ngModel)]="groupPolicy.expiringPolicyNumber">
-                    <p class="form-error" *ngIf="quoteForm.controls['expiringPolicyNumber'].errors?.required">
-                      * expiring policy number is required
-                    </p>
-                  </div>
-                </div> -->
-
               </div>
             </div>
           </div>
+
+          <app-group-policy
+            #appGroupPolicy
+            [subline]="travelDetails.subline"
+            [prevDetails]="prevTravelDetails"
+            [groupPolicy]="groupPolicy"
+            [editMode]="editMode"
+            [(changedValues)]="changedValues"
+            [loadQuotation]="triggerCounter">
+          </app-group-policy>
 
           <div class="card shadow mb-3">
             <div class="card-header">

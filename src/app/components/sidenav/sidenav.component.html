@@ -98,7 +98,7 @@
         <a *ngIf="menu.quotationHome" class="collapse-item" [ngClass]="{'active': page==p.QUO.HOM}"
           (click)="setPage(p.QUO.HOM)"><i class="fas fa-fw fa-home"></i> Home</a>
         <a *ngIf="menu.quotationTravel" class="collapse-item" [ngClass]="{'active': page==p.QUO.TRA}"
-          (click)="setPage(p.QUO.TRA)"><i class="fas fa-fw fa-plane"></i> Travel</a>
+          (click)="setAppPage(p.QUO.TRA)"><i class="fas fa-fw fa-plane"></i> Travel</a>
         <a *ngIf="menu.quotationAccident" class="collapse-item" [ngClass]="{'active': page==p.QUO.ACC}"
           (click)="setPage(p.QUO.ACC)"><i class="fas fa-fw fa-shield-alt"></i> Accident</a>
       </div>
@@ -118,7 +118,7 @@
         <a *ngIf="menu.issuanceHome" class="collapse-item" [ngClass]="{'active': page==p.ISS.HOM}"
           (click)="setPage(p.ISS.HOM)"><i class="fas fa-fw fa-home"></i> Home</a>
         <a *ngIf="menu.issuanceTravel" class="collapse-item" [ngClass]="{'active': page==p.ISS.TRA}"
-          (click)="setPage(p.ISS.TRA)"><i class="fas fa-fw fa-plane"></i> Travel</a>
+          (click)="setAppPage(p.ISS.TRA)"><i class="fas fa-fw fa-plane"></i> Travel</a>
         <a *ngIf="menu.issuanceAccident" class="collapse-item" [ngClass]="{'active': page==p.ISS.ACC}"
           (click)="setPage(p.ISS.ACC)"><i class="fas fa-fw fa-shield-alt"></i> Accident</a>
       </div>

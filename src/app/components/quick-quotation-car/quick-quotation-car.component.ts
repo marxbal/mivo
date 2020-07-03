@@ -52,7 +52,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationCarComponent implements OnInit, AfterViewChecked {
-  @Input() carDetails = new QQCar();
+  carDetails = new QQCar();
   LOV = new CarListObject();
   quickQuoteForm: FormGroup;
 

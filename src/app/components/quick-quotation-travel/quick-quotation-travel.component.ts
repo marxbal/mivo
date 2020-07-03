@@ -19,8 +19,8 @@ import {
   Utility
 } from 'src/app/utils/utility';
 import {
-  QQTravel
-} from '../../objects/QQTravel';
+  Travel
+} from '../../objects/Travel';
 import {
   TravelListObject
 } from 'src/app/objects/LOV/travelList';
@@ -48,7 +48,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
-  @Input() travelDetails = new QQTravel();
+  travelDetails = new Travel();
   LOV = new TravelListObject();
   quickQuoteForm: FormGroup;
 
@@ -218,7 +218,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     }, 500);
   }
 
-  quickQuote(travelDetails: QQTravel) {
+  quickQuote(travelDetails: Travel) {
     this.qqs.quickQuoteTravel(travelDetails).then(res => {
       if (res.status) {
         this.travelData = [];
