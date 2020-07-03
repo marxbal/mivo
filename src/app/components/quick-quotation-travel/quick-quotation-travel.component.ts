@@ -96,12 +96,14 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       _this.LOV.coverageLOV = res;
     });
     this.tls.getAgeRange().then(res => {
+      var ageList = [];
       res.forEach((age) => {
         //removes ages 66 and above
         if (age.AGE_RANGE < 3) {
-          _this.LOV.ageRangeLOV.push(age);
+          ageList.push(age);
         }
       });
+      _this.LOV.ageRangeLOV = ageList;
     });
   }
 
