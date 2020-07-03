@@ -102,23 +102,6 @@
             <div class="clearfix"></div>
 
             <div class="col-lg-3 col-md-4 col-sm-6">
-              <div class="form-group" [ngClass]="{'input-error': quickQuoteForm.controls['purposeTrip'].invalid 
-                && (quickQuoteForm.controls['purposeTrip'].dirty 
-                || quickQuoteForm.controls['purposeTrip'].touched)}">
-                <label for="purposeTrip">Purpose of Trip</label>
-                <select class="custom-select mr-sm-2 required" formControlName="purposeTrip"
-                  [(ngModel)]="travelDetails.purposeTrip">
-                  <option selected></option>
-                  <option *ngFor="let purposeTrip of LOV.purposeOfTripLOV" [ngValue]="purposeTrip.COD_BUSINESS">
-                    {{ purposeTrip.NOM_BUSINESS }}</option>
-                </select>
-                <p class="form-error" *ngIf="quickQuoteForm.controls['purposeTrip'].errors?.required">
-                  * purpose of trip is required
-                </p>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6">
               <div class="form-group" [ngClass]="{'input-error': quickQuoteForm.controls['startDate'].invalid 
                 && (quickQuoteForm.controls['startDate'].dirty 
                 || quickQuoteForm.controls['startDate'].touched)}">
@@ -157,6 +140,8 @@
                 </p>
               </div>
             </div>
+
+            <div class="clearfix"></div>
 
             <div class="col-lg-3 col-md-4 col-sm-6">
               <div class="form-group" [ngClass]="{'input-error': quickQuoteForm.controls['ageRange'].invalid 

@@ -8,24 +8,25 @@ import {
   GroupPolicy
 } from './GroupPolicy';
 
+// * - used in quick quotation
 export class Travel {
   policyNumber: string;
   quotationNumber: string;
   subline: number;
 
   //travel itinerary
-  currency: string;
-  country: [Object];
-  travelPackage: string;
-  typeOfCoverage: string;
+  currency: string; // *
+  country: [Object]; // *
+  travelPackage: string; // *
+  typeOfCoverage: string; // *
   travelType: string;
-  startDate: Date;
-  endDate: Date;
-  noOfDays: number;
+  startDate: Date; // *
+  endDate: Date; // *
+  noOfDays: number; // *
   completeItinerary: string;
-  purposeOfTrip: string; //qqtravel purposeTrip
+  purposeOfTrip: string;
   oneTripOnly: string;
-  ageRange: string;
+  ageRange: string; // *
 
   //group policy
   groupPolicy: GroupPolicy;

@@ -2,7 +2,6 @@ export class TravelListObject {
   //quick quote and quote
   currencyLOV: any[];
   countryLOV: any[];
-  purposeOfTripLOV: any[];
 
   //quick quote
   packageLOV: any[];
@@ -12,6 +11,7 @@ export class TravelListObject {
   //quote
   travelPackageLOV: any[];
   travelTypeLOV: any[];
+  purposeOfTripLOV: any[];
   oneTripOnlyLOV: any[];
   relationshipLOV: any[];
   travelInsuranceLOV: any[];
