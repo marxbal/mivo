@@ -393,9 +393,10 @@
                       || quoteForm.controls['travelInsurance'].touched)}">
                     <label for="travelInsurance">Travel Insurance Coverage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelInsurance"
-                      [(ngModel)]="travelDetails.travelInsurance">
-                      <option *ngFor="let travelInsurance of LOV.travelInsuranceLOV" [ngValue]="travelInsurance.value">
-                        {{ travelInsurance.name }}</option>
+                      [(ngModel)]="travelDetails.travelInsurance"
+                      [attr.disabled]="true">
+                      <option value="I">Individual</option>
+                      <option value="F">Family</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['travelInsurance'].errors?.required">
                       * travel insurance coverage is required

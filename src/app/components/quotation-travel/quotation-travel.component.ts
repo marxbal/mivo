@@ -179,24 +179,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getTypeOfCoverage().then(res => {
       _this.LOV.coverageLOV = res;
     });
-    this.getCountry();
-    this.getCurrency();
-
-    this.getPackage();
-    this.getType();
-    this.getPurposeTrip();
-    this.getOneTrip();
-
-    this.getRelationship();
-
-    // this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
-    // this.GPLOV.contractLOV = lovUtil.getContract();
-    // this.GPLOV.subContractLOV = lovUtil.getSubContract();
-    // this.GPLOV.commercialStructureLOV = lovUtil.getCommercialStructure();
-
-    this.getTravelInsurance();
-    this.getOptionPack();
-    this.getMedicalExpenses();
+    this.tls.getPurposeOfTrip().then(res => {
+      _this.LOV.purposeOfTripLOV = res;
+    });
   }
 
   createQuoteForm() {
@@ -347,98 +332,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
   onSelectAll(items: any) {
     console.log(items);
-  }
-
-  getCurrency() {
-    this.LOV.currencyLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getCountry() {
-    this.LOV.countryLOV = [{
-        id: 1,
-        name: 'Mumbai',
-        type: 'asia'
-      },
-      {
-        id: 2,
-        name: 'Bangaluru',
-        type: 'asia'
-      },
-      {
-        id: 3,
-        name: 'Pune',
-        type: 'asia'
-      },
-      {
-        id: 4,
-        name: 'Navsari',
-        type: 'asia'
-      },
-      {
-        id: 5,
-        name: 'New Delhi',
-        type: 'asia'
-      }
-    ];
-  }
-
-  getPackage() {
-    this.LOV.travelPackageLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getType() {
-    this.LOV.travelTypeLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getPurposeTrip() {
-    this.LOV.purposeOfTripLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getOneTrip() {
-    this.LOV.oneTripOnlyLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getRelationship() {
-    this.LOV.relationshipLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getTravelInsurance() {
-    this.LOV.travelInsuranceLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getOptionPack() {
-    this.LOV.optionPackLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getMedicalExpenses() {
-    this.LOV.medicalExpensesLOV = [{
-      value: "1",
-      name: "test"
-    }];
   }
 
   issueQuote(travelDetails: Travel, groupPolicy: GroupPolicy) {
