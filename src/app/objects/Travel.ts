@@ -25,14 +25,14 @@ export class Travel {
   noOfDays: number; // *
   completeItinerary: string;
   purposeOfTrip: string;
-  oneTripOnly: string;
+  oneTripOnly: boolean;
+  cbWithCruise: boolean;
   ageRange: string; // *
 
   //group policy
   groupPolicy: GroupPolicy;
 
   //policy holder information
-  clientName: string;
   policyHolder: PolicyHolder;
 
   //travellers

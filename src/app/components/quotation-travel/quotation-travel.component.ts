@@ -21,12 +21,6 @@ import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
 import {
-  Validate
-} from '../../validators/validate';
-import {
-  GroupPolicyLOV as lovUtil
-} from '../../utils/lov/groupPolicy';
-import {
   Utility
 } from '../../utils/utility';
 import {
@@ -58,6 +52,9 @@ import {
 import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
+import {
+  TravelLOVServices
+} from '../../services/lov/travel.service'
 
 @Component({
   selector: 'app-quotation-travel',
@@ -145,6 +142,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     private auths: AuthenticationService,
     private bms: BsModalService,
     private router: Router,
+    private tls: TravelLOVServices,
     public dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {
@@ -171,6 +169,16 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadInit() {
+    var _this = this;
+    this.tls.getCurrencyList().then(res => {
+      _this.LOV.currencyLOV = res;
+    });
+    this.tls.getTravelPackage().then(res => {
+      _this.LOV.packageLOV = res;
+    });
+    this.tls.getTypeOfCoverage().then(res => {
+      _this.LOV.coverageLOV = res;
+    });
     this.getCountry();
     this.getCurrency();
 
@@ -204,16 +212,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       completeItinerary: ['', Validators.required],
       purposeOfTrip: ['', Validators.required],
       oneTripOnly: ['', Validators.required],
-      //group policy
-      groupPolicy: [null],
-      contract: [null],
-      subContract: [null],
-      commercialStructure: ['', Validators.required],
-      agentCode: ['', Validators.required],
-      cbIsRenewal: [null],
-      expiringPolicyNumber: [null],
-      //policy holder information
-      clientName: ['', Validators.required],
+      cbWithCruise: [null],
+
       //travellers
       travellers: this.fb.array([this.newTraveller()]),
       //additional policy information
@@ -228,9 +228,37 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  currencyOnchange() {
+    var _this = this;
+
+    //if currency is philippine peso
+    this.travelDetails.country = this.travelDetails.currency === '1' ? [{
+        NOM_PAIS: "PHILIPPINES",
+        COD_PAIS: "PHL",
+        NOM_VERNACULO: "PHILIPPINES",
+        name: "PHILIPPINES",
+        value: "PHL",
+        type: "PHILIPPINES"
+      }] :
+      null;
+    this.travelDetails.travelPackage = this.travelDetails.currency === '1' ?
+      "P" :
+      null;
+
+    this.tls.getCountryList(this.travelDetails).then(res => {
+      res.forEach(country => {
+        country.name = country.NOM_PAIS;
+        country.value = country.COD_PAIS;
+        country.type = country.NOM_VERNACULO;
+      });
+      _this.LOV.countryLOV = res;
+    });
+  }
+
   setValidations() {
     var endDate = this.quoteForm.get('endDate');
     var startDate = this.quoteForm.get('startDate');
+    var country = this.quoteForm.get('country');
 
     var cbSportsEquipment = this.quoteForm.get('cbSportsEquipment');
     var sportsEquipment = this.quoteForm.get('sportsEquipment');
@@ -238,15 +266,15 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     var hazardousSports = this.quoteForm.get('hazardousSports');
 
     endDate.valueChanges.subscribe(date => {
-      var diff = moment(date).diff(moment(startDate.value), 'days');
-      this.travelDetails.noOfDays = diff >= 1 ? diff : 0;
+      var diff = moment(date).diff(moment(startDate.value), 'days') + 1;
+      this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
     });
 
     startDate.valueChanges.subscribe(date => {
       this.enableEndDate = date !== null && date !== undefined;
       var diff = 0;
       if (this.enableEndDate) {
-        var diff = moment(endDate.value).diff(moment(date), 'days');
+        var diff = moment(endDate.value).diff(moment(date), 'days') + 1;
         diff = diff === NaN ? 0 : diff;
         this.endDateMinDate = moment(date).add(1, 'days').toDate();
         if (diff < 1) {
@@ -256,7 +284,29 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         this.travelDetails.endDate = null;
       }
 
-      this.travelDetails.noOfDays = diff >= 1 ? diff : 0;
+      this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+    });
+
+    country.valueChanges.subscribe(countries => {
+      var packageList = [];
+      if (!Utility.isUndefined(countries)) {
+        countries.forEach(country => {
+          packageList.push(country.type);
+        });
+        if (packageList.indexOf("WORLD") !== -1) {
+          this.travelDetails.travelPackage = "W";
+          this.travelDetails.travelType = "I";
+        } else if (packageList.indexOf("SCHENGEN") !== -1) {
+          this.travelDetails.travelPackage = "S";
+          this.travelDetails.travelType = "I";
+        } else if (packageList.indexOf("ASIA") !== -1) {
+          this.travelDetails.travelPackage = "A";
+          this.travelDetails.travelType = "I";
+        } else {
+          this.travelDetails.travelPackage = "P";
+          this.travelDetails.travelType = "D";
+        }
+      }
     });
 
     cbSportsEquipment.valueChanges.subscribe(checked => {
@@ -268,8 +318,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       this.travelDetails.hazardousSports = Utility.setNull(checked, this.travelDetails.hazardousSports);
       Utility.updateValidator(hazardousSports, checked ? [Validators.required] : null);
     });
-
-    Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
   }
 
   travellers(): FormArray {

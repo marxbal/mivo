@@ -13,6 +13,10 @@
   </div>
   <!-- .col-xl-12 -->
 
+  <div class="col-lg-12">
+    <img class="product-img-banner" src="./assets/images/banner-travel.jpg" alt="credits to freepik @stories" />
+  </div>
+
   <div class="col-xl-12">
     <div class="card shadow">
       <div class="card-body">
@@ -69,7 +73,8 @@
                     || quoteForm.controls['travelPackage'].touched)}">
                     <label for="travelPackage">Travel Package</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelPackage"
-                      [(ngModel)]="travelDetails.travelPackage">
+                      [(ngModel)]="travelDetails.travelPackage"
+                      [attr.disabled]="true">
                       <option selected></option>
                       <option *ngFor="let travelPackage of LOV.travelPackageLOV" [ngValue]="travelPackage.value">
                         {{ travelPackage.name }}</option>
@@ -86,10 +91,10 @@
                     || quoteForm.controls['travelType'].touched)}">
                     <label for="travelType">Travel Type</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelType"
-                      [(ngModel)]="travelDetails.travelType">
-                      <option selected></option>
-                      <option *ngFor="let travelType of LOV.travelTypeLOV" [ngValue]="travelType.value">
-                        {{ travelType.name }}</option>
+                      [(ngModel)]="travelDetails.travelType"
+                      [attr.disabled]="true">
+                      <option value="D">Domestic</option>
+                      <option value="I">International</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['travelType'].errors?.required">
                       * travel type is required
@@ -147,6 +152,7 @@
                     || quoteForm.controls['completeItinerary'].touched)}">
                     <label for="completeItinerary">Complete Itinerary</label>
                     <input type="text" formControlName="completeItinerary" class="form-control required"
+                      placeholder="ex. Manila-Japan-China-Manila"
                       [(ngModel)]="travelDetails.completeItinerary">
                     <p class="form-error" *ngIf="quoteForm.controls['completeItinerary'].errors?.required">
                       * complete itinerary is required
@@ -174,19 +180,30 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['oneTripOnly'].invalid 
-                    && (quoteForm.controls['oneTripOnly'].dirty 
-                    || quoteForm.controls['oneTripOnly'].touched)}">
-                    <label for="oneTripOnly">One Trip Only</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="oneTripOnly"
-                      [(ngModel)]="travelDetails.oneTripOnly">
-                      <option selected></option>
-                      <option *ngFor="let oneTripOnly of LOV.oneTripOnlyLOV" [ngValue]="oneTripOnly.name">
-                        {{ oneTripOnly.value }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['oneTripOnly'].errors?.required">
-                      * one trip only is required
-                    </p>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cbOneTripOnly"
+                        [(ngModel)]="travelDetails.cbOneTripOnly"
+                        formControlName="cbOneTripOnly"
+                        [attr.disabled]="true">
+                      <label class="form-check-label" for="cbOneTripOnly">
+                        One Trip Only?
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cbWithCruise"
+                        [(ngModel)]="travelDetails.cbWithCruise"
+                        formControlName="cbWithCruise"
+                        [attr.disabled]="editMode ? null : true">
+                      <label class="form-check-label" for="cbWithCruise">
+                        With Cruise?
+                      </label>
+                    </div>
                   </div>
                 </div>
 
@@ -200,35 +217,23 @@
             [prevDetails]="prevTravelDetails"
             [groupPolicy]="groupPolicy"
             [editMode]="editMode"
+            [showExpiring]="false"
             [(changedValues)]="changedValues"
             [loadQuotation]="triggerCounter">
           </app-group-policy>
 
-          <div class="card shadow mb-3">
-            <div class="card-header">
-              <strong>Policy Holder Information</strong>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-xl-12">
-                  <h6>Policy Holder</h6>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['clientName'].invalid 
-                    && (quoteForm.controls['clientName'].dirty 
-                    || quoteForm.controls['clientName'].touched)}">
-                    <label for="clientName">Client's Name</label>
-                    <input type="text" formControlName="clientName" class="form-control required"
-                      [(ngModel)]="travelDetails.clientName">
-                    <p class="form-error" *ngIf="quoteForm.controls['clientName'].errors?.required">
-                      * client's name is required
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-policy-holder
+            #appPolicyHolder
+            [title]="'Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="travelDetails"
+            [(policyHolder)]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'primary'"
+            [optional]="false"
+            [loadQuotation]="triggerCounter">
+          </app-policy-holder>
 
           <div class="card shadow mb-3">
             <div class="card-header">

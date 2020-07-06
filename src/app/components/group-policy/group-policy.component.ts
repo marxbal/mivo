@@ -41,6 +41,7 @@ export class GroupPolicyComponent {
   @Input() prevDetails: any;
   @Input() changedValues: any[] = [];
   @Input() editMode: boolean;
+  @Input() showExpiring: boolean;
   @Input()
   set subline(subline: number) {
     this._subline = subline;
