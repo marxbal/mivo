@@ -98,7 +98,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-4 col-sm-6">
+        <div *ngIf="showExpiring" class="col-lg-3 col-md-4 col-sm-6">
           <div class="form-group" [ngClass]="{'input-error': gpForm.controls['expiringPolicyNumber'].invalid 
             && (gpForm.controls['expiringPolicyNumber'].dirty 
             || gpForm.controls['expiringPolicyNumber'].touched)}">

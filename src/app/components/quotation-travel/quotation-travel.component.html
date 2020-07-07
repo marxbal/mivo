@@ -1,11 +1,21 @@
 <div class="row" id="quickQuotationTravel">
   <div class="col-xl-12">
     <div class="page-header">
-      <h4>Quick Quotation - Travel</h4>
+      <h4 class="all-caps">
+        <span class="fa-stack fa-md">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-car fa-stack-1x fa-inverse"></i>
+        </span>
+        {{pageLabel}}
+      </h4>
     </div>
     <!-- .page-header -->
   </div>
   <!-- .col-xl-12 -->
+
+  <div class="col-lg-12">
+    <img class="product-img-banner" src="./assets/images/banner-travel.jpg" alt="credits to freepik @stories" />
+  </div>
 
   <div class="col-xl-12">
     <div class="card shadow">
@@ -17,13 +27,14 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-3 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['currency'].invalid 
                     && (quoteForm.controls['currency'].dirty 
                     || quoteForm.controls['currency'].touched)}">
                     <label for="currency">Currency</label>
                     <select class="custom-select mr-sm-2 required" formControlName="currency"
-                      [(ngModel)]="travelDetails.currency">
+                      [(ngModel)]="travelDetails.currency"
+                      [attr.disabled]="editMode && LOV.currencyLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let currency of LOV.currencyLOV" [ngValue]="currency.value">{{ currency.name }}
                       </option>
@@ -40,7 +51,8 @@
                     || quoteForm.controls['country'].touched)}">
                     <label for="currency">Itinerary</label>
                     <ng-select [items]="LOV.countryLOV" bindLabel="name" placeholder="Select Country to visit"
-                      appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.country">
+                      appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.country"
+                      [readonly]="!editMode">
                     </ng-select>
                     <p class="form-error" *ngIf="quoteForm.controls['country'].errors?.required">
                       * country is required
@@ -63,7 +75,8 @@
                     || quoteForm.controls['travelPackage'].touched)}">
                     <label for="travelPackage">Travel Package</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelPackage"
-                      [(ngModel)]="travelDetails.travelPackage">
+                      [(ngModel)]="travelDetails.travelPackage"
+                      [attr.disabled]="true">
                       <option selected></option>
                       <option *ngFor="let travelPackage of LOV.travelPackageLOV" [ngValue]="travelPackage.value">
                         {{ travelPackage.name }}</option>
@@ -80,10 +93,10 @@
                     || quoteForm.controls['travelType'].touched)}">
                     <label for="travelType">Travel Type</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelType"
-                      [(ngModel)]="travelDetails.travelType">
-                      <option selected></option>
-                      <option *ngFor="let travelType of LOV.travelTypeLOV" [ngValue]="travelType.value">
-                        {{ travelType.name }}</option>
+                      [(ngModel)]="travelDetails.travelType"
+                      [attr.disabled]="true">
+                      <option value="D">Domestic</option>
+                      <option value="I">International</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['travelType'].errors?.required">
                       * travel type is required
@@ -99,7 +112,8 @@
                     || quoteForm.controls['startDate'].touched)}">
                     <label for="startDate">Start Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="mindate"
-                      formControlName="startDate" [(ngModel)]="travelDetails.startDate" bsDatepicker>
+                      formControlName="startDate" [(ngModel)]="travelDetails.startDate" bsDatepicker
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['startDate'].errors?.required">
                       * start date is required
                     </p>
@@ -113,7 +127,7 @@
                     <label for="endDate">End Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="endDateMinDate"
                       formControlName="endDate" [(ngModel)]="travelDetails.endDate" bsDatepicker
-                      [attr.disabled]="enableEndDate ? null : ''">
+                      [attr.disabled]="editMode && enableEndDate ? null : ''">
                     <p class="form-error" *ngIf="quoteForm.controls['endDate'].errors?.required">
                       * end date is required
                     </p>
@@ -141,7 +155,9 @@
                     || quoteForm.controls['completeItinerary'].touched)}">
                     <label for="completeItinerary">Complete Itinerary</label>
                     <input type="text" formControlName="completeItinerary" class="form-control required"
-                      [(ngModel)]="travelDetails.completeItinerary">
+                      placeholder="ex. Manila-Japan-China-Manila"
+                      [(ngModel)]="travelDetails.completeItinerary"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['completeItinerary'].errors?.required">
                       * complete itinerary is required
                     </p>
@@ -156,7 +172,8 @@
                     || quoteForm.controls['purposeOfTrip'].touched)}">
                     <label for="purposeOfTrip">Purpose of Trip</label>
                     <select class="custom-select mr-sm-2 required" formControlName="purposeOfTrip"
-                      [(ngModel)]="travelDetails.purposeOfTrip">
+                      [(ngModel)]="travelDetails.purposeOfTrip"
+                      [attr.disabled]="editMode && LOV.purposeOfTripLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.name">
                         {{ purposeOfTrip.value }}</option>
@@ -168,162 +185,60 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['oneTripOnly'].invalid 
-                    && (quoteForm.controls['oneTripOnly'].dirty 
-                    || quoteForm.controls['oneTripOnly'].touched)}">
-                    <label for="oneTripOnly">One Trip Only</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="oneTripOnly"
-                      [(ngModel)]="travelDetails.oneTripOnly">
-                      <option selected></option>
-                      <option *ngFor="let oneTripOnly of LOV.oneTripOnlyLOV" [ngValue]="oneTripOnly.name">
-                        {{ oneTripOnly.value }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['oneTripOnly'].errors?.required">
-                      * one trip only is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="form-divider"></div>
-                <div class="col-xl-12">
-                  <h6>Group Policy</h6>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['groupPolicy'].invalid 
-                        && (quoteForm.controls['groupPolicy'].dirty 
-                        || quoteForm.controls['groupPolicy'].touched)}">
-                    <label for="groupPolicy">Group Policy</label>
-                    <select class="custom-select mr-sm-2" formControlName="groupPolicy"
-                      [(ngModel)]="groupPolicy.groupPolicy">
-                      <option></option>
-                      <option *ngFor="let groupPolicy of GPLOV.groupPolicyLOV" [ngValue]="groupPolicy.value">
-                        {{ groupPolicy.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['groupPolicy'].errors?.required">
-                      * group policy is required
-                    </p>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cbOneTripOnly"
+                        [(ngModel)]="travelDetails.cbOneTripOnly"
+                        formControlName="cbOneTripOnly"
+                        [attr.disabled]="true">
+                      <label class="form-check-label" for="cbOneTripOnly">
+                        One Trip Only?
+                      </label>
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['contract'].invalid 
-                        && (quoteForm.controls['contract'].dirty 
-                        || quoteForm.controls['contract'].touched)}">
-                    <label for="contract">Contract</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="contract"
-                      [(ngModel)]="groupPolicy.contract" [attr.disabled]=" groupPolicy.groupPolicy ? null : true">
-                      <option></option>
-                      <option *ngFor="let contract of GPLOV.contractLOV" [ngValue]="contract.value">{{ contract.name }}
-                      </option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['contract'].errors?.required">
-                      * contract is required
-                    </p>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cbWithCruise"
+                        [(ngModel)]="travelDetails.cbWithCruise"
+                        formControlName="cbWithCruise"
+                        [attr.disabled]="editMode ? null : true">
+                      <label class="form-check-label" for="cbWithCruise">
+                        With Cruise?
+                      </label>
+                    </div>
                   </div>
                 </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subContract'].invalid 
-                        && (quoteForm.controls['subContract'].dirty 
-                        || quoteForm.controls['subContract'].touched)}">
-                    <label for="subContract">Sub Contract</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="subContract"
-                      [(ngModel)]="groupPolicy.subContract" [attr.disabled]=" groupPolicy.groupPolicy ? null : true">
-                      <option></option>
-                      <option *ngFor="let subContract of GPLOV.subContractLOV" [ngValue]="subContract.value">
-                        {{ subContract.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['subContract'].errors?.required">
-                      * sub contract is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['commercialStructure'].invalid 
-                        && (quoteForm.controls['commercialStructure'].dirty 
-                        || quoteForm.controls['commercialStructure'].touched)}">
-                    <label for="commercialStructure">Commercial Structure</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="commercialStructure"
-                      [(ngModel)]="groupPolicy.commercialStructure">
-                      <option></option>
-                      <option *ngFor="let commercialStructure of GPLOV.commercialStructureLOV"
-                        [ngValue]="commercialStructure.value">{{ commercialStructure.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['commercialStructure'].errors?.required">
-                      * commercial structure is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['agentCode'].invalid 
-                      && (quoteForm.controls['agentCode'].dirty 
-                      || quoteForm.controls['agentCode'].touched)}">
-                    <label for="agentCode">Agent Code</label>
-                    <input type="text" formControlName="agentCode" class="form-control required"
-                      [(ngModel)]="groupPolicy.agentCode">
-                    <p class="form-error" *ngIf="quoteForm.controls['agentCode'].errors?.required">
-                      * agent code is required
-                    </p>
-                  </div>
-                </div>
-
-                <!-- <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['expiringPolicyNumber'].invalid 
-                      && (quoteForm.controls['expiringPolicyNumber'].dirty 
-                      || quoteForm.controls['expiringPolicyNumber'].touched)}">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox"
-                          id="cbIsRenewal" formControlName="cbIsRenewal"
-                          [(ngModel)]="groupPolicy.cbIsRenewal">
-                        <label class="form-check-label" for="cbIsRenewal">
-                          Renewal
-                        </label>
-                      </div>
-                    <label class="form-check-label" for="cbIsRenewal">
-                      Expiring Policy Number
-                    </label>
-                    <input type="text" formControlName="expiringPolicyNumber" 
-                      [attr.disabled]="groupPolicy.cbIsRenewal ? null : ''"
-                      class="form-control required"
-                      [(ngModel)]="groupPolicy.expiringPolicyNumber">
-                    <p class="form-error" *ngIf="quoteForm.controls['expiringPolicyNumber'].errors?.required">
-                      * expiring policy number is required
-                    </p>
-                  </div>
-                </div> -->
 
               </div>
             </div>
           </div>
 
-          <div class="card shadow mb-3">
-            <div class="card-header">
-              <strong>Policy Holder Information</strong>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-xl-12">
-                  <h6>Policy Holder</h6>
-                </div>
+          <app-group-policy
+            #appGroupPolicy
+            [subline]="travelDetails.subline"
+            [prevDetails]="prevTravelDetails"
+            [groupPolicy]="groupPolicy"
+            [editMode]="editMode"
+            [showExpiring]="false"
+            [(changedValues)]="changedValues"
+            [loadQuotation]="triggerCounter">
+          </app-group-policy>
 
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['clientName'].invalid 
-                    && (quoteForm.controls['clientName'].dirty 
-                    || quoteForm.controls['clientName'].touched)}">
-                    <label for="clientName">Client's Name</label>
-                    <input type="text" formControlName="clientName" class="form-control required"
-                      [(ngModel)]="travelDetails.clientName">
-                    <p class="form-error" *ngIf="quoteForm.controls['clientName'].errors?.required">
-                      * client's name is required
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-policy-holder
+            #appPolicyHolder
+            [title]="'Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="travelDetails"
+            [(policyHolder)]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'primary'"
+            [optional]="false"
+            [loadQuotation]="triggerCounter">
+          </app-policy-holder>
 
           <div class="card shadow mb-3">
             <div class="card-header">
@@ -341,7 +256,8 @@
                               && (traveller.controls['completeName'].dirty 
                               || traveller.controls['completeName'].touched)}">
                             <label for="completeName">Complete Name</label>
-                            <input type="text" formControlName="completeName" class="form-control required">
+                            <input type="text" formControlName="completeName" class="form-control required"
+                              [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveller.controls['completeName'].errors?.required">
                               * complete name is required
                             </p>
@@ -354,7 +270,8 @@
                           || traveller.controls['birthDate'].touched)}">
                             <label for="birthDate">Birthdate</label>
                             <input type="text" placeholder="Datepicker" class="form-control required"
-                              [maxDate]="mindate" formControlName="birthDate" bsDatepicker>
+                              [maxDate]="mindate" formControlName="birthDate" bsDatepicker
+                              [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveller.controls['birthDate'].errors?.required">
                               * birthdate is required
                             </p>
@@ -366,7 +283,8 @@
                           && (traveller.controls['relationship'].dirty 
                           || traveller.controls['relationship'].touched)}">
                             <label for="relationship">Relationship</label>
-                            <select class="custom-select mr-sm-2 required" formControlName="relationship">
+                            <select class="custom-select mr-sm-2 required" formControlName="relationship"
+                              [attr.disabled]="editMode && LOV.relationshipLOV?.length ? null : true">
                               <option *ngFor="let relationship of LOV.relationshipLOV" [ngValue]="relationship.value">
                                 {{ relationship.name }}</option>
                             </select>
@@ -381,7 +299,8 @@
                           && (traveller.controls['passportNumber'].dirty 
                           || traveller.controls['passportNumber'].touched)}">
                             <label for="passportNumber">Passport Number</label>
-                            <input type="text" formControlName="passportNumber" class="form-control required">
+                            <input type="text" formControlName="passportNumber" class="form-control required"
+                              [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveller.controls['passportNumber'].errors?.required">
                               * passport number is required
                             </p>
@@ -389,9 +308,15 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6">
-                          <div class="form-group">
+                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['physicianName'].invalid 
+                          && (traveller.controls['physicianName'].dirty 
+                          || traveller.controls['physicianName'].touched)}">
                             <label for="physicianName">Usual Physician Name and Number</label>
-                            <input type="text" formControlName="physicianName" class="form-control required">
+                            <input type="text" formControlName="physicianName" class="form-control required"
+                              [attr.disabled]="editMode ? null : true">
+                            <p class="form-error" *ngIf="traveller.controls['physicianName'].errors?.required">
+                              * physician name is required
+                            </p>
                           </div>
                         </div>
 
@@ -409,8 +334,8 @@
               </div>
 
               <div class="btn-group">
-                <button [disabled]="quoteForm.get('travellers').status !== 'VALID'" type="button"
-                  (click)="addTraveller()" class="btn btn-primary">Add Travellers</button>
+                <button [disabled]="!editMode || quoteForm.get('travellers').status !== 'VALID'" type="button"
+                  (click)="addTraveller()" class="btn btn-primary">Add Traveller</button>
               </div>
 
             </div>
@@ -426,7 +351,8 @@
                 <div class="col-lg-12">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
-                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment">
+                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
+                      [attr.disabled]="editMode ? null : true">
                     <label class="form-check-label" for="cbSportsEquipment">
                       will bring sports equipment?
                     </label>
@@ -435,7 +361,7 @@
                     && (quoteForm.controls['sportsEquipment'].dirty 
                     || quoteForm.controls['sportsEquipment'].touched)}">
                     <textarea class="form-control required"
-                      [attr.disabled]="travelDetails.cbSportsEquipment ? null : ''" type="text" id="sportsEquipment"
+                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text" id="sportsEquipment"
                       formControlName="sportsEquipment" [(ngModel)]="travelDetails.sportsEquipment"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
                       * please indicate sport equipment/s
@@ -446,7 +372,8 @@
                 <div class="col-lg-12">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="cbHazardousSports"
-                      formControlName="cbHazardousSports" [(ngModel)]="travelDetails.cbHazardousSports">
+                      formControlName="cbHazardousSports" [(ngModel)]="travelDetails.cbHazardousSports"
+                      [attr.disabled]="editMode ? null : true">
                     <label class="form-check-label" for="cbHazardousSports">
                       will do hazardous sports?
                     </label>
@@ -455,7 +382,7 @@
                     && (quoteForm.controls['hazardousSports'].dirty 
                     || quoteForm.controls['hazardousSports'].touched)}">
                     <textarea class="form-control required"
-                      [attr.disabled]="travelDetails.cbHazardousSports ? null : ''" type="text" id="hazardousSports"
+                      [attr.disabled]="editMode && travelDetails.cbHazardousSports ? null : ''" type="text" id="hazardousSports"
                       formControlName="hazardousSports" [(ngModel)]="travelDetails.hazardousSports"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['hazardousSports'].errors?.required">
                       * please indicate the sport
@@ -483,9 +410,10 @@
                       || quoteForm.controls['travelInsurance'].touched)}">
                     <label for="travelInsurance">Travel Insurance Coverage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelInsurance"
-                      [(ngModel)]="travelDetails.travelInsurance">
-                      <option *ngFor="let travelInsurance of LOV.travelInsuranceLOV" [ngValue]="travelInsurance.value">
-                        {{ travelInsurance.name }}</option>
+                      [(ngModel)]="travelDetails.travelInsurance"
+                      [attr.disabled]="true">
+                      <option value="I">Individual</option>
+                      <option value="F">Family</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['travelInsurance'].errors?.required">
                       * travel insurance coverage is required
@@ -499,7 +427,8 @@
                         || quoteForm.controls['optionPack'].touched)}">
                     <label for="optionPack">Coverage Option Pack</label>
                     <select class="custom-select mr-sm-2 required" formControlName="optionPack"
-                      [(ngModel)]="travelDetails.optionPack">
+                      [(ngModel)]="travelDetails.optionPack"
+                      [attr.disabled]="editMode && LOV.optionPackLOV?.length ? null : true">
                       <option *ngFor="let optionPack of LOV.optionPackLOV" [ngValue]="optionPack.value">
                         {{ optionPack.name }}</option>
                     </select>
@@ -515,7 +444,8 @@
                           || quoteForm.controls['medicalExpenses'].touched)}">
                     <label for="medicalExpenses">Medical Expenses Coverage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="medicalExpenses"
-                      [(ngModel)]="travelDetails.medicalExpenses">
+                      [(ngModel)]="travelDetails.medicalExpenses"
+                      [attr.disabled]="editMode && LOV.medicalExpensesLOV?.length ? null : true">
                       <option *ngFor="let medicalExpenses of LOV.medicalExpensesLOV" [ngValue]="medicalExpenses.value">
                         {{ medicalExpenses.name }}</option>
                     </select>

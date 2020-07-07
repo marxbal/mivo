@@ -14,8 +14,8 @@ import {
   ReturnDTO
 } from '../objects/ReturnDTO';
 import {
-  QQTravel
-} from '../objects/QQTravel';
+  Travel
+} from '../objects/Travel';
 import {
   QQAccident
 } from '../objects/QQAccident';
@@ -36,7 +36,7 @@ export class QuickQuoteService {
     return this.app.post(homeDetails, '/quickquote/home').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async quickQuoteTravel(travelDetails: QQTravel): Promise < ReturnDTO > {
+  async quickQuoteTravel(travelDetails: Travel): Promise < ReturnDTO > {
     return this.app.post(travelDetails, '/quickquote/travel').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 

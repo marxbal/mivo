@@ -19,8 +19,8 @@ import {
   Utility
 } from 'src/app/utils/utility';
 import {
-  QQTravel
-} from '../../objects/QQTravel';
+  Travel
+} from '../../objects/Travel';
 import {
   TravelListObject
 } from 'src/app/objects/LOV/travelList';
@@ -48,7 +48,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
-  @Input() travelDetails = new QQTravel();
+  travelDetails = new Travel();
   LOV = new TravelListObject();
   quickQuoteForm: FormGroup;
 
@@ -95,11 +95,15 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getTypeOfCoverage().then(res => {
       _this.LOV.coverageLOV = res;
     });
-    this.tls.getPurposeOfTrip().then(res => {
-      _this.LOV.purposeOfTripLOV = res;
-    });
     this.tls.getAgeRange().then(res => {
-      _this.LOV.ageRangeLOV = res;
+      var ageList = [];
+      res.forEach((age) => {
+        //removes ages 66 and above
+        if (age.AGE_RANGE < 3) {
+          ageList.push(age);
+        }
+      });
+      _this.LOV.ageRangeLOV = ageList;
     });
   }
 
@@ -109,7 +113,6 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       country: ['', Validators.required],
       travelPackage: ['', Validators.required],
       typeOfCoverage: ['', Validators.required],
-      purposeTrip: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       noOfDays: ['', Validators.required],
@@ -128,8 +131,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     var _this = this;
 
     //if currency is philippine peso
-    this.travelDetails.country = this.travelDetails.currency === '1' ?
-      [{
+    this.travelDetails.country = this.travelDetails.currency === '1' ? [{
         NOM_PAIS: "PHILIPPINES",
         COD_PAIS: "PHL",
         NOM_VERNACULO: "PHILIPPINES",
@@ -154,15 +156,15 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
 
   setValidations() {
     this.quickQuoteForm.get('endDate').valueChanges.subscribe(date => {
-      var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days');
-      this.travelDetails.noOfDays = diff >= 1 ? diff : 0;
+      var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days') + 1;
+      this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
     });
 
     this.quickQuoteForm.get('startDate').valueChanges.subscribe(date => {
       this.enableEndDate = date !== null && date !== undefined;
       var diff = 0;
       if (this.enableEndDate) {
-        var diff = moment(this.quickQuoteForm.get('endDate').value).diff(moment(date), 'days');
+        var diff = moment(this.quickQuoteForm.get('endDate').value).diff(moment(date), 'days') + 1;
         diff = diff === NaN ? 0 : diff;
         this.endDateMinDate = moment(date).add(1, 'days').toDate();
         if (diff < 1) {
@@ -172,7 +174,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
         this.travelDetails.endDate = null;
       }
 
-      this.travelDetails.noOfDays = diff >= 1 ? diff : 0;
+      this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
     });
 
     this.quickQuoteForm.get('country').valueChanges.subscribe(countries => {
@@ -218,7 +220,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     }, 500);
   }
 
-  quickQuote(travelDetails: QQTravel) {
+  quickQuote(travelDetails: Travel) {
     this.qqs.quickQuoteTravel(travelDetails).then(res => {
       if (res.status) {
         this.travelData = [];
@@ -234,7 +236,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
           obj.currency = details.currency;
           this.travelData.push(obj);
         });
-        
+
         // hiding product coverage
         this.showProductCoverage = false;
         // displaying product comparison

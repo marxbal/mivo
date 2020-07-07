@@ -1,11 +1,21 @@
 <div class="row" id="quickQuotationTravel">
   <div class="col-xl-12">
     <div class="page-header">
-      <h4>Quick Quotation - Travel</h4>
+      <h4 class="all-caps">
+        <span class="fa-stack fa-md">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-plane fa-stack-1x fa-inverse"></i>
+        </span>
+        Quick Quotation 
+      </h4>
     </div>
     <!-- .page-header -->
   </div>
   <!-- .col-xl-12 -->
+
+  <div class="col-lg-12">
+    <img class="product-img-banner" src="./assets/images/banner-travel.jpg" alt="credits to freepik @stories" />
+  </div>
 
   <div class="col-xl-12">
     <div class="card shadow">
@@ -92,23 +102,6 @@
             <div class="clearfix"></div>
 
             <div class="col-lg-3 col-md-4 col-sm-6">
-              <div class="form-group" [ngClass]="{'input-error': quickQuoteForm.controls['purposeTrip'].invalid 
-                && (quickQuoteForm.controls['purposeTrip'].dirty 
-                || quickQuoteForm.controls['purposeTrip'].touched)}">
-                <label for="purposeTrip">Purpose of Trip</label>
-                <select class="custom-select mr-sm-2 required" formControlName="purposeTrip"
-                  [(ngModel)]="travelDetails.purposeTrip">
-                  <option selected></option>
-                  <option *ngFor="let purposeTrip of LOV.purposeOfTripLOV" [ngValue]="purposeTrip.COD_BUSINESS">
-                    {{ purposeTrip.NOM_BUSINESS }}</option>
-                </select>
-                <p class="form-error" *ngIf="quickQuoteForm.controls['purposeTrip'].errors?.required">
-                  * purpose of trip is required
-                </p>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6">
               <div class="form-group" [ngClass]="{'input-error': quickQuoteForm.controls['startDate'].invalid 
                 && (quickQuoteForm.controls['startDate'].dirty 
                 || quickQuoteForm.controls['startDate'].touched)}">
@@ -147,6 +140,8 @@
                 </p>
               </div>
             </div>
+
+            <div class="clearfix"></div>
 
             <div class="col-lg-3 col-md-4 col-sm-6">
               <div class="form-group" [ngClass]="{'input-error': quickQuoteForm.controls['ageRange'].invalid 
