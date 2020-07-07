@@ -36,8 +36,8 @@
                       [(ngModel)]="travelDetails.currency"
                       [attr.disabled]="editMode && LOV.currencyLOV?.length ? null : true">
                       <option selected></option>
-                      <option *ngFor="let currency of LOV.currencyLOV" [ngValue]="currency.value">{{ currency.name }}
-                      </option>
+                      <option *ngFor="let currency of LOV.currencyLOV" [ngValue]="currency.COD_MON">
+                        {{ currency.NOM_MON }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['currency'].errors?.required">
                       * currency is required
@@ -75,8 +75,7 @@
                     || quoteForm.controls['travelPackage'].touched)}">
                     <label for="travelPackage">Travel Package</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelPackage"
-                      [(ngModel)]="travelDetails.travelPackage"
-                      [attr.disabled]="true">
+                      [(ngModel)]="travelDetails.travelPackage" [attr.disabled]="true">
                       <option selected></option>
                       <option *ngFor="let travelPackage of LOV.travelPackageLOV" [ngValue]="travelPackage.value">
                         {{ travelPackage.name }}</option>
@@ -93,8 +92,7 @@
                     || quoteForm.controls['travelType'].touched)}">
                     <label for="travelType">Travel Type</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelType"
-                      [(ngModel)]="travelDetails.travelType"
-                      [attr.disabled]="true">
+                      [(ngModel)]="travelDetails.travelType" [attr.disabled]="true">
                       <option value="D">Domestic</option>
                       <option value="I">International</option>
                     </select>
@@ -155,8 +153,7 @@
                     || quoteForm.controls['completeItinerary'].touched)}">
                     <label for="completeItinerary">Complete Itinerary</label>
                     <input type="text" formControlName="completeItinerary" class="form-control required"
-                      placeholder="ex. Manila-Japan-China-Manila"
-                      [(ngModel)]="travelDetails.completeItinerary"
+                      placeholder="ex. Manila-Japan-China-Manila" [(ngModel)]="travelDetails.completeItinerary"
                       [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['completeItinerary'].errors?.required">
                       * complete itinerary is required
@@ -175,8 +172,8 @@
                       [(ngModel)]="travelDetails.purposeOfTrip"
                       [attr.disabled]="editMode && LOV.purposeOfTripLOV?.length ? null : true">
                       <option selected></option>
-                      <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.name">
-                        {{ purposeOfTrip.value }}</option>
+                      <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.COD_BUSINESS">
+                        {{ purposeOfTrip.NOM_BUSINESS }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['purposeOfTrip'].errors?.required">
                       * purpose of trip is required
@@ -188,8 +185,7 @@
                   <div class="form-group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbOneTripOnly"
-                        [(ngModel)]="travelDetails.cbOneTripOnly"
-                        formControlName="cbOneTripOnly"
+                        [(ngModel)]="travelDetails.cbOneTripOnly" formControlName="cbOneTripOnly"
                         [attr.disabled]="true">
                       <label class="form-check-label" for="cbOneTripOnly">
                         One Trip Only?
@@ -202,8 +198,7 @@
                   <div class="form-group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbWithCruise"
-                        [(ngModel)]="travelDetails.cbWithCruise"
-                        formControlName="cbWithCruise"
+                        [(ngModel)]="travelDetails.cbWithCruise" formControlName="cbWithCruise"
                         [attr.disabled]="editMode ? null : true">
                       <label class="form-check-label" for="cbWithCruise">
                         With Cruise?
@@ -216,28 +211,14 @@
             </div>
           </div>
 
-          <app-group-policy
-            #appGroupPolicy
-            [subline]="travelDetails.subline"
-            [prevDetails]="prevTravelDetails"
-            [groupPolicy]="groupPolicy"
-            [editMode]="editMode"
-            [showExpiring]="false"
-            [(changedValues)]="changedValues"
+          <app-group-policy #appGroupPolicy [subline]="travelDetails.subline" [prevDetails]="prevTravelDetails"
+            [groupPolicy]="groupPolicy" [editMode]="editMode" [showExpiring]="false" [(changedValues)]="changedValues"
             [loadQuotation]="triggerCounter">
           </app-group-policy>
 
-          <app-policy-holder
-            #appPolicyHolder
-            [title]="'Policy Holder Information'"
-            [showCreateBtn]="true"
-            [details]="travelDetails"
-            [(policyHolder)]="policyHolder"
-            [isIssuance]="isIssuance"
-            [editMode]="editMode"
-            [type]="'primary'"
-            [optional]="false"
-            [loadQuotation]="triggerCounter">
+          <app-policy-holder #appPolicyHolder [title]="'Policy Holder Information'" [showCreateBtn]="true"
+            [details]="travelDetails" [(policyHolder)]="policyHolder" [isIssuance]="isIssuance" [editMode]="editMode"
+            [type]="'primary'" [optional]="false" [loadQuotation]="triggerCounter">
           </app-policy-holder>
 
           <div class="card shadow mb-3">
@@ -361,8 +342,9 @@
                     && (quoteForm.controls['sportsEquipment'].dirty 
                     || quoteForm.controls['sportsEquipment'].touched)}">
                     <textarea class="form-control required"
-                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text" id="sportsEquipment"
-                      formControlName="sportsEquipment" [(ngModel)]="travelDetails.sportsEquipment"></textarea>
+                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
+                      id="sportsEquipment" formControlName="sportsEquipment"
+                      [(ngModel)]="travelDetails.sportsEquipment"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
                       * please indicate sport equipment/s
                     </p>
@@ -382,8 +364,9 @@
                     && (quoteForm.controls['hazardousSports'].dirty 
                     || quoteForm.controls['hazardousSports'].touched)}">
                     <textarea class="form-control required"
-                      [attr.disabled]="editMode && travelDetails.cbHazardousSports ? null : ''" type="text" id="hazardousSports"
-                      formControlName="hazardousSports" [(ngModel)]="travelDetails.hazardousSports"></textarea>
+                      [attr.disabled]="editMode && travelDetails.cbHazardousSports ? null : ''" type="text"
+                      id="hazardousSports" formControlName="hazardousSports"
+                      [(ngModel)]="travelDetails.hazardousSports"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['hazardousSports'].errors?.required">
                       * please indicate the sport
                     </p>
@@ -410,8 +393,7 @@
                       || quoteForm.controls['travelInsurance'].touched)}">
                     <label for="travelInsurance">Travel Insurance Coverage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelInsurance"
-                      [(ngModel)]="travelDetails.travelInsurance"
-                      [attr.disabled]="true">
+                      [(ngModel)]="travelDetails.travelInsurance" [attr.disabled]="true">
                       <option value="I">Individual</option>
                       <option value="F">Family</option>
                     </select>
