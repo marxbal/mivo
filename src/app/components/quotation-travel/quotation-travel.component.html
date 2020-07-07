@@ -173,7 +173,7 @@
                     <label for="purposeOfTrip">Purpose of Trip</label>
                     <select class="custom-select mr-sm-2 required" formControlName="purposeOfTrip"
                       [(ngModel)]="travelDetails.purposeOfTrip"
-                      [attr.disabled]="editMode && LOV.purposeOfTrip?.length ? null : true">
+                      [attr.disabled]="editMode && LOV.purposeOfTripLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.name">
                         {{ purposeOfTrip.value }}</option>

@@ -25,7 +25,7 @@ export class Travel {
   noOfDays: number; // *
   completeItinerary: string;
   purposeOfTrip: string;
-  oneTripOnly: boolean;
+  cbOneTripOnly: boolean;
   cbWithCruise: boolean;
   ageRange: string; // *
 

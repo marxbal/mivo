@@ -196,7 +196,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       noOfDays: ['', Validators.required],
       completeItinerary: ['', Validators.required],
       purposeOfTrip: ['', Validators.required],
-      oneTripOnly: ['', Validators.required],
+      cbOneTripOnly: ['', Validators.required],
       cbWithCruise: [null],
 
       //travellers
