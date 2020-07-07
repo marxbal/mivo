@@ -77,8 +77,9 @@
                     <select class="custom-select mr-sm-2 required" formControlName="travelPackage"
                       [(ngModel)]="travelDetails.travelPackage" [attr.disabled]="true">
                       <option selected></option>
-                      <option *ngFor="let travelPackage of LOV.travelPackageLOV" [ngValue]="travelPackage.value">
-                        {{ travelPackage.name }}</option>
+                      <option *ngFor="let package of LOV.packageLOV" [ngValue]="package.TRAVEL_PACK">
+                        {{ package.NOM_VALOR }}
+                      </option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['travelPackage'].errors?.required">
                       * travel package is required
