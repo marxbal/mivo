@@ -267,8 +267,8 @@
                             <label for="relationship">Relationship</label>
                             <select class="custom-select mr-sm-2 required" formControlName="relationship"
                               [attr.disabled]="editMode && LOV.relationshipLOV?.length ? null : true">
-                              <option *ngFor="let relationship of LOV.relationshipLOV" [ngValue]="relationship.value">
-                                {{ relationship.name }}</option>
+                              <option *ngFor="let relationship of LOV.relationshipLOV" [ngValue]="relationship.COD_VALOR">
+                                {{ relationship.NOM_VALOR }}</option>
                             </select>
                             <p class="form-error" *ngIf="traveller.controls['relationship'].errors?.required">
                               * relationship is required
@@ -389,33 +389,33 @@
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['travelInsurance'].invalid 
-                      && (quoteForm.controls['travelInsurance'].dirty 
-                      || quoteForm.controls['travelInsurance'].touched)}">
-                    <label for="travelInsurance">Travel Insurance Coverage</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="travelInsurance"
-                      [(ngModel)]="travelDetails.travelInsurance" [attr.disabled]="true">
-                      <option value="I">Individual</option>
-                      <option value="F">Family</option>
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['insuranceCoverage'].invalid 
+                      && (quoteForm.controls['insuranceCoverage'].dirty 
+                      || quoteForm.controls['insuranceCoverage'].touched)}">
+                    <label for="insuranceCoverage">Travel Insurance Coverage</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="insuranceCoverage"
+                      [(ngModel)]="travelDetails.insuranceCoverage" [attr.disabled]="true">
+                      <option *ngFor="let insuranceCoverage of LOV.insuranceCoverageLOV" [ngValue]="insuranceCoverage.INSURANCE_COVERAGE">
+                        {{ insuranceCoverage.NOM_VALOR }}</option>
                     </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['travelInsurance'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['insuranceCoverage'].errors?.required">
                       * travel insurance coverage is required
                     </p>
                   </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['optionPack'].invalid 
-                        && (quoteForm.controls['optionPack'].dirty 
-                        || quoteForm.controls['optionPack'].touched)}">
-                    <label for="optionPack">Coverage Option Pack</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="optionPack"
-                      [(ngModel)]="travelDetails.optionPack"
-                      [attr.disabled]="editMode && LOV.optionPackLOV?.length ? null : true">
-                      <option *ngFor="let optionPack of LOV.optionPackLOV" [ngValue]="optionPack.value">
-                        {{ optionPack.name }}</option>
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['coverageOption'].invalid 
+                        && (quoteForm.controls['coverageOption'].dirty 
+                        || quoteForm.controls['coverageOption'].touched)}">
+                    <label for="coverageOption">Coverage Option Pack</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="coverageOption"
+                      [(ngModel)]="travelDetails.coverageOption"
+                      [attr.disabled]="editMode && LOV.coverageOptionLOV?.length ? null : true">
+                      <option *ngFor="let coverageOption of LOV.coverageOptionLOV" [ngValue]="coverageOption.COVERAGE_OPTIONS">
+                        {{ coverageOption.NOM_VALOR }}</option>
                     </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['optionPack'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['coverageOption'].errors?.required">
                       * coverage option pack is required
                     </p>
                   </div>
@@ -442,14 +442,25 @@
             </div>
           </div>
 
-          <div class="btn-group" role="group">
-            <button [disabled]="quoteForm.pristine || quoteForm.invalid" type="button" class="btn btn-primary"
-              (click)="issueQuote(travelDetails, groupPolicy)">Issue
-              Qoute</button>
-            <button [disabled]="true" type="button" class="btn btn-primary">Print Qoute</button>
-            <button [disabled]="true" type="button" class="btn btn-primary">Proceed to Issuance</button>
+          <!-- button controls for quotation -->
+          <div *ngIf="!isIssuance">
+            <div *ngIf="showIssueQuoteBtn" class="btn-group" role="group">
+              <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(1)">Issue Quote</button>
+            </div>
+            <div *ngIf="showProceedToIssuanceBtn" class="text-right">
+              <h5><small>Your quotation number:</small> {{travelDetails.quotationNumber}}</h5>
+            </div>
+            <div *ngIf="showProceedToIssuanceBtn" class="btn-group" role="group">
+              <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
+              <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
+              <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+            </div>
           </div>
-          <!-- .btn-group -->
 
           <div class="clearfix"></div>
         </form>

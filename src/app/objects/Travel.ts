@@ -45,8 +45,8 @@ export class Travel {
   hazardousSports: string;
 
   //coverages
-  travelInsurance: string;
-  optionPack: string;
+  insuranceCoverage: string;
+  coverageOption: string;
   medicalExpenses: string;
 
   constructor(init ? : Partial < Travel > ) {

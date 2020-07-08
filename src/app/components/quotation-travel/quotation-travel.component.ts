@@ -114,10 +114,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   //flag to include covergae
   // includeCoverage = false;
 
-  //flag to show generate btn
-  showGenerateBtn: boolean = true;
   //flag to show issue btn
-  showIssueQuoteBtn: boolean = false;
+  showIssueQuoteBtn: boolean = true;
   //flag to show print quote/proceed to issuance
   showProceedToIssuanceBtn: boolean = false;
 
@@ -182,6 +180,15 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getPurposeOfTrip().then(res => {
       _this.LOV.purposeOfTripLOV = res;
     });
+    this.tls.getRelationship().then(res => {
+      _this.LOV.relationshipLOV = res;
+    });
+    this.tls.getInsuranceCoverage().then(res => {
+      _this.LOV.insuranceCoverageLOV = res;
+    });
+    this.tls.getCoverageOption().then(res => {
+      _this.LOV.coverageOptionLOV = res;
+    });
   }
 
   createQuoteForm() {
@@ -207,8 +214,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       cbHazardousSports: [null],
       hazardousSports: [null],
       //coverages
-      travelInsurance: ['', Validators.required],
-      optionPack: ['', Validators.required],
+      insuranceCoverage: ['', Validators.required],
+      coverageOption: ['', Validators.required],
       medicalExpenses: ['', Validators.required],
     });
   }

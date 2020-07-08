@@ -16,7 +16,10 @@ export class TravelLOVServices {
   constructor(private lov: LovService) {}
 
   async getCurrencyList(): Promise < any[] > {
-    const dto = new LOV('G2990005', '1', 'cod_cia~1|cod_ramo~322|fec_validez~14092015');
+    const dto = new LOV(
+      'G2990005',
+      '1',
+      'cod_cia~1|cod_ramo~380|fec_validez~01012020');
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
@@ -64,4 +67,29 @@ export class TravelLOVServices {
     return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
   }
 
+  async getCoverageOption(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'COVERAGE_OPTIONS',
+      '999');
+    return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
+  }
+
+  async getInsuranceCoverage(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'INSURANCE_COVERAGE',
+      '999');
+    return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
+  }
+
+  async getRelationship(): Promise < any[] > {
+    const dto = new LOV(
+      'G1010031',
+      '82',
+      '|cod_campo~RELATIONSHIP' +
+      '|cod_idioma~EN' +
+      '|cod_ramo~380');
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+  }
 }
