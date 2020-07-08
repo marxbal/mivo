@@ -441,8 +441,8 @@
                     <select class="custom-select mr-sm-2 required" formControlName="medicalExpenses"
                       [(ngModel)]="travelDetails.medicalExpenses"
                       [attr.disabled]="editMode && LOV.medicalExpensesLOV?.length ? null : true">
-                      <option *ngFor="let medicalExpenses of LOV.medicalExpensesLOV" [ngValue]="medicalExpenses.value">
-                        {{ medicalExpenses.name }}</option>
+                      <option *ngFor="let medicalExpenses of LOV.medicalExpensesLOV" [ngValue]="medicalExpenses.VAL_CAMPO1">
+                        {{ medicalExpenses.VAL_CAMPO2 }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['medicalExpenses'].errors?.required">
                       * medical expenses coverage is required
