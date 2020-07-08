@@ -212,14 +212,26 @@
             </div>
           </div>
 
-          <app-group-policy #appGroupPolicy [subline]="travelDetails.subline" [prevDetails]="prevTravelDetails"
-            [groupPolicy]="groupPolicy" [editMode]="editMode" [showExpiring]="false" [(changedValues)]="changedValues"
+          <app-group-policy #appGroupPolicy
+            [subline]="travelDetails.subline"
+            [prevDetails]="prevTravelDetails"
+            [groupPolicy]="groupPolicy"
+            [editMode]="editMode"
+            [showExpiring]="false"
+            [(changedValues)]="changedValues"
             [loadQuotation]="triggerCounter">
           </app-group-policy>
 
-          <app-policy-holder #appPolicyHolder [title]="'Policy Holder Information'" [showCreateBtn]="true"
-            [details]="travelDetails" [(policyHolder)]="policyHolder" [isIssuance]="isIssuance" [editMode]="editMode"
-            [type]="'primary'" [optional]="false" [loadQuotation]="triggerCounter">
+          <app-policy-holder #appPolicyHolder
+            [title]="'Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="travelDetails"
+            [(policyHolder)]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'primary'"
+            [optional]="false"
+            [loadQuotation]="triggerCounter">
           </app-policy-holder>
 
           <div class="card shadow mb-3">
@@ -297,7 +309,7 @@
                             <input type="text" formControlName="physicianName" class="form-control required"
                               [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveller.controls['physicianName'].errors?.required">
-                              * physician name is required
+                              * physician name and number is required
                             </p>
                           </div>
                         </div>

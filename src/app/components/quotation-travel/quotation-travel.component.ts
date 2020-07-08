@@ -245,6 +245,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       });
       _this.LOV.countryLOV = res;
     });
+
+    this.travelDetails.subline = 380;
   }
 
   setValidations() {
@@ -298,6 +300,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           this.travelDetails.travelPackage = "P";
           this.travelDetails.travelType = "D";
         }
+        
+        var _this = this;
+        this.tls.getExpensesCoverage(this.travelDetails).then((res)=> {
+          _this.LOV.medicalExpensesLOV = res;
+        });
       }
     });
 
