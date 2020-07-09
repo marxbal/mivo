@@ -259,6 +259,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
 
     this.travelDetails.subline = 380;
+    this.travelDetails.startDate = null;
+    this.travelDetails.endDate = null;
   }
 
   getOneTrip() {
@@ -287,9 +289,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
 
     startDate.valueChanges.subscribe(date => {
-      this.enableEndDate = date !== null
-        && date !== undefined
-        && this.travelDetails.currency != null;
+      this.enableEndDate = date !== null && date !== undefined;
 
       var diff = 0;
       if (this.enableEndDate) {

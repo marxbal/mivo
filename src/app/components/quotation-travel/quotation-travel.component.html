@@ -112,7 +112,7 @@
                     <label for="startDate">Start Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="mindate"
                       formControlName="startDate" [(ngModel)]="travelDetails.startDate" bsDatepicker
-                      [attr.disabled]="editMode ? null : true">
+                      [attr.disabled]="(editMode && travelDetails.currency != null) ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['startDate'].errors?.required">
                       * start date is required
                     </p>
@@ -127,7 +127,7 @@
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="endDateMinDate"
                       formControlName="endDate" [(ngModel)]="travelDetails.endDate" bsDatepicker
                       (ngModelChange)="getOneTrip()"
-                      [attr.disabled]="editMode && enableEndDate ? null : ''">
+                      [attr.disabled]="(editMode && enableEndDate && travelDetails.currency != null) ? null : ''">
                     <p class="form-error" *ngIf="quoteForm.controls['endDate'].errors?.required">
                       * end date is required
                     </p>
