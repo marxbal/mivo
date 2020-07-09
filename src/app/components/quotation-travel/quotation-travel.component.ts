@@ -260,11 +260,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   getOneTrip() {
-    this.tus.getOneTrip(this.travelDetails).then((res)=> {
-      if (res.status) {
-        this.travelDetails.cbOneTripOnly = res.obj['oneTripOnly'] as boolean;
-      }
-    });
+    if (this.travelDetails.endDate != null) {
+      this.tus.getOneTrip(this.travelDetails).then((res)=> {
+        if (res.status) {
+          this.travelDetails.cbOneTripOnly = res.obj['oneTripOnly'] as boolean;
+        }
+      });
+    }
   }
 
   setValidations() {
