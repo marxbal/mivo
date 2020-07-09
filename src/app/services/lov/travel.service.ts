@@ -21,7 +21,7 @@ export class TravelLOVServices {
       'G2990005',
       '1',
       'cod_cia~1|cod_ramo~380|fec_validez~01012020');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, 'COD_MON').then(lovs => lovs as any[]);
   }
 
   async getCountryList(travelDetails: Travel): Promise < any[] > {
@@ -55,7 +55,7 @@ export class TravelLOVServices {
       '1',
       '|cod_cia~1' +
       '|cod_mon~1' +
-      '|cod_ramo~322' +
+      '|cod_ramo~380' +
       '|cod_campo~PURPOSE_TRIP');
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }

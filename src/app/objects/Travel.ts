@@ -15,7 +15,7 @@ export class Travel {
   subline: number;
 
   //travel itinerary
-  currency: string; // *
+  currency: number; // *
   country: [Object]; // *
   travelPackage: string; // *
   typeOfCoverage: string; // *
