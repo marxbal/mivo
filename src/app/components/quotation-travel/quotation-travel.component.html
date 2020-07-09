@@ -126,6 +126,7 @@
                     <label for="endDate">End Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="endDateMinDate"
                       formControlName="endDate" [(ngModel)]="travelDetails.endDate" bsDatepicker
+                      (ngModelChange)="getOneTrip()"
                       [attr.disabled]="editMode && enableEndDate ? null : ''">
                     <p class="form-error" *ngIf="quoteForm.controls['endDate'].errors?.required">
                       * end date is required
@@ -278,8 +279,11 @@
                           || traveller.controls['relationship'].touched)}">
                             <label for="relationship">Relationship</label>
                             <select class="custom-select mr-sm-2 required" formControlName="relationship"
-                              [attr.disabled]="editMode && LOV.relationshipLOV?.length ? null : true">
-                              <option *ngFor="let relationship of LOV.relationshipLOV" [ngValue]="relationship.COD_VALOR">
+                              [attr.disabled]="editMode && LOV.relationshipLOV?.length && i != 0 ? null: true">
+                              <option 
+                                *ngFor="let relationship of LOV.relationshipLOV"
+                                [attr.disabled]="relationship.disabled ? '' : null"
+                                [ngValue]="relationship.COD_VALOR">
                                 {{ relationship.NOM_VALOR }}</option>
                             </select>
                             <p class="form-error" *ngIf="traveller.controls['relationship'].errors?.required">
@@ -302,21 +306,16 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['physicianName'].invalid 
-                          && (traveller.controls['physicianName'].dirty 
-                          || traveller.controls['physicianName'].touched)}">
+                          <div class="form-group">
                             <label for="physicianName">Usual Physician Name and Number</label>
-                            <input type="text" formControlName="physicianName" class="form-control required"
+                            <input type="text" formControlName="physicianName" class="form-control"
                               [attr.disabled]="editMode ? null : true">
-                            <p class="form-error" *ngIf="traveller.controls['physicianName'].errors?.required">
-                              * physician name and number is required
-                            </p>
                           </div>
                         </div>
 
                         <div class="clearfix"></div>
                         <div class="col-lg-12">
-                          <div class="btn-group" *ngIf="i > 0">
+                          <div class="btn-group" *ngIf="i > 0 && editMode">
                             <button class="btn btn-primary" (click)="removeTraveller(i)">Remove</button>
                           </div>
                         </div>
@@ -336,10 +335,15 @@
           </div>
 
           <div class="card shadow mb-3">
-            <div class="card-header optional">
-              <strong>Additional Policy Information</strong>
+            <div class="card-header d-flex justify-content-between optional"
+              (click)="showAdditionalInformation = !showAdditionalInformation"
+              matTooltip="click to show/hide additional policy information">
+              <strong>Additional Policy Information (Optional)</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" *ngIf="showAdditionalInformation">
               <div class="row">
 
                 <div class="col-lg-12">
@@ -456,13 +460,18 @@
 
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance">
+            <div *ngIf="showGenerateBtn" class="btn-group" role="group">
+              <button
+                type="button" class="btn btn-primary"
+                (click)="issueQuote()">Generate</button>
+            </div>
             <div *ngIf="showIssueQuoteBtn" class="btn-group" role="group">
               <button
                 [disabled]="quoteForm.pristine || quoteForm.invalid ||
                 appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
                 appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
-                (click)="proceed(1)">Issue Quote</button>
+                (click)="proceed(2)">Issue Quote</button>
             </div>
             <div *ngIf="showProceedToIssuanceBtn" class="text-right">
               <h5><small>Your quotation number:</small> {{travelDetails.quotationNumber}}</h5>

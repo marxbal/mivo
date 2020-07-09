@@ -28,6 +28,9 @@ import {
   CarQuoteServices
 } from './car-quote.service';
 import {
+  TravelUtilityServices
+} from './travel-utility.service';
+import {
   AgentService
 } from './agent.service';
 import {
@@ -77,6 +80,7 @@ import {
     QuickQuoteService, //qqs
     CarUtilityServices, //cus
     CarQuoteServices, //cqs
+    TravelUtilityServices, //tus
     AgentService, //as
     DashboardService, //ds
     UtilityService, //us

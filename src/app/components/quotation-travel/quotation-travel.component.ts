@@ -55,6 +55,9 @@ import {
 import {
   TravelLOVServices
 } from '../../services/lov/travel.service'
+import {
+  TravelUtilityServices
+} from 'src/app/services/travel-utility.service';
 
 @Component({
   selector: 'app-quotation-travel',
@@ -92,6 +95,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   LOV = new TravelListObject();
   GPLOV = new GroupPolicyListObject();
 
+  showAdditionalInformation: boolean = false;
   showPaymentBreakdown: boolean = false;
   showCoverage: boolean = false;
 
@@ -114,8 +118,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   //flag to include covergae
   // includeCoverage = false;
 
+  //flag to show generate btn
+  showGenerateBtn : boolean = true;
   //flag to show issue btn
-  showIssueQuoteBtn: boolean = true;
+  showIssueQuoteBtn: boolean = false;
   //flag to show print quote/proceed to issuance
   showProceedToIssuanceBtn: boolean = false;
 
@@ -141,6 +147,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     private bms: BsModalService,
     private router: Router,
     private tls: TravelLOVServices,
+    private tus: TravelUtilityServices,
     public dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {
@@ -180,14 +187,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getPurposeOfTrip().then(res => {
       _this.LOV.purposeOfTripLOV = res;
     });
-    this.tls.getRelationship().then(res => {
-      _this.LOV.relationshipLOV = res;
-    });
     this.tls.getInsuranceCoverage().then(res => {
       _this.LOV.insuranceCoverageLOV = res;
     });
     this.tls.getCoverageOption().then(res => {
       _this.LOV.coverageOptionLOV = res;
+    });
+    this.tls.getRelationship().then(res => {
+      _this.LOV.relationshipLOV = res;
+      _this.LOV.relationshipLOV.forEach((r)=> {
+        r.disabled = r.COD_VALOR == 'P';
+      });
     });
   }
 
@@ -207,7 +217,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       cbWithCruise: [null],
 
       //travellers
-      travellers: this.fb.array([this.newTraveller()]),
+      travellers: this.fb.array([this.newTraveller(true)]),
       //additional policy information
       cbSportsEquipment: [null],
       sportsEquipment: [null],
@@ -247,6 +257,14 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
 
     this.travelDetails.subline = 380;
+  }
+
+  getOneTrip() {
+    this.tus.getOneTrip(this.travelDetails).then((res)=> {
+      if (res.status) {
+        this.travelDetails.cbOneTripOnly = res.obj['oneTripOnly'] as boolean;
+      }
+    });
   }
 
   setValidations() {
@@ -300,9 +318,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           this.travelDetails.travelPackage = "P";
           this.travelDetails.travelType = "D";
         }
-        
+
         var _this = this;
-        this.tls.getExpensesCoverage(this.travelDetails).then((res)=> {
+        this.tls.getExpensesCoverage(this.travelDetails).then((res) => {
           _this.LOV.medicalExpensesLOV = res;
         });
       }
@@ -323,35 +341,39 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     return this.quoteForm.get("travellers") as FormArray
   }
 
-  newTraveller(): FormGroup {
+  newTraveller(onLoad: boolean): FormGroup {
     return this.fb.group({
       completeName: ['', Validators.required],
       birthDate: ['', Validators.required],
-      relationship: ['', Validators.required],
+      relationship: [onLoad ? 'P' : '', Validators.required],
       passportNumber: ['', Validators.required],
       physicianName: [null],
     });
   }
 
+  loadTraveller(completeName: string, birthDate: Date, relationship: string, passportNumber: string, physicianName: string): FormGroup {
+    return this.fb.group({
+      completeName: [completeName, Validators.required],
+      birthDate: [birthDate, Validators.required],
+      relationship: [relationship, Validators.required],
+      passportNumber: [passportNumber, Validators.required],
+      physicianName: [physicianName],
+    });
+  }
+
   addTraveller() {
-    this.travellers().push(this.newTraveller());
+    this.travellers().push(this.newTraveller(false));
   }
 
   removeTraveller(index: number) {
     this.travellers().removeAt(index);
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-
   issueQuote(travelDetails: Travel, groupPolicy: GroupPolicy) {
+    var travellers = this.quoteForm.get('travellers').value;
     var check = new Travel(this.quoteForm.value);
     console.log(check);
-    console.log(travelDetails, groupPolicy);
+    console.log(travellers);
   }
 
 }

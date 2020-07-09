@@ -45,7 +45,9 @@ export class GroupPolicyComponent {
   @Input()
   set subline(subline: number) {
     this._subline = subline;
-    this.getGroupPolicyLOV();
+    if (subline != null) {
+      this.getGroupPolicyLOV();
+    }
   }
   @Input()
   set loadQuotation(value: number) {
