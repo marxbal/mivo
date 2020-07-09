@@ -218,7 +218,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       purposeOfTrip: ['', Validators.required],
       cbOneTripOnly: ['', Validators.required],
       cbWithCruise: [null],
-
       //travellers
       travellers: this.fb.array([this.newTraveller(true)]),
       //additional policy information
@@ -237,7 +236,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     var _this = this;
 
     //if currency is philippine peso
-    this.travelDetails.country = this.travelDetails.currency === '1' ? [{
+    this.travelDetails.country = this.travelDetails.currency === 1 ? [{
         NOM_PAIS: "PHILIPPINES",
         COD_PAIS: "PHL",
         NOM_VERNACULO: "PHILIPPINES",
@@ -246,7 +245,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         type: "PHILIPPINES"
       }] :
       null;
-    this.travelDetails.travelPackage = this.travelDetails.currency === '1' ?
+    this.travelDetails.travelPackage = this.travelDetails.currency === 1 ?
       "P" :
       null;
 
@@ -288,7 +287,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
 
     startDate.valueChanges.subscribe(date => {
-      this.enableEndDate = date !== null && date !== undefined;
+      this.enableEndDate = date !== null
+        && date !== undefined
+        && this.travelDetails.currency != null;
+
       var diff = 0;
       if (this.enableEndDate) {
         var diff = moment(endDate.value).diff(moment(date), 'days') + 1;
