@@ -199,6 +199,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         r.disabled = r.COD_VALOR == 'P';
       });
     });
+
+    //setting defualt value
+    this.travelDetails.insuranceCoverage = "I"; //individual
   }
 
   createQuoteForm() {
@@ -365,10 +368,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   addTraveller() {
     this.travellers().push(this.newTraveller(false));
+    //if traveller is more than 1
+    this.travelDetails.insuranceCoverage = "F"; //family
   }
 
   removeTraveller(index: number) {
     this.travellers().removeAt(index);
+    var travellers = this.quoteForm.get('travellers').value;
+    if (travellers.length == 1) {
+      //if traveller is primary only
+      this.travelDetails.insuranceCoverage = "I"; //individual
+    }
   }
 
   issueQuote(travelDetails: Travel, groupPolicy: GroupPolicy) {
