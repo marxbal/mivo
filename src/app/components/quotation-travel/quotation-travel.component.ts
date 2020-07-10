@@ -198,6 +198,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getRelationship().then(res => {
       _this.LOV.relationshipLOV = res;
       _this.LOV.relationshipLOV.forEach((r)=> {
+        // disable primary
         r.disabled = r.COD_VALOR == 'P';
       });
     });
