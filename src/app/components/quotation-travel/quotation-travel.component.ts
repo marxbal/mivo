@@ -74,6 +74,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  travellerHeadCount: number = 1;
 
   travelDetails = new Travel();
   prevTravelDetails: Travel = null;
@@ -88,6 +89,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   quoteForm: FormGroup;
 
   mindate: Date = new Date();
+  // bdaymindate: Date = moment().subtract(65, 'years').toDate();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
   endDateMinDate: Date = moment().add(1, 'days').toDate();
   enableEndDate: boolean = false;
@@ -263,6 +265,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.travelDetails.endDate = null;
   }
 
+  relationshipOnChange(traveller: FormGroup) {
+    var maxAge = (traveller.controls['relationship'].value == 'C') ? 21 : 65;
+    const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
+    traveller.controls['bdaymindate'].setValue(bdaymindate);
+  }
+
   getOneTrip() {
     if (this.travelDetails.endDate != null) {
       this.tus.getOneTrip(this.travelDetails).then((res)=> {
@@ -324,6 +332,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         } else {
           this.travelDetails.travelPackage = "P";
           this.travelDetails.travelType = "D";
+          this.travelDetails.cbWithCruise = false;
         }
 
         var _this = this;
@@ -349,12 +358,15 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   newTraveller(onLoad: boolean): FormGroup {
+    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
+
     return this.fb.group({
       completeName: ['', Validators.required],
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
       passportNumber: ['', Validators.required],
       physicianName: [null],
+      bdaymindate: [bdaymindate],
     });
   }
 
@@ -372,11 +384,18 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.travellers().push(this.newTraveller(false));
     //if traveller is more than 1
     this.travelDetails.insuranceCoverage = "F"; //family
+
+    //hides the add travel button if traveller head count is more than 5
+    var travellers = this.quoteForm.get('travellers').value;
+    this.travellerHeadCount = travellers.length;
   }
 
   removeTraveller(index: number) {
     this.travellers().removeAt(index);
+
+    //shows the add travel button if traveller head count is less than 5
     var travellers = this.quoteForm.get('travellers').value;
+    this.travellerHeadCount = travellers.length;
     if (travellers.length == 1) {
       //if traveller is primary only
       this.travelDetails.insuranceCoverage = "I"; //individual

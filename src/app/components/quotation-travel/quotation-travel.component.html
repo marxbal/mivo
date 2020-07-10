@@ -201,7 +201,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbWithCruise"
                         [(ngModel)]="travelDetails.cbWithCruise" formControlName="cbWithCruise"
-                        [attr.disabled]="editMode ? null : true">
+                        [attr.disabled]="editMode && travelDetails.travelPackage != 'D' ? null : true">
                       <label class="form-check-label" for="cbWithCruise">
                         With Cruise?
                       </label>
@@ -241,6 +241,14 @@
             </div>
             <div class="card-body">
 
+              <div class="alert alert-info note">
+                <p>
+                  <strong>Important Reminder:</strong> Family risk should be max of 6 members and age of children should be from 0-21 years 
+                  old only. Please also be advised that family is considered as 1 risk and no multirisk is allowed for quotation.
+                </p>
+              </div>
+              <!-- .note -->
+
               <div formArrayName="travellers">
                 <div *ngFor="let traveller of quoteForm.get('travellers')['controls']; let i=index">
                   <div [formGroupName]="i" class="card traveller-card">
@@ -260,25 +268,12 @@
                         </div>
 
                         <div class="col-md-4 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['birthDate'].invalid 
-                          && (traveller.controls['birthDate'].dirty 
-                          || traveller.controls['birthDate'].touched)}">
-                            <label for="birthDate">Birthdate</label>
-                            <input type="text" placeholder="Datepicker" class="form-control required"
-                              [maxDate]="mindate" formControlName="birthDate" bsDatepicker
-                              [attr.disabled]="editMode ? null : true">
-                            <p class="form-error" *ngIf="traveller.controls['birthDate'].errors?.required">
-                              * birthdate is required
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
                           <div class="form-group" [ngClass]="{'input-error': traveller.controls['relationship'].invalid 
                           && (traveller.controls['relationship'].dirty 
                           || traveller.controls['relationship'].touched)}">
                             <label for="relationship">Relationship</label>
                             <select class="custom-select mr-sm-2 required" formControlName="relationship"
+                              (change)="relationshipOnChange(traveller)"
                               [attr.disabled]="editMode && LOV.relationshipLOV?.length && i != 0 ? null: true">
                               <option 
                                 *ngFor="let relationship of LOV.relationshipLOV"
@@ -288,6 +283,20 @@
                             </select>
                             <p class="form-error" *ngIf="traveller.controls['relationship'].errors?.required">
                               * relationship is required
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['birthDate'].invalid 
+                          && (traveller.controls['birthDate'].dirty 
+                          || traveller.controls['birthDate'].touched)}">
+                            <label for="birthDate">Birthdate</label>
+                            <input type="text" placeholder="Datepicker" class="form-control required"
+                              [maxDate]="mindate" [minDate]="traveller.controls['bdaymindate'].value" formControlName="birthDate" bsDatepicker
+                              [attr.disabled]="editMode ? null : true">
+                            <p class="form-error" *ngIf="traveller.controls['birthDate'].errors?.required">
+                              * birthdate is required
                             </p>
                           </div>
                         </div>
@@ -326,7 +335,7 @@
                 </div>
               </div>
 
-              <div class="btn-group">
+              <div *ngIf="travellerHeadCount <= 5" class="btn-group">
                 <button [disabled]="!editMode || quoteForm.get('travellers').status !== 'VALID'" type="button"
                   (click)="addTraveller()" class="btn btn-primary">Add Traveller</button>
               </div>
