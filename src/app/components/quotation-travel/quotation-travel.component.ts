@@ -203,6 +203,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
     this.tls.getPurposeOfTrip().then(res => {
       _this.LOV.purposeOfTripLOV = res;
+      _this.LOV.purposeOfTripLOV.forEach((p) => {
+        var businessLabel = p.NOM_BUSINESS as string;
+        p.COD_BUSINESS = businessLabel.toUpperCase();
+      });
     });
     this.tls.getInsuranceCoverage().then(res => {
       _this.LOV.insuranceCoverageLOV = res;

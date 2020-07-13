@@ -178,7 +178,7 @@
                       [(ngModel)]="travelDetails.purposeOfTrip"
                       [attr.disabled]="editMode && LOV.purposeOfTripLOV?.length ? null : true">
                       <option selected></option>
-                      <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.NOM_BUSINESS">
+                      <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.COD_BUSINESS">
                         {{ purposeOfTrip.NOM_BUSINESS }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['purposeOfTrip'].errors?.required">
