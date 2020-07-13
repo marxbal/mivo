@@ -1137,7 +1137,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   proceed(type: number) {
     //if user changes affecting values
-    const hasAffectingAccessories = this.checkAffectingAccessories()
+    const hasAffectingAccessories = this.checkAffectingAccessories();
     const hasChanges = this.changedValues.length != 0 || hasAffectingAccessories;
     this.includeCoverage = !hasChanges;
 

@@ -41,7 +41,8 @@ import {
 } from '@angular/router';
 import {
   MatDialog,
-  MatDialogRef
+  MatDialogRef,
+  MatDialogConfig
 } from '@angular/material';
 import {
   Globals
@@ -58,6 +59,12 @@ import {
 import {
   TravelUtilityServices
 } from 'src/app/services/travel-utility.service';
+import {
+  TravelQuoteServices
+} from 'src/app/services/travel-quote.service';
+import {
+  validateItinerary
+} from 'src/app/validators/validate';
 
 @Component({
   selector: 'app-quotation-travel',
@@ -121,7 +128,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   // includeCoverage = false;
 
   //flag to show generate btn
-  showGenerateBtn : boolean = true;
+  showGenerateBtn: boolean = true;
   //flag to show issue btn
   showIssueQuoteBtn: boolean = false;
   //flag to show print quote/proceed to issuance
@@ -150,6 +157,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private tls: TravelLOVServices,
     private tus: TravelUtilityServices,
+    private tqs: TravelQuoteServices,
     public dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {
@@ -197,7 +205,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
     this.tls.getRelationship().then(res => {
       _this.LOV.relationshipLOV = res;
-      _this.LOV.relationshipLOV.forEach((r)=> {
+      _this.LOV.relationshipLOV.forEach((r) => {
         // disable primary
         r.disabled = r.COD_VALOR == 'P';
       });
@@ -217,7 +225,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       noOfDays: ['', Validators.required],
-      completeItinerary: ['', Validators.required],
+      completeItinerary: ['', [Validators.required, validateItinerary]],
       purposeOfTrip: ['', Validators.required],
       cbOneTripOnly: ['', Validators.required],
       cbWithCruise: [null],
@@ -274,7 +282,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   getOneTrip() {
     if (this.travelDetails.endDate != null) {
-      this.tus.getOneTrip(this.travelDetails).then((res)=> {
+      this.tus.getOneTrip(this.travelDetails).then((res) => {
         if (res.status) {
           this.travelDetails.cbOneTripOnly = res.obj['oneTripOnly'] as boolean;
         }
@@ -403,11 +411,133 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  issueQuote(travelDetails: Travel, groupPolicy: GroupPolicy) {
+  proceed(type: number) {
+    //if user changes affecting values
+    // const hasAffectingTraveller = this.checkAffectingAccessories();
+    const hasAffectingTraveller = false;
+    const hasChanges = this.changedValues.length != 0 || hasAffectingTraveller;
+
+    const hasQuotationNumber = !Utility.isUndefined(this.travelDetails.quotationNumber);
+    const isTemporaryQuotation = hasQuotationNumber && this.travelDetails.quotationNumber.startsWith('999');
+    this.travelDetails.affecting = !hasQuotationNumber ||
+      (hasQuotationNumber && isTemporaryQuotation) ||
+      (hasQuotationNumber && !isTemporaryQuotation && hasChanges);
+    if (hasChanges) {
+      this.openProceedModal(type);
+    } else {
+      switch (type) {
+        case 1: {
+          this.issueQuote('S');
+          break;
+        }
+        case 2: {
+          this.issueQuote('N');
+          break;
+        }
+        case 3: {
+          // this.savePolicy();
+          break;
+        }
+        default: {
+          // this.postPolicy();
+          break;
+        }
+      }
+    }
+  }
+
+  openProceedModal(type: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '500px';
+    dialogConfig.data = {
+      generateBtn: type == 1 || type == 2 || type == 3,
+      saveBtn: type == 4
+    };
+
+    this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
+  }
+
+  //generate and issue quote button
+  issueQuote(mcaTmpPptoMph: string) {
+    // S for generation and N for issue quotation
+    this.travelDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+
+    // includes group policy to car details DTO
+    this.travelDetails.groupPolicy = this.groupPolicy;
+    // includes policy holder to car details DTO
+    this.travelDetails.policyHolder = this.policyHolder;
+
+    // includes accessories to car details DTO
     var travellers = this.quoteForm.get('travellers').value;
-    var check = new Travel(this.quoteForm.value);
-    console.log(check);
-    console.log(travellers);
+    this.travelDetails.travellers = travellers.length ? travellers : [];
+
+    // to trigger changes when regenerating quotation
+    this.showPaymentBreakdown = false;
+    this.showCoverage = false;
+
+    console.log(this.travelDetails);
+    this.tqs.issueQuote(this.travelDetails).then(res1 => {
+      // if (res1.status) {
+      //   //clear affecting fields
+      //   this.changedValues = [];
+
+      //   const items = this.getErrorItems(res1, mcaTmpPptoMph, false);
+      //   const status = res1.obj["status"];
+      //   const coverageAmount = res1.obj["coverageAmount"];
+      //   if (status && coverageAmount.length) {
+      //     //duplicating car details for comparison
+      //     const deepClone = JSON.parse(JSON.stringify(this.carDetails));
+      //     this.prevCarDetails = deepClone;
+
+      //     this.editMode = false;
+      //     this.hasRoadAssist = res1.obj["hasRoadAssist"];
+      //     const errorCode = res1.obj["errorCode"];
+      //     if (errorCode == "S") {
+      //       //if quotation has a warning
+      //       this.modalRef = Utility.showHTMLWarning(this.bms, items);
+      //     }
+
+      //     const policyNumber = res1.obj["policyNumber"];
+      //     this.carDetails.quotationNumber = policyNumber;
+
+      //     const breakdown = res1.obj["breakdown"];
+      //     const receipt = res1.obj["receipt"];
+
+      //     if ("S" == mcaTmpPptoMph) {
+      //       //for generation of quote
+      //       const message = "You have successfully generated a quotation - " + policyNumber;
+      //       this.modalRef = Utility.showInfo(this.bms, message);
+
+      //       const coverageList = res.obj["coverageList"];
+      //       const amountList = res.obj["amountList"];
+      //       const premiumAmount = res1.obj["premiumAmount"];
+      //       const coverageVariable = res1.obj["coverageVariable"];
+
+      //       this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+      //       // if (this.isModifiedCoverage) {
+      //       //   this.showCoverage = true;
+      //       // } else {
+      //       //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+      //       // }
+
+      //       this.isModifiedCoverage = false;
+      //       this.populatePaymentBreakdown(breakdown, receipt);
+      //       this.manageBtn(2);
+      //     } else {
+      //       // for issuing the quote
+      //       this.openPaymentBreakdownModal(receipt, breakdown, false);
+      //       this.manageBtn(3);
+      //     }
+      //   } else {
+      //     this.modalRef = Utility.showHTMLError(this.bms, items);
+      //   }
+      // } else {
+      //   this.modalRef = Utility.showError(this.bms, res1.message);
+      // }
+    });
   }
 
 }

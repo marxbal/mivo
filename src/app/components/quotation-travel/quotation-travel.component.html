@@ -156,9 +156,13 @@
                     <label for="completeItinerary">Complete Itinerary</label>
                     <input type="text" formControlName="completeItinerary" class="form-control required"
                       placeholder="ex. Manila-Japan-China-Manila" [(ngModel)]="travelDetails.completeItinerary"
+                      oninput="this.value = this.value.toUpperCase()"
                       [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['completeItinerary'].errors?.required">
                       * complete itinerary is required
+                    </p>
+                    <p class="form-error" *ngIf="quoteForm.controls['completeItinerary'].errors?.invalidItinerary">
+                      * invalid itinerary
                     </p>
                   </div>
                 </div>
@@ -471,8 +475,11 @@
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtn" class="btn-group" role="group">
               <button
+                [disabled]="quoteForm.pristine || quoteForm.invalid ||
+                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
+                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
-                (click)="issueQuote()">Generate</button>
+                (click)="proceed(1)">Generate</button>
             </div>
             <div *ngIf="showIssueQuoteBtn" class="btn-group" role="group">
               <button

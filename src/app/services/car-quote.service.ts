@@ -111,6 +111,38 @@ export class CarQuoteServices {
     });
   }
 
+  // printQuote(quotationNumber: string) {
+  //   this.printDoc(quotationNumber, "Q");
+  // }
+
+  // printPolicy(policyNumber: string) {
+  //   this.printDoc(policyNumber, "P");
+  // }
+
+  // printDoc(number: string, type: string) {
+  //   const documentPrintingDetails = new DocumentPrinting();
+  //   if (type == "P") {
+  //     documentPrintingDetails.policyNumber = number;
+  //   } else {
+  //     documentPrintingDetails.quotationNumber = number;
+  //   }
+    
+  //   documentPrintingDetails.documentType = type;
+
+  //   this.us.validatePrinting(documentPrintingDetails).then((res) => {
+  //     if (res.status) {
+  //       var ext = res.obj;
+  //       this.us.printDocument(ext.toString()).subscribe(data => {
+  //         if (data != null) {
+  //           window.open(URL.createObjectURL(data));
+  //         }
+  //       });
+  //     } else {
+  //       this.modalRef = Utility.showError(this.bms, res.message);
+  //     }
+  //   });
+  // }
+
   proceedToIssuance(quotationNumber: string) {
     Utility.scroll('topDiv');
     setTimeout(() => {

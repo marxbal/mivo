@@ -10,6 +10,8 @@ import {
 
 // * - used in quick quotation
 export class Travel {
+  affecting: boolean;
+  mcaTmpPptoMph: string;
   policyNumber: string;
   quotationNumber: string;
   subline: number;
