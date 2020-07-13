@@ -48,6 +48,9 @@ import {
   Globals
 } from 'src/app/utils/global';
 import {
+  page
+} from 'src/app/constants/page';
+import {
   CoveragesComponent
 } from '../coverages/coverages.component';
 import {
@@ -280,9 +283,16 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   relationshipOnChange(traveller: FormGroup) {
-    var maxAge = (traveller.controls['relationship'].value == 'C') ? 21 : 65;
+    var val = traveller.controls['relationship'].value;
+    var maxAge = (val == 'C') ? 21 : 65;
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
     traveller.controls['bdaymindate'].setValue(bdaymindate);
+
+    this.LOV.relationshipLOV.forEach(r => {
+      if (r.COD_VALOR == val) {
+        traveller.controls['relationshipLabel'].setValue(r.NOM_VALOR);
+      }
+    });
   }
 
   getOneTrip() {
@@ -360,8 +370,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
     purposeOfTrip.valueChanges.subscribe(trip => {
       //if purpose of trip is others, show the others desctiption input and make it required
-      this.showOthersDescription = (trip == 'O');
-      Utility.updateValidator(othersDescription, trip == 'O' ? [Validators.required] : null);
+      this.showOthersDescription = (trip == 'OTHERS');
+      Utility.updateValidator(othersDescription, trip == 'OTHERS' ? [Validators.required] : null);
     }); 
 
     cbSportsEquipment.valueChanges.subscribe(checked => {
@@ -386,6 +396,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       completeName: ['', Validators.required],
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
+      relationshipLabel: [onLoad ? 'PRIMARY' : ''],
       passportNumber: ['', Validators.required],
       physicianName: [null],
       bdaymindate: [bdaymindate],
@@ -515,6 +526,117 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.dialogRef = this.dialog.open(this.validationModal, dialogConfig);
   }
 
+  openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
+    // let product = "";
+    // this.LOV.productListLOV.forEach((p) => {
+    //   if (p.COD_MODALIDAD == this.carDetails.productList) {
+    //     product = p.NOM_MODALIDAD;
+    //   }
+    // });
+
+    // let payment = "";
+    // this.LOV.paymentMethodLOV.forEach((p) => {
+    //   if (p.COD_FRACC_PAGO == this.carDetails.paymentMethod) {
+    //     payment = p.NOM_FRACC_PAGO;
+    //   }
+    // });
+
+    // const modalData = {
+    //   number: isPostPolicy ? this.carDetails.policyNumber : this.carDetails.quotationNumber,
+    //   product: product,
+    //   payment: payment,
+    //   receipt: receipt,
+    //   breakdown: breakdown,
+    //   showExchangeRate: false,
+    //   isPostPolicy: isPostPolicy
+    // };
+
+    // this.dialog.open(PaymentBreakdownModalComponent, {
+    //   width: '1000px',
+    //   data: modalData
+    // });
+  }
+
+  manageBtn(opt: number, isModified ? : boolean) {
+    // if (opt == 1) {
+    //   //hides payment breakdown panel
+    //   this.showPaymentBreakdown = false;
+
+    //   // flag to edit coverage
+    //   const modified = !Utility.isUndefined(isModified);
+
+    //   this.editMode = !modified;
+    //   this.showCoverage = modified;
+    //   this.isModifiedCoverage = modified;
+    //   if (modified) {
+    //     Utility.scroll('coverages');
+    //   }
+    // }
+
+    // if (this.isIssuance) {
+    //   this.showIssuanceGenerateBtn = (opt == 1);
+    //   this.showSaveBtn = (opt == 2);
+    //   this.showPostBtn = (opt == 3);
+    //   this.showPrintBtn = (opt == 4);
+    // } else {
+    //   this.showGenerateBtnGrp = (opt == 1);
+    //   this.showIssueQuoteBtnGrp = (opt == 2);
+    //   this.showProceedToIssuanceBtnGrp = (opt == 3);
+    // }
+  }
+
+  newQuote() {
+    Utility.scroll('topDiv');
+    setTimeout(() => {
+      Globals.setPage(page.QUO.CAR);
+      this.router.navigate(['/reload']);
+    }, 500);
+  }
+
+  newPolicy() {
+    Utility.scroll('topDiv');
+    setTimeout(() => {
+      Globals.setPage(page.ISS.CAR);
+      this.router.navigate(['/reload']);
+    }, 500);
+  }
+
+  affecting(key: string, label: string) {
+    // if (!Utility.isUndefined(this.carDetails.quotationNumber) && this.prevCarDetails != null) {
+    //   let prev = this.prevCarDetails[key] == undefined ? "" : this.prevCarDetails[key];
+    //   let curr = this.carDetails[key] == undefined ? "" : this.carDetails[key];
+    //   if (curr instanceof Date) {
+    //     curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
+    //     if (!Utility.isUndefined(prev)) {
+    //       var prevDate = new Date(prev);
+    //       prev = prevDate.getMonth() + "/" + prevDate.getDate() + "/" + prevDate.getFullYear();
+    //     }
+    //   }
+
+    //   if (prev != curr) {
+    //     if (!this.changedValues.includes(label)) {
+    //       //if changedValues length is greater than 0, request is affecting
+    //       this.changedValues.push(label);
+    //     }
+    //   } else {
+    //     //remove all occurence
+    //     this.changedValues = this.changedValues.filter(v => v !== label);
+    //   }
+    // }
+  }
+
+  printQuote() {
+    this.tqs.printQuote(this.travelDetails.quotationNumber);
+  }
+
+  printPolicy() {
+    this.tqs.printPolicy(this.travelDetails.policyNumber);
+  }
+
+  proceedToIssuance() {
+    this.tqs.proceedToIssuance(this.travelDetails.quotationNumber);
+  }
+
   //generate and issue quote button
   issueQuote(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
@@ -593,30 +715,5 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       //   this.modalRef = Utility.showError(this.bms, res1.message);
       // }
     });
-  }
-
-  test(q: FormGroup, g: FormGroup, c: FormGroup) {
-    let invalid = [];
-    let invalidLabel = [];
-
-    invalid = this.findInvalidControls(invalid, q);
-    invalid = this.findInvalidControls(invalid, g);
-    invalid = this.findInvalidControls(invalid, c);
-    
-    this.invalidForms = [];
-    invalid.forEach((i) => {
-      let label : string = i.replace(/([A-Z])/g, ' $1').trim();
-      this.invalidForms.push(label.toLowerCase());
-    });
-  }
-
-  public findInvalidControls(invalid: any[], form: FormGroup) {
-    const controls = form.controls;
-    for (const name in controls) {
-      if (controls[name].invalid) {
-        invalid.push(name);
-      }
-    }
-    return invalid;
   }
 }

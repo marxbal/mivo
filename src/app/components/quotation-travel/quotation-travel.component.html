@@ -178,7 +178,7 @@
                       [(ngModel)]="travelDetails.purposeOfTrip"
                       [attr.disabled]="editMode && LOV.purposeOfTripLOV?.length ? null : true">
                       <option selected></option>
-                      <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.COD_BUSINESS">
+                      <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.NOM_BUSINESS">
                         {{ purposeOfTrip.NOM_BUSINESS }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['purposeOfTrip'].errors?.required">
@@ -458,6 +458,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="coverageOption"
                       [(ngModel)]="travelDetails.coverageOption"
                       [attr.disabled]="editMode && LOV.coverageOptionLOV?.length ? null : true">
+                      <option></option>
                       <option *ngFor="let coverageOption of LOV.coverageOptionLOV" [ngValue]="coverageOption.COVERAGE_OPTIONS">
                         {{ coverageOption.NOM_VALOR }}</option>
                     </select>
@@ -475,6 +476,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="medicalExpenses"
                       [(ngModel)]="travelDetails.medicalExpenses"
                       [attr.disabled]="editMode && LOV.medicalExpensesLOV?.length ? null : true">
+                      <option></option>
                       <option *ngFor="let medicalExpenses of LOV.medicalExpensesLOV" [ngValue]="medicalExpenses.VAL_CAMPO1">
                         {{ medicalExpenses.VAL_CAMPO2 }}</option>
                     </select>
@@ -502,9 +504,11 @@
             </div>
             <div *ngIf="showIssueQuoteBtn" class="btn-group" role="group">
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Issue Quote</button>
+              <button
+                *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 (click)="proceed(2)">Issue Quote</button>
             </div>
