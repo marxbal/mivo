@@ -478,9 +478,7 @@
                 type="button" class="btn btn-primary"
                 (click)="test(quoteForm, appGroupPolicy, appPolicyHolder)">Generate</button>
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 (click)="proceed(1)">Generate</button>
             </div>
