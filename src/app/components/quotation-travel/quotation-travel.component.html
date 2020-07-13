@@ -475,6 +475,9 @@
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtn" class="btn-group" role="group">
               <button
+                type="button" class="btn btn-primary"
+                (click)="test(quoteForm, appGroupPolicy, appPolicyHolder)">Generate</button>
+              <button
                 [disabled]="quoteForm.pristine || quoteForm.invalid ||
                 appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
                 appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
