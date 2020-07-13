@@ -30,6 +30,7 @@ export class Travel {
   cbOneTripOnly: boolean;
   cbWithCruise: boolean;
   ageRange: string; // *
+  othersDescription: string;
 
   //group policy
   groupPolicy: GroupPolicy;

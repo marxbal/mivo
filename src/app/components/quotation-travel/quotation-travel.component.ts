@@ -74,6 +74,7 @@ import {
 export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   @ViewChild(CoveragesComponent) appCoverage: CoveragesComponent;
   @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
+  @ViewChild('validationModal') validationModal: TemplateRef < any > ;
 
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
@@ -87,6 +88,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   prevTravelDetails: Travel = null;
   changedValues: any[] = [];
   changedAccessoryValues: any[] = [];
+
+  invalidForms: any[] = [];
 
   withTechControl = false;
 
@@ -104,6 +107,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   LOV = new TravelListObject();
   GPLOV = new GroupPolicyListObject();
 
+  showOthersDescription: boolean = false;
   showAdditionalInformation: boolean = false;
   showPaymentBreakdown: boolean = false;
   showCoverage: boolean = false;
@@ -229,6 +233,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       purposeOfTrip: ['', Validators.required],
       cbOneTripOnly: ['', Validators.required],
       cbWithCruise: [null],
+      othersDescription: [null],
       //travellers
       travellers: this.fb.array([this.newTraveller(true)]),
       //additional policy information
@@ -294,6 +299,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     var endDate = this.quoteForm.get('endDate');
     var startDate = this.quoteForm.get('startDate');
     var country = this.quoteForm.get('country');
+    var purposeOfTrip = this.quoteForm.get('purposeOfTrip');
+    var othersDescription = this.quoteForm.get('othersDescription');
 
     var cbSportsEquipment = this.quoteForm.get('cbSportsEquipment');
     var sportsEquipment = this.quoteForm.get('sportsEquipment');
@@ -350,6 +357,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         });
       }
     });
+
+    purposeOfTrip.valueChanges.subscribe(trip => {
+      //if purpose of trip is others, show the others desctiption input and make it required
+      this.showOthersDescription = (trip == 'O');
+      Utility.updateValidator(othersDescription, trip == 'O' ? [Validators.required] : null);
+    }); 
 
     cbSportsEquipment.valueChanges.subscribe(checked => {
       this.travelDetails.sportsEquipment = Utility.setNull(checked, this.travelDetails.sportsEquipment);
@@ -460,6 +473,48 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
   }
 
+  openValidationModal(q: FormGroup, g: FormGroup, c: FormGroup): void {
+    //clear arrays
+    let invalid = [];
+    this.invalidForms = [];
+
+    //list of incorrect label names
+    var formLabels = [
+      {cbOneTripOnly : 'oneTripOnly'},
+      {name : "client'sName"}
+    ]
+
+    var quoteArr = Utility.findInvalidControls(q);
+    invalid.push(...quoteArr);
+
+    var groupPolicyArr = Utility.findInvalidControls(g);
+    invalid.push(...groupPolicyArr);
+
+    var policyHolderArr = Utility.findInvalidControls(c);
+    invalid.push(...policyHolderArr);
+    
+    invalid.forEach((i) => {
+      formLabels.forEach(f => {
+        var correctLabel = f[i];
+        if (!Utility.isUndefined(correctLabel)) {
+          //replace label
+          i = correctLabel;
+        }
+      });
+
+      let label : string = i.replace(/([A-Z])/g, ' $1').trim();
+      this.invalidForms.push(label.toLowerCase());
+    });
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '500px';
+
+    this.dialogRef = this.dialog.open(this.validationModal, dialogConfig);
+  }
+
   //generate and issue quote button
   issueQuote(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
@@ -542,11 +597,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   test(q: FormGroup, g: FormGroup, c: FormGroup) {
     let invalid = [];
+    let invalidLabel = [];
 
     invalid = this.findInvalidControls(invalid, q);
     invalid = this.findInvalidControls(invalid, g);
     invalid = this.findInvalidControls(invalid, c);
-    alert(invalid);
+    
+    this.invalidForms = [];
+    invalid.forEach((i) => {
+      let label : string = i.replace(/([A-Z])/g, ' $1').trim();
+      this.invalidForms.push(label.toLowerCase());
+    });
   }
 
   public findInvalidControls(invalid: any[], form: FormGroup) {
@@ -555,11 +616,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       if (controls[name].invalid) {
         invalid.push(name);
       }
-      // if (controls[name].pristine) {
-      //   invalid.push(name);
-      // }
     }
     return invalid;
   }
-
 }
