@@ -664,8 +664,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
     let medicalExpenses : string;
     this.LOV.medicalExpensesLOV.forEach(me => {
-      if (me.COVERAGE_OPTIONS == this.travelDetails.medicalExpenses) {
-        const name : string = me.NOM_VALOR; 
+      if (me.VAL_CAMPO1 == this.travelDetails.medicalExpenses) {
+        const name : string = me.VAL_CAMPO2; 
         const value : string = me.VAL_CAMPO1; 
         medicalExpenses = name.includes("EUROS") ? value.concat(" euros") : value;
       }
