@@ -699,6 +699,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     var travellers = this.quoteForm.get('travellers').value;
     this.travelDetails.travellers = travellers.length ? travellers : [];
 
+    // get product code
+    this.getProductCode();
+
     // to trigger changes when regenerating quotation
     this.showPaymentBreakdown = false;
     this.showCoverage = false;
