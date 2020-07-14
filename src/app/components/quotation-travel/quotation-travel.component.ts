@@ -649,7 +649,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     let codeName : string;
 
     let travelPack : string;
-    this.LOV.travelPackageLOV.forEach(tp => {
+    this.LOV.packageLOV.forEach(tp => {
       if (tp.TRAVEL_PACK == this.travelDetails.travelPackage) {
         travelPack = tp.NOM_VALOR;
       }
