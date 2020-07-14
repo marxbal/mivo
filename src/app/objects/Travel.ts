@@ -51,6 +51,7 @@ export class Travel {
   insuranceCoverage: string;
   coverageOption: string;
   medicalExpenses: string;
+  product: number;
 
   constructor(init ? : Partial < Travel > ) {
     Object.assign(this, init);

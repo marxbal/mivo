@@ -258,6 +258,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   currencyOnchange() {
     var _this = this;
 
+    this.travelDetails.subline = 380;
+    this.travelDetails.startDate = null;
+    this.travelDetails.endDate = null;
+
     //if currency is philippine peso
     this.travelDetails.country = this.travelDetails.currency === 1 ? [{
         NOM_PAIS: "PHILIPPINES",
@@ -281,9 +285,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       _this.LOV.countryLOV = res;
     });
 
-    this.travelDetails.subline = 380;
-    this.travelDetails.startDate = null;
-    this.travelDetails.endDate = null;
+    this.tls.getProduct(this.travelDetails).then(res => {
+      _this.LOV.productListLOV = res;
+    });
   }
 
   relationshipOnChange(traveller: FormGroup) {
@@ -639,6 +643,46 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   proceedToIssuance() {
     this.tqs.proceedToIssuance(this.travelDetails.quotationNumber);
+  }
+
+  getProductCode() {
+    let codeName : string;
+
+    let travelPack : string;
+    this.LOV.travelPackageLOV.forEach(tp => {
+      if (tp.TRAVEL_PACK == this.travelDetails.travelPackage) {
+        travelPack = tp.NOM_VALOR;
+      }
+    });
+
+    let coverageOption : string;
+    this.LOV.coverageOptionLOV.forEach(co => {
+      if (co.COVERAGE_OPTIONS == this.travelDetails.coverageOption) {
+        coverageOption = co.NOM_VALOR == 'ASSISTANCE ONLY' ? 'ASSIST ONLY' : co.NOM_VALOR;
+      }
+    });
+
+    let medicalExpenses : string;
+    this.LOV.medicalExpensesLOV.forEach(me => {
+      if (me.COVERAGE_OPTIONS == this.travelDetails.medicalExpenses) {
+        const name : string = me.NOM_VALOR; 
+        const value : string = me.VAL_CAMPO1; 
+        medicalExpenses = name.includes("EUROS") ? value.concat(" euros") : value;
+      }
+    });
+
+    codeName = this.travelDetails.travelPackage == 'D' 
+      ? "DOMESTIC ".concat(medicalExpenses)
+      : travelPack + " " + coverageOption + " " + medicalExpenses;
+
+    this.LOV.productListLOV.forEach(product => {
+      if (codeName == product.NOM_MODALIDAD) {
+        this.travelDetails.product = product.COD_MODALIDAD;
+      }
+    });
+
+    console.log('codeName: ' + codeName);
+    console.log('product: ' + this.travelDetails.product);
   }
 
   //generate and issue quote button
