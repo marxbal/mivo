@@ -9,7 +9,6 @@ export class TravelListObject {
   ageRangeLOV: any[];
 
   //quote
-  // travelPackageLOV: any[];
   travelTypeLOV: any[];
   purposeOfTripLOV: any[];
   oneTripOnlyLOV: any[];

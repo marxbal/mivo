@@ -34,7 +34,7 @@ import {
 } from '../objects/Travel';
 
 @Injectable()
-export class TravelQuoteServices {
+export class TravelIssueServices {
 
   //modal reference
   modalRef: BsModalRef;
@@ -46,7 +46,7 @@ export class TravelQuoteServices {
   ) {}
 
   async issueQuote(travelDetails: Travel): Promise < ReturnDTO > {
-    return this.app.post(travelDetails, '/travel/quote/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post(travelDetails, '/travel/issue/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   // async savePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
@@ -57,9 +57,9 @@ export class TravelQuoteServices {
   //   return this.app.post(carDetails, '/quote/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
   // }
 
-  // async loadQuotation(quotationNumber: string): Promise < ReturnDTO > {
-  //   return this.app.post({quotationNumber}, '/quote/loadQuotation').then(ReturnDTO => ReturnDTO as ReturnDTO);
-  // }
+  async loadQuotation(quotationNumber: string): Promise < ReturnDTO > {
+    return this.app.post({quotationNumber}, '/travel/issue/loadQuotation').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 
   printQuote(quotationNumber: string) {
     this.printDoc(quotationNumber, "Q");

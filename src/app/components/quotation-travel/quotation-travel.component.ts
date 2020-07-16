@@ -63,8 +63,8 @@ import {
   TravelUtilityServices
 } from 'src/app/services/travel-utility.service';
 import {
-  TravelQuoteServices
-} from 'src/app/services/travel-quote.service';
+  TravelIssueServices
+} from 'src/app/services/travel-issue.service';
 import {
   validateItinerary
 } from 'src/app/validators/validate';
@@ -164,7 +164,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private tls: TravelLOVServices,
     private tus: TravelUtilityServices,
-    private tqs: TravelQuoteServices,
+    private tis: TravelIssueServices,
     public dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {
@@ -634,15 +634,15 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   printQuote() {
-    this.tqs.printQuote(this.travelDetails.quotationNumber);
+    this.tis.printQuote(this.travelDetails.quotationNumber);
   }
 
   printPolicy() {
-    this.tqs.printPolicy(this.travelDetails.policyNumber);
+    this.tis.printPolicy(this.travelDetails.policyNumber);
   }
 
   proceedToIssuance() {
-    this.tqs.proceedToIssuance(this.travelDetails.quotationNumber);
+    this.tis.proceedToIssuance(this.travelDetails.quotationNumber);
   }
 
   getProductCode() {
@@ -680,9 +680,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         this.travelDetails.product = product.COD_MODALIDAD;
       }
     });
-
-    console.log('codeName: ' + codeName);
-    console.log('product: ' + this.travelDetails.product);
   }
 
   //generate and issue quote button
@@ -690,12 +687,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     // S for generation and N for issue quotation
     this.travelDetails.mcaTmpPptoMph = mcaTmpPptoMph;
 
-    // includes group policy to car details DTO
+    // includes group policy to travel details DTO
     this.travelDetails.groupPolicy = this.groupPolicy;
-    // includes policy holder to car details DTO
+    // includes policy holder to travel details DTO
     this.travelDetails.policyHolder = this.policyHolder;
 
-    // includes accessories to car details DTO
+    // includes travellers to travel details DTO
     var travellers = this.quoteForm.get('travellers').value;
     this.travelDetails.travellers = travellers.length ? travellers : [];
 
@@ -706,8 +703,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.showPaymentBreakdown = false;
     this.showCoverage = false;
 
-    console.log(this.travelDetails);
-    this.tqs.issueQuote(this.travelDetails).then(res1 => {
+    this.tis.issueQuote(this.travelDetails).then(res1 => {
       // if (res1.status) {
       //   //clear affecting fields
       //   this.changedValues = [];

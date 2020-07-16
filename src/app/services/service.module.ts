@@ -31,8 +31,8 @@ import {
   TravelUtilityServices
 } from './travel-utility.service';
 import {
-  TravelQuoteServices
-} from './travel-quote.service';
+  TravelIssueServices
+} from './travel-issue.service';
 import {
   AgentService
 } from './agent.service';
@@ -84,7 +84,7 @@ import {
     CarUtilityServices, //cus
     CarQuoteServices, //cqs
     TravelUtilityServices, //tus
-    TravelQuoteServices, //tqs
+    TravelIssueServices, //tis
     AgentService, //as
     DashboardService, //ds
     UtilityService, //us
