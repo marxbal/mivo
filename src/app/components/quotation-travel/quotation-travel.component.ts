@@ -37,6 +37,9 @@ import {
   BsModalRef
 } from 'ngx-bootstrap/modal';
 import {
+  PaymentBreakdownModalComponent
+} from '../payment-breakdown-modal/payment-breakdown-modal.component';
+import {
   Router
 } from '@angular/router';
 import {
@@ -68,6 +71,7 @@ import {
 import {
   validateItinerary
 } from 'src/app/validators/validate';
+import { ReturnDTO } from 'src/app/objects/ReturnDTO';
 
 @Component({
   selector: 'app-quotation-travel',
@@ -156,6 +160,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   //modal reference
   modalRef: BsModalRef;
   dialogRef: MatDialogRef < TemplateRef < any >> ;
+
+  codeName: String;
 
   constructor(
     private fb: FormBuilder,
@@ -443,6 +449,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  populatePaymentBreakdown(breakdown: any[], receipt: {}) {
+    this.paymentBreakdown = breakdown;
+    this.paymentReceipt = receipt;
+    this.showPaymentBreakdown = true;
+    Utility.scroll('coverages');
+  }
+
+  scrollTo(id: string) {
+    Utility.scroll(id);
+  }
+
   proceed(type: number) {
     //if user changes affecting values
     // const hasAffectingTraveller = this.checkAffectingAccessories();
@@ -535,34 +552,20 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
-    // let product = "";
-    // this.LOV.productListLOV.forEach((p) => {
-    //   if (p.COD_MODALIDAD == this.carDetails.productList) {
-    //     product = p.NOM_MODALIDAD;
-    //   }
-    // });
+    const modalData = {
+      number: isPostPolicy ? this.travelDetails.policyNumber : this.travelDetails.quotationNumber,
+      product: this.codeName,
+      payment: "ANNUAL",
+      receipt: receipt,
+      breakdown: breakdown,
+      showExchangeRate: false,
+      isPostPolicy: isPostPolicy
+    };
 
-    // let payment = "";
-    // this.LOV.paymentMethodLOV.forEach((p) => {
-    //   if (p.COD_FRACC_PAGO == this.carDetails.paymentMethod) {
-    //     payment = p.NOM_FRACC_PAGO;
-    //   }
-    // });
-
-    // const modalData = {
-    //   number: isPostPolicy ? this.carDetails.policyNumber : this.carDetails.quotationNumber,
-    //   product: product,
-    //   payment: payment,
-    //   receipt: receipt,
-    //   breakdown: breakdown,
-    //   showExchangeRate: false,
-    //   isPostPolicy: isPostPolicy
-    // };
-
-    // this.dialog.open(PaymentBreakdownModalComponent, {
-    //   width: '1000px',
-    //   data: modalData
-    // });
+    this.dialog.open(PaymentBreakdownModalComponent, {
+      width: '1000px',
+      data: modalData
+    });
   }
 
   manageBtn(opt: number, isModified ? : boolean) {
@@ -646,7 +649,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   getProductCode() {
-    let codeName : string;
+    this.codeName = null;
 
     let travelPack : string;
     this.LOV.packageLOV.forEach(tp => {
@@ -671,15 +674,58 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       }
     });
 
-    codeName = this.travelDetails.travelPackage == 'D' 
+    this.codeName = this.travelDetails.travelPackage == 'D' 
       ? "DOMESTIC ".concat(medicalExpenses)
       : travelPack + " " + coverageOption + " " + medicalExpenses;
 
     this.LOV.productListLOV.forEach(product => {
-      if (codeName == product.NOM_MODALIDAD) {
+      if (this.codeName == product.NOM_MODALIDAD) {
         this.travelDetails.product = product.COD_MODALIDAD;
       }
     });
+  }
+
+  //getting error or warning items
+  getErrorItems(res: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    this.withTechControl = false;
+    const resCoverageAmount = res.obj["coverageAmount"];
+    const resErrorCode = res.obj["errorCode"];
+    const resError = res.obj["error"];
+
+    const coverageAmountIsUndefined = Utility.isUndefined(resCoverageAmount);
+    const isPostPolicy = coverageAmountIsUndefined && Utility.isUndefined(resErrorCode);
+    let items: any[] = isPostPolicy ?
+      ["Error occured while posting policy. Please contact administration."] :
+      ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+
+    if (!Utility.isUndefined(resError)) {
+      const errArr = resError.split("~");
+      if (errArr.length) {
+        var arr = [];
+        errArr.forEach((err: string) => {
+          if (!Utility.isEmpty(err)) {
+            arr.push(err);
+          }
+        });
+
+        const resStatus = res.obj["status"];
+        if (arr.length) {
+          if (!resStatus && (isPostPolicy || (coverageAmountIsUndefined && !resCoverageAmount.length))) {
+            //has error - can't proceed
+            items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
+          } else {
+            this.withTechControl = true;
+            // has warning - can proceed
+            if (isIssuance) {
+              items = ["Quotation has technical control due to following reason/s:"].concat(arr);
+            } else {
+              items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
+            }
+          }
+        }
+      }
+    }
+    return items;
   }
 
   //generate and issue quote button
@@ -703,64 +749,63 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.showPaymentBreakdown = false;
     this.showCoverage = false;
 
-    this.tis.issueQuote(this.travelDetails).then(res1 => {
-      // if (res1.status) {
-      //   //clear affecting fields
-      //   this.changedValues = [];
+    this.tis.issueQuote(this.travelDetails).then(res => {
+      if (res.status) {
+        //clear affecting fields
+        this.changedValues = [];
 
-      //   const items = this.getErrorItems(res1, mcaTmpPptoMph, false);
-      //   const status = res1.obj["status"];
-      //   const coverageAmount = res1.obj["coverageAmount"];
-      //   if (status && coverageAmount.length) {
-      //     //duplicating car details for comparison
-      //     const deepClone = JSON.parse(JSON.stringify(this.carDetails));
-      //     this.prevCarDetails = deepClone;
+        const items = this.getErrorItems(res, mcaTmpPptoMph, false);
+        const status = res.obj["status"];
+        const coverageAmount = res.obj["coverageAmount"];
+        if (status && coverageAmount.length) {
+          //duplicating car details for comparison
+          const deepClone = JSON.parse(JSON.stringify(this.travelDetails));
+          this.prevTravelDetails = deepClone;
 
-      //     this.editMode = false;
-      //     this.hasRoadAssist = res1.obj["hasRoadAssist"];
-      //     const errorCode = res1.obj["errorCode"];
-      //     if (errorCode == "S") {
-      //       //if quotation has a warning
-      //       this.modalRef = Utility.showHTMLWarning(this.bms, items);
-      //     }
+          this.editMode = false;
+          const errorCode = res.obj["errorCode"];
+          if (errorCode == "S") {
+            //if quotation has a warning
+            this.modalRef = Utility.showHTMLWarning(this.bms, items);
+          }
 
-      //     const policyNumber = res1.obj["policyNumber"];
-      //     this.carDetails.quotationNumber = policyNumber;
+          const policyNumber = res.obj["policyNumber"];
+          this.travelDetails.quotationNumber = policyNumber;
 
-      //     const breakdown = res1.obj["breakdown"];
-      //     const receipt = res1.obj["receipt"];
+          const breakdown = res.obj["breakdown"];
+          const receipt = res.obj["receipt"];
 
-      //     if ("S" == mcaTmpPptoMph) {
-      //       //for generation of quote
-      //       const message = "You have successfully generated a quotation - " + policyNumber;
-      //       this.modalRef = Utility.showInfo(this.bms, message);
+          if ("S" == mcaTmpPptoMph) {
+            //for generation of quote
+            const message = "You have successfully generated a quotation - " + policyNumber;
+            this.modalRef = Utility.showInfo(this.bms, message);
 
-      //       const coverageList = res.obj["coverageList"];
-      //       const amountList = res.obj["amountList"];
-      //       const premiumAmount = res1.obj["premiumAmount"];
-      //       const coverageVariable = res1.obj["coverageVariable"];
+            // const coverageList = res.obj["coverageList"];
+            // const amountList = res.obj["amountList"];
+            // const premiumAmount = res.obj["premiumAmount"];
+            // const coverageVariable = res.obj["coverageVariable"];
 
-      //       this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-      //       // if (this.isModifiedCoverage) {
-      //       //   this.showCoverage = true;
-      //       // } else {
-      //       //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-      //       // }
+            // this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+            // if (this.isModifiedCoverage) {
+            //   this.showCoverage = true;
+            // } else {
+            //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
+            // }
 
-      //       this.isModifiedCoverage = false;
-      //       this.populatePaymentBreakdown(breakdown, receipt);
-      //       this.manageBtn(2);
-      //     } else {
-      //       // for issuing the quote
-      //       this.openPaymentBreakdownModal(receipt, breakdown, false);
-      //       this.manageBtn(3);
-      //     }
-      //   } else {
-      //     this.modalRef = Utility.showHTMLError(this.bms, items);
-      //   }
-      // } else {
-      //   this.modalRef = Utility.showError(this.bms, res1.message);
-      // }
+            // this.isModifiedCoverage = false;
+            this.populatePaymentBreakdown(breakdown, receipt);
+            this.manageBtn(2);
+          } else {
+            // for issuing the quote
+            this.openPaymentBreakdownModal(receipt, breakdown, false);
+            this.manageBtn(3);
+          }
+        } else {
+          this.modalRef = Utility.showHTMLError(this.bms, items);
+        }
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
     });
   }
 }

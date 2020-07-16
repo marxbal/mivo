@@ -1100,13 +1100,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.coverageVariable = coverageVariable;
     this.showCoverage = true;
     this.triggerCoverage = this.triggerCoverage + 1;
+    Utility.scroll('coverages');
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
-    Utility.scroll('coverages');
   }
 
   scrollTo(id: string) {
