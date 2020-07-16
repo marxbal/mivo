@@ -687,12 +687,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   //getting error or warning items
   getErrorItems(res: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
     this.withTechControl = false;
-    const resCoverageAmount = res.obj["coverageAmount"];
     const resErrorCode = res.obj["errorCode"];
     const resError = res.obj["error"];
 
-    const coverageAmountIsUndefined = Utility.isUndefined(resCoverageAmount);
-    const isPostPolicy = coverageAmountIsUndefined && Utility.isUndefined(resErrorCode);
+    const isPostPolicy = Utility.isUndefined(resErrorCode);
     let items: any[] = isPostPolicy ?
       ["Error occured while posting policy. Please contact administration."] :
       ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
@@ -709,7 +707,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
         const resStatus = res.obj["status"];
         if (arr.length) {
-          if (!resStatus && (isPostPolicy || (coverageAmountIsUndefined && !resCoverageAmount.length))) {
+          if (!resStatus && isPostPolicy) {
             //has error - can't proceed
             items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
           } else {
@@ -755,8 +753,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
         const items = this.getErrorItems(res, mcaTmpPptoMph, false);
         const status = res.obj["status"];
-        const coverageAmount = res.obj["coverageAmount"];
-        if (status && coverageAmount.length) {
+        if (status) {
           //duplicating car details for comparison
           const deepClone = JSON.parse(JSON.stringify(this.travelDetails));
           this.prevTravelDetails = deepClone;
