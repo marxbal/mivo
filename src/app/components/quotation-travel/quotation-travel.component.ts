@@ -569,31 +569,30 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   manageBtn(opt: number, isModified ? : boolean) {
-    // if (opt == 1) {
-    //   //hides payment breakdown panel
-    //   this.showPaymentBreakdown = false;
+    if (opt == 1) {
+      //hides payment breakdown panel
+      this.showPaymentBreakdown = false;
 
-    //   // flag to edit coverage
-    //   const modified = !Utility.isUndefined(isModified);
+      // flag to edit coverage
+      const modified = !Utility.isUndefined(isModified);
 
-    //   this.editMode = !modified;
-    //   this.showCoverage = modified;
-    //   this.isModifiedCoverage = modified;
-    //   if (modified) {
-    //     Utility.scroll('coverages');
-    //   }
-    // }
+      this.editMode = !modified;
+      this.showCoverage = modified;
+      if (modified) {
+        Utility.scroll('coverages');
+      }
+    }
 
-    // if (this.isIssuance) {
-    //   this.showIssuanceGenerateBtn = (opt == 1);
-    //   this.showSaveBtn = (opt == 2);
-    //   this.showPostBtn = (opt == 3);
-    //   this.showPrintBtn = (opt == 4);
-    // } else {
-    //   this.showGenerateBtnGrp = (opt == 1);
-    //   this.showIssueQuoteBtnGrp = (opt == 2);
-    //   this.showProceedToIssuanceBtnGrp = (opt == 3);
-    // }
+    if (this.isIssuance) {
+      this.showIssuanceGenerateBtn = (opt == 1);
+      this.showSaveBtn = (opt == 2);
+      this.showPostBtn = (opt == 3);
+      this.showPrintBtn = (opt == 4);
+    } else {
+      this.showGenerateBtn = (opt == 1);
+      this.showIssueQuoteBtn = (opt == 2);
+      this.showProceedToIssuanceBtn = (opt == 3);
+    }
   }
 
   newQuote() {
