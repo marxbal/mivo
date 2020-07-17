@@ -431,6 +431,12 @@
             [showExchangeRate]="true">
           </app-payment-breakdown>
 
+          <app-fixed-coverages
+            *ngIf="showCoverage"
+            [coverageList]="coverageList"
+            [loadCoverage]="triggerCoverage">
+          </app-fixed-coverages>
+
           <div class="card shadow mb-3">
             <div class="card-header">
               <strong>Coverages</strong>
@@ -510,6 +516,9 @@
                 (click)="proceed(1)">Generate</button>
             </div>
             <div *ngIf="showIssueQuoteBtn" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="manageBtn(1)">Edit Details</button>
               <button
                 *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"

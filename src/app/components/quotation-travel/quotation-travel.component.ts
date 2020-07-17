@@ -124,11 +124,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   paymentReceipt: {};
 
   //for coverage
-  // coverageList: any[];
-  // amountList: any[];
-  // premiumAmount: any[];
-  // coverageAmount: any[];
-  // coverageVariable: any[];
+  coverageList: any[];
 
   //allow user to edit the form
   editMode = true;
@@ -449,15 +445,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  populateCoverage(coverageList: any[]) {
+    this.coverageList = coverageList;
+    this.showCoverage = true;
+    this.triggerCoverage = this.triggerCoverage + 1;
+    Utility.scroll('coverages');
+  }
+
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
-    Utility.scroll('coverages');
-  }
-
-  scrollTo(id: string) {
-    Utility.scroll(id);
   }
 
   proceed(type: number) {
@@ -776,19 +774,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             const message = "You have successfully generated a quotation - " + policyNumber;
             this.modalRef = Utility.showInfo(this.bms, message);
 
-            // const coverageList = res.obj["coverageList"];
-            // const amountList = res.obj["amountList"];
-            // const premiumAmount = res.obj["premiumAmount"];
-            // const coverageVariable = res.obj["coverageVariable"];
+            const coverageList = res.obj["coverageList"];
+            this.populateCoverage(coverageList);
 
-            // this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-            // if (this.isModifiedCoverage) {
-            //   this.showCoverage = true;
-            // } else {
-            //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-            // }
-
-            // this.isModifiedCoverage = false;
             this.populatePaymentBreakdown(breakdown, receipt);
             this.manageBtn(2);
           } else {

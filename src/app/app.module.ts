@@ -176,6 +176,9 @@ import {
 import {
   CreateThirdPartyComponent
 } from "./components/create-third-party/create-third-party.component";
+import {
+  FixedCoveragesComponent
+} from './components/fixed-coverages/fixed-coverages.component';
 
 const routes: Routes = [{
     path: "login",
@@ -241,6 +244,7 @@ const routes: Routes = [{
     ReloadComponent,
     CoverageVariableDataComponent,
     CreateThirdPartyComponent,
+    FixedCoveragesComponent,
   ],
   entryComponents: [ModalComponent],
   imports: [
