@@ -1183,7 +1183,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         const prevAccessories = this.prevCarDetails.accessories;
         prevlength = prevAccessories.length;
         if (prevlength != length) {
-          hasAccessoryChanges = true;
           if (prevlength > length) {
             var diff = prevlength - length;
             var label = diff == 1 ? " accessory" : " accessories";
@@ -1218,6 +1217,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           }
         });
       }
+      hasAccessoryChanges = this.changedAccessoryValues.length > 0;
     }
 
     return hasAccessoryChanges;
@@ -1297,17 +1297,17 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   newQuote() {
-    Utility.scroll('topDiv');
-    setTimeout(() => {
-      Globals.setPage(page.QUO.CAR);
-      this.router.navigate(['/reload']);
-    }, 500);
+    this.newPage(page.QUO.CAR);
   }
 
   newPolicy() {
+    this.newPage(page.ISS.CAR);
+  }
+
+  newPage(page : string) {
     Utility.scroll('topDiv');
     setTimeout(() => {
-      Globals.setPage(page.ISS.CAR);
+      Globals.setPage(page);
       this.router.navigate(['/reload']);
     }, 500);
   }

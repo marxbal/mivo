@@ -49,13 +49,13 @@ export class TravelIssueServices {
     return this.app.post(travelDetails, '/travel/issue/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  // async savePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
-  //   return this.app.post(carDetails, '/quote/savePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
-  // }
+  async savePolicy(travelDetails: Travel): Promise < ReturnDTO > {
+    return this.app.post(travelDetails, '/quote/savePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 
-  // async postPolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
-  //   return this.app.post(carDetails, '/quote/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
-  // }
+  async postPolicy(travelDetails: Travel): Promise < ReturnDTO > {
+    return this.app.post(travelDetails, '/quote/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 
   async loadQuotation(quotationNumber: string): Promise < ReturnDTO > {
     return this.app.post({quotationNumber}, '/travel/issue/loadQuotation').then(ReturnDTO => ReturnDTO as ReturnDTO);

@@ -4,7 +4,7 @@
       <h4 class="all-caps">
         <span class="fa-stack fa-md">
           <i class="fa fa-circle fa-stack-2x"></i>
-          <i class="fa fa-car fa-stack-1x fa-inverse"></i>
+          <i class="fa fa-plane fa-stack-1x fa-inverse"></i>
         </span>
         {{pageLabel}}
       </h4>
@@ -21,6 +21,30 @@
     <div class="card shadow">
       <div class="card-body">
         <form [formGroup]="quoteForm" class="quote-form">
+
+          <div *ngIf='isIssuance' class="card shadow mb-3">
+            <div class="card-header">
+              <strong>Individual Policy</strong>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="quotationNumber">Quotation Number</label>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Enter Quotation Number here.."
+                      formControlName="quotationNumber" [(ngModel)]="travelDetails.quotationNumber">
+                    <div class="input-group-append">
+                      <button [disabled]="disableLoadBtn" class="btn btn-outline-secondary" (click)="loadQuotation()"
+                        type="button">Load</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="card shadow mb-3">
             <div class="card-header">
               <strong>Travel Itinerary</strong>
@@ -33,7 +57,8 @@
                     || quoteForm.controls['currency'].touched)}">
                     <label for="currency">Currency</label>
                     <select class="custom-select mr-sm-2 required" formControlName="currency"
-                      [(ngModel)]="travelDetails.currency" (change)="currencyOnchange()"
+                      [(ngModel)]="travelDetails.currency"
+                      (change)="currencyOnchange(); affecting('currency', 'Currency')"
                       [attr.disabled]="editMode && LOV.currencyLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let currency of LOV.currencyLOV" [ngValue]="currency.COD_MON">
@@ -75,7 +100,9 @@
                     || quoteForm.controls['travelPackage'].touched)}">
                     <label for="travelPackage">Travel Package</label>
                     <select class="custom-select mr-sm-2 required" formControlName="travelPackage"
-                      [(ngModel)]="travelDetails.travelPackage" [attr.disabled]="true">
+                      [(ngModel)]="travelDetails.travelPackage"
+                      (change)="affecting('travelPackage', 'Travel Package')"
+                      [attr.disabled]="true">
                       <option selected></option>
                       <option *ngFor="let package of LOV.packageLOV" [ngValue]="package.TRAVEL_PACK">
                         {{ package.NOM_VALOR }}
@@ -112,6 +139,7 @@
                     <label for="startDate">Start Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="mindate"
                       formControlName="startDate" [(ngModel)]="travelDetails.startDate" bsDatepicker
+                      (bsValueChange)="affecting('startDate', 'Start Date')"
                       [attr.disabled]="(editMode && travelDetails.currency) ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['startDate'].errors?.required">
                       * start date is required
@@ -127,6 +155,7 @@
                     <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="endDateMinDate"
                       formControlName="endDate" [(ngModel)]="travelDetails.endDate" bsDatepicker
                       (ngModelChange)="getOneTrip()"
+                      (bsValueChange)="affecting('endDate', 'End Date')"
                       [attr.disabled]="(editMode && enableEndDate && travelDetails.currency) ? null : ''">
                     <p class="form-error" *ngIf="quoteForm.controls['endDate'].errors?.required">
                       * end date is required
@@ -140,7 +169,9 @@
                     || quoteForm.controls['noOfDays'].touched)}">
                     <label for="noOfDays">No. of Days</label>
                     <input class="form-control required" id="noOfDays" formControlName="noOfDays"
-                      [(ngModel)]="travelDetails.noOfDays" [attr.disabled]="true">
+                      [(ngModel)]="travelDetails.noOfDays"
+                      (change)="affecting('noOfDays', 'No. of Days')"
+                      [attr.disabled]="true">
                     <p class="form-error" *ngIf="quoteForm.controls['noOfDays'].errors?.required">
                       * number of days is required
                     </p>
@@ -176,6 +207,7 @@
                     <label for="purposeOfTrip">Purpose of Trip</label>
                     <select class="custom-select mr-sm-2 required" formControlName="purposeOfTrip"
                       [(ngModel)]="travelDetails.purposeOfTrip"
+                      (change)="affecting('purposeOfTrip', 'Purpose of Trip')"
                       [attr.disabled]="editMode && LOV.purposeOfTripLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let purposeOfTrip of LOV.purposeOfTripLOV" [ngValue]="purposeOfTrip.COD_BUSINESS">
@@ -380,6 +412,7 @@
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
                       formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
+                      (change)="affecting('cbSportsEquipment', 'Sports Equipment Checkbox')"
                       [attr.disabled]="editMode ? null : true">
                     <label class="form-check-label" for="cbSportsEquipment">
                       will bring sports equipment?
@@ -402,6 +435,7 @@
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="cbHazardousSports"
                       formControlName="cbHazardousSports" [(ngModel)]="travelDetails.cbHazardousSports"
+                      (change)="affecting('cbHazardousSports', 'Hazardous Sports Checkbox')"
                       [attr.disabled]="editMode ? null : true">
                     <label class="form-check-label" for="cbHazardousSports">
                       will do hazardous sports?
@@ -453,7 +487,9 @@
                       || quoteForm.controls['insuranceCoverage'].touched)}">
                     <label for="insuranceCoverage">Travel Insurance Coverage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="insuranceCoverage"
-                      [(ngModel)]="travelDetails.insuranceCoverage" [attr.disabled]="true">
+                      [(ngModel)]="travelDetails.insuranceCoverage"
+                      (change)="affecting('insuranceCoverage', 'Travel Insurance Coverage')"
+                      [attr.disabled]="true">
                       <option *ngFor="let insuranceCoverage of LOV.insuranceCoverageLOV" [ngValue]="insuranceCoverage.INSURANCE_COVERAGE">
                         {{ insuranceCoverage.NOM_VALOR }}</option>
                     </select>
@@ -470,6 +506,7 @@
                     <label for="coverageOption">Coverage Option Pack</label>
                     <select class="custom-select mr-sm-2 required" formControlName="coverageOption"
                       [(ngModel)]="travelDetails.coverageOption"
+                      (change)="affecting('coverageOption', 'Coverage Option Pack')"
                       [attr.disabled]="editMode && LOV.coverageOptionLOV?.length ? null : true">
                       <option></option>
                       <option *ngFor="let coverageOption of LOV.coverageOptionLOV" [ngValue]="coverageOption.COVERAGE_OPTIONS">
@@ -488,6 +525,7 @@
                     <label for="medicalExpenses">Medical Expenses Coverage</label>
                     <select class="custom-select mr-sm-2 required" formControlName="medicalExpenses"
                       [(ngModel)]="travelDetails.medicalExpenses"
+                      (change)="affecting('medicalExpenses', 'Medical Expenses Coverage')"
                       [attr.disabled]="editMode && LOV.medicalExpensesLOV?.length ? null : true">
                       <option></option>
                       <option *ngFor="let medicalExpenses of LOV.medicalExpensesLOV" [ngValue]="medicalExpenses.VAL_CAMPO1">
@@ -535,6 +573,56 @@
               <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
               <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
               <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
+            </div>
+          </div>
+
+          <!-- button controls for issuance -->
+          <div *ngIf="isIssuance">
+            <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
+              <button
+                *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
+              <button
+                *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(1)">Generate</button>
+            </div>
+            <div *ngIf="showSaveBtn" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="manageBtn(1)">Edit Details</button>
+              <button
+                *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Save</button>
+              <button
+                *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(3)">Save</button>
+            </div>
+            <div *ngIf="showPostBtn" class="btn-group" role="group">
+              <button *ngIf="!editMode"
+                type="button" class="btn btn-primary"
+                (click)="editMode = !editMode">Edit Details</button>
+              <button
+                *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Post</button>
+              <button
+                *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
+                type="button" class="btn btn-primary"
+                (click)="proceed(4)">Post</button>
+            </div>
+
+            <div *ngIf="showPrintBtn" class="text-right">
+              <h5><small>Your policy number:</small> {{travelDetails.policyNumber}}</h5>
+            </div>
+            <div *ngIf="showPrintBtn" class="btn-group" role="group">
+              <button type="button" class="btn btn-primary"
+                (click)="newPolicy()">New Policy</button>
+              <button type="button" class="btn btn-primary"
+                (click)="printPolicy()">Print</button>
             </div>
           </div>
 
