@@ -322,8 +322,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    // this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
-    //   if (res.status) {
+    this.tis.loadQuotation(this.travelDetails.quotationNumber).then(res => {
+      if (res.status) {
+        console.log(res);
     //     this.manageBtn(2);
     //     const variableData = res.obj["variableData"] as any[];
     //     variableData.forEach(v => {
@@ -622,14 +623,14 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     //       this.withTechControl = true;
     //       this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     //     }
-    //   } else {
-    //     this.modalRef = Utility.showError(this.bms, res.obj['message']);
-    //     this.carDetails.quotationNumber = "";
-    //   }
-    // }).finally(() => {
-    //   //trigger child component load quotation function
-    //   this.triggerCounter = this.triggerCounter + 1;
-    // });
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.obj['message']);
+        this.travelDetails.quotationNumber = "";
+      }
+    }).finally(() => {
+      //trigger child component load quotation function
+      this.triggerCounter = this.triggerCounter + 1;
+    });
   }
 
   //loading of all LOV's for load quotation
@@ -842,13 +843,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.coverageList = coverageList;
     this.showCoverage = true;
     this.triggerCoverage = this.triggerCoverage + 1;
-    Utility.scroll('coverages');
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
+    Utility.scroll('paymentBreakdown');
   }
 
   proceed(type: number) {
@@ -874,11 +875,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           break;
         }
         case 3: {
-          // this.savePolicy();
+          this.savePolicy();
           break;
         }
         default: {
-          // this.postPolicy();
+          this.postPolicy();
           break;
         }
       }
@@ -948,7 +949,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       payment: "ANNUAL",
       receipt: receipt,
       breakdown: breakdown,
-      showExchangeRate: false,
+      showExchangeRate: true,
       isPostPolicy: isPostPolicy
     };
 

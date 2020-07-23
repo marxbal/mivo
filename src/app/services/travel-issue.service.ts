@@ -50,11 +50,11 @@ export class TravelIssueServices {
   }
 
   async savePolicy(travelDetails: Travel): Promise < ReturnDTO > {
-    return this.app.post(travelDetails, '/quote/savePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post(travelDetails, '/travel/issue/savePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async postPolicy(travelDetails: Travel): Promise < ReturnDTO > {
-    return this.app.post(travelDetails, '/quote/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post(travelDetails, '/travel/issue/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async loadQuotation(quotationNumber: string): Promise < ReturnDTO > {
