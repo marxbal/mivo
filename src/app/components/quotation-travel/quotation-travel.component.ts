@@ -324,251 +324,193 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   loadQuotation() {
     this.tis.loadQuotation(this.travelDetails.quotationNumber).then(res => {
       if (res.status) {
-        console.log(res);
-    //     this.manageBtn(2);
-    //     const variableData = res.obj["variableData"] as any[];
-    //     variableData.forEach(v => {
-    //       const code = v.codCampo;
-    //       const value: string = v.valCampo;
-    //       let valueInt: number = undefined;
+        this.manageBtn(2);
+        const variableData = res.obj["variableData"] as any[];
+        variableData.forEach(v => {
+          const code = v.codCampo;
+          const value: string = v.valCampo;
+          let valueInt: number = undefined;
   
-    //       try {
-    //         valueInt = parseInt(value);
-    //       } catch (e) {
-    //         // do nothing
-    //       }
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
   
-    //       switch (code) {
-    //         //risk details
-    //         case "COD_MARCA": {
-    //           this.carDetails.make = valueInt;
-    //           break;
-    //         }
-    //         case "COD_MODELO": {
-    //           this.carDetails.model = valueInt;
-    //           break;
-    //         }
-    //         case "COD_TIP_VEHI": {
-    //           this.carDetails.vehicleType = valueInt;
-    //           break;
-    //         }
-    //         case "ANIO_SUB_MODELO": {
-    //           this.carDetails.modelYear = value;
-    //           break;
-    //         }
-    //         case "COD_SUB_MODELO": {
-    //           this.carDetails.subModel = valueInt;
-    //           break;
-    //         }
-    //         case "COD_USO_VEHI": {
-    //           this.carDetails.typeOfUse = valueInt;
-    //           break;
-    //         }
-    //         case "VAL_SUB_MODELO": {
-    //           this.carDetails.vehicleValue = valueInt;
-    //           break;
-    //         }
+          switch (code) {
+            //general information details
+            case "TRAVEL_PACK": {
+              this.travelDetails.travelPackage = value;
+              break;
+            }
+            case "TRAVEL_TYPE": {
+              this.travelDetails.travelType = value;
+              break;
+            }
+            case "ARRIVAL_DATE": {
+              this.travelDetails.startDate = new Date(value);
+              break;
+            }
+            case "DEPARTURE_DATE": {
+              this.travelDetails.endDate = new Date(value);
+              break;
+            }
+            case "VAL_NUM_DAYS_TRIP": {
+              this.travelDetails.noOfDays = valueInt;
+              break;
+            }
+            case "ITINERARY": {
+              this.travelDetails.completeItinerary = value;
+              break;
+            }
+            case "PURPOSE_TRIP": {
+              this.travelDetails.purposeOfTrip = value;
+              break;
+            }
+            case "MCA_ONE_TRIP_ONLY": {
+              this.travelDetails.cbOneTripOnly = value == "Y";
+              break;
+            }
+            case "MCA_WITH_CRUISE": {
+              this.travelDetails.cbWithCruise = value == "S";
+              break;
+            }
+
+            //additional policy information
+            case "TXT_SPORTS_EQUIPMENT": {
+              this.travelDetails.cbSportsEquipment = true;
+              this.travelDetails.sportsEquipment = value;
+            }
+            case "TXT_HAZARDOUS_SPORTS": {
+              this.travelDetails.cbHazardousSports = true;
+              this.travelDetails.hazardousSports = value;
+            }
+
+            //coverages
+            case "INSURANCE_COVERAGE": {
+              this.travelDetails.insuranceCoverage = value;
+              break;
+            }
+            case "COVERAGE_OPTIONS": {
+              this.travelDetails.coverageOption = value;
+              break;
+            }
+            case "EXPENSES_COVERAGE": {
+              this.travelDetails.medicalExpenses = value;
+              break;
+            }
   
-    //         //vehicle information
-    //         case "COD_COLOR": {
-    //           this.carDetails.color = valueInt;
-    //           break;
-    //         }
-    //         case "COD_AREA_USAGE": {
-    //           this.carDetails.areaOfUsage = valueInt;
-    //           break;
-    //         }
-    //         case "NUM_CONDUCTION": {
-    //           this.carDetails.conductionNumber = value;
-    //           break;
-    //         }
-    //         case "NUM_MATRICULA": {
-    //           this.carDetails.plateNumber = value;
-    //           break;
-    //         }
-    //         case "NUM_SERIAL": {
-    //           this.carDetails.serialNumber = value;
-    //           break;
-    //         }
-    //         case "NUM_MOTOR": {
-    //           this.carDetails.engineNumber = value;
-    //           break;
-    //         }
-    //         case "NUM_MV_FILE": {
-    //           this.carDetails.mvFileNumber = value;
-    //           break;
-    //         }
-    //         case "FEC_PURCHASE": {
-    //           this.carDetails.purchaseDate = new Date(value);
-    //           this.quoteForm.get('purchaseDate').markAsDirty();
-    //           break;
-    //         }
-    //         case "NOM_RECEIVED_BY": {
-    //           this.carDetails.receivedBy = value;
-    //           break;
-    //         }
-    //         case "FEC_RECEIVED": {
-    //           this.carDetails.receivedDate = new Date(value);
-    //           this.quoteForm.get('receivedDate').markAsDirty();
-    //           break;
-    //         }
-    //         case "NUM_PLAZAS": {
-    //           this.carDetails.seatingCapacity = valueInt;
-    //           break;
-    //         }
-    //         case "VAL_PESO": {
-    //           this.carDetails.weight = value;
-    //           break;
-    //         }
-    //         case "VAL_CC": {
-    //           this.carDetails.displacement = value;
-    //           break;
-    //         }
-    //         case "TIP_VEHI_PESO": {
-    //           this.carDetails.classification = valueInt;
-    //           break;
-    //         }
-    //         case "COD_AREA_COVER": {
-    //           this.carDetails.coverageArea = valueInt;
-    //           break;
-    //         }
-    //         case "PCT_CLI_COINS": {
-    //           this.carDetails.assuredsCoinsuranceShare = value;
-    //           break;
-    //         }
-    //         case "MCA_WAIVE_MIN_PREM": {
-    //           this.carDetails.cbWaivedMinPremium = (value == 'S');
-    //           break;
-    //         }
-    //         case "MCA_PREPAID_PREM": {
-    //           this.carDetails.cbPrepaidPremium = (value == 'S');
-    //           break;
-    //         }
-    //         case "MCA_GLASS_ETCHING": {
-    //           this.carDetails.cbGlassEtchingEntitled = (value == 'S');
-    //           break;
-    //         }
-    //         case "FEC_GLASS_ETCHING": {
-    //           this.carDetails.glassEtchingAvailmentDate = new Date(value);
-    //           break;
-    //         }
-    //         case "TXT_EXT_DAM_PARTS": {
-    //           this.carDetails.existingDamages = value;
-    //           break;
-    //         }
-    //         case "TIP_EXT_DAM_PARTS": {
-    //           this.carDetails.inspectionAssessment = valueInt;
-    //           break;
-    //         }
+            default: {
+              // do nothing
+            }
+          }
+        });
   
-    //         //additional policy information for issuance
-    //         case "MCA_DRIVER": {
-    //           this.carDetails.cbPolicyOnlyDriver = (value == 'S');
-    //           break;
-    //         }
-    //         case "MCA_OWNER": {
-    //           this.carDetails.cbPolicyOwner = (value == 'S');
-    //           break;
-    //         }
-    //         case "MCA_ASSIGNEE": {
-    //           this.carDetails.cbHasAssignee = (value == 'S');
-    //           break;
-    //         }
-    //         case "MCA_MORTGAGED": {
-    //           this.carDetails.cbVehicleMortgaged = (value == 'S');
-    //           break;
-    //         }
-    //         case "TIP_MORT_CLAUSE": {
-    //           this.carDetails.mortgageClause = valueInt;
-    //           break;
-    //         }
+        var country = [];
+        var tempTravaller = [];
+
+        const travellerDetails = res.obj["travellerDetails"] as any[];
+        travellerDetails.forEach(t => {
+          const code = t.codCampo;
+          const value: string = t.valCampo;
+          const text: string = t.txtCampo;
+          const occurence: number = t.numOcurrencia;
+          // const index = occurence - 1;
+          let valueInt: number = undefined;
   
-    //         case "COD_MODALIDAD": {
-    //           this.carDetails.productList = valueInt;
-    //           break;
-    //         }
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
   
-    //         default: {
-    //           // do nothing
-    //         }
-    //       }
-    //     });
+          switch (code) {
+            //country
+            case "TXT_COUNTRY_NAME": {
+              const obj = { name: text, value: value };
+              country.push(obj);
+              break;
+            }
+            case "COMPLETE_NAME": {
+              const obj = { completeName: value, occurence: occurence };
+              tempTravaller.push(obj);
+              break;
+            }
   
-    //     const alternative = res.obj["alternative"] as any[];
-    //     alternative.forEach(a => {
-    //       const code = a.codCampo;
-    //       const value: string = a.valCampo;
-    //       const text: string = a.txtCampo;
-    //       let valueInt: number = undefined;
+            default: {
+              // do nothing
+            }
+          }
+        });
+
+        var travellers = [];
+        tempTravaller.forEach(t => {
+          const tObj = new Traveller();
+          tObj.completeName = t.completeName;
+          travellerDetails.forEach(td => {
+            const code = td.codCampo;
+            const value: string = td.valCampo;
+            const text: string = td.txtCampo;
+            const occurence: number = td.numOcurrencia;
+            // const index = occurence - 1;
+            let valueInt: number = undefined;
+    
+            try {
+              valueInt = parseInt(value);
+            } catch (e) {
+              // do nothing
+            }
+
+            if (t.occurence == occurence) {
+              switch (code) {
+                case "RELATIONSHIP": {
+                  tObj.relationship = value;
+                  tObj.relationshipLabel = text;
+                  break;
+                }
+                case "BIRTHDATE": {
+                  tObj.birthDate = new Date(value);
+                  break;
+                }
+                case "PASSPORT_NUMBER": {
+                  tObj.passportNumber = value;
+                  break;
+                }
+                case "USUAL_PHYSICIAN": {
+                  tObj.physicianName = value;
+                  break;
+                }
+                default: {
+                  // do nothing
+                }
+              }
+            }
+          });
+          travellers.push(tObj);
+        });
+        console.log(travellers);
   
-    //       try {
-    //         valueInt = parseInt(value);
-    //       } catch (e) {
-    //         // do nothing
-    //       }
+        const generalInfo = res.obj["generalInfo"];
+        this.travelDetails.subline = generalInfo.codRamo;
+        // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
-    //       switch (code) {
-    //         //risk details
-    //         case "TIP_ASEG_SEP_LOV": {
-    //           this.carDetails.secondaryPolicyHolderSeparator = text;
-    //           break;
-    //         }
+        this.groupPolicy.agentCode = generalInfo.codAgt;
+        this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
+        this.groupPolicy.contract = generalInfo.numSubcontrato;
+        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        this.travelDetails.groupPolicy = this.groupPolicy;
   
-    //         default: {
-    //           // do nothing
-    //         }
-    //       }
-    //     });
+        const docType = generalInfo.tipDocum;
+        const docCode = generalInfo.codDocum;
+        // preventing generic document type and code
+        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+          this.policyHolder.documentType = docType;
+          this.policyHolder.documentCode = docCode;
+          this.policyHolder.isExisting = true;
+        }
   
-    //     const generalInfo = res.obj["generalInfo"];
-    //     this.carDetails.subline = generalInfo.codRamo;
-    //     this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
-  
-    //     this.groupPolicy.agentCode = generalInfo.codAgt;
-    //     this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
-    //     this.groupPolicy.contract = generalInfo.numSubcontrato;
-    //     this.groupPolicy.subContract = generalInfo.numSubcontrato;
-    //     this.groupPolicy.commercialStructure = generalInfo.codNivel3;
-    //     this.carDetails.groupPolicy = this.groupPolicy;
-  
-    //     this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-    //     this.quoteForm.get('effectivityDate').markAsDirty();
-    //     this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-    //     this.quoteForm.get('expiryDate').markAsDirty();
-  
-    //     const docType = generalInfo.tipDocum;
-    //     const docCode = generalInfo.codDocum;
-    //     // preventing generic document type and code
-    //     if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
-    //       this.policyHolder.documentType = docType;
-    //       this.policyHolder.documentCode = docCode;
-    //       this.policyHolder.isExisting = true;
-    //     }
-  
-    //     this.carDetails.paymentMethod = generalInfo.codFraccPago;
-  
-    //     const beneficiary = res.obj["beneficiary"];
-    //     if (beneficiary.length) {
-    //       beneficiary.forEach((ben: any) => {
-    //         if (ben.tipBenef == 1) {
-    //           this.secondaryPolicyHolder.documentCode = ben.codDocum;
-    //           this.secondaryPolicyHolder.documentType = ben.tipDocum;
-    //           this.secondaryPolicyHolder.isExisting = true;
-    //         } else if (ben.tipBenef == 27) {
-    //           this.showAssignee = true;
-    //           this.assigneePolicyHolder.documentCode = ben.codDocum;
-    //           this.assigneePolicyHolder.documentType = ben.tipDocum;
-    //           this.assigneePolicyHolder.isExisting = true;
-    //         } else if (ben.tipBenef == 8) {
-    //           this.showMortgagee = true;
-    //           this.mortgageePolicyHolder.documentCode = ben.codDocum;
-    //           this.mortgageePolicyHolder.documentType = ben.tipDocum;
-    //           this.mortgageePolicyHolder.isExisting = true;
-    //         }
-    //       });
-    //     }
-  
-    //     this.loadLOVs();
+        this.loadLOVs();
   
     //     const accessories = res.obj["accessories"];
     //     if (accessories.length) {
@@ -609,20 +551,14 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     //       this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
     //     });
   
-    //     //breakdwon
-    //     const breakdown = res.obj["breakdown"];
-    //     const receipt = res.obj["receipt"];
-    //     this.populatePaymentBreakdown(breakdown, receipt);
+        //breakdwon
+        const breakdown = res.obj["breakdown"];
+        const receipt = res.obj["receipt"];
+        this.populatePaymentBreakdown(breakdown, receipt);
   
-    //     //cloning details from load quotation
-    //     const deepClone = JSON.parse(JSON.stringify(this.carDetails));
-    //     this.prevCarDetails = deepClone;
-
-    //     const technicalControl = res.obj["technicalControl"];
-    //     if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
-    //       this.withTechControl = true;
-    //       this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
-    //     }
+        //cloning details from load quotation
+        const deepClone = JSON.parse(JSON.stringify(this.travelDetails));
+        this.prevTravelDetails = deepClone;
       } else {
         this.modalRef = Utility.showError(this.bms, res.obj['message']);
         this.travelDetails.quotationNumber = "";
@@ -950,7 +886,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       receipt: receipt,
       breakdown: breakdown,
       showExchangeRate: true,
-      isPostPolicy: isPostPolicy
+      isPostPolicy: isPostPolicy,
+      line: 'TRAVEL'
     };
 
     this.dialog.open(PaymentBreakdownModalComponent, {

@@ -1259,7 +1259,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       receipt: receipt,
       breakdown: breakdown,
       showExchangeRate: false,
-      isPostPolicy: isPostPolicy
+      isPostPolicy: isPostPolicy,
+      line: 'CAR'
     };
 
     this.dialog.open(PaymentBreakdownModalComponent, {

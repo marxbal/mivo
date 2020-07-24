@@ -14,7 +14,12 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
-import { CarQuoteServices } from 'src/app/services/car-quote.service';
+import {
+  CarQuoteServices
+} from 'src/app/services/car-quote.service';
+import {
+  TravelIssueServices
+} from 'src/app/services/travel-issue.service';
 
 export interface TablesDTO {
   effectivityDate: string;
@@ -35,6 +40,7 @@ export class PaymentBreakdownModalComponent implements OnInit {
 
   constructor(
     private cqs: CarQuoteServices,
+    private tis: TravelIssueServices,
     public dialogRef: MatDialogRef < PaymentBreakdownModalComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -43,15 +49,16 @@ export class PaymentBreakdownModalComponent implements OnInit {
   product = this.data.product;
   payment = this.data.payment;
   isPostPolicy = this.data.isPostPolicy;
+  line = this.data.line;
 
   ngOnInit(): void {
-    this.data.receipt.forEach((receipt)=>{
+    this.data.receipt.forEach((receipt) => {
       var exchangeRate = receipt["valCambio"];
       var currency = receipt["codMon"];
       var paymentNumber = receipt["numCuota"];
 
       var paymentBreakdown = [];
-      this.data.breakdown.forEach((breakdown)=>{
+      this.data.breakdown.forEach((breakdown) => {
         var breakdownNumber = breakdown["numCuota"];
         if (breakdownNumber == paymentNumber) {
           paymentBreakdown.push(breakdown);
@@ -64,10 +71,10 @@ export class PaymentBreakdownModalComponent implements OnInit {
       } else if (currency == "3") {
         currencyCode = "EUR"
       }
-  
+
       var efectivityDate = new Date(receipt["fecEfecRecibo"].substr(0, 10));
       var dueDate = new Date(receipt["fecVctoRecibo"].substr(0, 10));
-  
+
       const data: TablesDTO[] = [{
         effectivityDate: Utility.formatDate(efectivityDate),
         dueDate: Utility.formatDate(dueDate),
@@ -110,10 +117,13 @@ export class PaymentBreakdownModalComponent implements OnInit {
     this.cqs.printQuote(this.data.number);
   }
 
-  proceedToIssuance() {
+  proceedToIssuance(line: string) {
     this.dialogRef.close(false);
-    this.cqs.proceedToIssuance(this.data.number);
+    if (line == "CAR") {
+      this.cqs.proceedToIssuance(this.data.number);
+    } else if (line == "TRAVEL") {
+      this.tis.proceedToIssuance(this.data.number);
+    }
   }
 
 }
-
