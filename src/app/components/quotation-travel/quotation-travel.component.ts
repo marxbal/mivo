@@ -522,7 +522,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   
         this.groupPolicy.agentCode = generalInfo.codAgt;
         this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        this.groupPolicy.contract = generalInfo.numSubcontrato;
+        this.groupPolicy.contract = generalInfo.numContrato;
         this.groupPolicy.subContract = generalInfo.numSubcontrato;
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.travelDetails.groupPolicy = this.groupPolicy;
