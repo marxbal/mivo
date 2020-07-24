@@ -577,72 +577,23 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   //loading of all LOV's for load quotation
   loadLOVs() {
-    // var _this = this;
-    // //loading risk information
-    // this.quoteForm.get('make').markAsDirty();
-    // this.quoteForm.get('model').markAsDirty();
-    // this.cls.getModelList(this.carDetails).then(res => {
-    //   _this.LOV.modelLOV = res;
-    // });
+    var _this = this;
+    this.tls.getCountryList(this.travelDetails).then(res => {
+      res.forEach(country => {
+        country.name = country.NOM_PAIS;
+        country.value = country.COD_PAIS;
+        country.type = country.NOM_VERNACULO;
+      });
+      _this.LOV.countryLOV = res;
+    });
 
-    // this.quoteForm.get('vehicleType').markAsDirty();
-    // this.cls.getVehicleTypeList(this.carDetails).then(res => {
-    //   _this.LOV.vehicleTypeLOV = res;
-    // });
+    this.tls.getProduct(this.travelDetails).then(res => {
+      _this.LOV.productListLOV = res;
+    });
 
-    // this.quoteForm.get('modelYear').markAsDirty();
-    // this.cls.getModelYearList(this.carDetails).then(res => {
-    //   _this.LOV.modelYearLOV = res;
-    // });
-
-    // this.quoteForm.get('subModel').markAsDirty();
-    // this.cls.getSubModelList(this.carDetails).then(res => {
-    //   _this.LOV.subModelLOV = res;
-    // });
-
-    // this.quoteForm.get('typeOfUse').markAsDirty();
-    // this.cls.getTypeOfUseList(this.carDetails).then(res => {
-    //   _this.LOV.typeOfUseLOV = res;
-    // });
-
-    // this.quoteForm.get('subline').markAsDirty();
-    // var qqDetails = new QQCar;
-    // qqDetails.vehicleType = this.carDetails.vehicleType;
-    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    // this.cus.getSubline(qqDetails).then(res => {
-    //   _this.LOV.sublineLOV = res.obj["list"];
-    // });
-
-    // //loading vehicle information
-    // this.quoteForm.get('areaOfUsage').markAsDirty();
-    // this.cls.getAreaOfUsage(this.carDetails).then(res => {
-    //   _this.LOV.areaOfUsageLOV = res;
-    // });
-
-    // this.cls.getRegistrationType().then(res => {
-    //   _this.LOV.registrationTypeLOV = res;
-    // });
-
-    // this.cls.getMVType().then(res => {
-    //   _this.LOV.mvTypeLOV = res;
-    // });
-
-    // this.quoteForm.get('paymentMethod').markAsDirty();
-    // this.cls.getPaymentPlan(this.carDetails).then(res => {
-    //   _this.LOV.paymentMethodLOV = res;
-    // });
-
-    // this.quoteForm.get('product').markAsDirty();
-    // this.cls.getProduct(this.carDetails).then(res => {
-    //   let avalidableProducts = [];
-    //   res.forEach((e) => {
-    //     //removing not MSO products
-    //     if (e.COD_MODALIDAD != 10011 && e.COD_MODALIDAD != 10010) {
-    //       avalidableProducts.push(e);
-    //     }
-    //   });
-    //   _this.LOV.productListLOV = avalidableProducts;
-    // });
+    this.tls.getExpensesCoverage(this.travelDetails).then((res) => {
+      _this.LOV.medicalExpensesLOV = res;
+    });
   }
 
   setValidations() {
