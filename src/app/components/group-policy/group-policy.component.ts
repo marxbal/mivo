@@ -60,9 +60,15 @@ export class GroupPolicyComponent {
     }
     if (!Utility.isUndefined(this.groupPolicy.contract)) {
       this.gpForm.get('contract').markAsDirty();
+      this.gpls.getContract(this._subline, this.groupPolicy).then(res => {
+        this.GPLOV.contractLOV = res;
+      });
     }
     if (!Utility.isUndefined(this.groupPolicy.subContract)) {
       this.gpForm.get('subContract').markAsDirty();
+      this.gpls.getSubContract(this._subline, this.groupPolicy).then(res => {
+        this.GPLOV.subContractLOV = res;
+      });
     }
   }
 
