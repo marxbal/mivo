@@ -504,21 +504,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             });
             this.travellers().push(this.loadTraveller(tra.completeName, tra.birthDate, tra.relationship, tra.relationshipLabel, tra.passportNumber, tra.physicianName));
           });
-          const _this = this;
-          this.tls.getRelationship().then(res => {
-            _this.LOV.relationshipLOV = res;
-          });
   
           var travellersForm = this.quoteForm.get('travellers').value;
           this.travelDetails.travellers = travellersForm;
         } else {
-          const _this = this;
-          this.tls.getRelationship().then(res => {
-            _this.LOV.relationshipLOV = res;
-          });
           this.travelDetails.travellers = [];
         }
-        console.log(travellers);
   
         const generalInfo = res.obj["generalInfo"];
         this.travelDetails.subline = generalInfo.codRamo;
@@ -697,7 +688,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadTraveller(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
-    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
+    const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
 
     return this.fb.group({
       completeName: [completeName, Validators.required],
