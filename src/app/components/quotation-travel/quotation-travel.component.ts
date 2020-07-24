@@ -348,11 +348,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "ARRIVAL_DATE": {
-              this.travelDetails.startDate = new Date(value);
+              const date = Utility.convertStringDate(value);
+              this.travelDetails.startDate = date;
               break;
             }
             case "DEPARTURE_DATE": {
-              this.travelDetails.endDate = new Date(value);
+              const date = Utility.convertStringDate(value);
+              this.travelDetails.endDate = date;
               break;
             }
             case "VAL_NUM_DAYS_TRIP": {
