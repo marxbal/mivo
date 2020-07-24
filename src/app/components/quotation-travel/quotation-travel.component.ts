@@ -639,7 +639,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         } else if (packageList.indexOf("ASIA") !== -1) {
           this.travelDetails.travelPackage = "A";
           this.travelDetails.travelType = "I";
-        } else {
+        } else if (packageList.indexOf("PHILIPPINES") !== -1) {
           this.travelDetails.travelPackage = "P";
           this.travelDetails.travelType = "D";
           this.travelDetails.cbWithCruise = false;
