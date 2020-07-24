@@ -349,16 +349,16 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
               this.travelDetails.travelType = value;
               break;
             }
-            case "ARRIVAL_DATE": {
-              const date = Utility.convertStringDate(value);
-              this.travelDetails.endDate = date;
-              break;
-            }
-            case "DEPARTURE_DATE": {
-              const date = Utility.convertStringDate(value);
-              this.travelDetails.startDate = date;
-              break;
-            }
+            // case "ARRIVAL_DATE": {
+            //   const date = Utility.convertStringDate(value);
+            //   this.travelDetails.endDate = date;
+            //   break;
+            // }
+            // case "DEPARTURE_DATE": {
+            //   const date = Utility.convertStringDate(value);
+            //   this.travelDetails.startDate = date;
+            //   break;
+            // }
             case "VAL_NUM_DAYS_TRIP": {
               this.travelDetails.noOfDays = valueInt;
               break;
@@ -518,6 +518,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         const generalInfo = res.obj["generalInfo"];
         this.travelDetails.subline = generalInfo.codRamo;
         this.travelDetails.currency = generalInfo.codMon;
+        this.travelDetails.startDate = new Date(generalInfo.fecEfecPoliza);
+        this.travelDetails.endDate = new Date(generalInfo.fecVctoPoliza);
         // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
         this.groupPolicy.agentCode = generalInfo.codAgt;
