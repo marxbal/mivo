@@ -330,6 +330,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           const code = v.codCampo;
           const value: string = v.valCampo;
           let valueInt: number = undefined;
+
+          debugger
   
           try {
             valueInt = parseInt(value);
