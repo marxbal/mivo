@@ -384,10 +384,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             case "TXT_SPORTS_EQUIPMENT": {
               this.travelDetails.cbSportsEquipment = true;
               this.travelDetails.sportsEquipment = value;
+              break;
             }
             case "TXT_HAZARDOUS_SPORTS": {
               this.travelDetails.cbHazardousSports = true;
               this.travelDetails.hazardousSports = value;
+              break;
             }
 
             //coverages
