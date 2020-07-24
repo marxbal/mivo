@@ -538,15 +538,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   
         this.loadLOVs();
   
-    //     this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
-    //       const coverageList = res1.obj["coverageList"];
-    //       const amountList = res1.obj["amountList"];
-    //       const premiumAmount = res.obj["premiumAmount"];
-    //       const coverageVariable = res.obj["coverageVariable"];
-    //       const coverageAmount = res.obj["coverageAmount"];
-  
-    //       this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-    //     });
+        const coverageList = res.obj["coverageList"];
+        this.populateCoverage(coverageList);
   
         //breakdwon
         const breakdown = res.obj["breakdown"];
