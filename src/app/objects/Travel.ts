@@ -39,7 +39,7 @@ export class Travel {
   policyHolder: PolicyHolder;
 
   //travellers
-  travellers: [Traveller];
+  travellers: any[];
 
   //additional policy information
   cbSportsEquipment: boolean;

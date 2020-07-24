@@ -493,6 +493,31 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           });
           travellers.push(tObj);
         });
+
+        if (travellers.length) {
+          //removes all accessories
+          this.removeTravellers();
+          var temp: any[] = [];
+          travellers.forEach((tra: any) => {
+            temp.push({
+              traveller: tra.completeName
+            });
+            this.travellers().push(this.loadTraveller(tra.completeName, tra.birthDate, tra.relationship, tra.relationshipLabel, tra.passportNumber, tra.physicianName));
+          });
+          const _this = this;
+          this.tls.getRelationship().then(res => {
+            _this.LOV.relationshipLOV = res;
+          });
+  
+          var travellersForm = this.quoteForm.get('travellers').value;
+          this.travelDetails.travellers = travellersForm;
+        } else {
+          const _this = this;
+          this.tls.getRelationship().then(res => {
+            _this.LOV.relationshipLOV = res;
+          });
+          this.travelDetails.travellers = [];
+        }
         console.log(travellers);
   
         const generalInfo = res.obj["generalInfo"];
@@ -517,35 +542,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         }
   
         this.loadLOVs();
-  
-    //     const accessories = res.obj["accessories"];
-    //     if (accessories.length) {
-    //       //dispalys the accessory panel 
-    //       this.showAccessories = true;
-    //       //removes all accessories
-    //       this.removeAccessories();
-    //       var temp: any[] = [];
-    //       accessories.forEach((acc: any) => {
-    //         temp.push({
-    //           accessory: acc.codAccesorio
-    //         });
-    //         this.accessory().push(this.loadAccessory(acc.codAccesorio, acc.nomAgrupAccesorio, acc.impAccesorio, acc.txtAccesorio));
-    //       });
-    //       const _this = this;
-    //       this.cls.getAccessoryList(this.carDetails).then(res => {
-    //         _this.LOV.accessoryListLOV = res;
-    //         this.disableAccessory(temp);
-    //       });
-  
-    //       var accessoriesForm = this.quoteForm.get('accessories').value;
-    //       this.carDetails.accessories = accessoriesForm;
-    //     } else {
-    //       const _this = this;
-    //       this.cls.getAccessoryList(this.carDetails).then(res => {
-    //         _this.LOV.accessoryListLOV = res;
-    //       });
-    //       this.carDetails.accessories = [];
-    //     }
   
     //     this.cqs.getCoverageByProduct(this.carDetails).then(res1 => {
     //       const coverageList = res1.obj["coverageList"];
@@ -700,13 +696,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadTraveller(completeName: string, birthDate: Date, relationship: string, passportNumber: string, physicianName: string): FormGroup {
+  loadTraveller(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
+    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
+
     return this.fb.group({
       completeName: [completeName, Validators.required],
       birthDate: [birthDate, Validators.required],
       relationship: [relationship, Validators.required],
+      relationshipLabel: [relationshipLabel],
       passportNumber: [passportNumber, Validators.required],
       physicianName: [physicianName],
+      bdaymindate: [bdaymindate],
     });
   }
 
@@ -729,6 +729,16 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     if (travellers.length == 1) {
       //if traveller is primary only
       this.travelDetails.insuranceCoverage = "I"; //individual
+    }
+  }
+
+  removeTravellers() {
+    // removing all travellers
+    var travellers = this.quoteForm.get('travellers').value;
+    if (travellers.length > 0) {
+      // loop until all accessories removed
+      this.travellers().removeAt(0);
+      this.removeTravellers();
     }
   }
 
