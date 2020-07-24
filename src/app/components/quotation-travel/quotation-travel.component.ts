@@ -406,7 +406,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           }
         });
   
-        var country = [];
+        const country : any[] = [];
         var tempTravaller = [];
 
         const travellerDetails = res.obj["travellerDetails"] as any[];
@@ -427,7 +427,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           switch (code) {
             //country
             case "TXT_COUNTRY_NAME": {
-              const obj = { name: text, value: value };
+              const obj = { NOM_PAIS: text, COD_PAIS: value, name: text, value: value };
               country.push(obj);
               break;
             }
@@ -442,6 +442,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             }
           }
         });
+
+        this.travelDetails.country = country;
 
         var travellers = [];
         tempTravaller.forEach(t => {
@@ -469,7 +471,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
                   break;
                 }
                 case "BIRTHDATE": {
-                  tObj.birthDate = new Date(value);
+                  const date = Utility.convertStringDate(value);
+                  tObj.birthDate = date;
                   break;
                 }
                 case "PASSPORT_NUMBER": {
@@ -492,6 +495,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   
         const generalInfo = res.obj["generalInfo"];
         this.travelDetails.subline = generalInfo.codRamo;
+        this.travelDetails.currency = generalInfo.codMon;
         // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
         this.groupPolicy.agentCode = generalInfo.codAgt;

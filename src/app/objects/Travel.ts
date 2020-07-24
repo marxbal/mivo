@@ -18,7 +18,7 @@ export class Travel {
 
   //travel itinerary
   currency: number; // *
-  country: [Object]; // *
+  country: any[]; // *
   travelPackage: string; // *
   typeOfCoverage: string; // *
   travelType: string;
