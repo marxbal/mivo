@@ -679,7 +679,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   newTraveller(onLoad: boolean): FormGroup {
     const bdaymindate: Date = moment().subtract(65, 'years').toDate();
-    const bdaymaxdate: Date = moment().subtract(0, 'years').toDate();
+    var ageLimit = onLoad ? 18 : 0;
+    const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
 
     return this.fb.group({
       completeName: ['', Validators.required],
