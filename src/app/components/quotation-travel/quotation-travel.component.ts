@@ -190,7 +190,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       if (this.isLoadQuotation) {
         //if loaded from car quotation
         this.travelDetails.quotationNumber = Globals.loadNumber;
-        // this.loadQuotation();
+        this.loadQuotation();
         Globals.setLoadNumber('');
         Globals.setLoadQuotation(false);
       }
