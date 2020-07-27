@@ -301,8 +301,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   relationshipOnChange(traveller: FormGroup) {
     var val = traveller.controls['relationship'].value;
     var maxAge = (val == 'C') ? 21 : 65;
+    var minAge = (val == 'C') ? 0 : 18;
+
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
     traveller.controls['bdaymindate'].setValue(bdaymindate);
+
+    const bdaymaxdate: Date = moment().subtract(minAge, 'years').toDate();
+    traveller.controls['bdaymindate'].setValue(bdaymaxdate);
 
     this.LOV.relationshipLOV.forEach(r => {
       if (r.COD_VALOR == val) {
@@ -674,6 +679,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   newTraveller(onLoad: boolean): FormGroup {
     const bdaymindate: Date = moment().subtract(65, 'years').toDate();
+    const bdaymaxdate: Date = moment().subtract(0, 'years').toDate();
 
     return this.fb.group({
       completeName: ['', Validators.required],
@@ -683,11 +689,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       passportNumber: ['', Validators.required],
       physicianName: [null],
       bdaymindate: [bdaymindate],
+      bdaymaxdate: [bdaymaxdate],
     });
   }
 
   loadTraveller(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
     const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
+    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 0 : 18, 'years').toDate();
 
     return this.fb.group({
       completeName: [completeName, Validators.required],
@@ -697,6 +705,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       passportNumber: [passportNumber, Validators.required],
       physicianName: [physicianName],
       bdaymindate: [bdaymindate],
+      bdaymaxdate: [bdaymaxdate],
     });
   }
 
