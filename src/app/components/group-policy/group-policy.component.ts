@@ -154,7 +154,7 @@ export class GroupPolicyComponent {
   }
 
   affecting(key: string, label: string) {
-    if ('groupPolicy' in this.prevDetails) {
+    if (this.prevDetails != null && 'groupPolicy' in this.prevDetails) {
       const prev = this.prevDetails.groupPolicy[key] == undefined ? "" : this.prevDetails.groupPolicy[key];
       const curr = this.groupPolicy[key] == undefined ? "" : this.groupPolicy[key];
       if (prev != curr) {

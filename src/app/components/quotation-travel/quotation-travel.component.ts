@@ -376,6 +376,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
               this.travelDetails.purposeOfTrip = value;
               break;
             }
+            case "TXT_OTHERS_DESCRIPTION": {
+              this.travelDetails.othersDescription = value;
+              break;
+            } 
             case "MCA_ONE_TRIP_ONLY": {
               this.travelDetails.cbOneTripOnly = value == "Y";
               break;

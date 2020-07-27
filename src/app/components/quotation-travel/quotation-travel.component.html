@@ -427,6 +427,7 @@
                     <textarea class="form-control required"
                       [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
                       id="sportsEquipment" formControlName="sportsEquipment"
+                      oninput="this.value = this.value.toUpperCase()"
                       [(ngModel)]="travelDetails.sportsEquipment"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
                       * please indicate sport equipment/s
@@ -450,6 +451,7 @@
                     <textarea class="form-control required"
                       [attr.disabled]="editMode && travelDetails.cbHazardousSports ? null : ''" type="text"
                       id="hazardousSports" formControlName="hazardousSports"
+                      oninput="this.value = this.value.toUpperCase()"
                       [(ngModel)]="travelDetails.hazardousSports"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['hazardousSports'].errors?.required">
                       * please indicate the sport
