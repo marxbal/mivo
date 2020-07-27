@@ -307,7 +307,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     traveller.controls['bdaymindate'].setValue(bdaymindate);
 
     const bdaymaxdate: Date = moment().subtract(minAge, 'years').toDate();
-    traveller.controls['bdaymindate'].setValue(bdaymaxdate);
+    traveller.controls['bdaymaxdate'].setValue(bdaymaxdate);
 
     this.LOV.relationshipLOV.forEach(r => {
       if (r.COD_VALOR == val) {
