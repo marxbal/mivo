@@ -469,7 +469,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             const value: string = td.valCampo;
             const text: string = td.txtCampo;
             const occurence: number = td.numOcurrencia;
-            // const index = occurence - 1;
             let valueInt: number = undefined;
     
             try {
