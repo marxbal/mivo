@@ -627,7 +627,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
     countries.valueChanges.subscribe(countryList => {
       var packageList = [];
-      if (!Utility.isUndefined(countries)) {
+      if (!Utility.isUndefined(countryList)) {
         countryList.forEach(country => {
           packageList.push(country.type);
         });
