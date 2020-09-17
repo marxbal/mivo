@@ -1,4 +1,4 @@
-export class Traveller {
+export class Traveler {
   completeName: string;
   birthDate: Date;
   relationship: string;

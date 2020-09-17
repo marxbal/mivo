@@ -75,8 +75,8 @@ import {
   ReturnDTO
 } from 'src/app/objects/ReturnDTO';
 import {
-  Traveller
-} from 'src/app/objects/Traveller';
+  Traveler
+} from 'src/app/objects/Traveler';
 
 @Component({
   selector: 'app-quotation-travel',
@@ -94,12 +94,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
-  travellerHeadCount: number = 1;
+  travelerHeadCount: number = 1;
 
   travelDetails = new Travel();
   prevTravelDetails: Travel = null;
   changedValues: any[] = [];
-  changedTravellerValues: any[] = [];
+  changedTravelerValues: any[] = [];
 
   invalidForms: any[] = [];
 
@@ -237,7 +237,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.quoteForm = this.fb.group({
       quotationNumber: [null],
       currency: ['', Validators.required],
-      country: ['', Validators.required],
+      countries: ['', Validators.required],
       //general information
       travelPackage: ['', Validators.required],
       travelType: ['', Validators.required],
@@ -249,8 +249,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       cbOneTripOnly: ['', Validators.required],
       cbWithCruise: [null],
       othersDescription: [null],
-      //travellers
-      travellers: this.fb.array([this.newTraveller(true)]),
+      //travelers
+      travelers: this.fb.array([this.newTraveler(true)]),
       //additional policy information
       cbSportsEquipment: [null],
       sportsEquipment: [null],
@@ -271,7 +271,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.travelDetails.endDate = null;
 
     //if currency is philippine peso
-    this.travelDetails.country = this.travelDetails.currency === 1 ? [{
+    this.travelDetails.countries = this.travelDetails.currency === 1 ? [{
         NOM_PAIS: "PHILIPPINES",
         COD_PAIS: "PHL",
         NOM_VERNACULO: "PHILIPPINES",
@@ -298,20 +298,20 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  relationshipOnChange(traveller: FormGroup) {
-    var val = traveller.controls['relationship'].value;
+  relationshipOnChange(traveler: FormGroup) {
+    var val = traveler.controls['relationship'].value;
     var maxAge = (val == 'C') ? 21 : 65;
     var minAge = (val == 'C') ? 0 : 18;
 
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
-    traveller.controls['bdaymindate'].setValue(bdaymindate);
+    traveler.controls['bdaymindate'].setValue(bdaymindate);
 
     const bdaymaxdate: Date = moment().subtract(minAge, 'years').toDate();
-    traveller.controls['bdaymaxdate'].setValue(bdaymaxdate);
+    traveler.controls['bdaymaxdate'].setValue(bdaymaxdate);
 
     this.LOV.relationshipLOV.forEach(r => {
       if (r.COD_VALOR == val) {
-        traveller.controls['relationshipLabel'].setValue(r.NOM_VALOR);
+        traveler.controls['relationshipLabel'].setValue(r.NOM_VALOR);
       }
     });
   }
@@ -335,8 +335,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           const code = v.codCampo;
           const value: string = v.valCampo;
           let valueInt: number = undefined;
-
-          debugger
   
           try {
             valueInt = parseInt(value);
@@ -422,10 +420,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         });
   
         const country : any[] = [];
-        var tempTravaller = [];
+        var tempTravaler = [];
 
-        const travellerDetails = res.obj["travellerDetails"] as any[];
-        travellerDetails.forEach(t => {
+        const travelerDetails = res.obj["travelerDetails"] as any[];
+        travelerDetails.forEach(t => {
           const code = t.codCampo;
           const value: string = t.valCampo;
           const text: string = t.txtCampo;
@@ -448,7 +446,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             }
             case "COMPLETE_NAME": {
               const obj = { completeName: value, occurence: occurence };
-              tempTravaller.push(obj);
+              tempTravaler.push(obj);
               break;
             }
   
@@ -458,13 +456,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           }
         });
 
-        this.travelDetails.country = country;
+        this.travelDetails.countries = country;
 
-        var travellers = [];
-        tempTravaller.forEach(t => {
-          const tObj = new Traveller();
+        var travelers = [];
+        tempTravaler.forEach(t => {
+          const tObj = new Traveler();
           tObj.completeName = t.completeName;
-          travellerDetails.forEach(td => {
+          travelerDetails.forEach(td => {
             const code = td.codCampo;
             const value: string = td.valCampo;
             const text: string = td.txtCampo;
@@ -503,24 +501,24 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
               }
             }
           });
-          travellers.push(tObj);
+          travelers.push(tObj);
         });
 
-        if (travellers.length) {
+        if (travelers.length) {
           //removes all accessories
-          this.removeTravellers();
+          this.removeTravelers();
           var temp: any[] = [];
-          travellers.forEach((tra: any) => {
+          travelers.forEach((tra: any) => {
             temp.push({
-              traveller: tra.completeName
+              traveler: tra.completeName
             });
-            this.travellers().push(this.loadTraveller(tra.completeName, tra.birthDate, tra.relationship, tra.relationshipLabel, tra.passportNumber, tra.physicianName));
+            this.travelers().push(this.loadTraveler(tra.completeName, tra.birthDate, tra.relationship, tra.relationshipLabel, tra.passportNumber, tra.physicianName));
           });
   
-          var travellersForm = this.quoteForm.get('travellers').value;
-          this.travelDetails.travellers = travellersForm;
+          var travelersForm = this.quoteForm.get('travelers').value;
+          this.travelDetails.travelers = travelersForm;
         } else {
-          this.travelDetails.travellers = [];
+          this.travelDetails.travelers = [];
         }
   
         const generalInfo = res.obj["generalInfo"];
@@ -676,11 +674,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  travellers(): FormArray {
-    return this.quoteForm.get("travellers") as FormArray
+  travelers(): FormArray {
+    return this.quoteForm.get("travelers") as FormArray
   }
 
-  newTraveller(onLoad: boolean): FormGroup {
+  newTraveler(onLoad: boolean): FormGroup {
     const bdaymindate: Date = moment().subtract(65, 'years').toDate();
     var ageLimit = onLoad ? 18 : 0;
     const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
@@ -697,7 +695,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadTraveller(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
+  loadTraveler(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
     const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
     const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 0 : 18, 'years').toDate();
 
@@ -713,35 +711,35 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  addTraveller() {
-    this.travellers().push(this.newTraveller(false));
-    //if traveller is more than 1
+  addTraveler() {
+    this.travelers().push(this.newTraveler(false));
+    //if traveler is more than 1
     this.travelDetails.insuranceCoverage = "F"; //family
 
-    //hides the add travel button if traveller head count is more than 5
-    var travellers = this.quoteForm.get('travellers').value;
-    this.travellerHeadCount = travellers.length;
+    //hides the add travel button if traveler head count is more than 5
+    var travelers = this.quoteForm.get('travelers').value;
+    this.travelerHeadCount = travelers.length;
   }
 
-  removeTraveller(index: number) {
-    this.travellers().removeAt(index);
+  removeTraveler(index: number) {
+    this.travelers().removeAt(index);
 
-    //shows the add travel button if traveller head count is less than 5
-    var travellers = this.quoteForm.get('travellers').value;
-    this.travellerHeadCount = travellers.length;
-    if (travellers.length == 1) {
-      //if traveller is primary only
+    //shows the add travel button if traveler head count is less than 5
+    var travelers = this.quoteForm.get('travelers').value;
+    this.travelerHeadCount = travelers.length;
+    if (travelers.length == 1) {
+      //if traveler is primary only
       this.travelDetails.insuranceCoverage = "I"; //individual
     }
   }
 
-  removeTravellers() {
-    // removing all travellers
-    var travellers = this.quoteForm.get('travellers').value;
-    if (travellers.length > 0) {
+  removeTravelers() {
+    // removing all travelers
+    var travelers = this.quoteForm.get('travelers').value;
+    if (travelers.length > 0) {
       // loop until all accessories removed
-      this.travellers().removeAt(0);
-      this.removeTravellers();
+      this.travelers().removeAt(0);
+      this.removeTravelers();
     }
   }
 
@@ -760,8 +758,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   proceed(type: number) {
     //if user changes affecting values
-    const hasAffectingTraveller = this.checkAffectingTravellers();
-    const hasChanges = this.changedValues.length != 0 || hasAffectingTraveller;
+    const hasAffectingTraveler = this.checkAffectingTravelers();
+    const hasChanges = this.changedValues.length != 0 || hasAffectingTraveler;
 
     const hasQuotationNumber = !Utility.isUndefined(this.travelDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.travelDetails.quotationNumber.startsWith('999');
@@ -901,44 +899,44 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     }, 500);
   }
 
-  checkAffectingTravellers() {
-    let hasTravellerChanges = false;
+  checkAffectingTravelers() {
+    let hasTravelerChanges = false;
 
     if (!Utility.isUndefined(this.prevTravelDetails)) {
-      this.changedTravellerValues = [];
+      this.changedTravelerValues = [];
 
-      var travellers = this.quoteForm.get('travellers').value;
-      const length = travellers.length;
+      var travelers = this.quoteForm.get('travelers').value;
+      const length = travelers.length;
       let prevlength = 0;
-      if ('travellers' in this.prevTravelDetails) {
-        const prevTravellers = this.prevTravelDetails.travellers;
-        prevlength = prevTravellers.length;
+      if ('travelers' in this.prevTravelDetails) {
+        const prevTravelers = this.prevTravelDetails.travelers;
+        prevlength = prevTravelers.length;
         if (prevlength != length) {
           if (prevlength > length) {
             var diff = prevlength - length;
-            var label = diff == 1 ? " traveller" : " travellers";
-            this.changedTravellerValues.push(
-              "Traveller: Deleted " + diff + label);
+            var label = diff == 1 ? " traveler" : " travelers";
+            this.changedTravelerValues.push(
+              "Traveler: Deleted " + diff + label);
           } else {
             var diff = length - prevlength;
-            var label = diff == 1 ? " traveller" : " travellers";
-            this.changedTravellerValues.push(
-              "Traveller: Added " + diff + label);
+            var label = diff == 1 ? " traveler" : " travelers";
+            this.changedTravelerValues.push(
+              "Traveler: Added " + diff + label);
           }
         }
 
-        prevTravellers.forEach((tra : Traveller) => {
+        prevTravelers.forEach((tra : Traveler) => {
           let matched = false;
-          travellers.forEach((tra1: Traveller) => {
+          travelers.forEach((tra1: Traveler) => {
             if (tra.completeName == tra1.completeName) {
               matched = true;
               if (tra.relationship != tra1.relationship) {
-                this.changedTravellerValues.push(
-                  "Traveller relationship: Changed " + tra.relationshipLabel + " to " + tra1.relationshipLabel);
+                this.changedTravelerValues.push(
+                  "Traveler relationship: Changed " + tra.relationshipLabel + " to " + tra1.relationshipLabel);
               }
               if (tra.passportNumber != tra1.passportNumber) {
-                this.changedTravellerValues.push(
-                  "Traveller Passport Number: Changed " + tra.passportNumber + " to " + tra1.passportNumber);
+                this.changedTravelerValues.push(
+                  "Traveler Passport Number: Changed " + tra.passportNumber + " to " + tra1.passportNumber);
               }
 
               const prevDate = new Date(tra.birthDate);
@@ -947,21 +945,21 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
               const currDate = tra1.birthDate;
               const currBdate = currDate.getMonth() + "/" + currDate.getDate() + "/" + currDate.getFullYear();
               if (prevBdate != currBdate) {
-                this.changedTravellerValues.push(
-                  "Traveller Birthdate: Changed " + prevBdate + " to " + currBdate);
+                this.changedTravelerValues.push(
+                  "Traveler Birthdate: Changed " + prevBdate + " to " + currBdate);
               }
             }
           });
           if (!matched) {
-            this.changedTravellerValues.push(
-              "Traveller: Changed Traveller List");
+            this.changedTravelerValues.push(
+              "Traveler: Changed Traveler List");
           }
         });
       }
-      hasTravellerChanges = this.changedTravellerValues.length > 0;
+      hasTravelerChanges = this.changedTravelerValues.length > 0;
     }
 
-    return hasTravellerChanges;
+    return hasTravelerChanges;
   }
 
   affecting(key: string, label: string) {
@@ -1088,9 +1086,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     // includes policy holder to travel details DTO
     this.travelDetails.policyHolder = this.policyHolder;
 
-    // includes travellers to travel details DTO
-    var travellers = this.quoteForm.get('travellers').value;
-    this.travelDetails.travellers = travellers.length ? travellers : [];
+    // includes travelers to travel details DTO
+    var travelers = this.quoteForm.get('travelers').value;
+    this.travelDetails.travelers = travelers.length ? travelers : [];
 
     // get product code
     this.getProductCode();
@@ -1157,9 +1155,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     // includes policy holder to travel details DTO
     this.travelDetails.policyHolder = this.policyHolder;
 
-    // includes travellers to travel details DTO
-    var travellers = this.quoteForm.get('travellers').value;
-    this.travelDetails.travellers = travellers.length ? travellers : [];
+    // includes travelers to travel details DTO
+    var travelers = this.quoteForm.get('travelers').value;
+    this.travelDetails.travelers = travelers.length ? travelers : [];
 
     // get product code
     this.getProductCode();

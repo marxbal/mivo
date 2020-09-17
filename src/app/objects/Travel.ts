@@ -1,7 +1,4 @@
 import {
-  Traveller
-} from './Traveller';
-import {
   PolicyHolder
 } from './PolicyHolder';
 import {
@@ -18,7 +15,7 @@ export class Travel {
 
   //travel itinerary
   currency: number; // *
-  country: any[]; // *
+  countries: any[]; // *
   travelPackage: string; // *
   typeOfCoverage: string; // *
   travelType: string;
@@ -38,8 +35,8 @@ export class Travel {
   //policy holder information
   policyHolder: PolicyHolder;
 
-  //travellers
-  travellers: any[];
+  //travelers
+  travelers: any[];
 
   //additional policy information
   cbSportsEquipment: boolean;

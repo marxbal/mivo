@@ -71,15 +71,15 @@
                 </div>
 
                 <div class="col-md-5 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['country'].invalid 
-                    && (quoteForm.controls['country'].dirty 
-                    || quoteForm.controls['country'].touched)}">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['countries'].invalid 
+                    && (quoteForm.controls['countries'].dirty 
+                    || quoteForm.controls['countries'].touched)}">
                     <label for="currency">Itinerary</label>
                     <ng-select [items]="LOV.countryLOV" bindLabel="name" placeholder="Select Country to visit"
-                      appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.country"
+                      appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.countries"
                       [readonly]="!editMode">
                     </ng-select>
-                    <p class="form-error" *ngIf="quoteForm.controls['country'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['countries'].errors?.required">
                       * country is required
                     </p>
                   </div>
@@ -290,7 +290,7 @@
 
           <div class="card shadow mb-3">
             <div class="card-header">
-              <strong>Travellers</strong>
+              <strong>Travelers</strong>
             </div>
             <div class="card-body">
 
@@ -302,32 +302,32 @@
               </div>
               <!-- .note -->
 
-              <div formArrayName="travellers">
-                <div *ngFor="let traveller of quoteForm.get('travellers')['controls']; let i=index">
-                  <div [formGroupName]="i" class="card traveller-card">
+              <div formArrayName="travelers">
+                <div *ngFor="let traveler of quoteForm.get('travelers')['controls']; let i=index">
+                  <div [formGroupName]="i" class="card traveler-card">
                     <div class="card-body">
                       <div class="row">
                         <div class="col-md-4 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['completeName'].invalid 
-                              && (traveller.controls['completeName'].dirty 
-                              || traveller.controls['completeName'].touched)}">
+                          <div class="form-group" [ngClass]="{'input-error': traveler.controls['completeName'].invalid 
+                              && (traveler.controls['completeName'].dirty 
+                              || traveler.controls['completeName'].touched)}">
                             <label for="completeName">Complete Name</label>
                             <input type="text" formControlName="completeName" class="form-control required"
                               oninput="this.value = this.value.toUpperCase()"
                               [attr.disabled]="editMode ? null : true">
-                            <p class="form-error" *ngIf="traveller.controls['completeName'].errors?.required">
+                            <p class="form-error" *ngIf="traveler.controls['completeName'].errors?.required">
                               * complete name is required
                             </p>
                           </div>
                         </div>
 
                         <div class="col-md-4 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['relationship'].invalid 
-                          && (traveller.controls['relationship'].dirty 
-                          || traveller.controls['relationship'].touched)}">
+                          <div class="form-group" [ngClass]="{'input-error': traveler.controls['relationship'].invalid 
+                          && (traveler.controls['relationship'].dirty 
+                          || traveler.controls['relationship'].touched)}">
                             <label for="relationship">Relationship</label>
                             <select class="custom-select mr-sm-2 required" formControlName="relationship"
-                              (change)="relationshipOnChange(traveller)"
+                              (change)="relationshipOnChange(traveler)"
                               [attr.disabled]="editMode && LOV.relationshipLOV?.length && i != 0 ? null: true">
                               <option 
                                 *ngFor="let relationship of LOV.relationshipLOV"
@@ -335,35 +335,35 @@
                                 [ngValue]="relationship.COD_VALOR">
                                 {{ relationship.NOM_VALOR }}</option>
                             </select>
-                            <p class="form-error" *ngIf="traveller.controls['relationship'].errors?.required">
+                            <p class="form-error" *ngIf="traveler.controls['relationship'].errors?.required">
                               * relationship is required
                             </p>
                           </div>
                         </div>
 
                         <div class="col-md-4 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['birthDate'].invalid 
-                          && (traveller.controls['birthDate'].dirty 
-                          || traveller.controls['birthDate'].touched)}">
+                          <div class="form-group" [ngClass]="{'input-error': traveler.controls['birthDate'].invalid 
+                          && (traveler.controls['birthDate'].dirty 
+                          || traveler.controls['birthDate'].touched)}">
                             <label for="birthDate">Birthdate</label>
                             <input type="text" placeholder="Datepicker" class="form-control required"
-                              [maxDate]="traveller.controls['bdaymaxdate'].value" [minDate]="traveller.controls['bdaymindate'].value" formControlName="birthDate" bsDatepicker
+                              [maxDate]="traveler.controls['bdaymaxdate'].value" [minDate]="traveler.controls['bdaymindate'].value" formControlName="birthDate" bsDatepicker
                               [attr.disabled]="editMode ? null : true">
-                            <p class="form-error" *ngIf="traveller.controls['birthDate'].errors?.required">
+                            <p class="form-error" *ngIf="traveler.controls['birthDate'].errors?.required">
                               * birthdate is required
                             </p>
                           </div>
                         </div>
 
                         <div class="col-md-6 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': traveller.controls['passportNumber'].invalid 
-                          && (traveller.controls['passportNumber'].dirty 
-                          || traveller.controls['passportNumber'].touched)}">
+                          <div class="form-group" [ngClass]="{'input-error': traveler.controls['passportNumber'].invalid 
+                          && (traveler.controls['passportNumber'].dirty 
+                          || traveler.controls['passportNumber'].touched)}">
                             <label for="passportNumber">Passport Number</label>
                             <input type="text" formControlName="passportNumber" class="form-control required"
                               oninput="this.value = this.value.toUpperCase()"
                               [attr.disabled]="editMode ? null : true">
-                            <p class="form-error" *ngIf="traveller.controls['passportNumber'].errors?.required">
+                            <p class="form-error" *ngIf="traveler.controls['passportNumber'].errors?.required">
                               * passport number is required
                             </p>
                           </div>
@@ -381,7 +381,7 @@
                         <div class="clearfix"></div>
                         <div class="col-lg-12">
                           <div class="btn-group" *ngIf="i > 0 && editMode">
-                            <button class="btn btn-primary" (click)="removeTraveller(i)">Remove</button>
+                            <button class="btn btn-primary" (click)="removeTraveler(i)">Remove</button>
                           </div>
                         </div>
 
@@ -391,9 +391,9 @@
                 </div>
               </div>
 
-              <div *ngIf="travellerHeadCount <= 5" class="btn-group">
-                <button [disabled]="!editMode || quoteForm.get('travellers').status !== 'VALID'" type="button"
-                  (click)="addTraveller()" class="btn btn-primary">Add Traveller</button>
+              <div *ngIf="travelerHeadCount <= 5" class="btn-group">
+                <button [disabled]="!editMode || quoteForm.get('travelers').status !== 'VALID'" type="button"
+                  (click)="addTraveler()" class="btn btn-primary">Add Traveler</button>
               </div>
 
             </div>
@@ -659,7 +659,7 @@
         {{item}}
       </li>
 
-      <li *ngFor="let item of changedTravellerValues">
+      <li *ngFor="let item of changedTravelerValues">
         {{item}}
       </li>
     </ul>
