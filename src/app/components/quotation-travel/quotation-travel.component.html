@@ -76,7 +76,7 @@
                     || quoteForm.controls['countries'].touched)}">
                     <label for="currency">Itinerary</label>
                     <ng-select [items]="LOV.countryLOV" bindLabel="name" placeholder="Select Country to visit"
-                      appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.countries"
+                      appendTo="body" formControlName="countries" multiple="true" [(ngModel)]="travelDetails.countries"
                       [readonly]="!editMode">
                     </ng-select>
                     <p class="form-error" *ngIf="quoteForm.controls['countries'].errors?.required">

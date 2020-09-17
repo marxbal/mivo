@@ -591,7 +591,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   setValidations() {
     var endDate = this.quoteForm.get('endDate');
     var startDate = this.quoteForm.get('startDate');
-    var country = this.quoteForm.get('country');
+    var countries = this.quoteForm.get('countries');
     var purposeOfTrip = this.quoteForm.get('purposeOfTrip');
     var othersDescription = this.quoteForm.get('othersDescription');
 
@@ -625,10 +625,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
     });
 
-    country.valueChanges.subscribe(countries => {
+    countries.valueChanges.subscribe(countryList => {
       var packageList = [];
       if (!Utility.isUndefined(countries)) {
-        countries.forEach(country => {
+        countryList.forEach(country => {
           packageList.push(country.type);
         });
         if (packageList.indexOf("WORLD") !== -1) {
