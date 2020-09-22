@@ -43,11 +43,11 @@ export class FixedCoveragesComponent implements OnInit {
     this.coverageList.forEach(coverage => {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
-      obj.isHeader = headers.indexOf(coverage.code) !== -1;
-      obj.label = obj.isHeader ? '<strong>' + coverage.label + '</strong>' : coverage.label;
-      obj.sumInsured = coverage.sumInsured;
-      obj.currency = coverage.currency;
-      obj.code = coverage.code;
+      obj.isHeader = headers.indexOf(coverage.codCob) !== -1;
+      obj.label = obj.isHeader ? '<strong>' + coverage.nomCob + '</strong>' : coverage.nomCob;
+      obj.sumInsured = coverage.sumaAseg;
+      obj.currency = coverage.codMon;
+      obj.code = coverage.codCob;
       this.coverageData.push(obj);
     });
   }
