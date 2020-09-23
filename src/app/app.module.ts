@@ -246,7 +246,7 @@ const routes: Routes = [{
     CreateThirdPartyComponent,
     FixedCoveragesComponent,
   ],
-  entryComponents: [ModalComponent],
+  entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent],
   imports: [
     AppRoutingModule,
     RouterModule.forRoot(routes),

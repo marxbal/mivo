@@ -1,4 +1,4 @@
-﻿import {
+import {
   Injectable
 } from "@angular/core";
 import {
@@ -70,7 +70,6 @@ export class AuthenticationService {
         authorization: this.createBasicAuthToken(username, password)
       }
     }).pipe(map((res) => {
-      alert(res);
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       const user = new User();
       user.userId = 1101;
@@ -103,13 +102,13 @@ export class AuthenticationService {
       "estimatedCommissions",
       "premiumCollection",
       "quickHome",
-      "quickTravel",
+      // "quickTravel",
       "quickAccident",
       "quotationHome",
-      "quotationTravel",
+      // "quotationTravel",
       "quotationAccident",
       "issuanceHome",
-      "issuanceTravel",
+      // "issuanceTravel",
       "issuanceAccident",
       "account",
       "client",

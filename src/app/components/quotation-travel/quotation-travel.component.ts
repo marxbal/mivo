@@ -309,6 +309,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     const bdaymaxdate: Date = moment().subtract(minAge, 'years').toDate();
     traveler.controls['bdaymaxdate'].setValue(bdaymaxdate);
 
+    traveler.controls['birthDate'].setValue('');
+
     this.LOV.relationshipLOV.forEach(r => {
       if (r.COD_VALOR == val) {
         traveler.controls['relationshipLabel'].setValue(r.NOM_VALOR);
@@ -558,7 +560,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         const deepClone = JSON.parse(JSON.stringify(this.travelDetails));
         this.prevTravelDetails = deepClone;
       } else {
-        this.modalRef = Utility.showError(this.bms, res.obj['message']);
+        this.modalRef = Utility.showError(this.bms, res.message);
         this.travelDetails.quotationNumber = "";
       }
     }).finally(() => {
