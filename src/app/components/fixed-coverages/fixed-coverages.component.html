@@ -1,0 +1,35 @@
+<div id="coverageBreakdown" class="card shadow mb-3">
+  <div class="card-header">
+    <strong>Coverage Breakdown</strong>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="flexitable">
+          <table mat-table [dataSource]="coverageData" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="label">
+              <th mat-header-cell *matHeaderCellDef>Coverage</th>
+              <td mat-cell *matCellDef="let element" [innerHTML]="element.label"></td>
+            </ng-container>
+
+            <ng-container matColumnDef="sumInsured">
+              <th mat-header-cell *matHeaderCellDef class="amount">Sum Insured</th>
+              <td mat-cell *matCellDef="let element" class="amount">
+                {{element.isHeader && (element.code != '330' && element.code != '332') ? '' : element.sumInsured == null ? 'n/a' : element.sumInsured == 0 ? element.isHeader ? '' : 'actual cost' : element.sumInsured | currency: element.currency: 'symbol-narrow'}}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          </table>
+        </div>
+      </div>
+      <!-- .col-xl-12 -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .card-body -->
+</div>
+<!-- #coverageBreakdown -->

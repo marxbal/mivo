@@ -131,7 +131,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     var _this = this;
 
     //if currency is philippine peso
-    this.travelDetails.country = this.travelDetails.currency === '1' ? [{
+    this.travelDetails.countries = this.travelDetails.currency === 1 ? [{
         NOM_PAIS: "PHILIPPINES",
         COD_PAIS: "PHL",
         NOM_VERNACULO: "PHILIPPINES",
@@ -140,7 +140,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
         type: "PHILIPPINES"
       }] :
       null;
-    this.travelDetails.travelPackage = this.travelDetails.currency === '1' ?
+    this.travelDetails.travelPackage = this.travelDetails.currency === 1 ?
       "P" :
       null;
 

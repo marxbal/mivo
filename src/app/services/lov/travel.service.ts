@@ -10,17 +10,21 @@ import {
 import {
   OptionList
 } from '../../objects/OptionList';
+import { Travel } from 'src/app/objects/Travel';
 
 @Injectable()
 export class TravelLOVServices {
   constructor(private lov: LovService) {}
 
   async getCurrencyList(): Promise < any[] > {
-    const dto = new LOV('G2990005', '1', 'cod_cia~1|cod_ramo~322|fec_validez~14092015');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    const dto = new LOV(
+      'G2990005',
+      '1',
+      'cod_cia~1|cod_ramo~380|fec_validez~01012020');
+    return this.lov.getIntLOV(dto, 'COD_MON').then(lovs => lovs as any[]);
   }
 
-  async getCountryList(travelDetails: any): Promise < any[] > {
+  async getCountryList(travelDetails: Travel): Promise < any[] > {
     const dto = new LOV(
       'A1000101',
       '3',
@@ -51,7 +55,7 @@ export class TravelLOVServices {
       '1',
       '|cod_cia~1' +
       '|cod_mon~1' +
-      '|cod_ramo~322' +
+      '|cod_ramo~380' +
       '|cod_campo~PURPOSE_TRIP');
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
@@ -64,4 +68,49 @@ export class TravelLOVServices {
     return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
   }
 
+  async getRelationship(): Promise < any[] > {
+    const dto = new LOV(
+      'G1010031',
+      '82',
+      '|cod_campo~RELATIONSHIP' +
+      '|cod_idioma~EN' +
+      '|cod_ramo~380');
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+  }
+
+  async getCoverageOption(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'COVERAGE_OPTIONS',
+      '999');
+    return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
+  }
+
+  async getInsuranceCoverage(): Promise < any[] > {
+    const dto = new OptionList(
+      'EN',
+      'INSURANCE_COVERAGE',
+      '999');
+    return this.lov.getOptionList(dto).then(lovs => lovs as any[]);
+  }
+
+  async getExpensesCoverage(travelDetails: Travel): Promise < any[] > {
+    const dto = new LOV(
+      'TAGEN001',
+      '2',
+      '|cod_cia~1' +
+      '|cod_mon~' + travelDetails.currency +
+      '|cod_ramo~380' + 
+      '|DVTRAVEL_PACK~' + travelDetails.travelPackage);
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+  }
+
+  async getProduct(carDetails: any): Promise < any[] > {
+    const dto = new LOV(
+      'G2990004',
+      '16',
+      '|COD_CIA~1' +
+      '|COD_RAMO~' + carDetails.subline);
+    return this.lov.getIntLOV(dto, 'COD_MODALIDAD').then(lovs => lovs as any[]);
+  }
 }

@@ -112,6 +112,11 @@ export class Utility {
     return moment(d).format(format);
   }
 
+  static convertStringDate(d: string, f ? : string) {
+    const format = !this.isUndefined(f) ? f : "DDMMYYYY";
+    return moment(d, format).toDate();
+  }
+
   //find all invalid control to given FormGroup
   static findInvalidControls(f: FormGroup) {
     const invalid = [];

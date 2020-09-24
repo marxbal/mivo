@@ -567,8 +567,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
         this.groupPolicy.agentCode = generalInfo.codAgt;
-        this.groupPolicy.groupPolicy = generalInfo.numPolizaGrupo;
-        this.groupPolicy.contract = generalInfo.numSubcontrato;
+        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        this.groupPolicy.contract = generalInfo.numContrato;
         this.groupPolicy.subContract = generalInfo.numSubcontrato;
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.carDetails.groupPolicy = this.groupPolicy;
@@ -1100,13 +1100,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.coverageVariable = coverageVariable;
     this.showCoverage = true;
     this.triggerCoverage = this.triggerCoverage + 1;
+    Utility.scroll('coverages');
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
-    Utility.scroll('coverages');
   }
 
   scrollTo(id: string) {
@@ -1137,7 +1137,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   proceed(type: number) {
     //if user changes affecting values
-    const hasAffectingAccessories = this.checkAffectingAccessories()
+    const hasAffectingAccessories = this.checkAffectingAccessories();
     const hasChanges = this.changedValues.length != 0 || hasAffectingAccessories;
     this.includeCoverage = !hasChanges;
 
@@ -1183,7 +1183,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         const prevAccessories = this.prevCarDetails.accessories;
         prevlength = prevAccessories.length;
         if (prevlength != length) {
-          hasAccessoryChanges = true;
           if (prevlength > length) {
             var diff = prevlength - length;
             var label = diff == 1 ? " accessory" : " accessories";
@@ -1218,6 +1217,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           }
         });
       }
+      hasAccessoryChanges = this.changedAccessoryValues.length > 0;
     }
 
     return hasAccessoryChanges;
@@ -1259,7 +1259,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       receipt: receipt,
       breakdown: breakdown,
       showExchangeRate: false,
-      isPostPolicy: isPostPolicy
+      isPostPolicy: isPostPolicy,
+      line: 'CAR'
     };
 
     this.dialog.open(PaymentBreakdownModalComponent, {
@@ -1297,17 +1298,17 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   newQuote() {
-    Utility.scroll('topDiv');
-    setTimeout(() => {
-      Globals.setPage(page.QUO.CAR);
-      this.router.navigate(['/reload']);
-    }, 500);
+    this.newPage(page.QUO.CAR);
   }
 
   newPolicy() {
+    this.newPage(page.ISS.CAR);
+  }
+
+  newPage(page : string) {
     Utility.scroll('topDiv');
     setTimeout(() => {
-      Globals.setPage(page.ISS.CAR);
+      Globals.setPage(page);
       this.router.navigate(['/reload']);
     }, 500);
   }

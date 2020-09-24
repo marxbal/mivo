@@ -45,7 +45,9 @@ export class GroupPolicyComponent {
   @Input()
   set subline(subline: number) {
     this._subline = subline;
-    this.getGroupPolicyLOV();
+    if (subline != null) {
+      this.getGroupPolicyLOV();
+    }
   }
   @Input()
   set loadQuotation(value: number) {
@@ -58,9 +60,15 @@ export class GroupPolicyComponent {
     }
     if (!Utility.isUndefined(this.groupPolicy.contract)) {
       this.gpForm.get('contract').markAsDirty();
+      this.gpls.getContract(this._subline, this.groupPolicy).then(res => {
+        this.GPLOV.contractLOV = res;
+      });
     }
     if (!Utility.isUndefined(this.groupPolicy.subContract)) {
       this.gpForm.get('subContract').markAsDirty();
+      this.gpls.getSubContract(this._subline, this.groupPolicy).then(res => {
+        this.GPLOV.subContractLOV = res;
+      });
     }
   }
 
@@ -146,7 +154,7 @@ export class GroupPolicyComponent {
   }
 
   affecting(key: string, label: string) {
-    if ('groupPolicy' in this.prevDetails) {
+    if (this.prevDetails != null && 'groupPolicy' in this.prevDetails) {
       const prev = this.prevDetails.groupPolicy[key] == undefined ? "" : this.prevDetails.groupPolicy[key];
       const curr = this.groupPolicy[key] == undefined ? "" : this.groupPolicy[key];
       if (prev != curr) {

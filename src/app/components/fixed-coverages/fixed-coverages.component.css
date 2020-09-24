@@ -1,0 +1,8 @@
+#coverageBreakdown table {
+  text-align: center !important;
+  width: 100%;
+}
+
+#coverageBreakdown .mat-header-cell {
+  text-align: center;
+}

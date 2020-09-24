@@ -1,7 +1,4 @@
 import {
-  Traveller
-} from './Traveller';
-import {
   PolicyHolder
 } from './PolicyHolder';
 import {
@@ -10,13 +7,15 @@ import {
 
 // * - used in quick quotation
 export class Travel {
+  affecting: boolean;
+  mcaTmpPptoMph: string;
   policyNumber: string;
   quotationNumber: string;
   subline: number;
 
   //travel itinerary
-  currency: string; // *
-  country: [Object]; // *
+  currency: number; // *
+  countries: any[]; // *
   travelPackage: string; // *
   typeOfCoverage: string; // *
   travelType: string;
@@ -28,6 +27,7 @@ export class Travel {
   cbOneTripOnly: boolean;
   cbWithCruise: boolean;
   ageRange: string; // *
+  othersDescription: string;
 
   //group policy
   groupPolicy: GroupPolicy;
@@ -35,8 +35,8 @@ export class Travel {
   //policy holder information
   policyHolder: PolicyHolder;
 
-  //travellers
-  travellers: [Traveller];
+  //travelers
+  travelers: any[];
 
   //additional policy information
   cbSportsEquipment: boolean;
@@ -45,9 +45,10 @@ export class Travel {
   hazardousSports: string;
 
   //coverages
-  travelInsurance: string;
-  optionPack: string;
+  insuranceCoverage: string;
+  coverageOption: string;
   medicalExpenses: string;
+  product: number;
 
   constructor(init ? : Partial < Travel > ) {
     Object.assign(this, init);
