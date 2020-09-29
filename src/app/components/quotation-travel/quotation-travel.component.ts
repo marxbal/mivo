@@ -188,7 +188,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
-        //if loaded from car quotation
+        //if loaded from travel quotation
         this.travelDetails.quotationNumber = Globals.loadNumber;
         this.loadQuotation();
         Globals.setLoadNumber('');

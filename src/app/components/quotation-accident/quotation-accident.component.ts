@@ -12,8 +12,8 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 import {
-  QuoteAccident
-} from '../../objects/QuoteAccident';
+  Accident
+} from '../../objects/Accident';
 import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
@@ -32,6 +32,7 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
+import { Globals } from 'src/app/utils/global';
 
 @Component({
   selector: 'app-quotation-accident',
@@ -39,8 +40,15 @@ import {
   styleUrls: ['./quotation-accident.component.css']
 })
 export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
-  @Input() accidentDetails = new QuoteAccident();
-  @Input() groupPolicy = new GroupPolicy();
+  // currentUser = this.auths.currentUserValue;
+  isIssuance: boolean = Globals.getAppType() == "I";
+  isLoadQuotation: boolean = Globals.isLoadQuotation;
+  pageLabel: String = 'Quotation';
+  triggerCounter: number = 0;
+  triggerCoverage: number = 0;
+
+  accidentDetails = new Accident();
+  groupPolicy = new GroupPolicy();
   quoteForm: FormGroup;
   mindate: Date = new Date();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
@@ -54,7 +62,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    // private qq: QuickQuoteService,
     // private lov: LovService,
     private changeDetector: ChangeDetectorRef
   ) {
@@ -67,6 +74,16 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    if (this.isIssuance) {
+      this.pageLabel = 'Issuance';
+      if (this.isLoadQuotation) {
+        //if loaded from accident quotation
+        // this.travelDetails.quotationNumber = Globals.loadNumber;
+        // this.loadQuotation();
+        Globals.setLoadNumber('');
+        Globals.setLoadQuotation(false);
+      }
+    }
     this.getSubline();
 
     this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
@@ -115,7 +132,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       //disablement value
       disablementValue: [null],
       //product data
-      productList: ['', Validators.required],
+      product: ['', Validators.required],
     });
   }
 
@@ -205,7 +222,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     }];
   }
 
-  issueQuote(accidentDetails: QuoteAccident, groupPolicy: GroupPolicy) {
+  issueQuote(accidentDetails: Accident, groupPolicy: GroupPolicy) {
     console.log(accidentDetails, groupPolicy);
   }
 

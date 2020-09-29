@@ -1,11 +1,21 @@
 <div class="row" id="quotationAccident">
   <div class="col-xl-12">
     <div class="page-header">
-      <h4>Quotation - Accident</h4>
+      <h4 class="all-caps">
+        <span class="fa-stack fa-md">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-shield-alt fa-stack-1x fa-inverse"></i>
+        </span>
+        {{pageLabel}}
+      </h4>
     </div>
     <!-- .page-header -->
   </div>
   <!-- .col-xl-12 -->
+
+  <div class="col-lg-12">
+    <img class="product-img-banner" src="./assets/images/banner/accident.jpg" alt="credits to freepik @stories" />
+  </div>
 
   <div class="col-xl-12">
     <div class="card shadow">
@@ -426,17 +436,17 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['productList'].invalid 
-                    && (quoteForm.controls['productList'].dirty 
-                    || quoteForm.controls['productList'].touched)}">
-                    <label for="productList">Product List</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="productList"
-                      [(ngModel)]="accidentDetails.productList">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['product'].invalid 
+                    && (quoteForm.controls['product'].dirty 
+                    || quoteForm.controls['product'].touched)}">
+                    <label for="product">Product List</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="product"
+                      [(ngModel)]="accidentDetails.product">
                       <option selected></option>
-                      <option *ngFor="let productList of LOV.productListLOV" [ngValue]="productList.name">
-                        {{ productList.value }}</option>
+                      <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.name">
+                        {{ product.value }}</option>
                     </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['productList'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['product'].errors?.required">
                       * product list is required
                     </p>
                   </div>

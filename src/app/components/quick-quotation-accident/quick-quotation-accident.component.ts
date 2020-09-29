@@ -18,9 +18,6 @@ import {
   Utility
 } from '../../utils/utility';
 import {
-  QQAccident
-} from '../../objects/QQAccident';
-import {
   AccidentListObject
 } from 'src/app/objects/LOV/accidentList';
 import {
@@ -29,6 +26,9 @@ import {
 import {
   AccidentLOVServices
 } from '../../services/lov/accident.service'
+import {
+  Accident
+} from 'src/app/objects/Accident';
 
 export interface QuickQuoteResultDTO {
   label: string;
@@ -45,7 +45,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked {
-  @Input() accidentDetails = new QQAccident();
+  accidentDetails = new Accident();
   LOV = new AccidentListObject();
   quickQuoteForm: FormGroup;
 
@@ -230,7 +230,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     }, 500);
   }
 
-  quickQuote(accidentDetails: QQAccident) {
+  quickQuote(accidentDetails: Accident) {
     this.qqs.quickQuoteAccident(accidentDetails).then(res => {
       if (!Utility.isUndefined(res)) {
         if (res.status) {
