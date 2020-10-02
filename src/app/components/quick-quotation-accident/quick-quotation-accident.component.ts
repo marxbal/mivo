@@ -74,7 +74,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     private bms: BsModalService
   ) {
     this.createQuickQuoteForm();
-    this.setValidations();
+    // this.setValidations();a
   }
 
   ngAfterViewChecked() {
@@ -95,7 +95,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     this.quickQuoteForm = this.fb.group({
       subline: ['', Validators.required],
       occupationalClass: ['', Validators.required],
-      disablementValue: ['', Validators.required],
+      disablementValue: ['', [Validators.required, Validators.max(2000000), Validators.min(10000)]],
       primaryInsuredAge: ['', Validators.required],
       cbSpouseAge: [null],
       spouseAge: ['', Validators.required],
@@ -130,7 +130,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
         this.showDetails = true;
         this.showSPADetails = true;
         Utility.updateValidator(occupationalClass, [Validators.required]);
-        Utility.updateValidator(disablementValue, [Validators.required]);
+        Utility.updateValidator(disablementValue, [Validators.required, Validators.max(2000000), Validators.min(10000)]);
         this.als.getOccupationalClass().then(res => {
           _this.LOV.occupationalClassLOV = res;
         });

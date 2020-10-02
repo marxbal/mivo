@@ -86,6 +86,12 @@
                       <p class="form-error" *ngIf="quickQuoteForm.controls['disablementValue'].errors?.required">
                         * accidental death and disablement value is required
                       </p>
+                      <p class="form-error" *ngIf="quickQuoteForm.controls['disablementValue'].errors?.max">
+                        * accidental death and disablement value must be lower than Php2,000,001.00
+                      </p>
+                      <p class="form-error" *ngIf="quickQuoteForm.controls['disablementValue'].errors?.min">
+                        * accidental death and disablement value must be higner than Php9,999.00
+                      </p>
                     </div>
                   </div>
                   <div class="clearfix"></div>
