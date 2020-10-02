@@ -74,7 +74,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     private bms: BsModalService
   ) {
     this.createQuickQuoteForm();
-    // this.setValidations();a
+    this.setValidations();
   }
 
   ngAfterViewChecked() {
