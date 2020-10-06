@@ -17,6 +17,7 @@ export class Accident {
 
   //risk details
   subline: string; // *
+  sublineEffectivityDate: string; //*
 
   //general information
   effectivityDate: Date;

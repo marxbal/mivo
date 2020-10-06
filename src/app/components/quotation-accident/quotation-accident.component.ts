@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   AfterViewChecked,
   ChangeDetectorRef
 } from '@angular/core';
@@ -21,9 +20,6 @@ import {
   Utility
 } from '../../utils/utility';
 import {
-  GroupPolicyLOV as lovUtil
-} from '../../utils/lov/groupPolicy';
-import {
   Validate
 } from '../../validators/validate';
 import {
@@ -32,6 +28,9 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
+import {
+  AccidentLOVServices
+} from '../../services/lov/accident.service'
 import { Globals } from 'src/app/utils/global';
 
 @Component({
@@ -62,7 +61,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    // private lov: LovService,
+    private als: AccidentLOVServices,
     private changeDetector: ChangeDetectorRef
   ) {
     this.createQuoteForm();
@@ -74,6 +73,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
@@ -84,21 +84,16 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         Globals.setLoadQuotation(false);
       }
     }
-    this.getSubline();
+    // this.getSubline();
 
-    this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
-    this.GPLOV.contractLOV = lovUtil.getContract();
-    this.GPLOV.subContractLOV = lovUtil.getSubContract();
-    this.GPLOV.commercialStructureLOV = lovUtil.getCommercialStructure();
+    // this.getSuffix();
+    // this.getGender();
+    // this.getRelationship();
+    // this.getOccupationalClass();
+    // this.getOccupation();
 
-    this.getSuffix();
-    this.getGender();
-    this.getRelationship();
-    this.getOccupationalClass();
-    this.getOccupation();
-
-    this.getDisablementValue();
-    this.getProductList();
+    // this.getDisablementValue();
+    // this.getProductList();
   }
 
   createQuoteForm() {
@@ -141,36 +136,35 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     var disablementValue = this.quoteForm.get('disablementValue');
 
     subline.valueChanges.subscribe(subline => {
+      alert(subline);
       //removing required validation
-      Utility.updateValidator(disablementValue, null);
-      this.showDetails = false;
-      this.showSPADetails = false;
-      this.showHCBIDetails = false;
-      if (subline == 323) { //standard personal accident
-        this.showDetails = true;
-        this.showSPADetails = true;
-        Utility.updateValidator(disablementValue, Validators.required);
-      }
+      // Utility.updateValidator(disablementValue, null);
+      // this.showDetails = false;
+      // this.showSPADetails = false;
+      // this.showHCBIDetails = false;
+      // if (subline == 323) { //standard personal accident
+      //   this.showDetails = true;
+      //   this.showSPADetails = true;
+      //   Utility.updateValidator(disablementValue, Validators.required);
+      // }
     });
 
-    Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
-    // Validate.setEffecivityDateValidations(this.quoteForm, this.accidentDetails, this.expiryDateMinDate);
+    // Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
   }
 
-  getSubline() {
-    this.LOV.sublineLOV = [{
-        value: "323",
-        name: "Standard Personal Accident"
-      },
-      {
-        value: "325",
-        name: "Family Provider's Accident Insurance"
-      },
-      {
-        value: "326",
-        name: "Hospital Cash Benefit Insurance"
-      }
-    ];
+  loadInit() {
+    var _this = this;
+    this.als.getSubline().then(res => {
+      _this.LOV.sublineLOV = res;
+    });
+
+
+    this.setDefaultValue();
+  }
+
+  setDefaultValue() {
+    //setting default value
+    this.accidentDetails.sublineEffectivityDate = "01012016";
   }
 
   getSuffix() {
