@@ -189,7 +189,7 @@
                       [(ngModel)]="accidentDetails.occupationalClass">
                       <option></option>
                       <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
-                        [ngValue]="occupationalClass.COD_VALOR">{{ occupationalClass.NOM_VALOR }}</option>
+                        [ngValue]="occupationalClass.COD_VALOR">CLASS {{ occupationalClass.COD_VALOR }} - {{ occupationalClass.NOM_VALOR }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['occupationalClass'].errors?.required">
                       * occupational class is required
@@ -203,6 +203,7 @@
                       || quoteForm.controls['occupation'].touched)}">
                     <label for="occupation">Occupation</label>
                     <select class="custom-select mr-sm-2 required" formControlName="occupation"
+                      (change)="occupationOnchange()"
                       [(ngModel)]="accidentDetails.occupation">
                       <option></option>
                       <option *ngFor="let occupation of LOV.occupationLOV" [ngValue]="occupation.COD_VALOR">
@@ -210,6 +211,22 @@
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['occupation'].errors?.required">
                       * occupation is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-lg-12" *ngIf="showOtherOccupation">
+                  <label class="form-check-label" for="occupation">
+                    Declare Other Occupation
+                  </label>
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['otherOccupation'].invalid 
+                      && (quoteForm.controls['otherOccupation'].dirty 
+                      || quoteForm.controls['otherOccupation'].touched)}">
+                    <textarea class="form-control required" type="text"
+                      id="otherOccupation" formControlName="otherOccupation"
+                      [(ngModel)]="accidentDetails.otherOccupation"></textarea>
+                    <p class="form-error" *ngIf="quoteForm.controls['otherOccupation'].errors?.required">
+                      * please indicate other occupation
                     </p>
                   </div>
                 </div>

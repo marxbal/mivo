@@ -17,7 +17,7 @@ export class Accident {
 
   //risk details
   subline: string; // *
-  sublineEffectivityDate: string; //*
+  sublineEffectivityDate: string; //*  -----new
 
   //general information
   effectivityDate: Date;
@@ -43,6 +43,7 @@ export class Accident {
   preExistingIllness: string;
   occupationalClass: string; // *
   occupation: string;
+  otherOccupation: string; // -----new
 
   //accident death and disablement value
   disablementValue: number; // *

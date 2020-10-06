@@ -64,6 +64,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   //allow user to edit the form
   editMode = true;
 
+  showOtherOccupation = false;
   showDetails: boolean = false;
   showSPADetails: boolean = false;
   showHCBIDetails: boolean = false;
@@ -126,6 +127,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       preExistingIllness: [null],
       occupationalClass: ['', Validators.required],
       occupation: ['', Validators.required],
+      otherOccupation: [null],
 
       //disablement value
       disablementValue: [null],
@@ -178,6 +180,17 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.als.getOccupation(this.accidentDetails).then(res => {
       _this.LOV.occupationLOV = res;
     });
+  }
+
+  occupationOnchange() {
+    const selectedOC = this.accidentDetails.occupationalClass + '199';
+    this.showOtherOccupation = selectedOC == this.accidentDetails.occupation;
+
+    // if (selectedOC == this.accidentDetails.occupation) {
+    //   this.showOtherOccupation = true;
+    // } else {
+    //   this.showOtherOccupation = true;
+    // }
   }
 
   issueQuote(accidentDetails: Accident, groupPolicy: GroupPolicy) {
