@@ -31,7 +31,12 @@ import {
 import {
   AccidentLOVServices
 } from '../../services/lov/accident.service'
-import { Globals } from 'src/app/utils/global';
+import {
+  Globals
+} from 'src/app/utils/global';
+import {
+  PolicyHolder
+} from 'src/app/objects/PolicyHolder';
 
 @Component({
   selector: 'app-quotation-accident',
@@ -48,6 +53,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   accidentDetails = new Accident();
   groupPolicy = new GroupPolicy();
+  policyHolder = new PolicyHolder();
   quoteForm: FormGroup;
   mindate: Date = new Date();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
