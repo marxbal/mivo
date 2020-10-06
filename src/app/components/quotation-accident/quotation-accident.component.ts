@@ -70,8 +70,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private als: AccidentLOVServices,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.createQuoteForm();
-    this.setValidations();
   }
 
   ngAfterViewChecked() {
@@ -79,7 +77,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-
+    this.createQuoteForm();
+    this.setValidations();
+    this.loadInit();
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
