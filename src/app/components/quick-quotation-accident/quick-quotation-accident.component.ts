@@ -115,6 +115,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     var cbChildNumber = this.quickQuoteForm.get('cbChildNumber');
 
     this.quickQuoteForm.get('subline').valueChanges.subscribe(subline => {
+      this.accidentDetails.subline = subline;
       this.showDetails = false;
       this.showSPADetails = false;
       this.showHCBIDetails = false;
@@ -131,7 +132,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
         this.showSPADetails = true;
         Utility.updateValidator(occupationalClass, [Validators.required]);
         Utility.updateValidator(disablementValue, [Validators.required, Validators.max(2000000), Validators.min(10000)]);
-        this.als.getOccupationalClass().then(res => {
+        this.als.getOccupationalClass(this.accidentDetails).then(res => {
           _this.LOV.occupationalClassLOV = res;
         });
       } else if (subline == 326) { //hospital cash benefit

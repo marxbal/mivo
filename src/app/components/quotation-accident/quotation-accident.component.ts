@@ -30,7 +30,10 @@ import {
 } from 'src/app/objects/LOV/groupPolicyList';
 import {
   AccidentLOVServices
-} from '../../services/lov/accident.service'
+} from '../../services/lov/accident.service';
+import {
+  ThirdPartyLOVServices
+} from 'src/app/services/lov/third-party-lov-service';
 import {
   Globals
 } from 'src/app/utils/global';
@@ -71,6 +74,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   constructor(
     private fb: FormBuilder,
     private als: AccidentLOVServices,
+    private tpls: ThirdPartyLOVServices,
     private changeDetector: ChangeDetectorRef
   ) {
   }
@@ -93,16 +97,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         Globals.setLoadQuotation(false);
       }
     }
-    // this.getSubline();
-
-    // this.getSuffix();
-    // this.getGender();
-    // this.getRelationship();
-    // this.getOccupationalClass();
-    // this.getOccupation();
-
-    // this.getDisablementValue();
-    // this.getProductList();
   }
 
   createQuoteForm() {
@@ -146,13 +140,18 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     // var disablementValue = this.quoteForm.get('disablementValue');
 
     subline.valueChanges.subscribe(subline => {
-      this.accidentDetails.subline = subline;
-      this.als.getProduct(this.accidentDetails).then(res => {
-        _this.LOV.productListLOV = res;
-      });
-      this.als.getPaymentPlan(this.accidentDetails).then(res => {
-        // alert(res);
-      });
+      if (subline != undefined) {
+        this.accidentDetails.subline = subline;
+        this.als.getOccupationalClass(this.accidentDetails).then(res => {
+          _this.LOV.occupationalClassLOV = res;
+        });
+        this.als.getProduct(this.accidentDetails).then(res => {
+          _this.LOV.productListLOV = res;
+        });
+        this.als.getPaymentPlan(this.accidentDetails).then(res => {
+          // alert(res);
+        });
+      }
     });
   }
 
@@ -161,7 +160,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.als.getSubline().then(res => {
       _this.LOV.sublineLOV = res;
     });
-
+    this.tpls.getSuffix().then(res => {
+      _this.LOV.suffixLOV = res;
+    });
 
     this.setDefaultValue();
   }
@@ -169,55 +170,14 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   setDefaultValue() {
     //setting default value
     this.accidentDetails.sublineEffectivityDate = "01012016";
+    this.accidentDetails.relationship = 'PRIMARY';
   }
 
-  getSuffix() {
-    this.LOV.suffixLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getGender() {
-    this.LOV.genderLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getRelationship() {
-    this.LOV.relationshipLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getOccupationalClass() {
-    this.LOV.occupationalClassLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getOccupation() {
-    this.LOV.occupationLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getDisablementValue() {
-    this.LOV.disablementValueLOV = [{
-      value: "1",
-      name: "test"
-    }];
-  }
-
-  getProductList() {
-    this.LOV.productListLOV = [{
-      value: "1",
-      name: "test"
-    }];
+  occupationalClassOnchange() {
+    var _this = this;
+    this.als.getOccupation(this.accidentDetails).then(res => {
+      _this.LOV.occupationLOV = res;
+    });
   }
 
   issueQuote(accidentDetails: Accident, groupPolicy: GroupPolicy) {

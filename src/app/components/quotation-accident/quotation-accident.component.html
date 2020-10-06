@@ -114,7 +114,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="form-group">
                     <label for="commercialStructure">Suffix</label>
                     <select class="custom-select mr-sm-2 required" formControlName="suffix"
@@ -125,7 +125,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['gender'].invalid 
                       && (quoteForm.controls['gender'].dirty 
                       || quoteForm.controls['gender'].touched)}">
@@ -133,7 +133,8 @@
                     <select class="custom-select mr-sm-2 required" formControlName="gender"
                       [(ngModel)]="accidentDetails.gender">
                       <option></option>
-                      <option *ngFor="let gender of LOV.genderLOV" [ngValue]="gender.value">{{ gender.name }}</option>
+                      <option [ngValue]="1">MALE</option>
+                      <option [ngValue]="0">FEMALE</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['gender'].errors?.required">
                       * gender is required
@@ -141,7 +142,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <!-- <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['relationship'].invalid 
                       && (quoteForm.controls['relationship'].dirty 
                       || quoteForm.controls['relationship'].touched)}">
@@ -156,9 +157,9 @@
                       * relationship is required
                     </p>
                   </div>
-                </div>
+                </div> -->
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['birthDate'].invalid 
                       && (quoteForm.controls['birthDate'].dirty 
                       || quoteForm.controls['birthDate'].touched)}">
@@ -216,7 +217,7 @@
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['occupation'].invalid 
                       && (quoteForm.controls['occupation'].dirty 
                       || quoteForm.controls['occupation'].touched)}">
-                    <label for="occupation">Occupational</label>
+                    <label for="occupation">Occupation</label>
                     <select class="custom-select mr-sm-2 required" formControlName="occupation"
                       [(ngModel)]="accidentDetails.occupation">
                       <option></option>
