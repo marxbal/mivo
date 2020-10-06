@@ -58,6 +58,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   mindate: Date = new Date();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
 
+  //allow user to edit the form
+  editMode = true;
+
   showDetails: boolean = false;
   showSPADetails: boolean = false;
   showHCBIDetails: boolean = false;
