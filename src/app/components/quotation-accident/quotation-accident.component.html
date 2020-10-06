@@ -120,7 +120,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="suffix"
                       [(ngModel)]="accidentDetails.suffix">
                       <option></option>
-                      <option *ngFor="let suffix of LOV.suffixLOV" [ngValue]="suffix.value">{{ suffix.name }}</option>
+                      <option *ngFor="let suffix of LOV.suffixLOV" [ngValue]="suffix.TIPO_SUFIJO_NOMBRE">{{ suffix.NOM_VALOR }}</option>
                     </select>
                   </div>
                 </div>
@@ -141,23 +141,6 @@
                     </p>
                   </div>
                 </div>
-
-                <!-- <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['relationship'].invalid 
-                      && (quoteForm.controls['relationship'].dirty 
-                      || quoteForm.controls['relationship'].touched)}">
-                    <label for="relationship">Relationship</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="relationship"
-                      [(ngModel)]="accidentDetails.relationship">
-                      <option></option>
-                      <option *ngFor="let relationship of LOV.relationshipLOV" [ngValue]="relationship.value">
-                        {{ relationship.name }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['relationship'].errors?.required">
-                      * relationship is required
-                    </p>
-                  </div>
-                </div> -->
 
                 <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['birthDate'].invalid 
@@ -202,10 +185,11 @@
                       || quoteForm.controls['occupationalClass'].touched)}">
                     <label for="occupationalClass">Occupational Class</label>
                     <select class="custom-select mr-sm-2 required" formControlName="occupationalClass"
+                      (change)="occupationalClassOnchange()"
                       [(ngModel)]="accidentDetails.occupationalClass">
                       <option></option>
                       <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
-                        [ngValue]="occupationalClass.value">{{ occupationalClass.name }}</option>
+                        [ngValue]="occupationalClass.COD_VALOR">{{ occupationalClass.NOM_VALOR }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['occupationalClass'].errors?.required">
                       * occupational class is required
@@ -221,8 +205,8 @@
                     <select class="custom-select mr-sm-2 required" formControlName="occupation"
                       [(ngModel)]="accidentDetails.occupation">
                       <option></option>
-                      <option *ngFor="let occupation of LOV.occupationLOV" [ngValue]="occupation.value">
-                        {{ occupation.name }}</option>
+                      <option *ngFor="let occupation of LOV.occupationLOV" [ngValue]="occupation.COD_VALOR">
+                        {{ occupation.NOM_VALOR }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['occupation'].errors?.required">
                       * occupation is required
