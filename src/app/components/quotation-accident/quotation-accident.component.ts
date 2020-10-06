@@ -58,7 +58,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   quoteForm: FormGroup;
-  mindate: Date = new Date();
+  minDate: Date = moment().subtract(65, 'years').toDate();
+  maxDate: Date = moment().subtract(18, 'years').toDate();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
 
   //allow user to edit the form
