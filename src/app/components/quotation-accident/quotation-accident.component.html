@@ -274,8 +274,8 @@
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [(ngModel)]="accidentDetails.product">
                       <option selected></option>
-                      <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.name">
-                        {{ product.value }}</option>
+                      <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.NOM_MODALIDAD">
+                        {{ product.COD_MODALIDAD }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['product'].errors?.required">
                       * product list is required
