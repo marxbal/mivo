@@ -179,7 +179,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     var _this = this;
     this.showOtherOccupation = false;
     var otherOccupation = this.quoteForm.get('otherOccupation');
-    Utility.updateValidator(otherOccupation, [null]);
+    Utility.updateValidator(otherOccupation, null);
 
     this.als.getOccupation(this.accidentDetails).then(res => {
       _this.LOV.occupationLOV = res;
@@ -191,7 +191,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.showOtherOccupation = selectedOC == this.accidentDetails.occupation;
 
     var otherOccupation = this.quoteForm.get('otherOccupation');
-    Utility.updateValidator(otherOccupation, [this.showOtherOccupation ? Validators.required : null]);
+    Utility.updateValidator(otherOccupation, this.showOtherOccupation ? [Validators.required] : null);
   }
 
   issueQuote(accidentDetails: Accident, groupPolicy: GroupPolicy) {
