@@ -139,11 +139,15 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   setValidations() {
     var _this = this;
     var subline = this.quoteForm.get('subline');
-    // var disablementValue = this.quoteForm.get('disablementValue');
+    var disablementValue = this.quoteForm.get('disablementValue');
 
     subline.valueChanges.subscribe(subline => {
       if (subline != undefined) {
         this.accidentDetails.subline = subline;
+
+        this.showSPADetails = subline == 323; //if standard personal accident is selected
+        Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required] : null);
+
         this.als.getOccupationalClass(this.accidentDetails).then(res => {
           _this.LOV.occupationalClassLOV = res;
         });

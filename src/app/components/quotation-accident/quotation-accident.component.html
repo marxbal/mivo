@@ -186,7 +186,8 @@
                     <label for="occupationalClass">Occupational Class</label>
                     <select class="custom-select mr-sm-2 required" formControlName="occupationalClass"
                       (change)="occupationalClassOnchange()"
-                      [(ngModel)]="accidentDetails.occupationalClass">
+                      [(ngModel)]="accidentDetails.occupationalClass"
+                      [attr.disabled]="LOV.occupationalClassLOV?.length ? null : true">
                       <option></option>
                       <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
                         [ngValue]="occupationalClass.COD_VALOR">CLASS {{ occupationalClass.COD_VALOR }} - {{ occupationalClass.NOM_VALOR }}</option>
@@ -204,7 +205,8 @@
                     <label for="occupation">Occupation</label>
                     <select class="custom-select mr-sm-2 required" formControlName="occupation"
                       (change)="occupationOnchange()"
-                      [(ngModel)]="accidentDetails.occupation">
+                      [(ngModel)]="accidentDetails.occupation"
+                      [attr.disabled]="LOV.occupationLOV?.length ? null : true">
                       <option></option>
                       <option *ngFor="let occupation of LOV.occupationLOV" [ngValue]="occupation.COD_VALOR">
                         {{ occupation.NOM_VALOR }}</option>
@@ -256,6 +258,12 @@
                     <p class="form-error" *ngIf="quoteForm.controls['disablementValue'].errors?.required">
                       * accidental death and disablement value is required
                     </p>
+                    <p class="form-error" *ngIf="quoteForm.controls['disablementValue'].errors?.max">
+                      * accidental death and disablement value must be lower than Php2,000,001.00
+                    </p>
+                    <p class="form-error" *ngIf="quoteForm.controls['disablementValue'].errors?.min">
+                      * accidental death and disablement value must be higner than Php9,999.00
+                    </p>
                   </div>
                 </div>
               </div>
@@ -274,7 +282,8 @@
                     || quoteForm.controls['product'].touched)}">
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
-                      [(ngModel)]="accidentDetails.product">
+                      [(ngModel)]="accidentDetails.product"
+                      [attr.disabled]="LOV.productListLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}</option>
