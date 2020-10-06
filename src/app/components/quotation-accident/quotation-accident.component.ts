@@ -79,8 +79,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private tpls: ThirdPartyLOVServices,
     private changeDetector: ChangeDetectorRef
   ) {
-    alert(this.minDate);
-    alert(this.maxDate);
   }
 
   ngAfterViewChecked() {
