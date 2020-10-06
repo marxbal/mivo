@@ -248,13 +248,8 @@
                         && (quoteForm.controls['disablementValue'].dirty 
                         || quoteForm.controls['disablementValue'].touched)}">
                     <label for="disablementValue">Accidental Death and Disablement Value</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="disablementValue"
-                      [(ngModel)]="accidentDetails.disablementValue">
-                      <option selected></option>
-                      <option *ngFor="let disablementValue of LOV.disablementValueLOV"
-                        [ngValue]="disablementValue.name">
-                        {{ disablementValue.value }}</option>
-                    </select>
+                    <input type="number" formControlName="disablementValue" class="form-control required"
+                        [(ngModel)]="accidentDetails.disablementValue">
                     <p class="form-error" *ngIf="quoteForm.controls['disablementValue'].errors?.required">
                       * accidental death and disablement value is required
                     </p>
