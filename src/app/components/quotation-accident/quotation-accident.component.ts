@@ -141,24 +141,18 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   setValidations() {
+    var _this = this;
     var subline = this.quoteForm.get('subline');
-    var disablementValue = this.quoteForm.get('disablementValue');
+    // var disablementValue = this.quoteForm.get('disablementValue');
 
     subline.valueChanges.subscribe(subline => {
-      alert(subline);
-      //removing required validation
-      // Utility.updateValidator(disablementValue, null);
-      // this.showDetails = false;
-      // this.showSPADetails = false;
-      // this.showHCBIDetails = false;
-      // if (subline == 323) { //standard personal accident
-      //   this.showDetails = true;
-      //   this.showSPADetails = true;
-      //   Utility.updateValidator(disablementValue, Validators.required);
-      // }
+      this.als.getProduct(this.accidentDetails).then(res => {
+        _this.LOV.productListLOV = res;
+      });
+      this.als.getPaymentPlan(this.accidentDetails).then(res => {
+        alert(res);
+      });
     });
-
-    // Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
   }
 
   loadInit() {
