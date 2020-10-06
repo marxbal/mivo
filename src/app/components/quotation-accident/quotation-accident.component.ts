@@ -177,6 +177,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   occupationalClassOnchange() {
     var _this = this;
+    this.showOtherOccupation = false;
+    var otherOccupation = this.quoteForm.get('otherOccupation');
+    Utility.updateValidator(otherOccupation, [null]);
+
     this.als.getOccupation(this.accidentDetails).then(res => {
       _this.LOV.occupationLOV = res;
     });
@@ -186,11 +190,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     const selectedOC = this.accidentDetails.occupationalClass + '199';
     this.showOtherOccupation = selectedOC == this.accidentDetails.occupation;
 
-    // if (selectedOC == this.accidentDetails.occupation) {
-    //   this.showOtherOccupation = true;
-    // } else {
-    //   this.showOtherOccupation = true;
-    // }
+    var otherOccupation = this.quoteForm.get('otherOccupation');
+    Utility.updateValidator(otherOccupation, [this.showOtherOccupation ? Validators.required : null]);
   }
 
   issueQuote(accidentDetails: Accident, groupPolicy: GroupPolicy) {
