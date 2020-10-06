@@ -146,11 +146,12 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     // var disablementValue = this.quoteForm.get('disablementValue');
 
     subline.valueChanges.subscribe(subline => {
+      this.accidentDetails.subline = subline;
       this.als.getProduct(this.accidentDetails).then(res => {
         _this.LOV.productListLOV = res;
       });
       this.als.getPaymentPlan(this.accidentDetails).then(res => {
-        alert(res);
+        // alert(res);
       });
     });
   }
