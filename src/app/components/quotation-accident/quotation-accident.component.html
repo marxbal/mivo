@@ -146,7 +146,7 @@
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['birthDate'].invalid 
                       && (quoteForm.controls['birthDate'].dirty 
                       || quoteForm.controls['birthDate'].touched)}">
-                    <label for="birthDate">Birth Date</label>
+                    <label for="birthDate">Birth Date (18 to 65 y/o only)</label>
                     <input type="text" placeholder="Datepicker" class="form-control required"
                       [maxDate]="maxDate" [minDate]="minDate"
                       formControlName="birthDate" [(ngModel)]="accidentDetails.birthDate" bsDatepicker>
@@ -294,6 +294,9 @@
           </div>
 
           <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary"
+              (click)="test(quoteForm, appGroupPolicy, appGPolicyHolder)">Test
+              Qoute</button>
             <button [disabled]="quoteForm.pristine || quoteForm.invalid" type="button" class="btn btn-primary"
               (click)="issueQuote(accidentDetails, groupPolicy)">Issue
               Qoute</button>
