@@ -58,6 +58,56 @@
             [loadQuotation]="triggerCounter">
           </app-group-policy>
 
+          <div class="card shadow mb-3">
+            <div class="card-header">
+              <strong>General Information</strong>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-12">
+                  <h6>Movement Dates</h6>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['effectivityDate'].invalid 
+                    && (quoteForm.controls['effectivityDate'].dirty 
+                    || quoteForm.controls['effectivityDate'].touched)}">
+                    <label for="effectivityDate">Effectivity Date</label>
+                    <input type="text" placeholder="Datepicker" class="form-control required"
+                      (bsValueChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
+                      formControlName="effectivityDate"
+                      [(ngModel)]="accidentDetails.effectivityDate"
+                      [attr.disabled]="editMode ? null : true"
+                      bsDatepicker>
+                    <p class="form-error" *ngIf="quoteForm.controls['effectivityDate'].errors?.required">
+                      * effectivity date is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['expiryDate'].invalid 
+                    && (quoteForm.controls['expiryDate'].dirty 
+                    || quoteForm.controls['expiryDate'].touched)}">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input type="text" placeholder="Datepicker" class="form-control required"
+                      [minDate]="expiryDateMinDate"
+                      (bsValueChange)="affecting('expiryDate', 'Expirty Date')"
+                      formControlName="expiryDate"
+                      [(ngModel)]="accidentDetails.expiryDate"
+                      [attr.disabled]="editMode ? null : true"
+                      bsDatepicker>
+                    <p class="form-error" *ngIf="quoteForm.controls['expiryDate'].errors?.required">
+                      * expiry date is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <app-policy-holder #appPolicyHolder
             [title]="'Policy Holder Information'"
             [showCreateBtn]="true"

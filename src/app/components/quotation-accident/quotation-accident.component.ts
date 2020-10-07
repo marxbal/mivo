@@ -23,6 +23,12 @@ import {
   Validate
 } from '../../validators/validate';
 import {
+  Router
+} from '@angular/router';
+import {
+  page
+} from 'src/app/constants/page';
+import {
   AccidentListObject
 } from 'src/app/objects/LOV/accidentList';
 import {
@@ -55,6 +61,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   triggerCoverage: number = 0;
 
   accidentDetails = new Accident();
+  prevAccidentDetails: Accident = null;
+  changedValues: any[] = [];
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   quoteForm: FormGroup;
@@ -77,6 +85,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private fb: FormBuilder,
     private als: AccidentLOVServices,
     private tpls: ThirdPartyLOVServices,
+    private router: Router,
     private changeDetector: ChangeDetectorRef
   ) {
   }
@@ -122,7 +131,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       middleName: [null],
       suffix: [null],
       gender: ['', Validators.required],
-      relationship: ['', Validators.required],
       birthDate: ['', Validators.required],
       cbWithHealthDeclaration: [null],
       preExistingIllness: [null],
@@ -197,6 +205,51 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
     var otherOccupation = this.quoteForm.get('otherOccupation');
     Utility.updateValidator(otherOccupation, this.showOtherOccupation ? [Validators.required] : null);
+  }
+
+  effectivityDateOnChange() {
+    this.accidentDetails.expiryDate = moment(this.accidentDetails.effectivityDate).add(1, 'years').toDate();
+    this.expiryDateMinDate = this.accidentDetails.expiryDate;
+  }
+
+  newQuote() {
+    this.newPage(page.QUO.CAR);
+  }
+
+  newPolicy() {
+    this.newPage(page.ISS.CAR);
+  }
+
+  newPage(page : string) {
+    Utility.scroll('topDiv');
+    setTimeout(() => {
+      Globals.setPage(page);
+      this.router.navigate(['/reload']);
+    }, 500);
+  }
+
+  affecting(key: string, label: string) {
+    if (!Utility.isUndefined(this.accidentDetails.quotationNumber) && this.prevAccidentDetails != null) {
+      let prev = this.prevAccidentDetails[key] == undefined ? "" : this.prevAccidentDetails[key];
+      let curr = this.accidentDetails[key] == undefined ? "" : this.accidentDetails[key];
+      if (curr instanceof Date) {
+        curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
+        if (!Utility.isUndefined(prev)) {
+          var prevDate = new Date(prev);
+          prev = prevDate.getMonth() + "/" + prevDate.getDate() + "/" + prevDate.getFullYear();
+        }
+      }
+
+      if (prev != curr) {
+        if (!this.changedValues.includes(label)) {
+          //if changedValues length is greater than 0, request is affecting
+          this.changedValues.push(label);
+        }
+      } else {
+        //remove all occurence
+        this.changedValues = this.changedValues.filter(v => v !== label);
+      }
+    }
   }
 
   issueQuote(accidentDetails: Accident, groupPolicy: GroupPolicy) {
