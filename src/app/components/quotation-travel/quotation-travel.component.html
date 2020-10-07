@@ -549,6 +549,9 @@
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtn" class="btn-group" role="group">
+              <button type="button" class="btn btn-primary"
+              (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Test
+              Qoute</button>
               <button
                 *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"

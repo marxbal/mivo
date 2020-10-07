@@ -88,6 +88,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private changeDetector: ChangeDetectorRef
   ) {
+    this.createQuoteForm();
+    this.setValidations();
   }
 
   ngAfterViewChecked() {
@@ -95,8 +97,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.createQuoteForm();
-    this.setValidations();
     this.loadInit();
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
