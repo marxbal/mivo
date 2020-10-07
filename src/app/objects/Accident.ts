@@ -7,12 +7,15 @@ import {
 
 // * - used in quick quotation
 export class Accident {
+  mcaTmpPptoMph: string;
+  affecting: boolean;
   primaryInsuredAge: number; // *
   cbSpouseAge: boolean; // *
   spouseAge: number; // *
   cbChildNumber: boolean; // *
   childNumber: number; // *
 
+  policyNumber: string
   quotationNumber: string;
 
   //risk details

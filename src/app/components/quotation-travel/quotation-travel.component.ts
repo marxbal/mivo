@@ -134,11 +134,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   //allow user to edit the form
   editMode = true;
 
-  //flag if coverage is modified
-  // isModifiedCoverage = false;
-  //flag to include covergae
-  // includeCoverage = false;
-
   //flag to show generate btn
   showGenerateBtn: boolean = true;
   //flag to show issue btn
@@ -1256,28 +1251,4 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       });
     }
   }
-
-
-  test(q: FormGroup, g: FormGroup, c: FormGroup) {
-    let invalid = [];
-
-    invalid = this.findInvalidControls(invalid, q);
-    invalid = this.findInvalidControls(invalid, g);
-    invalid = this.findInvalidControls(invalid, c);
-    alert(invalid);
-  }
-
-  public findInvalidControls(invalid: any[], form: FormGroup) {
-    const controls = form.controls;
-    for (const name in controls) {
-      if (controls[name].invalid) {
-        invalid.push(name);
-      }
-      // if (controls[name].pristine) {
-      //   invalid.push(name);
-      // }
-    }
-    return invalid;
-  }
-
 }
