@@ -256,7 +256,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       occupationalClass: ['', Validators.required],
       occupation: ['', Validators.required],
       otherOccupation: [null],
-      occupationList: FormArray,
+      occupationList: [occupationList],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
     });
@@ -279,7 +279,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       occupationalClass: ['', Validators.required],
       occupation: ['', Validators.required],
       otherOccupation: [null],
-      occupationList: FormArray,
+      occupationList: [occupationList],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
     });
