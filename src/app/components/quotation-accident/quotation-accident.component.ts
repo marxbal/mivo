@@ -242,7 +242,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     const bdaymindate: Date = moment().subtract(65, 'years').toDate();
     var ageLimit = onLoad ? 18 : 0;
     const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
-    const occupationList = [];
+    const occupationList = [{COD_VALOR: "A001", NOM_VALOR: "Accountants"},{COD_VALOR: "A002", NOM_VALOR: "Auctioneers"}];
 
     return this.fb.group({
       firstName: ['', Validators.required],
@@ -265,7 +265,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   loadInsured(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
     const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
     const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 1 : 18, 'years').toDate();
-    const occupationList = [];
+    const occupationList = [{COD_VALOR: "A001", NOM_VALOR: "Accountants"},{COD_VALOR: "A002", NOM_VALOR: "Auctioneers"}];
 
     return this.fb.group({
       firstName: ['', Validators.required],
@@ -327,7 +327,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     Utility.updateValidator(otherOccupation, null);
 
     this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
-      occupationList.setValue = res;
+      occupationList.setValue(res);
       console.log(occupationList.value);
     });
   }
