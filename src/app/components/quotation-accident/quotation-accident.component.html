@@ -237,7 +237,7 @@
                               || ins.controls['occupationalClass'].touched)}">
                             <label for="occupationalClass">Occupational Class</label>
                             <select class="custom-select mr-sm-2 required" formControlName="occupationalClass"
-                              (change)="occupationalClassOnchange()"
+                              (change)="occupationalClassOnchange(ins)"
                               [attr.disabled]="LOV.occupationalClassLOV?.length ? null : true">
                               <option></option>
                               <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
