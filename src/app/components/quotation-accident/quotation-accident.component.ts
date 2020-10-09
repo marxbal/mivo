@@ -231,7 +231,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   setDefaultValue() {
     //setting default value
     this.accidentDetails.sublineEffectivityDate = "01012016";
-    // this.accidentDetails.relationship = 'PRIMARY';
   }
 
   insured(): FormArray {
@@ -242,7 +241,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     const bdaymindate: Date = moment().subtract(65, 'years').toDate();
     var ageLimit = onLoad ? 18 : 0;
     const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
-    const occupationList = [{COD_VALOR: "A001", NOM_VALOR: "Accountants"},{COD_VALOR: "A002", NOM_VALOR: "Auctioneers"}];
+    const occupationList = [];
 
     return this.fb.group({
       firstName: ['', Validators.required],

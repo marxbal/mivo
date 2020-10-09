@@ -255,7 +255,7 @@
                               || ins.controls['occupation'].touched)}">
                             <label for="occupation">Occupation</label>
                             <select class="custom-select mr-sm-2 required" formControlName="occupation"
-                              (change)="occupationOnchange()"
+                              (change)="occupationOnchange(ins)"
                               [attr.disabled]="ins.controls['occupationList'].value.length ? null : true">
                               <option></option>
                               <option *ngFor="let occupation of ins.controls['occupationList'].value" [ngValue]="occupation.COD_VALOR">
