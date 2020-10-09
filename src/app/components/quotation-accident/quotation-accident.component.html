@@ -129,162 +129,179 @@
                 <div class="col-xl-12">
                   <h6>Personal Information</h6>
                 </div>
-
-                <div class="col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['firstName'].invalid 
-                      && (quoteForm.controls['firstName'].dirty 
-                      || quoteForm.controls['firstName'].touched)}">
-                    <label for="firstName">First Name</label>
-                    <input type="text" formControlName="firstName" class="form-control required"
-                      [(ngModel)]="accidentDetails.firstName">
-                    <p class="form-error" *ngIf="quoteForm.controls['firstName'].errors?.required">
-                      * first name is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                  <div class="form-group">
-                    <label for="middleName">Middle Name</label>
-                    <input type="text" formControlName="middleName" class="form-control"
-                      [(ngModel)]="accidentDetails.middleName">
-                  </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['lastName'].invalid 
-                      && (quoteForm.controls['lastName'].dirty 
-                      || quoteForm.controls['lastName'].touched)}">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" formControlName="lastName" class="form-control required"
-                      [(ngModel)]="accidentDetails.lastName">
-                    <p class="form-error" *ngIf="quoteForm.controls['lastName'].errors?.required">
-                      * last name is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="form-group">
-                    <label for="commercialStructure">Suffix</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="suffix"
-                      [(ngModel)]="accidentDetails.suffix">
-                      <option></option>
-                      <option *ngFor="let suffix of LOV.suffixLOV" [ngValue]="suffix.TIPO_SUFIJO_NOMBRE">{{ suffix.NOM_VALOR }}</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['gender'].invalid 
-                      && (quoteForm.controls['gender'].dirty 
-                      || quoteForm.controls['gender'].touched)}">
-                    <label for="gender">Gender</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="gender"
-                      [(ngModel)]="accidentDetails.gender">
-                      <option></option>
-                      <option [ngValue]="1">MALE</option>
-                      <option [ngValue]="0">FEMALE</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['gender'].errors?.required">
-                      * gender is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['birthDate'].invalid 
-                      && (quoteForm.controls['birthDate'].dirty 
-                      || quoteForm.controls['birthDate'].touched)}">
-                    <label for="birthDate">Birth Date (18 to 65 y/o only)</label>
-                    <input type="text" placeholder="Datepicker" class="form-control required"
-                      [maxDate]="maxDate" [minDate]="minDate"
-                      formControlName="birthDate" [(ngModel)]="accidentDetails.birthDate" bsDatepicker>
-                    <p class="form-error" *ngIf="quoteForm.controls['birthDate'].errors?.required">
-                      * birth date is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-12">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="cbWithHealthDeclaration"
-                      formControlName="cbWithHealthDeclaration" [(ngModel)]="accidentDetails.cbWithHealthDeclaration">
-                    <label class="form-check-label" for="cbWithHealthDeclaration">
-                      With Health Declaration
-                    </label>
-                  </div>
-                  <label class="form-check-label" for="cbWithHealthDeclaration">
-                    Declare Pre-existing Illness
-                  </label>
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['preExistingIllness'].invalid 
-                      && (quoteForm.controls['preExistingIllness'].dirty 
-                      || quoteForm.controls['preExistingIllness'].touched)}">
-                    <textarea class="form-control required"
-                      [attr.disabled]="accidentDetails.cbWithHealthDeclaration ? null : ''" type="text"
-                      id="preExistingIllness" formControlName="preExistingIllness"
-                      [(ngModel)]="accidentDetails.preExistingIllness"></textarea>
-                    <p class="form-error" *ngIf="quoteForm.controls['preExistingIllness'].errors?.required">
-                      * please indicate pre-existing illness
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['occupationalClass'].invalid 
-                      && (quoteForm.controls['occupationalClass'].dirty 
-                      || quoteForm.controls['occupationalClass'].touched)}">
-                    <label for="occupationalClass">Occupational Class</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="occupationalClass"
-                      (change)="occupationalClassOnchange()"
-                      [(ngModel)]="accidentDetails.occupationalClass"
-                      [attr.disabled]="LOV.occupationalClassLOV?.length ? null : true">
-                      <option></option>
-                      <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
-                        [ngValue]="occupationalClass.COD_VALOR">CLASS {{ occupationalClass.COD_VALOR }} - {{ occupationalClass.NOM_VALOR }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['occupationalClass'].errors?.required">
-                      * occupational class is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['occupation'].invalid 
-                      && (quoteForm.controls['occupation'].dirty 
-                      || quoteForm.controls['occupation'].touched)}">
-                    <label for="occupation">Occupation</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="occupation"
-                      (change)="occupationOnchange()"
-                      [(ngModel)]="accidentDetails.occupation"
-                      [attr.disabled]="LOV.occupationLOV?.length ? null : true">
-                      <option></option>
-                      <option *ngFor="let occupation of LOV.occupationLOV" [ngValue]="occupation.COD_VALOR">
-                        {{ occupation.NOM_VALOR }}</option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['occupation'].errors?.required">
-                      * occupation is required
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-lg-12" *ngIf="showOtherOccupation">
-                  <label class="form-check-label" for="occupation">
-                    Declare Other Occupation
-                  </label>
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['otherOccupation'].invalid 
-                      && (quoteForm.controls['otherOccupation'].dirty 
-                      || quoteForm.controls['otherOccupation'].touched)}">
-                    <textarea class="form-control required" type="text"
-                      id="otherOccupation" formControlName="otherOccupation"
-                      [(ngModel)]="accidentDetails.otherOccupation"></textarea>
-                    <p class="form-error" *ngIf="quoteForm.controls['otherOccupation'].errors?.required">
-                      * please indicate other occupation
-                    </p>
-                  </div>
-                </div>
-
               </div>
+
+              <div formArrayName="insured">
+                <div *ngFor="let ins of quoteForm.get('insured')['controls']; let i=index">
+                  <div [formGroupName]="i" class="card insured-card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['firstName'].invalid 
+                              && (ins.controls['firstName'].dirty 
+                              || ins.controls['firstName'].touched)}">
+                            <label for="firstName">First Name</label>
+                            <input type="text" formControlName="firstName" class="form-control required">
+                            <p class="form-error" *ngIf="ins.controls['firstName'].errors?.required">
+                              * first name is required
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-md-4 col-sm-6">
+                          <div class="form-group">
+                            <label for="middleName">Middle Name</label>
+                            <input type="text" formControlName="middleName" class="form-control">
+                          </div>
+                        </div>
+        
+                        <div class="col-md-4 col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['lastName'].invalid 
+                              && (ins.controls['lastName'].dirty 
+                              || ins.controls['lastName'].touched)}">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" formControlName="lastName" class="form-control required">
+                            <p class="form-error" *ngIf="ins.controls['lastName'].errors?.required">
+                              * last name is required
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                          <div class="form-group">
+                            <label for="commercialStructure">Suffix</label>
+                            <select class="custom-select mr-sm-2 required" formControlName="suffix">
+                              <option></option>
+                              <option *ngFor="let suffix of LOV.suffixLOV" [ngValue]="suffix.TIPO_SUFIJO_NOMBRE">{{ suffix.NOM_VALOR }}</option>
+                            </select>
+                          </div>
+                        </div>
+        
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['gender'].invalid 
+                              && (ins.controls['gender'].dirty 
+                              || ins.controls['gender'].touched)}">
+                            <label for="gender">Gender</label>
+                            <select class="custom-select mr-sm-2 required" formControlName="gender">
+                              <option></option>
+                              <option [ngValue]="1">MALE</option>
+                              <option [ngValue]="0">FEMALE</option>
+                            </select>
+                            <p class="form-error" *ngIf="ins.controls['gender'].errors?.required">
+                              * gender is required
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['birthDate'].invalid 
+                              && (ins.controls['birthDate'].dirty 
+                              || ins.controls['birthDate'].touched)}">
+                            <label for="birthDate">Birth Date</label>
+                            <input type="text" placeholder="Datepicker" class="form-control required"
+                              [maxDate]="maxDate" [minDate]="minDate"
+                              formControlName="birthDate" bsDatepicker>
+                            <p class="form-error" *ngIf="ins.controls['birthDate'].errors?.required">
+                              * birth date is required
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-lg-12">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cbWithHealthDeclaration{{i}}"
+                              formControlName="cbWithHealthDeclaration"
+                              (change)="cbWithHealthDeclarationOnChange(ins)">
+                            <label class="form-check-label" for="cbWithHealthDeclaration{{i}}">
+                              With Health Declaration
+                            </label>
+                          </div>
+                          <label class="form-check-label" for="cbWithHealthDeclaration">
+                            Declare Pre-existing Illness
+                          </label>
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['preExistingIllness'].invalid 
+                              && (ins.controls['preExistingIllness'].dirty 
+                              || ins.controls['preExistingIllness'].touched)}">
+                            <textarea class="form-control required"
+                              [attr.disabled]="ins.controls['cbWithHealthDeclaration'].value ? null : ''" type="text"
+                              id="preExistingIllness" formControlName="preExistingIllness"></textarea>
+                            <p class="form-error" *ngIf="ins.controls['preExistingIllness'].errors?.required">
+                              * please indicate pre-existing illness
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['occupationalClass'].invalid 
+                              && (ins.controls['occupationalClass'].dirty 
+                              || ins.controls['occupationalClass'].touched)}">
+                            <label for="occupationalClass">Occupational Class</label>
+                            <select class="custom-select mr-sm-2 required" formControlName="occupationalClass"
+                              (change)="occupationalClassOnchange()"
+                              [attr.disabled]="LOV.occupationalClassLOV?.length ? null : true">
+                              <option></option>
+                              <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
+                                [ngValue]="occupationalClass.COD_VALOR">CLASS {{ occupationalClass.COD_VALOR }} - {{ occupationalClass.NOM_VALOR }}</option>
+                            </select>
+                            <p class="form-error" *ngIf="ins.controls['occupationalClass'].errors?.required">
+                              * occupational class is required
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['occupation'].invalid 
+                              && (ins.controls['occupation'].dirty 
+                              || ins.controls['occupation'].touched)}">
+                            <label for="occupation">Occupation</label>
+                            <select class="custom-select mr-sm-2 required" formControlName="occupation"
+                              (change)="occupationOnchange()"
+                              [attr.disabled]="ins.controls['occupationList'].value.length ? null : true">
+                              <option></option>
+                              <option *ngFor="let occupation of ins.controls['occupationList'].value" [ngValue]="occupation.COD_VALOR">
+                                {{ occupation.NOM_VALOR }}</option>
+                            </select>
+                            <p class="form-error" *ngIf="ins.controls['occupation'].errors?.required">
+                              * occupation is required
+                            </p>
+                          </div>
+                        </div>
+        
+                        <div class="col-lg-12" *ngIf="showOtherOccupation">
+                          <label class="form-check-label" for="occupation">
+                            Declare Other Occupation
+                          </label>
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['otherOccupation'].invalid 
+                              && (ins.controls['otherOccupation'].dirty 
+                              || ins.controls['otherOccupation'].touched)}">
+                            <textarea class="form-control required" type="text"
+                              id="otherOccupation" formControlName="otherOccupation"></textarea>
+                            <p class="form-error" *ngIf="ins.controls['otherOccupation'].errors?.required">
+                              * please indicate other occupation
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12">
+                          <div class="btn-group" *ngIf="i > 0 && editMode">
+                            <button class="btn btn-primary" (click)="removeInsured(i)">Remove</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="insuredHeadCount <= 5" class="btn-group">
+                <!-- <button [disabled]="!editMode || quoteForm.get('insured').status !== 'VALID'" type="button"
+                  (click)="addInsured()" class="btn btn-primary">Add Insured Individual</button> -->
+                  <button type="button"
+                  (click)="addInsured()" class="btn btn-primary">Add Insured Individual</button>
+              </div>
+
             </div>
           </div>
 

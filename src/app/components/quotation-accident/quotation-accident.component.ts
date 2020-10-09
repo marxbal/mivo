@@ -9,7 +9,8 @@ import {
 import {
   FormGroup,
   FormBuilder,
-  Validators
+  Validators,
+  FormArray
 } from '@angular/forms';
 import * as moment from 'moment';
 import {
@@ -79,6 +80,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  insuredHeadCount: number = 1;
 
   accidentDetails = new Accident();
   prevAccidentDetails: Accident = null;
@@ -169,20 +171,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       //general information
       effectivityDate: ['', Validators.required],
       expiryDate: ['', Validators.required],
-      //policy holder information
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
       //insured details
-      middleName: [null],
-      suffix: [null],
-      gender: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      cbWithHealthDeclaration: [null],
-      preExistingIllness: [null],
-      occupationalClass: ['', Validators.required],
-      occupation: ['', Validators.required],
-      otherOccupation: [null],
-
+      insured: this.fb.array([this.newInsured(true)]),
       //disablement value
       disablementValue: [null],
       //product data
@@ -194,8 +184,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     var _this = this;
     var subline = this.quoteForm.get('subline');
     var disablementValue = this.quoteForm.get('disablementValue');
-    var cbWithHealthDeclaration = this.quoteForm.get('cbWithHealthDeclaration');
-    var preExistingIllness = this.quoteForm.get('preExistingIllness');
+    // var cbWithHealthDeclaration = this.quoteForm.get('cbWithHealthDeclaration');
+    // var preExistingIllness = this.quoteForm.get('preExistingIllness');
 
     subline.valueChanges.subscribe(subline => {
       if (subline != undefined) {
@@ -203,6 +193,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
         this.showSPADetails = subline == 323; //if standard personal accident is selected
         Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
+
+        this.minDate = moment().subtract(this.showSPADetails ? 65 : 70, 'years').toDate();
+        this.maxDate = moment().subtract(this.showSPADetails ? 18 : 1, 'years').toDate();
 
         this.als.getOccupationalClass(this.accidentDetails).then(res => {
           _this.LOV.occupationalClassLOV = res;
@@ -216,11 +209,11 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       }
     });
 
-    cbWithHealthDeclaration.valueChanges.subscribe(withHD => {
-      if (withHD != undefined) {
-        Utility.updateValidator(preExistingIllness, withHD ? [Validators.required] : null);
-      }
-    });
+    // cbWithHealthDeclaration.valueChanges.subscribe(withHD => {
+    //   if (withHD != undefined) {
+    //     Utility.updateValidator(preExistingIllness, withHD ? [Validators.required] : null);
+    //   }
+    // });
   }
 
   loadInit() {
@@ -238,17 +231,103 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   setDefaultValue() {
     //setting default value
     this.accidentDetails.sublineEffectivityDate = "01012016";
-    this.accidentDetails.relationship = 'PRIMARY';
+    // this.accidentDetails.relationship = 'PRIMARY';
   }
 
-  occupationalClassOnchange() {
+  insured(): FormArray {
+    return this.quoteForm.get("insured") as FormArray
+  }
+
+  newInsured(onLoad: boolean): FormGroup {
+    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
+    var ageLimit = onLoad ? 18 : 0;
+    const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
+    const occupationList = [];
+
+    return this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      middleName: [null],
+      suffix: ['', Validators.required],
+      gender: ['', Validators.required],
+      birthDate: ['', Validators.required],
+      cbWithHealthDeclaration: [null],
+      preExistingIllness: [null],
+      occupationalClass: ['', Validators.required],
+      occupation: ['', Validators.required],
+      otherOccupation: [null],
+      occupationList: [occupationList],
+      bdaymindate: [bdaymindate],
+      bdaymaxdate: [bdaymaxdate],
+    });
+  }
+
+  loadInsured(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
+    const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
+    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 1 : 18, 'years').toDate();
+    const occupationList = [];
+
+    return this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      middleName: [null],
+      suffix: ['', Validators.required],
+      gender: ['', Validators.required],
+      birthDate: ['', Validators.required],
+      cbWithHealthDeclaration: [null],
+      preExistingIllness: [null],
+      occupationalClass: ['', Validators.required],
+      occupation: ['', Validators.required],
+      otherOccupation: [null],
+      occupationList: [occupationList],
+      bdaymindate: [bdaymindate],
+      bdaymaxdate: [bdaymaxdate],
+    });
+  }
+
+  addInsured() {
+    this.insured().push(this.newInsured(false));
+
+    //hides the add insured button if insured head count is more than 6
+    var insured = this.quoteForm.get('insured').value;
+    this.insuredHeadCount = insured.length;
+  }
+
+  removeInsured(index: number) {
+    this.insured().removeAt(index);
+
+    //shows the add insured button if insured head count is less than 6
+    var insured = this.quoteForm.get('insured').value;
+    this.insuredHeadCount = insured.length;
+  }
+
+  // removeAllInsured() {
+  //   // removing all insured
+  //   var insured = this.quoteForm.get('insured').value;
+  //   if (insured.length > 0) {
+  //     // loop until all accessories removed
+  //     this.insured().removeAt(0);
+  //     this.removeAllInsured();
+  //   }
+  // }
+
+  cbWithHealthDeclarationOnChange(insured: FormGroup) {
+    var withHD = insured.controls['cbWithHealthDeclaration'].value;
+    var preExistingIllness = insured.controls['preExistingIllness'];
+    if (withHD != undefined) {
+      Utility.updateValidator(preExistingIllness, withHD ? [Validators.required] : null);
+    }
+  }
+
+  occupationalClassOnchange(insured: FormGroup) {
+    var occupationList = insured.controls['occupationList'];
     var _this = this;
     this.showOtherOccupation = false;
     var otherOccupation = this.quoteForm.get('otherOccupation');
     Utility.updateValidator(otherOccupation, null);
 
     this.als.getOccupation(this.accidentDetails).then(res => {
-      _this.LOV.occupationLOV = res;
+      occupationList.setValue = res as any;
     });
   }
 
