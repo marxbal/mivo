@@ -257,6 +257,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       occupation: ['', Validators.required],
       otherOccupation: [null],
       occupationList: [occupationList],
+      showOtherOccupation: [false],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
     });
@@ -279,6 +280,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       occupationalClass: ['', Validators.required],
       occupation: ['', Validators.required],
       otherOccupation: [null],
+      showOtherOccupation: [false],
       occupationList: [occupationList],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
@@ -328,16 +330,17 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
     this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
       occupationList.setValue(res);
-      console.log(occupationList.value);
     });
   }
 
-  occupationOnchange() {
-    const selectedOC = this.accidentDetails.occupationalClass + '199';
-    this.showOtherOccupation = selectedOC == this.accidentDetails.occupation;
-
-    var otherOccupation = this.quoteForm.get('otherOccupation');
-    Utility.updateValidator(otherOccupation, this.showOtherOccupation ? [Validators.required] : null);
+  occupationOnchange(insured: FormGroup) {
+    var showOtherOccupation = insured.get('occupationalClass');
+    var occupationalClass = insured.get('occupationalClass').value;
+    var occupation = insured.get('occupation').value;
+    const selectedOC : string = occupationalClass + '199';
+    showOtherOccupation.setValue(selectedOC == occupation);
+    var otherOccupation = insured.get('otherOccupation');
+    Utility.updateValidator(otherOccupation, showOtherOccupation.value ? [Validators.required] : null);
   }
 
   effectivityDateOnChange() {
