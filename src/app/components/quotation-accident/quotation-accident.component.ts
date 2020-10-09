@@ -256,7 +256,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       occupationalClass: ['', Validators.required],
       occupation: ['', Validators.required],
       otherOccupation: [null],
-      occupationList: [occupationList],
+      occupationList: FormArray,
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
     });
@@ -279,7 +279,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       occupationalClass: ['', Validators.required],
       occupation: ['', Validators.required],
       otherOccupation: [null],
-      occupationList: [occupationList],
+      occupationList: FormArray,
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
     });
@@ -327,7 +327,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     Utility.updateValidator(otherOccupation, null);
 
     this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
-      occupationList.setValue = res as any;
+      occupationList.setValue = res;
       console.log(occupationList.value);
     });
   }

@@ -28,10 +28,10 @@ export class AccidentLOVServices {
       '|cod_modalidad~99999' +
       '|cod_campo~COD_OCCUPATIONAL_CLASS' +
       '|fec_validez~01012016');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getLOV(dto).then(lovs => lovs as any[] );
   }
 
-  async getOccupation(accidentDetails: Accident, occupationalClass: String): Promise < any[] > {
+  async getOccupation(accidentDetails: Accident, occupationalClass: String): Promise < any > {
     const dto = new LOV(
       'G2990006',
       '13',
@@ -40,7 +40,7 @@ export class AccidentLOVServices {
       '|fec_validez~01012016' +
       '|DVCOD_OCCUPATIONAL_CLASS~' + occupationalClass +
       '|cod_idioma~EN');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getLOV(dto).then(lovs => lovs as any);
   }
 
   async getPaymentPlan(accidentDetails: Accident): Promise < any[] > {
