@@ -31,14 +31,14 @@ export class AccidentLOVServices {
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
-  async getOccupation(accidentDetails: Accident): Promise < any[] > {
+  async getOccupation(accidentDetails: Accident, occupationalClass: String): Promise < any[] > {
     const dto = new LOV(
       'G2990006',
       '13',
       '|cod_ramo~' + accidentDetails.subline +
       '|cod_campo~TXT_OCCUPATION' +
       '|fec_validez~01012016' +
-      '|DVCOD_OCCUPATIONAL_CLASS~' + accidentDetails.occupationalClass +
+      '|DVCOD_OCCUPATIONAL_CLASS~' + occupationalClass +
       '|cod_idioma~EN');
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
