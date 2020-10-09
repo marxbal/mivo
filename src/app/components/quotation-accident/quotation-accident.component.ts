@@ -333,7 +333,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   occupationOnchange(insured: FormGroup) {
-    var showOtherOccupation = insured.get('occupationalClass');
+    var showOtherOccupation = insured.get('showOtherOccupation');
     var occupationalClass = insured.get('occupationalClass').value;
     var occupation = insured.get('occupation').value;
     const selectedOC : string = occupationalClass + '199';
