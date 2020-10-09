@@ -321,9 +321,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   occupationalClassOnchange(insured: FormGroup) {
     var occupationList = insured.controls['occupationList'];
-    var _this = this;
     this.showOtherOccupation = false;
-    var otherOccupation = this.quoteForm.get('otherOccupation');
+    var otherOccupation = insured.get('otherOccupation');
     Utility.updateValidator(otherOccupation, null);
 
     this.als.getOccupation(this.accidentDetails).then(res => {
