@@ -255,7 +255,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       suffix: [null],
       suffixLabel: [''],
       gender: ['', Validators.required],
-      genderlabel: [''],
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
       relationshipLabel: [onLoad ? 'PRIMARY' : ''],
@@ -328,7 +327,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   suffixOnChange(insured: FormGroup) {
     var val = insured.controls['suffix'].value;
     this.LOV.suffixLOV.forEach(r => {
-      if (r.COD_VALOR == val) {
+      if (r.TIPO_SUFIJO_NOMBRE == val) {
         insured.controls['suffixLabel'].setValue(r.NOM_VALOR);
       }
     });
