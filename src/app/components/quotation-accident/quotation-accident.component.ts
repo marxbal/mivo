@@ -244,9 +244,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   newInsured(onLoad: boolean): FormGroup {
-    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
-    var ageLimit = onLoad ? 18 : 0;
-    const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
     const occupationList = [];
 
     return this.fb.group({
@@ -265,8 +262,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       otherOccupation: [null],
       occupationList: [occupationList],
       showOtherOccupation: [false],
-      bdaymindate: [bdaymindate],
-      bdaymaxdate: [bdaymaxdate],
+      bdaymindate: [this.minDate],
+      bdaymaxdate: [this.maxDate],
     });
   }
 
@@ -291,8 +288,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       otherOccupation: [null],
       showOtherOccupation: [false],
       occupationList: [occupationList],
-      bdaymindate: [bdaymindate],
-      bdaymaxdate: [bdaymaxdate],
+      bdaymindate: [this.minDate],
+      bdaymaxdate: [this.maxDate],
     });
   }
 

@@ -227,7 +227,7 @@
                               || ins.controls['birthDate'].touched)}">
                             <label for="birthDate">Birth Date</label>
                             <input type="text" placeholder="Datepicker" class="form-control required"
-                              [maxDate]="maxDate" [minDate]="minDate"
+                              [maxDate]="ins.controls['bdaymaxdate'].value" [minDate]="ins.controls['bdaymindate'].value"
                               formControlName="birthDate" bsDatepicker>
                             <p class="form-error" *ngIf="ins.controls['birthDate'].errors?.required">
                               * birth date is required

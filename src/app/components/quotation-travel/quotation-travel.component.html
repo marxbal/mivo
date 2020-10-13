@@ -347,7 +347,8 @@
                           || traveler.controls['birthDate'].touched)}">
                             <label for="birthDate">Birthdate</label>
                             <input type="text" placeholder="Datepicker" class="form-control required"
-                              [maxDate]="traveler.controls['bdaymaxdate'].value" [minDate]="traveler.controls['bdaymindate'].value" formControlName="birthDate" bsDatepicker
+                              [maxDate]="traveler.controls['bdaymaxdate'].value" [minDate]="traveler.controls['bdaymindate'].value"
+                              formControlName="birthDate" bsDatepicker
                               [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveler.controls['birthDate'].errors?.required">
                               * birthdate is required
