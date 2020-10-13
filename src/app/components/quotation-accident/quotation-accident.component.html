@@ -325,7 +325,7 @@
                 </div>
               </div>
 
-              <div *ngIf="insuredHeadCount <= 5" class="btn-group">
+              <div *ngIf="insuredHeadCount <= 5 && showHCBIDetails" class="btn-group">
                 <button [disabled]="!editMode || quoteForm.get('insured').status !== 'VALID'" type="button"
                   (click)="addInsured()" class="btn btn-primary">Add Insured Individual</button>
               </div>

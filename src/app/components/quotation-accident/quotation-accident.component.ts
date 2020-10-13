@@ -196,6 +196,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         this.accidentDetails.subline = subline;
 
         this.showSPADetails = subline == 323; //if standard personal accident is selected
+        this.showHCBIDetails = subline == 326; //if hospital cash benefit is selected
+
         Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
 
         this.minDate = moment().subtract(this.showSPADetails ? 65 : 70, 'years').toDate();
@@ -322,7 +324,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   relationshipOnChange(insured: FormGroup) {
     var val = insured.controls['relationship'].value;
     var maxAge = (val == 'C') ? 21 : 65;
-    var minAge = (val == 'C') ? 0 : 18;
+    var minAge = (val == 'C') ? 1 : 18;
 
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
     insured.controls['bdaymindate'].setValue(bdaymindate);
