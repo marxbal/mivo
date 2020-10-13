@@ -634,20 +634,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   //generate and issue quote button
   issueQuote(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
-    this.accidentDetails.mcaTmpPptoMph = mcaTmpPptoMph;
-
-    // includes group policy to travel details DTO
-    this.accidentDetails.groupPolicy = this.groupPolicy;
-    // includes policy holder to travel details DTO
-    this.accidentDetails.policyHolder = this.policyHolder;
-
-    // get product code
-    this.getProductCode();
-
-    // to trigger changes when regenerating quotation
-    this.showPaymentBreakdown = false;
-    this.showCoverage = false;
-
+    this.assembleData(mcaTmpPptoMph);
+    
     this.ais.issueQuote(this.accidentDetails).then(res => {
       if (res.status) {
         //clear affecting fields
@@ -697,26 +685,29 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  assembleIssuePolicyData() {
-    // always N for issue policy
-    this.accidentDetails.mcaTmpPptoMph = "N";
+  assembleData(mcaTmpPptoMph: string) {
+    this.accidentDetails.mcaTmpPptoMph = mcaTmpPptoMph;
 
     // includes group policy to travel details DTO
     this.accidentDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to travel details DTO
     this.accidentDetails.policyHolder = this.policyHolder;
 
+    // includes travelers to travel details DTO
+    var insured = this.quoteForm.get('insured').value;
+    this.accidentDetails.insuredDetails = insured.length ? insured : [];
+
     // get product code
     this.getProductCode();
+
+     // to trigger changes when regenerating quotation
+     this.showCoverage = false;
+     this.showPaymentBreakdown = false;
   }
 
   //save policy button
   savePolicy() {
-    this.assembleIssuePolicyData();
-
-    // to trigger changes when regenerating quotation
-    this.showCoverage = false;
-    this.showPaymentBreakdown = false;
+    this.assembleData("N");
 
     this.ais.savePolicy(this.accidentDetails).then(res => {
       if (res.status) {
@@ -766,11 +757,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   //post policy button
   postPolicy() {
-    this.assembleIssuePolicyData();
-
-    // hides coverage and payment breakdown
-    this.showCoverage = false;
-    this.showPaymentBreakdown = false;
+    this.assembleData("N");
 
     // if (this.withTechControl) {
     //   this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
