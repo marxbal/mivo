@@ -4,6 +4,9 @@ import {
 import {
   GroupPolicy
 } from './GroupPolicy';
+import {
+  InsuredDetails
+} from './InsuredDetails';
 
 // * - used in quick quotation
 export class Accident {
@@ -26,10 +29,6 @@ export class Accident {
   effectivityDate: Date;
   expiryDate: Date;
 
-  //policy holder information
-  lastName: string;
-  firstName: string;
-
   //group policy
   groupPolicy: GroupPolicy;
 
@@ -37,16 +36,7 @@ export class Accident {
   policyHolder: PolicyHolder;
 
   //insured details
-  middleName: string;
-  suffix: string;
-  gender: string;
-  relationship: string;
-  birthDate: Date;
-  cbWithHealthDeclaration: boolean;
-  preExistingIllness: string;
-  occupationalClass: string; // *
-  occupation: string;
-  otherOccupation: string;
+  insuredDetails: [InsuredDetails];
 
   //accident death and disablement value
   disablementValue: number; // *

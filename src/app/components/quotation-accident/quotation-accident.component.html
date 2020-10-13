@@ -141,7 +141,8 @@
                               && (ins.controls['firstName'].dirty 
                               || ins.controls['firstName'].touched)}">
                             <label for="firstName">First Name</label>
-                            <input type="text" formControlName="firstName" class="form-control required">
+                            <input type="text" formControlName="firstName" class="form-control required"
+                              oninput="this.value = this.value.toUpperCase()">
                             <p class="form-error" *ngIf="ins.controls['firstName'].errors?.required">
                               * first name is required
                             </p>
@@ -151,7 +152,8 @@
                         <div class="col-md-4 col-sm-6">
                           <div class="form-group">
                             <label for="middleName">Middle Name</label>
-                            <input type="text" formControlName="middleName" class="form-control">
+                            <input type="text" formControlName="middleName" class="form-control"
+                              oninput="this.value = this.value.toUpperCase()">
                           </div>
                         </div>
         
@@ -160,7 +162,8 @@
                               && (ins.controls['lastName'].dirty 
                               || ins.controls['lastName'].touched)}">
                             <label for="lastName">Last Name</label>
-                            <input type="text" formControlName="lastName" class="form-control required">
+                            <input type="text" formControlName="lastName" class="form-control required"
+                             oninput="this.value = this.value.toUpperCase()">
                             <p class="form-error" *ngIf="ins.controls['lastName'].errors?.required">
                               * last name is required
                             </p>
@@ -197,6 +200,26 @@
                             </p>
                           </div>
                         </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                          <div class="form-group" [ngClass]="{'input-error': ins.controls['relationship'].invalid 
+                          && (ins.controls['relationship'].dirty 
+                          || ins.controls['relationship'].touched)}">
+                            <label for="relationship">Relationship</label>
+                            <select class="custom-select mr-sm-2 required" formControlName="relationship"
+                              (change)="relationshipOnChange(ins)"
+                              [attr.disabled]="editMode && LOV.relationshipLOV?.length && i != 0 ? null: true">
+                              <option 
+                                *ngFor="let relationship of LOV.relationshipLOV"
+                                [attr.disabled]="relationship.disabled ? '' : null"
+                                [ngValue]="relationship.COD_VALOR">
+                                {{ relationship.NOM_VALOR }}</option>
+                            </select>
+                            <p class="form-error" *ngIf="ins.controls['relationship'].errors?.required">
+                              * relationship is required
+                            </p>
+                          </div>
+                        </div>
         
                         <div class="col-lg-4 col-md-4 col-sm-6">
                           <div class="form-group" [ngClass]="{'input-error': ins.controls['birthDate'].invalid 
@@ -229,7 +252,8 @@
                               || ins.controls['preExistingIllness'].touched)}">
                             <textarea class="form-control required"
                               [attr.disabled]="ins.controls['cbWithHealthDeclaration'].value ? null : ''" type="text"
-                              id="preExistingIllness" formControlName="preExistingIllness"></textarea>
+                              id="preExistingIllness" formControlName="preExistingIllness"
+                              oninput="this.value = this.value.toUpperCase()"></textarea>
                             <p class="form-error" *ngIf="ins.controls['preExistingIllness'].errors?.required">
                               * please indicate pre-existing illness
                             </p>
@@ -280,7 +304,8 @@
                               && (ins.controls['otherOccupation'].dirty 
                               || ins.controls['otherOccupation'].touched)}">
                             <textarea class="form-control required" type="text"
-                              id="otherOccupation" formControlName="otherOccupation"></textarea>
+                              id="otherOccupation" formControlName="otherOccupation"
+                              oninput="this.value = this.value.toUpperCase()"></textarea>
                             <p class="form-error" *ngIf="ins.controls['otherOccupation'].errors?.required">
                               * please indicate other occupation
                             </p>
@@ -301,9 +326,7 @@
               </div>
 
               <div *ngIf="insuredHeadCount <= 5" class="btn-group">
-                <!-- <button [disabled]="!editMode || quoteForm.get('insured').status !== 'VALID'" type="button"
-                  (click)="addInsured()" class="btn btn-primary">Add Insured Individual</button> -->
-                  <button type="button"
+                <button [disabled]="!editMode || quoteForm.get('insured').status !== 'VALID'" type="button"
                   (click)="addInsured()" class="btn btn-primary">Add Insured Individual</button>
               </div>
 

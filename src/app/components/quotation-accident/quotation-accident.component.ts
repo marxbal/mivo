@@ -64,6 +64,9 @@ import {
 import {
   AccidentIssueServices
 } from 'src/app/services/accident-issue.service';
+import {
+  TravelLOVServices
+} from 'src/app/services/lov/travel.service';
 
 @Component({
   selector: 'app-quotation-accident',
@@ -138,6 +141,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private als: AccidentLOVServices,
     private ais: AccidentIssueServices,
     private tpls: ThirdPartyLOVServices,
+    private tls: TravelLOVServices,
     private router: Router,
     public dialog: MatDialog,
     private bms: BsModalService,
@@ -224,6 +228,13 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.tpls.getSuffix().then(res => {
       _this.LOV.suffixLOV = res;
     });
+    this.tls.getRelationship().then(res => {
+      _this.LOV.relationshipLOV = res;
+      _this.LOV.relationshipLOV.forEach((r) => {
+        // disable primary
+        r.disabled = r.COD_VALOR == 'P';
+      });
+    });
 
     this.setDefaultValue();
   }
@@ -265,7 +276,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   loadInsured(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
     const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
     const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 1 : 18, 'years').toDate();
-    const occupationList = [{COD_VALOR: "A001", NOM_VALOR: "Accountants"},{COD_VALOR: "A002", NOM_VALOR: "Auctioneers"}];
+    const occupationList = [];
 
     return this.fb.group({
       firstName: ['', Validators.required],
@@ -274,6 +285,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       suffix: ['', Validators.required],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],
+      relationship: ['', Validators.required],
+      relationshipLabel: [null],
       cbWithHealthDeclaration: [null],
       preExistingIllness: [null],
       occupationalClass: ['', Validators.required],
@@ -312,6 +325,26 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   //   }
   // }
 
+  relationshipOnChange(insured: FormGroup) {
+    var val = insured.controls['relationship'].value;
+    var maxAge = (val == 'C') ? 21 : 65;
+    var minAge = (val == 'C') ? 0 : 18;
+
+    const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
+    insured.controls['bdaymindate'].setValue(bdaymindate);
+
+    const bdaymaxdate: Date = moment().subtract(minAge, 'years').toDate();
+    insured.controls['bdaymaxdate'].setValue(bdaymaxdate);
+
+    insured.controls['birthDate'].setValue('');
+
+    this.LOV.relationshipLOV.forEach(r => {
+      if (r.COD_VALOR == val) {
+        insured.controls['relationshipLabel'].setValue(r.NOM_VALOR);
+      }
+    });
+  }
+
   cbWithHealthDeclarationOnChange(insured: FormGroup) {
     var withHD = insured.controls['cbWithHealthDeclaration'].value;
     var preExistingIllness = insured.controls['preExistingIllness'];
@@ -336,7 +369,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     var showOtherOccupation = insured.get('showOtherOccupation');
     var occupationalClass = insured.get('occupationalClass').value;
     var occupation = insured.get('occupation').value;
-    const selectedOC : string = occupationalClass + '199';
+    const selectedOC: string = occupationalClass + '199';
     showOtherOccupation.setValue(selectedOC == occupation);
     var otherOccupation = insured.get('otherOccupation');
     Utility.updateValidator(otherOccupation, showOtherOccupation.value ? [Validators.required] : null);
@@ -571,9 +604,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     const resError = res.obj["error"];
 
     const isPostPolicy = Utility.isUndefined(resErrorCode);
-    let items: any[] = isPostPolicy ?
-      ["Error occured while posting policy. Please contact administration."] :
-      ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+    let items: any[] = isPostPolicy ? ["Error occured while posting policy. Please contact administration."] : ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
 
     if (!Utility.isUndefined(resError)) {
       const errArr = resError.split("~");
