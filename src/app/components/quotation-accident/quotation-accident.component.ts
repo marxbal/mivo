@@ -253,14 +253,18 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       lastName: ['', Validators.required],
       middleName: [null],
       suffix: [null],
+      suffixLabel: [''],
       gender: ['', Validators.required],
+      genderlabel: [''],
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
       relationshipLabel: [onLoad ? 'PRIMARY' : ''],
       cbWithHealthDeclaration: [null],
       preExistingIllness: [null],
       occupationalClass: ['', Validators.required],
+      occupationalClassLabel: [''],
       occupation: ['', Validators.required],
+      occupationLabel: [''],
       otherOccupation: [null],
       occupationList: [occupationList],
       showOtherOccupation: [false],
@@ -321,6 +325,15 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  suffixOnChange(insured: FormGroup) {
+    var val = insured.controls['suffix'].value;
+    this.LOV.suffixLOV.forEach(r => {
+      if (r.COD_VALOR == val) {
+        insured.controls['suffixLabel'].setValue(r.NOM_VALOR);
+      }
+    });
+  }
+
   relationshipOnChange(insured: FormGroup) {
     var val = insured.controls['relationship'].value;
     var maxAge = (val == 'C') ? 21 : 65;
@@ -356,6 +369,12 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     var otherOccupation = insured.get('otherOccupation');
     Utility.updateValidator(otherOccupation, null);
 
+    this.LOV.occupationalClassLOV.forEach(oc => {
+      if (oc.COD_VALOR == occupationalClass) {
+        insured.controls['occupationalClassLabel'].setValue(oc.NOM_VALOR);
+      }
+    });
+
     this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
       occupationList.setValue(res);
     });
@@ -369,6 +388,13 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     showOtherOccupation.setValue(selectedOC == occupation);
     var otherOccupation = insured.get('otherOccupation');
     Utility.updateValidator(otherOccupation, showOtherOccupation.value ? [Validators.required] : null);
+
+    var occupationList = insured.controls['occupationList'].value;
+    occupationList.forEach(o => {
+      if (o.COD_VALOR == occupation) {
+        insured.controls['occupationLabel'].setValue(o.NOM_VALOR);
+      }
+    });
   }
 
   effectivityDateOnChange() {
