@@ -372,8 +372,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   effectivityDateOnChange() {
-    this.accidentDetails.expiryDate = moment(this.accidentDetails.effectivityDate).add(1, 'years').toDate();
-    this.expiryDateMinDate = this.accidentDetails.expiryDate;
+    setTimeout(() => {
+      this.accidentDetails.expiryDate = moment(this.accidentDetails.effectivityDate).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.accidentDetails.expiryDate;
+    }, 500);
   }
 
   proceed(type: number) {
