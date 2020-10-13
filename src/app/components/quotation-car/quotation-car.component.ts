@@ -1051,8 +1051,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   effectivityDateOnChange() {
-    this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-    this.expiryDateMinDate = this.carDetails.expiryDate;
+    setTimeout(() => {
+      this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.carDetails.expiryDate;
+    }, 500);
   }
 
   accessoryOnchange(event: any, index: number) {
