@@ -171,17 +171,12 @@
                         </div>
         
                         <div class="col-lg-4 col-md-4 col-sm-6">
-                          <div class="form-group" [ngClass]="{'input-error': ins.controls['suffix'].invalid 
-                            && (ins.controls['suffix'].dirty 
-                            || ins.controls['suffix'].touched)}">
+                          <div class="form-group">
                             <label for="commercialStructure">Suffix</label>
-                            <select class="custom-select mr-sm-2 required" formControlName="suffix">
+                            <select class="custom-select mr-sm-2" formControlName="suffix">
                               <option></option>
                               <option *ngFor="let suffix of LOV.suffixLOV" [ngValue]="suffix.TIPO_SUFIJO_NOMBRE">{{ suffix.NOM_VALOR }}</option>
                             </select>
-                            <p class="form-error" *ngIf="ins.controls['suffix'].errors?.required">
-                              * suffix is required
-                            </p>
                           </div>
                         </div>
         

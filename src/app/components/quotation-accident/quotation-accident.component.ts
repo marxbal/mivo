@@ -252,7 +252,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       middleName: [null],
-      suffix: ['', Validators.required],
+      suffix: [null],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
@@ -278,7 +278,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       middleName: [null],
-      suffix: ['', Validators.required],
+      suffix: [null],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],
       relationship: [relationship, Validators.required],
@@ -311,15 +311,15 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.insuredHeadCount = insured.length;
   }
 
-  // removeAllInsured() {
-  //   // removing all insured
-  //   var insured = this.quoteForm.get('insured').value;
-  //   if (insured.length > 0) {
-  //     // loop until all accessories removed
-  //     this.insured().removeAt(0);
-  //     this.removeAllInsured();
-  //   }
-  // }
+  removeAllInsured() {
+    // removing all insured
+    var insured = this.quoteForm.get('insured').value;
+    if (insured.length > 0) {
+      // loop until all insured removed
+      this.insured().removeAt(0);
+      this.removeAllInsured();
+    }
+  }
 
   relationshipOnChange(insured: FormGroup) {
     var val = insured.controls['relationship'].value;
@@ -635,7 +635,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   issueQuote(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
     this.assembleData(mcaTmpPptoMph);
-    
+
     this.ais.issueQuote(this.accidentDetails).then(res => {
       if (res.status) {
         //clear affecting fields
