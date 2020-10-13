@@ -96,6 +96,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   quoteForm: FormGroup;
   minDate: Date = moment().subtract(65, 'years').toDate();
   maxDate: Date = moment().subtract(18, 'years').toDate();
+
+  today: Date = new Date();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
 
   showOtherOccupation = false;
@@ -188,8 +190,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     var _this = this;
     var subline = this.quoteForm.get('subline');
     var disablementValue = this.quoteForm.get('disablementValue');
-    // var cbWithHealthDeclaration = this.quoteForm.get('cbWithHealthDeclaration');
-    // var preExistingIllness = this.quoteForm.get('preExistingIllness');
 
     subline.valueChanges.subscribe(subline => {
       if (subline != undefined) {
@@ -212,12 +212,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         });
       }
     });
-
-    // cbWithHealthDeclaration.valueChanges.subscribe(withHD => {
-    //   if (withHD != undefined) {
-    //     Utility.updateValidator(preExistingIllness, withHD ? [Validators.required] : null);
-    //   }
-    // });
   }
 
   loadInit() {
@@ -242,6 +236,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   setDefaultValue() {
     //setting default value
     this.accidentDetails.sublineEffectivityDate = "01012016";
+    this.accidentDetails.effectivityDate = this.today; // current today
   }
 
   insured(): FormArray {
@@ -261,6 +256,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       suffix: ['', Validators.required],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],
+      relationship: ['', Validators.required],
+      relationshipLabel: [null],
       cbWithHealthDeclaration: [null],
       preExistingIllness: [null],
       occupationalClass: ['', Validators.required],
