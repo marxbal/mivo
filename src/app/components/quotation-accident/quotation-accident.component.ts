@@ -441,6 +441,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         this.accidentDetails.subline = subline;
 
         this.showSPADetails = subline == 323; //if standard personal accident is selected
+        alert(subline)
+        alert(this.showSPADetails)
         this.showHCBIDetails = subline == 326; //if hospital cash benefit is selected
 
         Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
