@@ -193,6 +193,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
     subline.valueChanges.subscribe(subline => {
       if (subline != undefined) {
+        this.removeAllInsured();
+
         this.accidentDetails.subline = subline;
 
         this.showSPADetails = subline == 323; //if standard personal accident is selected
