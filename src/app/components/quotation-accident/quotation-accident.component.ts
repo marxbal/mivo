@@ -67,6 +67,7 @@ import {
 import {
   TravelLOVServices
 } from 'src/app/services/lov/travel.service';
+import { InsuredDetails } from 'src/app/objects/InsuredDetails';
 
 @Component({
   selector: 'app-quotation-accident',
@@ -167,8 +168,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
         //if loaded from accident quotation
-        // this.accidentDetails.quotationNumber = Globals.loadNumber;
-        // this.loadQuotation();
+        this.accidentDetails.quotationNumber = Globals.loadNumber;
+        this.loadQuotation();
         Globals.setLoadNumber('');
         Globals.setLoadQuotation(false);
       }
@@ -187,6 +188,241 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       disablementValue: [null],
       //product data
       product: ['', Validators.required],
+    });
+  }
+
+  loadQuotation() {
+    this.ais.loadQuotation(this.accidentDetails.quotationNumber).then(res => {
+      if (res.status) {
+        this.manageBtn(2);
+        const variableData = res.obj["variableData"] as any[];
+        variableData.forEach(v => {
+          const code = v.codCampo;
+          const value: string = v.valCampo;
+          let valueInt: number = undefined;
+  
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
+  
+          switch (code) {
+            //general information details
+            //TODO
+            // case "EXPENSES_COVERAGE": {
+            //   this.travelDetails.medicalExpenses = value;
+            //   break;
+            // }
+  
+            default: {
+              // do nothing
+            }
+          }
+        });
+  
+        var tempInsured = [];
+
+        const insuredDetails = res.obj["insuredDetails"] as any[];
+        insuredDetails.forEach(i => {
+          const code = i.codCampo;
+          const value: string = i.valCampo;
+          const text: string = i.txtCampo;
+          const occurence: number = i.numOcurrencia;
+          // const index = occurence - 1;
+          let valueInt: number = undefined;
+  
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
+  
+          switch (code) {
+            //country
+            case "TXT_FIRST_NAME": {
+              const obj = { firstName: value, occurence: occurence };
+              tempInsured.push(obj);
+              break;
+            }
+  
+            default: {
+              // do nothing
+            }
+          }
+        });
+
+        var insureds = [];
+        tempInsured.forEach(t => {
+          const iObj = new InsuredDetails();
+          iObj.firstName = t.firstName;
+          insuredDetails.forEach(id => {
+            const code = id.codCampo;
+            const value: string = id.valCampo;
+            const text: string = id.txtCampo;
+            const occurence: number = id.numOcurrencia;
+            let valueInt: number = undefined;
+    
+            try {
+              valueInt = parseInt(value);
+            } catch (e) {
+              // do nothing
+            }
+
+            if (t.occurence == occurence) {
+              switch (code) {
+                case "TXT_FIRST_NAME": {
+                  iObj.firstName = value;
+                  break;
+                }
+                case "TXT_LAST_NAME": {
+                  iObj.lastName = value;
+                  break;
+                }
+                case "TXT_MIDDLE_INITIAL": {
+                  iObj.middleName = value;
+                  break;
+                }
+                case "TXT_SUFFIX": {
+                  iObj.suffix = value;
+                  iObj.suffixLabel = text;
+                  break;
+                }
+                case "MCA_SEXO_ASEG": {
+                  iObj.gender = value;
+                  break;
+                }
+                case "RELATIONSHIP": {
+                  iObj.relationship = value;
+                  iObj.relationshipLabel = text;
+                  break;
+                }
+                case "BIRTHDATE": {
+                  const date = Utility.convertStringDate(value);
+                  iObj.birthDate = date;
+                  break;
+                }
+                case "TXT_HEALTH_DECLARA": {
+                  iObj.cbWithHealthDeclaration = value == 'S';
+                  break;
+                }
+                case "TXT_HEALTH_DECLARA_EXIST": {
+                  iObj.preExistingIllness = value;
+                  break;
+                }
+                case "COD_OCCUPATIONAL_CLASS": {
+                  iObj.occupationalClass = value;
+                  iObj.occupationalClassLabel = text;
+                  break;
+                }
+                case "TXT_OCCUPATION": {
+                  iObj.occupation = value;
+                  iObj.occupationLabel = text;
+                  break;
+                }
+                case "TXT_OCCUPATIONAL_CLAS_OTH": {
+                  iObj.otherOccupation = value;
+                  break;
+                }
+                default: {
+                  // do nothing
+                }
+              }
+            }
+          });
+          insureds.push(iObj);
+        });
+
+        if (insureds.length) {
+          //removes all insured individual
+          this.removeAllInsured();
+          var temp: any[] = [];
+          insuredDetails.forEach((ins: any) => {
+            temp.push({
+              traveler: ins.firstName
+            });
+
+            const showOtherOccupation = !Utility.isUndefined(ins.otherOccupation);
+
+            this.insured().push(this.loadInsured(
+              ins.firstName,
+              ins.lastName,
+              ins.middleName,
+              ins.suffix,
+              ins.suffixLabel,
+              ins.gender,
+              ins.birthDate,
+              ins.relationship,
+              ins.relationshipLabel,
+              ins.cbWithHealthDeclaration,
+              ins.preExistingIllness,
+              ins.occupationalClass,
+              ins.occupationalClassLabel,
+              ins.occupation,
+              ins.occupationLabel,
+              ins.otherOccupation,
+              showOtherOccupation));
+          });
+  
+          var insuredForm = this.quoteForm.get('insured').value;
+          this.accidentDetails.insuredDetails = insuredForm;
+        } else {
+          this.accidentDetails.insuredDetails = [] as any; //TODO
+        }
+  
+        const generalInfo = res.obj["generalInfo"];
+        this.accidentDetails.subline = generalInfo.codRamo;
+        this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
+  
+        this.groupPolicy.agentCode = generalInfo.codAgt;
+        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        this.groupPolicy.contract = generalInfo.numContrato;
+        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        this.accidentDetails.groupPolicy = this.groupPolicy;
+  
+        const docType = generalInfo.tipDocum;
+        const docCode = generalInfo.codDocum;
+        // preventing generic document type and code
+        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+          this.policyHolder.documentType = docType;
+          this.policyHolder.documentCode = docCode;
+          this.policyHolder.isExisting = true;
+        }
+  
+        this.loadLOVs();
+  
+        const coverageList = res.obj["coverageList"];
+        this.populateCoverage(coverageList);
+  
+        //breakdwon
+        const breakdown = res.obj["breakdown"];
+        const receipt = res.obj["receipt"];
+        this.populatePaymentBreakdown(breakdown, receipt);
+  
+        //cloning details from load quotation
+        const deepClone = JSON.parse(JSON.stringify(this.accidentDetails));
+        this.prevAccidentDetails = deepClone;
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+        this.accidentDetails.quotationNumber = "";
+      }
+    }).finally(() => {
+      //trigger child component load quotation function
+      this.triggerCounter = this.triggerCounter + 1;
+    });
+  }
+
+  //loading of all LOV's for load quotation
+  loadLOVs() {
+    var _this = this;
+    this.als.getOccupationalClass(this.accidentDetails).then(res => {
+      _this.LOV.occupationalClassLOV = res;
+    });
+    this.als.getProduct(this.accidentDetails).then(res => {
+      _this.LOV.productListLOV = res;
     });
   }
 
@@ -209,8 +445,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
         Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
 
-        this.minDate = moment().subtract(this.showSPADetails ? 65 : 70, 'years').toDate();
-        this.maxDate = moment().subtract(this.showSPADetails ? 18 : 1, 'years').toDate();
+        this.minDate = moment().subtract(this.showSPADetails ? 70 : 65, 'years').toDate();
+        this.maxDate = moment().subtract(this.showSPADetails ? 1 : 18, 'years').toDate();
 
         this.als.getOccupationalClass(this.accidentDetails).then(res => {
           _this.LOV.occupationalClassLOV = res;
@@ -218,9 +454,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         this.als.getProduct(this.accidentDetails).then(res => {
           _this.LOV.productListLOV = res;
         });
-        this.als.getPaymentPlan(this.accidentDetails).then(res => {
-          // alert(res);
-        });
+        // this.als.getPaymentPlan(this.accidentDetails).then(res => {
+        //   // alert(res);
+        // });
       }
     });
   }
@@ -281,29 +517,58 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadInsured(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
-    const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
-    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 1 : 18, 'years').toDate();
-    const occupationList = [];
+  loadInsured(firstName: string,
+    lastName: string,
+    middleName: string,
+    suffix: string,
+    suffixLabel: string,
+    gender: string,
+    birthDate: Date,
+    relationship: string,
+    relationshipLabel: string,
+    cbWithHealthDeclaration: boolean,
+    preExistingIllness: string,
+    occupationalClass: string,
+    occupationalClassLabel: string,
+    occupation: string,
+    occupationLabel: string,
+    otherOccupation: string,
+    showOtherOccupation: boolean
+    ): FormGroup {
+
+    const isSPA = this.accidentDetails.subline == 323;
+    const minAgeLimit = isSPA ? 70 : 65;
+    const maxAgeLimit = isSPA ? 1 : 18;
+
+    const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : minAgeLimit, 'years').toDate();
+    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 1 : maxAgeLimit, 'years').toDate();
+    let occupationList = [];
+
+    this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
+      occupationList = res;
+    });
 
     return this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      middleName: [null],
-      suffix: [null],
-      gender: ['', Validators.required],
-      birthDate: ['', Validators.required],
+      firstName: [firstName, Validators.required],
+      lastName: [lastName, Validators.required],
+      middleName: [middleName],
+      suffix: [suffix],
+      suffixLabel: [suffixLabel],
+      gender: [gender, Validators.required],
+      birthDate: [birthDate, Validators.required],
       relationship: [relationship, Validators.required],
       relationshipLabel: [relationshipLabel],
-      cbWithHealthDeclaration: [null],
-      preExistingIllness: [null],
-      occupationalClass: ['', Validators.required],
-      occupation: ['', Validators.required],
-      otherOccupation: [null],
-      showOtherOccupation: [false],
+      cbWithHealthDeclaration: [cbWithHealthDeclaration],
+      preExistingIllness: [preExistingIllness],
+      occupationalClass: [occupationalClass, Validators.required],
+      occupationalClassLabel: [occupationalClassLabel],
+      occupation: [occupation, Validators.required],
+      occupationLabel: [occupationLabel],
+      otherOccupation: [otherOccupation],
       occupationList: [occupationList],
-      bdaymindate: [this.minDate],
-      bdaymaxdate: [this.maxDate],
+      showOtherOccupation: [showOtherOccupation],
+      bdaymindate: [bdaymindate],
+      bdaymaxdate: [bdaymaxdate],
     });
   }
 
@@ -344,7 +609,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   relationshipOnChange(insured: FormGroup) {
     var val = insured.controls['relationship'].value;
-    var maxAge = (val == 'C') ? 21 : 65;
+    var maxAge = (val == 'C') ? 23 : 65;
     var minAge = (val == 'C') ? 1 : 18;
 
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
@@ -524,9 +789,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       payment: "ANNUAL",
       receipt: receipt,
       breakdown: breakdown,
-      showExchangeRate: true,
+      showExchangeRate: false,
       isPostPolicy: isPostPolicy,
-      line: 'TRAVEL'
+      line: 'ACCIDENT'
     };
 
     this.dialog.open(PaymentBreakdownModalComponent, {

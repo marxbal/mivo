@@ -20,6 +20,9 @@ import {
 import {
   TravelIssueServices
 } from 'src/app/services/travel-issue.service';
+import {
+  AccidentIssueServices
+} from 'src/app/services/accident-issue.service';
 
 export interface TablesDTO {
   effectivityDate: string;
@@ -41,6 +44,7 @@ export class PaymentBreakdownModalComponent implements OnInit {
   constructor(
     private cqs: CarQuoteServices,
     private tis: TravelIssueServices,
+    private ais: AccidentIssueServices,
     public dialogRef: MatDialogRef < PaymentBreakdownModalComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -123,6 +127,10 @@ export class PaymentBreakdownModalComponent implements OnInit {
       this.cqs.proceedToIssuance(this.data.number);
     } else if (line == "TRAVEL") {
       this.tis.proceedToIssuance(this.data.number);
+    } else if (line == "ACCIDENT") {
+      this.ais.proceedToIssuance(this.data.number);
+    } else  { //HOME
+      //
     }
   }
 

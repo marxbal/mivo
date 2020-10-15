@@ -30,9 +30,8 @@ import {
   Router
 } from '@angular/router';
 import {
-  Travel
-} from '../objects/Travel';
-import { Accident } from '../objects/Accident';
+  Accident
+} from '../objects/Accident';
 
 @Injectable()
 export class AccidentIssueServices {
@@ -59,7 +58,9 @@ export class AccidentIssueServices {
   }
 
   async loadQuotation(quotationNumber: string): Promise < ReturnDTO > {
-    return this.app.post({quotationNumber}, '/accident/issue/loadQuotation').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post({
+      quotationNumber
+    }, '/accident/issue/loadQuotation').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   printQuote(quotationNumber: string) {
@@ -97,7 +98,7 @@ export class AccidentIssueServices {
   proceedToIssuance(quotationNumber: string) {
     Utility.scroll('topDiv');
     setTimeout(() => {
-      Globals.setPage(page.ISS.TRA);
+      Globals.setPage(page.ISS.ACC);
       Globals.setLoadNumber(quotationNumber);
       Globals.setLoadQuotation(true);
       this.router.navigate(['/reload']);

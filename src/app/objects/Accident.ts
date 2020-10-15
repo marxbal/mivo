@@ -22,7 +22,7 @@ export class Accident {
   quotationNumber: string;
 
   //risk details
-  subline: string; // *
+  subline: number; // *
   sublineEffectivityDate: string; //*
 
   //general information
