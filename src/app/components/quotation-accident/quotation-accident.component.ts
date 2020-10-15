@@ -193,7 +193,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
     subline.valueChanges.subscribe(subline => {
       if (subline != undefined) {
+        //removes all insured inserted by the user
         this.removeAllInsured();
+        //adds new form for insured individual with primary relationship
+        this.addInsured(true);
 
         this.accidentDetails.subline = subline;
 
@@ -300,8 +303,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  addInsured() {
-    this.insured().push(this.newInsured(false));
+  addInsured(onLoad : boolean) {
+    this.insured().push(this.newInsured(onLoad));
 
     //hides the add insured button if insured head count is more than 6
     var insured = this.quoteForm.get('insured').value;
