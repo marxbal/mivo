@@ -433,22 +433,20 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
     subline.valueChanges.subscribe(subline => {
       if (subline != undefined) {
-        //removes all insured inserted by the user
-        this.removeAllInsured();
-        //adds new form for insured individual with primary relationship
-        this.addInsured(true);
-
         this.accidentDetails.subline = subline;
 
         this.showSPADetails = subline == 323; //if standard personal accident is selected
-        alert(subline)
-        alert(this.showSPADetails)
         this.showHCBIDetails = subline == 326; //if hospital cash benefit is selected
 
         Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
 
         this.minDate = moment().subtract(this.showSPADetails ? 70 : 65, 'years').toDate();
         this.maxDate = moment().subtract(this.showSPADetails ? 1 : 18, 'years').toDate();
+
+        //removes all insured inserted by the user
+        this.removeAllInsured();
+        //adds new form for insured individual with primary relationship
+        this.addInsured(true);
 
         this.als.getOccupationalClass(this.accidentDetails).then(res => {
           _this.LOV.occupationalClassLOV = res;
