@@ -34,7 +34,8 @@
                     || quoteForm.controls['subline'].touched)}">
                     <label for="subline">Subline</label>
                     <select class="custom-select mr-sm-2 required" formControlName="subline"
-                      [(ngModel)]="accidentDetails.subline">
+                      [(ngModel)]="accidentDetails.subline"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let subline of LOV.sublineLOV" [ngValue]="subline.COD_RAMO">{{ subline.NOM_RAMO }}
                       </option>
@@ -142,7 +143,8 @@
                               || ins.controls['firstName'].touched)}">
                             <label for="firstName">First Name</label>
                             <input type="text" formControlName="firstName" class="form-control required"
-                              oninput="this.value = this.value.toUpperCase()">
+                              oninput="this.value = this.value.toUpperCase()"
+                              [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="ins.controls['firstName'].errors?.required">
                               * first name is required
                             </p>
@@ -153,7 +155,8 @@
                           <div class="form-group">
                             <label for="middleName">Middle Name</label>
                             <input type="text" formControlName="middleName" class="form-control"
-                              oninput="this.value = this.value.toUpperCase()">
+                              oninput="this.value = this.value.toUpperCase()"
+                              [attr.disabled]="editMode ? null : true">
                           </div>
                         </div>
         
@@ -163,7 +166,8 @@
                               || ins.controls['lastName'].touched)}">
                             <label for="lastName">Last Name</label>
                             <input type="text" formControlName="lastName" class="form-control required"
-                             oninput="this.value = this.value.toUpperCase()">
+                             oninput="this.value = this.value.toUpperCase()"
+                             [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="ins.controls['lastName'].errors?.required">
                               * last name is required
                             </p>
@@ -174,7 +178,8 @@
                           <div class="form-group">
                             <label for="commercialStructure">Suffix</label>
                             <select class="custom-select mr-sm-2" formControlName="suffix"
-                              (change)="suffixOnChange(ins)">
+                              (change)="suffixOnChange(ins)"
+                              [attr.disabled]="editMode ? null : true">
                               <option></option>
                               <option *ngFor="let suffix of LOV.suffixLOV" [ngValue]="suffix.TIPO_SUFIJO_NOMBRE">{{ suffix.NOM_VALOR }}</option>
                             </select>
@@ -186,7 +191,8 @@
                               && (ins.controls['gender'].dirty 
                               || ins.controls['gender'].touched)}">
                             <label for="gender">Gender</label>
-                            <select class="custom-select mr-sm-2 required" formControlName="gender">
+                            <select class="custom-select mr-sm-2 required" formControlName="gender"
+                              [attr.disabled]="editMode ? null : true">
                               <option></option>
                               <option [ngValue]="1">MALE</option>
                               <option [ngValue]="0">FEMALE</option>
@@ -204,7 +210,7 @@
                             <label for="relationship">Relationship</label>
                             <select class="custom-select mr-sm-2 required" formControlName="relationship"
                               (change)="relationshipOnChange(ins)"
-                              [attr.disabled]="editMode && LOV.relationshipLOV?.length && i != 0 ? null: true">
+                              [attr.disabled]="editMode && LOV.relationshipLOV?.length && i != 0 && editMode? null: true">
                               <option 
                                 *ngFor="let relationship of LOV.relationshipLOV"
                                 [attr.disabled]="relationship.disabled ? '' : null"
@@ -224,7 +230,8 @@
                             <label for="birthDate">Birth Date</label>
                             <input type="text" placeholder="Datepicker" class="form-control required"
                               [maxDate]="ins.controls['bdaymaxdate'].value" [minDate]="ins.controls['bdaymindate'].value"
-                              formControlName="birthDate" bsDatepicker>
+                              formControlName="birthDate" bsDatepicker
+                              [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="ins.controls['birthDate'].errors?.required">
                               * birth date is required
                             </p>
@@ -235,6 +242,7 @@
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="cbWithHealthDeclaration{{i}}"
                               formControlName="cbWithHealthDeclaration"
+                              [attr.disabled]="editMode ? null : true"
                               (change)="cbWithHealthDeclarationOnChange(ins)">
                             <label class="form-check-label" for="cbWithHealthDeclaration{{i}}">
                               With Health Declaration
@@ -247,7 +255,7 @@
                               && (ins.controls['preExistingIllness'].dirty 
                               || ins.controls['preExistingIllness'].touched)}">
                             <textarea class="form-control required"
-                              [attr.disabled]="ins.controls['cbWithHealthDeclaration'].value ? null : ''" type="text"
+                              [attr.disabled]="ins.controls['cbWithHealthDeclaration'].value && editMode ? null : ''" type="text"
                               id="preExistingIllness" formControlName="preExistingIllness"
                               oninput="this.value = this.value.toUpperCase()"></textarea>
                             <p class="form-error" *ngIf="ins.controls['preExistingIllness'].errors?.required">
@@ -263,7 +271,7 @@
                             <label for="occupationalClass">Occupational Class</label>
                             <select class="custom-select mr-sm-2 required" formControlName="occupationalClass"
                               (change)="occupationalClassOnchange(ins)"
-                              [attr.disabled]="LOV.occupationalClassLOV?.length ? null : true">
+                              [attr.disabled]="LOV.occupationalClassLOV?.length && editMode? null : true">
                               <option></option>
                               <option *ngFor="let occupationalClass of LOV.occupationalClassLOV"
                                 [ngValue]="occupationalClass.COD_VALOR">CLASS {{ occupationalClass.COD_VALOR }} - {{ occupationalClass.NOM_VALOR }}</option>
@@ -281,7 +289,7 @@
                             <label for="occupation">Occupation</label>
                             <select class="custom-select mr-sm-2 required" formControlName="occupation"
                               (change)="occupationOnchange(ins)"
-                              [attr.disabled]="ins.controls['occupationList'].value.length ? null : true">
+                              [attr.disabled]="ins.controls['occupationList'].value.length && editMode? null : true">
                               <option></option>
                               <option *ngFor="let occupation of ins.controls['occupationList'].value" [ngValue]="occupation.COD_VALOR">
                                 {{ occupation.NOM_VALOR }}</option>
@@ -301,7 +309,8 @@
                               || ins.controls['otherOccupation'].touched)}">
                             <textarea class="form-control required" type="text"
                               id="otherOccupation" formControlName="otherOccupation"
-                              oninput="this.value = this.value.toUpperCase()"></textarea>
+                              oninput="this.value = this.value.toUpperCase()"
+                              [attr.disabled]="editMode ? null : true"></textarea>
                             <p class="form-error" *ngIf="ins.controls['otherOccupation'].errors?.required">
                               * please indicate other occupation
                             </p>
@@ -341,7 +350,8 @@
                         || quoteForm.controls['disablementValue'].touched)}">
                     <label for="disablementValue">Accidental Death and Disablement Value</label>
                     <input type="number" formControlName="disablementValue" class="form-control required"
-                        [(ngModel)]="accidentDetails.disablementValue">
+                        [(ngModel)]="accidentDetails.disablementValue"
+                        [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['disablementValue'].errors?.required">
                       * accidental death and disablement value is required
                     </p>
@@ -370,7 +380,7 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [(ngModel)]="accidentDetails.product"
-                      [attr.disabled]="LOV.productListLOV?.length ? null : true">
+                      [attr.disabled]="LOV.productListLOV?.length && editMode? null : true">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}</option>
