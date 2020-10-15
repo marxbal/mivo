@@ -590,40 +590,13 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   getProductCode() {
+    const _this = this;
     this.codeName = null;
-
-    // let travelPack: string;
-    // this.LOV.packageLOV.forEach(tp => {
-    //   if (tp.TRAVEL_PACK == this.accidentDetails.travelPackage) {
-    //     travelPack = tp.NOM_VALOR;
-    //   }
-    // });
-
-    // let coverageOption: string;
-    // this.LOV.coverageOptionLOV.forEach(co => {
-    //   if (co.COVERAGE_OPTIONS == this.accidentDetails.coverageOption) {
-    //     coverageOption = co.NOM_VALOR == 'ASSISTANCE ONLY' ? 'ASSIST ONLY' : co.NOM_VALOR;
-    //   }
-    // });
-
-    // let medicalExpenses: string;
-    // this.LOV.medicalExpensesLOV.forEach(me => {
-    //   if (me.VAL_CAMPO1 == this.accidentDetails.medicalExpenses) {
-    //     const name: string = me.VAL_CAMPO2;
-    //     const value: string = me.VAL_CAMPO1;
-    //     medicalExpenses = name.includes("EUROS") ? value.concat(" euros") : value;
-    //   }
-    // });
-
-    // this.codeName = this.accidentDetails.travelPackage == 'D' ?
-    //   "DOMESTIC ".concat(medicalExpenses) :
-    //   travelPack + " " + coverageOption + " " + medicalExpenses;
-
-    // this.LOV.productListLOV.forEach(product => {
-    //   if (this.codeName == product.NOM_MODALIDAD) {
-    //     this.accidentDetails.product = product.COD_MODALIDAD;
-    //   }
-    // });
+    this.LOV.productListLOV.forEach(p => {
+      if (p.COD_MODALIDAD == this.accidentDetails.product) {
+        _this.codeName = p.NOM_MODALIDAD;
+      }
+    });
   }
 
   //getting error or warning items
