@@ -367,6 +367,20 @@
             </div>
           </div>
 
+          <app-payment-breakdown
+            *ngIf="showPaymentBreakdown"
+            #appPaymentBreakdown
+            [paymentReceipt]="paymentReceipt"
+            [paymentBreakdown]="paymentBreakdown"
+            [showExchangeRate]="true">
+          </app-payment-breakdown>
+
+          <app-fixed-coverages
+            *ngIf="showCoverage"
+            [coverageList]="coverageList"
+            [loadCoverage]="triggerCoverage">
+          </app-fixed-coverages>
+
           <div class="card shadow mb-3">
             <div class="card-header">
               <strong>Product</strong>

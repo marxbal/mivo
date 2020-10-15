@@ -107,6 +107,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   showCoverage: boolean = false;
   showPaymentBreakdown: boolean = false;
 
+  //for payment breakdown
+  paymentBreakdown: any[];
+  paymentReceipt: {};
+
   LOV = new AccidentListObject();
   GPLOV = new GroupPolicyListObject();
 
@@ -408,6 +412,19 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     }, 500);
   }
 
+  populateCoverage(coverageList: any[]) {
+    // this.coverageList = coverageList;
+    this.showCoverage = true;
+    this.triggerCoverage = this.triggerCoverage + 1;
+  }
+
+  populatePaymentBreakdown(breakdown: any[], receipt: {}) {
+    this.paymentBreakdown = breakdown;
+    this.paymentReceipt = receipt;
+    this.showPaymentBreakdown = true;
+    Utility.scroll('paymentBreakdown');
+  }
+
   proceed(type: number) {
     //if user changes affecting values
     const hasChanges = this.changedValues.length != 0;
@@ -674,7 +691,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
             const coverageList = res.obj["coverageList"];
             // this.populateCoverage(coverageList);
 
-            // this.populatePaymentBreakdown(breakdown, receipt);
+            this.populatePaymentBreakdown(breakdown, receipt);
             this.manageBtn(2);
           } else {
             // for issuing the quote
