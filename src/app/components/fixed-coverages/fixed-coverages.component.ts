@@ -20,7 +20,7 @@ export interface coverageDTO {
   styleUrls: ['./fixed-coverages.component.css']
 })
 export class FixedCoveragesComponent implements OnInit {
-  @Input() line: string = 'travel';
+  @Input() line: string;
   @Input() coverageList: any[] = [];
   @Input()
   set loadCoverage(value: number) {
