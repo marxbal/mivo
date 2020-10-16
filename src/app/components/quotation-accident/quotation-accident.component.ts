@@ -298,12 +298,12 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
                   break;
                 }
                 case "TXT_SUFFIX": {
-                  iObj.suffix = value;
+                  iObj.suffix = valueInt;
                   iObj.suffixLabel = text;
                   break;
                 }
                 case "MCA_SEXO_ASEG": {
-                  iObj.gender = value;
+                  iObj.gender = valueInt;
                   break;
                 }
                 case "RELATIONSHIP": {
@@ -536,10 +536,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     let occupationList = [];
 
     this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
-      occupationList = res;
+      occupationList = res; //TODO
     });
-
-    console.log("occupationList " + occupationList);
 
     return this.fb.group({
       firstName: [firstName, Validators.required],

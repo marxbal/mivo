@@ -3,9 +3,9 @@ export class InsuredDetails {
   firstName: string;
   middleName: string;
   lastName: string;
-  suffix: string;
+  suffix: number;
   suffixLabel: string;
-  gender: string;
+  gender: number;
   relationship: string;
   relationshipLabel: string;
   birthDate: Date;
