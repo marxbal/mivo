@@ -202,6 +202,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         variableData.forEach(v => {
           const code = v.codCampo;
           const value: string = v.valCampo;
+          console.log("code " + code);
+          console.log("value " + value);
           let valueInt: number = undefined;
   
           try {
@@ -230,7 +232,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         insuredDetails.forEach(i => {
           const code = i.codCampo;
           const value: string = i.valCampo;
-          const text: string = i.txtCampo;
+
+          console.log("code " + code);
+          console.log("value " + value);
           const occurence: number = i.numOcurrencia;
           // const index = occurence - 1;
           let valueInt: number = undefined;
@@ -262,6 +266,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           insuredDetails.forEach(id => {
             const code = id.codCampo;
             const value: string = id.valCampo;
+            console.log("code " + code);
+            console.log("value " + value);
             const text: string = id.txtCampo;
             const occurence: number = id.numOcurrencia;
             let valueInt: number = undefined;
@@ -341,7 +347,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           this.removeAllInsured();
           var temp: any[] = [];
           insuredDetails.forEach((ins: any) => {
-            console.log("ins " + ins);
+            console.log("ins.firstName " + ins.firstName);
             temp.push({
               insured: ins.firstName
             });
@@ -375,6 +381,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   
         const generalInfo = res.obj["generalInfo"];
         console.log("generalInfo " + generalInfo);
+        console.log("generalInfo.codRamo " + generalInfo.codRamo);
         this.accidentDetails.subline = generalInfo.codRamo;
         this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
         this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
