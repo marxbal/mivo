@@ -46,7 +46,13 @@ export class FixedCoveragesComponent implements OnInit {
       obj.isHeader = headers.indexOf(coverage.codCob) !== -1;
       obj.label = obj.isHeader ? '<strong>' + coverage.nomCob + '</strong>' : coverage.nomCob;
       obj.sumInsured = coverage.sumaAseg;
-      obj.currency = coverage.codMon;
+      if (coverage.codMon == 2) {
+        obj.currency = 'USD';
+      } else if (coverage.codMon == 3) {
+        obj.currency = 'EU';
+      } else {
+        obj.currency = 'PHP';
+      }
       obj.code = coverage.codCob;
       this.coverageData.push(obj);
     });
