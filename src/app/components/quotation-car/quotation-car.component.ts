@@ -1011,8 +1011,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       _this.LOV.areaOfUsageLOV = res;
     });
 
-    this.cls.getAccessoryList(this.carDetails).then(res => {
-      console.log("getAccessoryList sublineChange");
+    this.cls.getAccessoryList(this.carDetails).then(res => {\
       _this.LOV.accessoryListLOV = res;
     });
     this.removeAccessories();

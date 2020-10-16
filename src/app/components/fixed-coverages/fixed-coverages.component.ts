@@ -41,13 +41,10 @@ export class FixedCoveragesComponent implements OnInit {
   generateCoverage() {
     this.coverageData = [];
 
-    console.log('this.line ' + this.line);
-
     let headers = [];
     //coverage headers
 
     if (this.line == 'travel') {
-      console.log('travel sya');
       headers = [300, 332, 330, 302, 316, 319, 324, 333];
     } else if (this.line = 'accident') {
       headers = [340];
@@ -57,12 +54,9 @@ export class FixedCoveragesComponent implements OnInit {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
       obj.code = coverage.codCob;
-      console.log('coverage.codCob' + coverage.codCob);
       obj.isHeader = headers.indexOf(obj.code) !== -1;
-      console.log('obj.isHeader ' + obj.isHeader);
 
       obj.label = obj.isHeader ? '<strong>' + coverage.nomCob + '</strong>' : coverage.nomCob;
-      console.log('obj.label ' + obj.label);
       obj.sumInsured = coverage.sumaAseg;
       obj.showDetails = false;
 
