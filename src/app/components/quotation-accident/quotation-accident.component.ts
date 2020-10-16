@@ -158,7 +158,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private changeDetector: ChangeDetectorRef
   ) {
     this.createQuoteForm();
-    this.setValidations();
+    // this.setValidations();
   }
 
   ngAfterViewChecked() {
@@ -598,6 +598,32 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       this.insured().removeAt(0);
       this.removeAllInsured();
     }
+  }
+
+  sublineOnChange() {
+    var _this = this;
+    var disablementValue = this.quoteForm.get('disablementValue');
+    var val = this.quoteForm.controls['subline'].value;
+
+    this.showSPADetails = val == 323; //if standard personal accident is selected
+    this.showHCBIDetails = val == 326; //if hospital cash benefit is selected
+
+    Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
+
+    this.minDate = moment().subtract(this.showSPADetails ? 70 : 65, 'years').toDate();
+    this.maxDate = moment().subtract(this.showSPADetails ? 1 : 18, 'years').toDate();
+
+    //removes all insured inserted by the user
+    this.removeAllInsured();
+    //adds new form for insured individual with primary relationship
+    this.addInsured(true);
+
+    this.als.getOccupationalClass(this.accidentDetails).then(res => {
+      _this.LOV.occupationalClassLOV = res;
+    });
+    this.als.getProduct(this.accidentDetails).then(res => {
+      _this.LOV.productListLOV = res;
+    });
   }
 
   suffixOnChange(insured: FormGroup) {

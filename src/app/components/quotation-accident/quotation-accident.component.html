@@ -35,6 +35,7 @@
                     <label for="subline">Subline</label>
                     <select class="custom-select mr-sm-2 required" formControlName="subline"
                       [(ngModel)]="accidentDetails.subline"
+                      (change)="sublineOnChange()"
                       [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let subline of LOV.sublineLOV" [ngValue]="subline.COD_RAMO">{{ subline.NOM_RAMO }}
