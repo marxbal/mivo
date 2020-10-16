@@ -43,7 +43,9 @@ export class FixedCoveragesComponent implements OnInit {
 
     let headers = [];
     //coverage headers
+
     if (this.line == 'travel') {
+      console.log('travel sya');
       headers = [300, 332, 330, 302, 316, 319, 324, 333];
     } else if (this.line = 'accident') {
       headers = [340];
@@ -52,8 +54,12 @@ export class FixedCoveragesComponent implements OnInit {
     this.coverageList.forEach(coverage => {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
+      console.log('coverage.codCob' + coverage.codCob);
       obj.isHeader = headers.indexOf(coverage.codCob) !== -1;
+      console.log('obj.isHeader ' + obj.isHeader);
+
       obj.label = obj.isHeader ? '<strong>' + coverage.nomCob + '</strong>' : coverage.nomCob;
+      console.log('obj.label ' + obj.label);
       obj.sumInsured = coverage.sumaAseg;
       obj.showDetails = false;
 
@@ -67,8 +73,6 @@ export class FixedCoveragesComponent implements OnInit {
         obj.showDetails = true;
         obj.details = obj.isHeader ? '' : 'actual cost';
       }
-
-      //{{element.isHeader && (element.code != '330' && element.code != '332') ? '' : element.sumInsured == null ? 'n/a' : element.sumInsured == 0 ? element.isHeader ? '' : 'actual cost' : element.sumInsured | currency: element.currency: 'symbol-narrow'}}
 
       if (coverage.codMon == 2) {
         obj.currency = 'USD';
