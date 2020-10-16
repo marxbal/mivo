@@ -41,6 +41,8 @@ export class FixedCoveragesComponent implements OnInit {
   generateCoverage() {
     this.coverageData = [];
 
+    console.log('this.line ' + this.line);
+
     let headers = [];
     //coverage headers
 
