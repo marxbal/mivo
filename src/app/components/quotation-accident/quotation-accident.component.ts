@@ -112,6 +112,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   paymentBreakdown: any[];
   paymentReceipt: {};
 
+  //for coverage
+  coverageList: any[];
+
   LOV = new AccidentListObject();
   GPLOV = new GroupPolicyListObject();
 
@@ -678,7 +681,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   populateCoverage(coverageList: any[]) {
-    // this.coverageList = coverageList;
+    this.coverageList = coverageList;
     this.showCoverage = true;
     this.triggerCoverage = this.triggerCoverage + 1;
   }
@@ -954,7 +957,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
-            // this.populateCoverage(coverageList);
+            this.populateCoverage(coverageList);
 
             this.populatePaymentBreakdown(breakdown, receipt);
             this.manageBtn(2);
