@@ -213,10 +213,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           switch (code) {
             //general information details
             //TODO
-            // case "EXPENSES_COVERAGE": {
-            //   this.travelDetails.medicalExpenses = value;
-            //   break;
-            // }
+            case "COD_MODALIDAD": {
+              this.accidentDetails.product = value;
+              break;
+            }
   
             default: {
               // do nothing
@@ -242,7 +242,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           }
   
           switch (code) {
-            //country
+            //insured individual
             case "TXT_FIRST_NAME": {
               const obj = { firstName: value, occurence: occurence };
               tempInsured.push(obj);
@@ -341,12 +341,12 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           this.removeAllInsured();
           var temp: any[] = [];
           insuredDetails.forEach((ins: any) => {
+            console.log("ins " + ins);
             temp.push({
-              traveler: ins.firstName
+              insured: ins.firstName
             });
 
             const showOtherOccupation = !Utility.isUndefined(ins.otherOccupation);
-
             this.insured().push(this.loadInsured(
               ins.firstName,
               ins.lastName,
@@ -374,10 +374,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         }
   
         const generalInfo = res.obj["generalInfo"];
+        console.log("generalInfo " + generalInfo);
         this.accidentDetails.subline = generalInfo.codRamo;
         this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
         this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
         this.groupPolicy.agentCode = generalInfo.codAgt;
         this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
