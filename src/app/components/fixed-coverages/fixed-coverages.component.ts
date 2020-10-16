@@ -54,8 +54,9 @@ export class FixedCoveragesComponent implements OnInit {
     this.coverageList.forEach(coverage => {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
+      obj.code = coverage.codCob;
       console.log('coverage.codCob' + coverage.codCob);
-      obj.isHeader = headers.indexOf(coverage.codCob) !== -1;
+      obj.isHeader = headers.indexOf(obj.code) !== -1;
       console.log('obj.isHeader ' + obj.isHeader);
 
       obj.label = obj.isHeader ? '<strong>' + coverage.nomCob + '</strong>' : coverage.nomCob;
@@ -81,7 +82,7 @@ export class FixedCoveragesComponent implements OnInit {
       } else {
         obj.currency = 'PHP';
       }
-      obj.code = coverage.codCob;
+      
       this.coverageData.push(obj);
 
       //if selected product has hospital cash benefit coverage
