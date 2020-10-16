@@ -251,15 +251,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           const code = i.codCampo;
           const value: string = i.valCampo;
           const occurence: number = i.numOcurrencia;
-          // const index = occurence - 1;
-          let valueInt: number = undefined;
-  
-          try {
-            valueInt = parseInt(value);
-          } catch (e) {
-            // do nothing
-          }
-  
+
           switch (code) {
             //insured individual
             case "TXT_FIRST_NAME": {
@@ -385,8 +377,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
               showOtherOccupation));
           });
 
-          console.log("nagload");
-
           var insuredForm = this.quoteForm.get('insured').value;
           this.accidentDetails.insuredDetails = insuredForm;
         } else {
@@ -427,41 +417,40 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  setValidations() {
-    var _this = this;
-    var subline = this.quoteForm.get('subline');
-    var disablementValue = this.quoteForm.get('disablementValue');
+  // setValidations() {
+  //   var _this = this;
+  //   var subline = this.quoteForm.get('subline');
+  //   var disablementValue = this.quoteForm.get('disablementValue');
 
-    subline.valueChanges.subscribe(subline => {
-      if (subline != undefined) {
-        console.log("nagset");
-        this.accidentDetails.subline = subline;
+  //   subline.valueChanges.subscribe(subline => {
+  //     if (subline != undefined) {
+  //       this.accidentDetails.subline = subline;
 
-        this.showSPADetails = subline == 323; //if standard personal accident is selected
-        this.showHCBIDetails = subline == 326; //if hospital cash benefit is selected
+  //       this.showSPADetails = subline == 323; //if standard personal accident is selected
+  //       this.showHCBIDetails = subline == 326; //if hospital cash benefit is selected
 
-        Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
+  //       Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
 
-        this.minDate = moment().subtract(this.showSPADetails ? 70 : 65, 'years').toDate();
-        this.maxDate = moment().subtract(this.showSPADetails ? 1 : 18, 'years').toDate();
+  //       this.minDate = moment().subtract(this.showSPADetails ? 70 : 65, 'years').toDate();
+  //       this.maxDate = moment().subtract(this.showSPADetails ? 1 : 18, 'years').toDate();
 
-        //removes all insured inserted by the user
-        this.removeAllInsured();
-        //adds new form for insured individual with primary relationship
-        this.addInsured(true);
+  //       //removes all insured inserted by the user
+  //       this.removeAllInsured();
+  //       //adds new form for insured individual with primary relationship
+  //       this.addInsured(true);
 
-        this.als.getOccupationalClass(this.accidentDetails).then(res => {
-          _this.LOV.occupationalClassLOV = res;
-        });
-        this.als.getProduct(this.accidentDetails).then(res => {
-          _this.LOV.productListLOV = res;
-        });
-        // this.als.getPaymentPlan(this.accidentDetails).then(res => {
-        //   // alert(res);
-        // });
-      }
-    });
-  }
+  //       this.als.getOccupationalClass(this.accidentDetails).then(res => {
+  //         _this.LOV.occupationalClassLOV = res;
+  //       });
+  //       this.als.getProduct(this.accidentDetails).then(res => {
+  //         _this.LOV.productListLOV = res;
+  //       });
+  //       // this.als.getPaymentPlan(this.accidentDetails).then(res => {
+  //       //   // alert(res);
+  //       // });
+  //     }
+  //   });
+  // }
 
   loadInit() {
     var _this = this;
@@ -549,6 +538,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
       occupationList = res;
     });
+
+    console.log("occupationList " + occupationList);
 
     return this.fb.group({
       firstName: [firstName, Validators.required],
