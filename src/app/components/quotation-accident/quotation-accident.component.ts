@@ -348,6 +348,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           var temp: any[] = [];
           insureds.forEach((ins: any) => {
             console.log("ins.firstName " + ins.firstName);
+            console.log("ins.lastName " + ins.lastName);
+            console.log("ins.gender " + ins.gender);
             temp.push({
               insured: ins.firstName
             });
@@ -372,8 +374,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
               ins.otherOccupation,
               showOtherOccupation));
           });
-  
+
           var insuredForm = this.quoteForm.get('insured').value;
+          console.log("insuredForm ", insuredForm);
           this.accidentDetails.insuredDetails = insuredForm;
         } else {
           this.accidentDetails.insuredDetails = [] as any; //TODO
