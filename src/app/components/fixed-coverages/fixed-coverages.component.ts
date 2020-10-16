@@ -85,17 +85,20 @@ export class FixedCoveragesComponent implements OnInit {
       if (this.line == 'accident' && coverage.codCob == 357) {
         obj.showDetails = true;
 
-        obj.label = 'Daily Cash Benefit - up to 365 days only, starting on the first day of Hospital Confinement or after 24 hours of covered accident / Sudden illness';
-        obj.details = 'Php 1,000.00/day';
-        this.coverageData.push(obj);
+        var obj1 = {} as coverageDTO;
+        obj1.label = 'Daily Cash Benefit - up to 365 days only, starting on the first day of Hospital Confinement or after 24 hours of covered accident / Sudden illness';
+        obj1.details = 'Php 1,000.00/day';
+        this.coverageData.push(obj1);
 
-        obj.label = '50% increase in Daily Cash Benefit, in case of Intensive Care Unit confinement';
-        obj.details = 'Php 1,500.00/day';
-        this.coverageData.push(obj);
+        var obj2 = {} as coverageDTO;
+        obj2.label = '50% increase in Daily Cash Benefit, in case of Intensive Care Unit confinement';
+        obj2.details = 'Php 1,500.00/day';
+        this.coverageData.push(obj2);
 
-        obj.label = 'Surgical Cash Benefit for every covered surgery (Subject to Schedule of Surgical Benefits)';
-        obj.details = 'max of Php 10,000.00';
-        this.coverageData.push(obj);
+        var obj3 = {} as coverageDTO;
+        obj3.label = 'Surgical Cash Benefit for every covered surgery (Subject to Schedule of Surgical Benefits)';
+        obj3.details = 'max of Php 10,000.00';
+        this.coverageData.push(obj3);
       }
     });
   }
