@@ -18,6 +18,7 @@ export interface coverageDTO {
   styleUrls: ['./fixed-coverages.component.css']
 })
 export class FixedCoveragesComponent implements OnInit {
+  @Input() line: string = 'travel';
   @Input() coverageList: any[] = [];
   @Input()
   set loadCoverage(value: number) {
@@ -38,8 +39,14 @@ export class FixedCoveragesComponent implements OnInit {
   generateCoverage() {
     this.coverageData = [];
 
+    let headers = [];
     //coverage headers
-    var headers = [300, 332, 330, 302, 316, 319, 324, 333];
+    if (this.line == 'travel') {
+      headers = [300, 332, 330, 302, 316, 319, 324, 333];
+    } else if (this.line = 'accident') {
+      headers = [340];
+    };
+
     this.coverageList.forEach(coverage => {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
