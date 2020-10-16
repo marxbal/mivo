@@ -41,7 +41,7 @@ export class Accident {
   //accident death and disablement value
   disablementValue: number; // *
 
-  product: string;
+  product: number;
 
   constructor() {}
 }

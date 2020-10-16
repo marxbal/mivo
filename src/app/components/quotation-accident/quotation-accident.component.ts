@@ -216,7 +216,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
             //general information details
             //TODO
             case "COD_MODALIDAD": {
-              this.accidentDetails.product = value;
+              this.accidentDetails.product = valueInt;
               break;
             }
   
@@ -346,7 +346,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           //removes all insured individual
           this.removeAllInsured();
           var temp: any[] = [];
-          insuredDetails.forEach((ins: any) => {
+          insureds.forEach((ins: any) => {
             console.log("ins.firstName " + ins.firstName);
             temp.push({
               insured: ins.firstName

@@ -17,7 +17,7 @@ export class AccidentLOVServices {
 
   async getSubline(): Promise < any[] > {
     const dto = new LOV('A1001800', '93', '');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, 'COD_RAMO').then(lovs => lovs as any[]);
   }
 
   async getOccupationalClass(accidentDetails: Accident): Promise < any[] > {
