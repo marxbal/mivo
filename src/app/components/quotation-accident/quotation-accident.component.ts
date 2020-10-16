@@ -224,8 +224,28 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           }
         });
   
-        var tempInsured = [];
+        const generalInfo = res.obj["generalInfo"];
+        this.accidentDetails.subline = generalInfo.codRamo;
+        this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+  
+        this.groupPolicy.agentCode = generalInfo.codAgt;
+        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        this.groupPolicy.contract = generalInfo.numContrato;
+        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        this.accidentDetails.groupPolicy = this.groupPolicy;
+  
+        const docType = generalInfo.tipDocum;
+        const docCode = generalInfo.codDocum;
+        // preventing generic document type and code
+        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+          this.policyHolder.documentType = docType;
+          this.policyHolder.documentCode = docCode;
+          this.policyHolder.isExisting = true;
+        }
 
+        var tempInsured = [];
         const insuredDetails = res.obj["insuredDetails"] as any[];
         insuredDetails.forEach(i => {
           const code = i.codCampo;
@@ -371,27 +391,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           this.accidentDetails.insuredDetails = insuredForm;
         } else {
           this.accidentDetails.insuredDetails = [] as any; //TODO
-        }
-  
-        const generalInfo = res.obj["generalInfo"];
-        this.accidentDetails.subline = generalInfo.codRamo;
-        this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-  
-        this.groupPolicy.agentCode = generalInfo.codAgt;
-        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        this.groupPolicy.contract = generalInfo.numContrato;
-        this.groupPolicy.subContract = generalInfo.numSubcontrato;
-        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
-        this.accidentDetails.groupPolicy = this.groupPolicy;
-  
-        const docType = generalInfo.tipDocum;
-        const docCode = generalInfo.codDocum;
-        // preventing generic document type and code
-        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
-          this.policyHolder.documentType = docType;
-          this.policyHolder.documentCode = docCode;
-          this.policyHolder.isExisting = true;
         }
   
         this.loadLOVs();
