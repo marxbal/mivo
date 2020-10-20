@@ -283,8 +283,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
             const text: string = id.txtCampo;
             const occurence: number = id.numOcurrencia;
             let valueInt: number = undefined;
-
-            iObj.occurence = occurence.toString();
     
             try {
               valueInt = parseInt(value);
@@ -293,6 +291,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
             }
 
             if (t.occurence == occurence) {
+              iObj.occurence = occurence.toString();
               switch (code) {
                 case "TXT_FIRST_NAME": {
                   iObj.firstName = value;
