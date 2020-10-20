@@ -28,6 +28,9 @@ import {
 import {
   page
 } from 'src/app/constants/page';
+// import {
+//   AuthenticationService
+// } from 'src/app/services/authentication.service';
 import {
   AccidentListObject
 } from 'src/app/objects/LOV/accidentList';
@@ -67,7 +70,9 @@ import {
 import {
   TravelLOVServices
 } from 'src/app/services/lov/travel.service';
-import { InsuredDetails } from 'src/app/objects/InsuredDetails';
+import {
+  InsuredDetails
+} from 'src/app/objects/InsuredDetails';
 
 @Component({
   selector: 'app-quotation-accident',
@@ -148,6 +153,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
+    // private auths: AuthenticationService,
     private als: AccidentLOVServices,
     private ais: AccidentIssueServices,
     private tpls: ThirdPartyLOVServices,
@@ -158,7 +164,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     private changeDetector: ChangeDetectorRef
   ) {
     this.createQuoteForm();
-    // this.setValidations();
+    this.setValidations();
   }
 
   ngAfterViewChecked() {
@@ -417,40 +423,12 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  // setValidations() {
-  //   var _this = this;
-  //   var subline = this.quoteForm.get('subline');
-  //   var disablementValue = this.quoteForm.get('disablementValue');
-
-  //   subline.valueChanges.subscribe(subline => {
-  //     if (subline != undefined) {
-  //       this.accidentDetails.subline = subline;
-
-  //       this.showSPADetails = subline == 323; //if standard personal accident is selected
-  //       this.showHCBIDetails = subline == 326; //if hospital cash benefit is selected
-
-  //       Utility.updateValidator(disablementValue, this.showSPADetails ? [Validators.required, Validators.max(2000000), Validators.min(10000)] : null);
-
-  //       this.minDate = moment().subtract(this.showSPADetails ? 70 : 65, 'years').toDate();
-  //       this.maxDate = moment().subtract(this.showSPADetails ? 1 : 18, 'years').toDate();
-
-  //       //removes all insured inserted by the user
-  //       this.removeAllInsured();
-  //       //adds new form for insured individual with primary relationship
-  //       this.addInsured(true);
-
-  //       this.als.getOccupationalClass(this.accidentDetails).then(res => {
-  //         _this.LOV.occupationalClassLOV = res;
-  //       });
-  //       this.als.getProduct(this.accidentDetails).then(res => {
-  //         _this.LOV.productListLOV = res;
-  //       });
-  //       // this.als.getPaymentPlan(this.accidentDetails).then(res => {
-  //       //   // alert(res);
-  //       // });
-  //     }
-  //   });
-  // }
+  setValidations() {
+    var quotationNumber = this.quoteForm.get('quotationNumber');
+    quotationNumber.valueChanges.subscribe(number => {
+      this.disableLoadBtn = Utility.isUndefined(number);
+    });
+  }
 
   loadInit() {
     var _this = this;
@@ -992,12 +970,12 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   assembleData(mcaTmpPptoMph: string) {
     this.accidentDetails.mcaTmpPptoMph = mcaTmpPptoMph;
 
-    // includes group policy to travel details DTO
+    // includes group policy to accident details DTO
     this.accidentDetails.groupPolicy = this.groupPolicy;
-    // includes policy holder to travel details DTO
+    // includes policy holder to accident details DTO
     this.accidentDetails.policyHolder = this.policyHolder;
 
-    // includes travelers to travel details DTO
+    // includes insured individuals to accident details DTO
     var insured = this.quoteForm.get('insured').value;
     this.accidentDetails.insuredDetails = insured.length ? insured : [];
 
@@ -1021,7 +999,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         var items = this.getErrorItems(res, this.accidentDetails.mcaTmpPptoMph, true);
         const status = res.obj["status"];
         if (status) {
-          //duplicating travel details for comparison
+          //duplicating accident details for comparison
           const deepClone = JSON.parse(JSON.stringify(this.accidentDetails));
           this.prevAccidentDetails = deepClone;
 
@@ -1036,7 +1014,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
           const breakdown = res.obj["breakdown"];
           const receipt = res.obj["receipt"];
-          // this.populatePaymentBreakdown(breakdown, receipt);
+          this.populatePaymentBreakdown(breakdown, receipt);
 
           if (errorCode == "S") {
             //if quotation has a warning
@@ -1063,9 +1041,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   postPolicy() {
     this.assembleData("N");
 
-    // if (this.withTechControl) {
-    //   this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
-    // } else {
     this.ais.postPolicy(this.accidentDetails).then(res => {
       if (res.status) {
         //clear affecting fields
@@ -1080,7 +1055,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
           const breakdown = res.obj["breakdown"];
           const receipt = res.obj["receipt"];
-          // this.populatePaymentBreakdown(breakdown, receipt);
+          this.populatePaymentBreakdown(breakdown, receipt);
           this.openPaymentBreakdownModal(receipt, breakdown, true);
           this.manageBtn(4);
         } else {
@@ -1090,7 +1065,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         this.modalRef = Utility.showError(this.bms, res.message);
       }
     });
-    // }
   }
 
 }

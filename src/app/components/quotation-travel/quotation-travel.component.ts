@@ -29,9 +29,9 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
-import {
-  AuthenticationService
-} from 'src/app/services/authentication.service';
+// import {
+//   AuthenticationService
+// } from 'src/app/services/authentication.service';
 import {
   BsModalService,
   BsModalRef
@@ -88,7 +88,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
   @ViewChild('validationModal') validationModal: TemplateRef < any > ;
 
-  currentUser = this.auths.currentUserValue;
+  // currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
   pageLabel: String = 'Quotation';
@@ -161,7 +161,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    private auths: AuthenticationService,
+    // private auths: AuthenticationService,
     private bms: BsModalService,
     private router: Router,
     private tls: TravelLOVServices,
