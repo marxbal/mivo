@@ -354,6 +354,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           insureds.push(iObj);
         });
 
+        const occupationLists = res.obj["occupationLists"] as any[];        
         if (insureds.length) {
           //removes all insured individual
           this.removeAllInsured();
@@ -381,7 +382,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
               ins.occupation,
               ins.occupationLabel,
               ins.otherOccupation,
-              showOtherOccupation));
+              showOtherOccupation,
+              occupationLists[ins.occurence]));
           });
 
           var insuredForm = this.quoteForm.get('insured').value;
@@ -503,7 +505,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     occupation: string,
     occupationLabel: string,
     otherOccupation: string,
-    showOtherOccupation: boolean
+    showOtherOccupation: boolean,
+    occupationList: []
     ): FormGroup {
 
     const isSPA = this.accidentDetails.subline == 323;
@@ -512,11 +515,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
     const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : minAgeLimit, 'years').toDate();
     const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 1 : maxAgeLimit, 'years').toDate();
-    let occupationList = [];
 
-    this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
-      occupationList = res; //TODO
-    });
+    // this.als.getOccupation(this.accidentDetails, occupationalClass).then(res => {
+    //   occupationList = res; //TODO
+    // });
 
     return this.fb.group({
       firstName: [firstName, Validators.required],
