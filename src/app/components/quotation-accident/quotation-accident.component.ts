@@ -187,6 +187,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   createQuoteForm() {
     this.quoteForm = this.fb.group({
+      quotationNumber: [null],
       subline: ['', Validators.required],
       //general information
       effectivityDate: ['', Validators.required],
