@@ -355,6 +355,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         });
 
         const occupationLists = res.obj["occupationLists"] as any[];        
+        console.log(occupationLists);
         if (insureds.length) {
           //removes all insured individual
           this.removeAllInsured();
