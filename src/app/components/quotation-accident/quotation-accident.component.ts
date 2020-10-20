@@ -354,8 +354,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           insureds.push(iObj);
         });
 
-        const occupationLists = res.obj["occupationLists"] as any[];        
-        console.log(occupationLists);
+        const occupationLists = res.obj["occupationLists"] as any[];
+        console.log(occupationLists["1"]);
+        
         if (insureds.length) {
           //removes all insured individual
           this.removeAllInsured();
@@ -384,7 +385,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
               ins.occupationLabel,
               ins.otherOccupation,
               showOtherOccupation,
-              occupationLists[ins.occurence]));
+              occupationLists["1"]));
           });
 
           var insuredForm = this.quoteForm.get('insured').value;
