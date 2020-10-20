@@ -357,7 +357,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         });
 
         const occupationLists = res.obj["occupationLists"] as any[];
-        console.log(occupationLists["1"]);
         
         if (insureds.length) {
           //removes all insured individual
@@ -387,7 +386,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
               ins.occupationLabel,
               ins.otherOccupation,
               showOtherOccupation,
-              occupationLists["1"]));
+              occupationLists[ins.occurence]));
           });
 
           var insuredForm = this.quoteForm.get('insured').value;
