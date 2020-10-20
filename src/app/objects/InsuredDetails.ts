@@ -16,6 +16,7 @@ export class InsuredDetails {
   occupation: string;
   occupationLabel: string;
   otherOccupation: string;
+  occurence: string;
 
   constructor() {}
 }
