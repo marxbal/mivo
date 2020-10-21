@@ -17,6 +17,7 @@ export class Accident {
   spouseAge: number; // *
   cbChildNumber: boolean; // *
   childNumber: number; // *
+  occupationalClass: string; // *
 
   policyNumber: string
   quotationNumber: string;

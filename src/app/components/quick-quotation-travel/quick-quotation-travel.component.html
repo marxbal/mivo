@@ -53,7 +53,7 @@
                   || quickQuoteForm.controls['country'].touched)}">
                 <label for="country">Itinerary</label>
                 <ng-select [items]="LOV.countryLOV" bindLabel="name" placeholder="Select Country to visit"
-                  appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.country">
+                  appendTo="body" formControlName="country" multiple="true" [(ngModel)]="travelDetails.countries">
                 </ng-select>
                 <p class="form-error" *ngIf="quickQuoteForm.controls['country'].errors?.required">
                   * country is required
