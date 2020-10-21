@@ -237,9 +237,15 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
   
         this.groupPolicy.agentCode = generalInfo.codAgt;
-        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        this.groupPolicy.contract = generalInfo.numContrato;
-        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
+          this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        }
+        if (!Utility.isUndefined(generalInfo.numContrato)) {
+          this.groupPolicy.contract = parseInt(generalInfo.numContrato);
+        }
+        if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
+          this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
+        }
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.accidentDetails.groupPolicy = this.groupPolicy;
   
