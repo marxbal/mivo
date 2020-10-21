@@ -526,9 +526,15 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
         this.groupPolicy.agentCode = generalInfo.codAgt;
-        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        this.groupPolicy.contract = generalInfo.numContrato;
-        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
+          this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        }
+        if (!Utility.isUndefined(generalInfo.numContrato)) {
+          this.groupPolicy.contract = parseInt(generalInfo.numContrato);
+        }
+        if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
+          this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
+        }
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.travelDetails.groupPolicy = this.groupPolicy;
   
