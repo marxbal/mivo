@@ -347,7 +347,8 @@
                           || traveler.controls['birthDate'].touched)}">
                             <label for="birthDate">Birthdate</label>
                             <input type="text" placeholder="Datepicker" class="form-control required"
-                              [maxDate]="traveler.controls['bdaymaxdate'].value" [minDate]="traveler.controls['bdaymindate'].value" formControlName="birthDate" bsDatepicker
+                              [maxDate]="traveler.controls['bdaymaxdate'].value" [minDate]="traveler.controls['bdaymindate'].value"
+                              formControlName="birthDate" bsDatepicker
                               [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveler.controls['birthDate'].errors?.required">
                               * birthdate is required
@@ -467,11 +468,13 @@
             #appPaymentBreakdown
             [paymentReceipt]="paymentReceipt"
             [paymentBreakdown]="paymentBreakdown"
-            [showExchangeRate]="true">
+            [showExchangeRate]="true"
+            [loadBreakdown]="triggerBreakdown">
           </app-payment-breakdown>
 
           <app-fixed-coverages
             *ngIf="showCoverage"
+            [line]="'travel'"
             [coverageList]="coverageList"
             [loadCoverage]="triggerCoverage">
           </app-fixed-coverages>
@@ -633,7 +636,7 @@
 
           <div class="clearfix"></div>
         </form>
-        <!-- .quick-quote-form -->
+        <!-- .quote-form -->
       </div>
       <!-- .card-body -->
     </div>
@@ -641,7 +644,7 @@
   </div>
   <!-- .col-xl-12 -->
 </div>
-<!-- #quickQuotationTravel -->
+<!-- #QuotationTravel -->
 
 <ng-template #proceedModal let-data>
   <div class="mat-dialog-header border-bottom">

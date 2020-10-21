@@ -18,9 +18,6 @@ import {
   Utility
 } from '../../utils/utility';
 import {
-  QQAccident
-} from '../../objects/QQAccident';
-import {
   AccidentListObject
 } from 'src/app/objects/LOV/accidentList';
 import {
@@ -29,6 +26,9 @@ import {
 import {
   AccidentLOVServices
 } from '../../services/lov/accident.service'
+import {
+  Accident
+} from 'src/app/objects/Accident';
 
 export interface QuickQuoteResultDTO {
   label: string;
@@ -45,7 +45,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked {
-  @Input() accidentDetails = new QQAccident();
+  accidentDetails = new Accident();
   LOV = new AccidentListObject();
   quickQuoteForm: FormGroup;
 
@@ -95,7 +95,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     this.quickQuoteForm = this.fb.group({
       subline: ['', Validators.required],
       occupationalClass: ['', Validators.required],
-      disablementValue: ['', Validators.required],
+      disablementValue: ['', [Validators.required, Validators.max(2000000), Validators.min(10000)]],
       primaryInsuredAge: ['', Validators.required],
       cbSpouseAge: [null],
       spouseAge: ['', Validators.required],
@@ -115,6 +115,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     var cbChildNumber = this.quickQuoteForm.get('cbChildNumber');
 
     this.quickQuoteForm.get('subline').valueChanges.subscribe(subline => {
+      this.accidentDetails.subline = subline;
       this.showDetails = false;
       this.showSPADetails = false;
       this.showHCBIDetails = false;
@@ -130,8 +131,8 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
         this.showDetails = true;
         this.showSPADetails = true;
         Utility.updateValidator(occupationalClass, [Validators.required]);
-        Utility.updateValidator(disablementValue, [Validators.required]);
-        this.als.getOccupationalClass().then(res => {
+        Utility.updateValidator(disablementValue, [Validators.required, Validators.max(2000000), Validators.min(10000)]);
+        this.als.getOccupationalClass(this.accidentDetails).then(res => {
           _this.LOV.occupationalClassLOV = res;
         });
       } else if (subline == 326) { //hospital cash benefit
@@ -230,7 +231,7 @@ export class QuickQuotationAccidentComponent implements OnInit, AfterViewChecked
     }, 500);
   }
 
-  quickQuote(accidentDetails: QQAccident) {
+  quickQuote(accidentDetails: Accident) {
     this.qqs.quickQuoteAccident(accidentDetails).then(res => {
       if (!Utility.isUndefined(res)) {
         if (res.status) {

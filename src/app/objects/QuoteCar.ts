@@ -86,6 +86,7 @@ export class QuoteCar {
   glassEtchingAvailmentDate: Date; //FEC_GLASS_ETCHING
   existingDamages: string; //TXT_EXT_DAM_PARTS
   inspectionAssessment: number; //TXT_EXT_DAM_PARTS
+  
   //additional policy information for issuance
   cbPolicyOnlyDriver: boolean; //MCA_DRIVER
   cbPolicyOwner: boolean; //MCA_OWNER

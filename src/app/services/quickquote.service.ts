@@ -17,8 +17,8 @@ import {
   Travel
 } from '../objects/Travel';
 import {
-  QQAccident
-} from '../objects/QQAccident';
+  Accident
+} from '../objects/Accident';
 
 @Injectable()
 export class QuickQuoteService {
@@ -40,7 +40,7 @@ export class QuickQuoteService {
     return this.app.post(travelDetails, '/quickquote/travel').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async quickQuoteAccident(accidentDetails: QQAccident): Promise < ReturnDTO > {
+  async quickQuoteAccident(accidentDetails: Accident): Promise < ReturnDTO > {
     return this.app.post(accidentDetails, '/quickquote/accident').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }

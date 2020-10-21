@@ -66,7 +66,7 @@ export class PolicyHolderComponent implements OnInit {
   triggerCounter: number;
 
   displayedColumns: string[] = ['documentType', 'firstName', 'middleName', 'lastName', 'address', 'action'];
-  source: any[];
+  source: any[] = [];
   dataSource = new MatTableDataSource(this.source);
 
   @ViewChild(MatPaginator, {

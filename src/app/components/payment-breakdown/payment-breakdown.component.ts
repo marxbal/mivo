@@ -32,12 +32,23 @@ export class PaymentBreakdownComponent implements OnInit {
   @Input() paymentBreakdown: any[];
   @Input() paymentReceipt: any[];
   @Input() showExchangeRate: boolean;
+  @Input()
+  set loadBreakdown(value: number) {
+    this.triggerCounter = value;
+    this.generateBreakdown();
+  }
 
   payments: any[] = [];
+  triggerCounter: number;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.generateBreakdown();
+  }
+
+  generateBreakdown() {
+    this.payments = [];
     this.paymentReceipt.forEach((receipt)=>{
       var exchangeRate = receipt["valCambio"];
       var currency = receipt["codMon"];

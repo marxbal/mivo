@@ -29,9 +29,9 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
-import {
-  AuthenticationService
-} from 'src/app/services/authentication.service';
+// import {
+//   AuthenticationService
+// } from 'src/app/services/authentication.service';
 import {
   BsModalService,
   BsModalRef
@@ -88,12 +88,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
   @ViewChild('validationModal') validationModal: TemplateRef < any > ;
 
-  currentUser = this.auths.currentUserValue;
+  // currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  triggerBreakdown: number = 0;
   travelerHeadCount: number = 1;
 
   travelDetails = new Travel();
@@ -134,11 +135,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   //allow user to edit the form
   editMode = true;
 
-  //flag if coverage is modified
-  // isModifiedCoverage = false;
-  //flag to include covergae
-  // includeCoverage = false;
-
   //flag to show generate btn
   showGenerateBtn: boolean = true;
   //flag to show issue btn
@@ -166,7 +162,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    private auths: AuthenticationService,
+    // private auths: AuthenticationService,
     private bms: BsModalService,
     private router: Router,
     private tls: TravelLOVServices,
@@ -188,7 +184,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
-        //if loaded from car quotation
+        //if loaded from travel quotation
         this.travelDetails.quotationNumber = Globals.loadNumber;
         this.loadQuotation();
         Globals.setLoadNumber('');
@@ -530,10 +526,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         this.travelDetails.endDate = new Date(generalInfo.fecVctoPoliza);
         // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
+        this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
-        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        this.groupPolicy.contract = generalInfo.numContrato;
-        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
+          this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        }
+        if (!Utility.isUndefined(generalInfo.numContrato)) {
+          this.groupPolicy.contract = parseInt(generalInfo.numContrato);
+        }
+        if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
+          this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
+        }
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.travelDetails.groupPolicy = this.groupPolicy;
   
@@ -755,6 +758,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
+    this.triggerBreakdown = this.triggerBreakdown + 1;
     Utility.scroll('paymentBreakdown');
   }
 

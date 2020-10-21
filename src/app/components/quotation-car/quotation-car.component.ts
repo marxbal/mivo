@@ -97,6 +97,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  triggerBreakdown: number = 0;
 
   carDetails = new QuoteCar();
   prevCarDetails: QuoteCar = null;
@@ -566,10 +567,17 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.carDetails.subline = generalInfo.codRamo;
         this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
+        this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
-        this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        this.groupPolicy.contract = generalInfo.numContrato;
-        this.groupPolicy.subContract = generalInfo.numSubcontrato;
+        if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
+          this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        }
+        if (!Utility.isUndefined(generalInfo.numContrato)) {
+          this.groupPolicy.contract = parseInt(generalInfo.numContrato);
+        }
+        if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
+          this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
+        }
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.carDetails.groupPolicy = this.groupPolicy;
   
@@ -1012,7 +1020,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     this.cls.getAccessoryList(this.carDetails).then(res => {
-      console.log("getAccessoryList sublineChange");
       _this.LOV.accessoryListLOV = res;
     });
     this.removeAccessories();
@@ -1051,8 +1058,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   effectivityDateOnChange() {
-    this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-    this.expiryDateMinDate = this.carDetails.expiryDate;
+    setTimeout(() => {
+      this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.carDetails.expiryDate;
+    }, 500);
   }
 
   accessoryOnchange(event: any, index: number) {
@@ -1107,6 +1116,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
+    this.triggerBreakdown = this.triggerBreakdown + 1;
   }
 
   scrollTo(id: string) {
