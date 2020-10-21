@@ -44,7 +44,7 @@ export class PaymentBreakdownComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.generateBreakdown();
+    // this.generateBreakdown();
   }
 
   generateBreakdown() {
