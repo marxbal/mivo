@@ -325,6 +325,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
+    debugger
     this.tis.loadQuotation(this.travelDetails.quotationNumber).then(res => {
       if (res.status) {
         this.manageBtn(2);
