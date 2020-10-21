@@ -89,6 +89,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  triggerBreakdown: number = 0;
   insuredHeadCount: number = 1;
 
   accidentDetails = new Accident();
@@ -688,14 +689,13 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.coverageList = coverageList;
     this.showCoverage = true;
     this.triggerCoverage = this.triggerCoverage + 1;
-    console.log("coverage dumaan dito");
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
-    console.log("breakdown dumaan dito");
+    this.triggerBreakdown = this.triggerBreakdown + 1;
     Utility.scroll('paymentBreakdown');
   }
 

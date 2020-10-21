@@ -97,6 +97,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  triggerBreakdown: number = 0;
 
   carDetails = new QuoteCar();
   prevCarDetails: QuoteCar = null;
@@ -1115,6 +1116,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
+    this.triggerBreakdown = this.triggerBreakdown + 1;
   }
 
   scrollTo(id: string) {

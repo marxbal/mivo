@@ -325,7 +325,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    debugger
     this.tis.loadQuotation(this.travelDetails.quotationNumber).then(res => {
       if (res.status) {
         this.manageBtn(2);
@@ -760,7 +759,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
     this.triggerBreakdown = this.triggerBreakdown + 1;
-    debugger
     Utility.scroll('paymentBreakdown');
   }
 
