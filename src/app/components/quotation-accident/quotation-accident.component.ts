@@ -236,6 +236,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
         this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
   
+        this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
         if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
           this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);

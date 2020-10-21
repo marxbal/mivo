@@ -566,6 +566,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.carDetails.subline = generalInfo.codRamo;
         this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
   
+        this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
         if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
           this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
