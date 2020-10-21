@@ -48,7 +48,7 @@ export class AuthenticationService {
 
   // login(username: String, password: String) {
   //   return this.http
-  //     .post<any>(`${environment.apiUrl}api/auth`, {
+  //     .post < any > (`${API_URL}/users/authenticate`, {
   //       username,
   //       password,
   //     })
@@ -102,17 +102,10 @@ export class AuthenticationService {
       "estimatedCommissions",
       "premiumCollection",
       "quickHome",
-      // "quickTravel",
-      "quickAccident",
       "quotationHome",
-      // "quotationTravel",
-      "quotationAccident",
       "issuanceHome",
-      // "issuanceTravel",
-      "issuanceAccident",
       "account",
       "client",
-      // "issuance",
       "query",
       "changePassword",
       "news",
