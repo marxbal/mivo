@@ -44,11 +44,11 @@ export class PaymentBreakdownComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // this.generateBreakdown();
+    this.generateBreakdown();
   }
 
   generateBreakdown() {
-    debugger
+    this.payments = [];
     this.paymentReceipt.forEach((receipt)=>{
       var exchangeRate = receipt["valCambio"];
       var currency = receipt["codMon"];
