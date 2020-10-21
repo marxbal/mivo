@@ -688,12 +688,14 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.coverageList = coverageList;
     this.showCoverage = true;
     this.triggerCoverage = this.triggerCoverage + 1;
+    console.log("coverage dumaan dito");
   }
 
   populatePaymentBreakdown(breakdown: any[], receipt: {}) {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
+    console.log("breakdown dumaan dito");
     Utility.scroll('paymentBreakdown');
   }
 
