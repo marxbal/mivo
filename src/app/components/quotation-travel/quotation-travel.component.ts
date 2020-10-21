@@ -759,6 +759,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
     this.triggerBreakdown = this.triggerBreakdown + 1;
+    debugger
     Utility.scroll('paymentBreakdown');
   }
 
