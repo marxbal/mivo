@@ -94,6 +94,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
+  triggerBreakdown: number = 0;
   travelerHeadCount: number = 1;
 
   travelDetails = new Travel();
@@ -550,12 +551,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   
         this.loadLOVs();
   
-        this.showCoverage = false;
         const coverageList = res.obj["coverageList"];
         this.populateCoverage(coverageList);
   
         //breakdwon
-        this.showPaymentBreakdown = false;
         const breakdown = res.obj["breakdown"];
         const receipt = res.obj["receipt"];
         this.populatePaymentBreakdown(breakdown, receipt);
@@ -759,6 +758,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.paymentBreakdown = breakdown;
     this.paymentReceipt = receipt;
     this.showPaymentBreakdown = true;
+    this.triggerBreakdown = this.triggerBreakdown + 1;
     Utility.scroll('paymentBreakdown');
   }
 
