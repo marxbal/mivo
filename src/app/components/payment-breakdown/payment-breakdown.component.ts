@@ -48,6 +48,7 @@ export class PaymentBreakdownComponent implements OnInit {
   }
 
   generateBreakdown() {
+    debugger
     this.paymentReceipt.forEach((receipt)=>{
       var exchangeRate = receipt["valCambio"];
       var currency = receipt["codMon"];
