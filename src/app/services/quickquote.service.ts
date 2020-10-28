@@ -8,8 +8,8 @@ import {
   QQCar
 } from '../objects/QQCar';
 import {
-  QQHome
-} from '../objects/QQHome';
+  Home
+} from '../objects/Home';
 import {
   ReturnDTO
 } from '../objects/ReturnDTO';
@@ -32,7 +32,7 @@ export class QuickQuoteService {
     return this.app.post(carDetails, '/quickquote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async quickQuoteHome(homeDetails: QQHome): Promise < ReturnDTO > {
+  async quickQuoteHome(homeDetails: Home): Promise < ReturnDTO > {
     return this.app.post(homeDetails, '/quickquote/home').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
