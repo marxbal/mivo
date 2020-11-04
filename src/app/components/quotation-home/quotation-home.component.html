@@ -24,8 +24,8 @@
                     <label for="businessLine">Business Line</label>
                     <select class="custom-select mr-sm-2 required" formControlName="businessLine"
                       [(ngModel)]="homeDetails.businessLine">
-                      <option *ngFor="let businessLine of LOV.sublineLOV" [ngValue]="businessLine.value">
-                        {{ businessLine.name }}</option>
+                      <option *ngFor="let businessLine of LOV.sublineLOV" [ngValue]="businessLine.COD_RAMO">
+                        {{ businessLine.NOM_RAMO }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['businessLine'].errors?.required">
                       * business line is required

@@ -17,7 +17,7 @@ export class HomeLOVServices {
 
   async getHomeBusinessLine(): Promise < any[] > {
     const dto = new LOV('A1001800', '92', 'cod_cia~1|cod_sector~2');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, "COD_RAMO").then(lovs => lovs as any[]);
   }
 
   async getPaymentPlan(home: Home): Promise < any[] > {

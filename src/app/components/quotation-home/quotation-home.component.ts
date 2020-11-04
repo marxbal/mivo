@@ -119,7 +119,13 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   loadInit() {
     var _this = this;
     this.hls.getHomeBusinessLine().then(res => {
-      _this.LOV.sublineLOV = res;
+      var temp = [];
+      res.forEach(subline => {
+        if(subline.COD_RAMO === 200) {
+          temp.push = subline;
+        }
+      });
+      _this.LOV.sublineLOV = temp;
     });
     this.hls.getCurrency(this.homeDetails).then(res => {
       _this.LOV.currencyLOV = res;
