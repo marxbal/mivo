@@ -123,7 +123,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       res.forEach(subline => {
         debugger
         if(subline.COD_RAMO === 200) {
-          temp.push = subline;
+          temp.push(subline);
         }
       });
       _this.LOV.sublineLOV = temp;
