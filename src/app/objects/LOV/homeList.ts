@@ -7,8 +7,14 @@ export class HomeListObject {
   regionLOV: any[];
   provinceLOV: any[];
   municipalityLOV: any[];
+
+  relatedStructureLOV: any[];
+  relatedContentLOV: any[];
+
   paymentMethodLOV: any[];
   productListLOV: any[];
+
+
   constructor() {
   }
 }

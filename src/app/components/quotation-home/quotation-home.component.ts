@@ -12,8 +12,8 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 import {
-  QuoteHome
-} from '../../objects/QuoteHome';
+  Home
+} from '../../objects/Home';
 import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
@@ -29,6 +29,9 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
+import {
+  HomeLOVServices
+} from '../../services/lov/home.service';
 
 @Component({
   selector: 'app-quotation-home',
@@ -36,8 +39,8 @@ import {
   styleUrls: ['./quotation-home.component.css']
 })
 export class QuotationHomeComponent implements OnInit, AfterViewChecked {
-  @Input() homeDetails = new QuoteHome();
-  @Input() groupPolicy = new GroupPolicy();
+  homeDetails = new Home();
+  groupPolicy = new GroupPolicy();
 
   quoteForm: FormGroup;
   mindate: Date = new Date();
@@ -54,7 +57,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   constructor(
     private fb: FormBuilder,
     // private qq: QuickQuoteService,
-    // private lov: LovService,
+    private hls: HomeLOVServices,
     private changeDetector: ChangeDetectorRef
   ) {
     this.createQuoteForm();
@@ -66,14 +69,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.getSubline();
-    this.getCurrency();
-    this.getRegion();
-    this.getProvince();
-    this.getMunicipality();
-    this.getPaymentMethod();
-    this.getProductList();
-
+    this.loadInit();
     this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
     this.GPLOV.contractLOV = lovUtil.getContract();
     this.GPLOV.subContractLOV = lovUtil.getSubContract();
@@ -120,61 +116,36 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  loadInit() {
+    var _this = this;
+    this.hls.getHomeBusinessLine().then(res => {
+      _this.LOV.sublineLOV = res;
+    });
+    this.hls.getCurrency(this.homeDetails).then(res => {
+      _this.LOV.currencyLOV = res;
+    });
+    this.hls.getRelatedStructureProperty(this.homeDetails).then(res => {
+      _this.LOV.relatedStructureLOV = res;
+    });
+    this.hls.getRelatedContentProperty(this.homeDetails).then(res => {
+      _this.LOV.relatedContentLOV = res;
+    });
+
+    this.setDefaultValue();
+  }
+
+  setDefaultValue() {
+    //setting default value
+    // this.homeDetails.sublineEffectivityDate = "01012016";
+    // this.homeDetails.effectivityDate = this.today; // current today
+  }
+
   setValidations() {
     Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
     // Validate.setEffecivityDateValidations(this.quoteForm, this.homeDetails, this.expiryDateMinDate);
   }
 
-  getSubline() {
-    this.LOV.sublineLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  getCurrency() {
-    this.LOV.currencyLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  getRegion() {
-    this.LOV.regionLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  getProvince() {
-    this.LOV.provinceLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  getMunicipality() {
-    this.LOV.municipalityLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  getPaymentMethod() {
-    this.LOV.paymentMethodLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  getProductList() {
-    this.LOV.productListLOV = [{
-      value: 1,
-      name: "test"
-    }];
-  }
-
-  issueQuote(homeDetails: QuoteHome, groupPolicy: GroupPolicy) {
+  issueQuote(homeDetails: Home, groupPolicy: GroupPolicy) {
     console.log(homeDetails, groupPolicy);
   }
 }
