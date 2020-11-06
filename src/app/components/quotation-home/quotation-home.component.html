@@ -18,17 +18,17 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['businessLine'].invalid 
-                    && (quoteForm.controls['businessLine'].dirty 
-                    || quoteForm.controls['businessLine'].touched)}">
-                    <label for="businessLine">Business Line</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="businessLine"
-                      [(ngModel)]="homeDetails.businessLine"
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subline'].invalid 
+                    && (quoteForm.controls['subline'].dirty 
+                    || quoteForm.controls['subline'].touched)}">
+                    <label for="subline">Business Line</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="subline"
+                      [(ngModel)]="homeDetails.subline"
                       (change)="sublineOnChange()">
-                      <option *ngFor="let businessLine of LOV.sublineLOV" [ngValue]="businessLine.COD_RAMO">
-                        {{ businessLine.NOM_RAMO }}</option>
+                      <option *ngFor="let subline of LOV.sublineLOV" [ngValue]="subline.COD_RAMO">
+                        {{ subline.NOM_RAMO }}</option>
                     </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['businessLine'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['subline'].errors?.required">
                       * business line is required
                     </p>
                   </div>

@@ -78,7 +78,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   createQuoteForm() {
     this.quoteForm = this.fb.group({
-      businessLine: ['', Validators.required],
+      subline: ['', Validators.required],
       currency: ['', Validators.required],
       buildingNumber: [null],
       subdivision: [null],
