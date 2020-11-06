@@ -409,8 +409,8 @@
                     <select class="custom-select mr-sm-2 required" formControlName="paymentMethod"
                       [(ngModel)]="homeDetails.paymentMethod"
                       [attr.disabled]="editMode && LOV.paymentMethodLOV?.length ? null : true">
-                      <option *ngFor="let paymentMethod of LOV.paymentMethodLOV" [ngValue]="paymentMethod.value">
-                        {{ paymentMethod.name }}</option>
+                      <option *ngFor="let paymentMethod of LOV.paymentMethodLOV" [ngValue]="paymentMethod.COD_FRACC_PAGO">
+                        {{ paymentMethod.NOM_FRACC_PAGO }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['paymentMethod'].errors?.required">
                       * payment method is required
