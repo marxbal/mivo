@@ -66,7 +66,7 @@ export class ThirdPartyLOVServices {
     return this.lov.getIntLOV(dto, 'COD_ESTADO').then(lovs => lovs as any[]);
   }
 
-  async getMunicipality(thirdParty: PolicyHolder): Promise < any[] > {
+  async getProvince(thirdParty: PolicyHolder): Promise < any[] > {
     const dto = new LOV(
       'A1000100',
       '6',

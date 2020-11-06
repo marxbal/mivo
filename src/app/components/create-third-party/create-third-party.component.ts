@@ -127,7 +127,7 @@ export class CreateThirdPartyComponent implements OnInit {
         this.tpForm.get('gender').markAsDirty();
       }
       this.getState()
-      this.getMunicipality();
+      this.getProvince();
       this.getCity();
       this.getZipCode();
     }
@@ -196,9 +196,9 @@ export class CreateThirdPartyComponent implements OnInit {
     });
   }
 
-  getMunicipality() {
+  getProvince() {
     const _this = this;
-    this.tpls.getMunicipality(this.thirdParty).then(res => {
+    this.tpls.getProvince(this.thirdParty).then(res => {
       _this.TPLOV.municipalityLOV = res;
     });
   }

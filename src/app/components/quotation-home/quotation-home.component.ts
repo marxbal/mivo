@@ -28,9 +28,6 @@ import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
 import {
-  Validate
-} from '../../validators/validate';
-import {
   GroupPolicyLOV as lovUtil
 } from '../../utils/lov/groupPolicy';
 import {
@@ -57,6 +54,12 @@ import {
 import {
   page
 } from 'src/app/constants/page';
+import {
+  ThirdPartyListObject
+} from 'src/app/objects/LOV/thirdPartyList';
+import {
+  ThirdPartyLOVServices
+} from 'src/app/services/lov/third-party-lov-service';
 
 @Component({
   selector: 'app-quotation-home',
@@ -84,6 +87,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
+  homeAddress = new PolicyHolder;
   quoteForm: FormGroup;
   minDate: Date = moment().subtract(65, 'years').toDate();
   maxDate: Date = moment().subtract(18, 'years').toDate();
@@ -107,6 +111,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   LOV = new HomeListObject();
   GPLOV = new GroupPolicyListObject();
+  TPLOV = new ThirdPartyListObject();
 
   //allow user to edit the form
   editMode = true;
@@ -140,7 +145,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     private fb: FormBuilder,
     private hls: HomeLOVServices,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private tpls: ThirdPartyLOVServices
   ) {
     this.createQuoteForm();
   }
@@ -178,16 +184,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       right: ['', Validators.required],
       left: ['', Validators.required],
       rear: ['', Validators.required],
-      // policy holder information
-      clientName: [null],
-      //group policy
-      groupPolicy: ['', Validators.required],
-      contract: [null],
-      subContract: [null],
-      commercialStructure: ['', Validators.required],
-      agentCode: ['', Validators.required],
-      cbIsRenewal: [null],
-      expiringPolicyNumber: [null],
       //general information
       effectivityDate: ['', Validators.required],
       expiryDate: ['', Validators.required],
@@ -227,6 +223,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.hls.getPaymentPlan(this.homeDetails).then(res => {
       _this.LOV.paymentMethodLOV = res;
     });
+
+    this.tpls.getState(this.homeAddress).then(res => {
+      _this.TPLOV.stateLOV = res;
+    });
   }
 
   setDefaultValue() {
@@ -235,6 +235,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeDetails.sublineEffectivityDate = "15102014";
     this.homeDetails.effectivityDate = this.today; // current today
     this.homeDetails.currency = 1; //Philippine peso
+
+    this.homeAddress.country = "PHL"; //Philippines
   }
 
   effectivityDateOnChange() {
@@ -242,6 +244,20 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       this.homeDetails.expiryDate = moment(this.homeDetails.effectivityDate).add(1, 'years').toDate();
       this.expiryDateMinDate = this.homeDetails.expiryDate;
     }, 500);
+  }
+
+  getProvince() {
+    const _this = this;
+    this.tpls.getProvince(this.homeAddress).then(res => {
+      _this.TPLOV.municipalityLOV = res;
+    });
+  }
+
+  getCity() {
+    const _this = this;
+    this.tpls.getCity(this.homeAddress).then(res => {
+      _this.TPLOV.cityLOV = res;
+    });
   }
 
   manageBtn(opt: number) {

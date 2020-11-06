@@ -259,6 +259,7 @@ export class PolicyHolderComponent implements OnInit {
   }
 }
 
+// for testing
 const thirdPartyList: any[] = [{
   "codCia": 1,
   "tipDocum": "PAS",

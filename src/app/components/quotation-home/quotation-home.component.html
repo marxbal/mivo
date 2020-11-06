@@ -129,7 +129,8 @@
                   || quoteForm.controls['region'].touched)}">
                     <label for="region">Region</label>
                     <select class="custom-select mr-sm-2 required" formControlName="region"
-                      [(ngModel)]="homeDetails.region">
+                      [(ngModel)]="homeDetails.region"
+                      (change)="getProvince()">
                       <option selected></option>
                       <option *ngFor="let region of LOV.regionLOV" [ngValue]="region.value">
                         {{ region.name }}</option>
@@ -146,7 +147,8 @@
                   || quoteForm.controls['province'].touched)}">
                     <label for="province">Province</label>
                     <select class="custom-select mr-sm-2 required" formControlName="province"
-                      [(ngModel)]="homeDetails.province">
+                      [(ngModel)]="homeDetails.province"
+                      (change)="getProvince()">
                       <option selected></option>
                       <option *ngFor="let province of LOV.provinceLOV" [ngValue]="province.value">
                         {{ province.name }}</option>
