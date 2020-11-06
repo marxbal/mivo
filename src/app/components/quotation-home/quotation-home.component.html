@@ -343,9 +343,9 @@
               </div>
             </div>
             <div class="card-body" *ngIf="showRelatedStructure">
-              <div class="row" *ngFor="let item of LOV.relatedStructureLOV">
+              <div class="row">
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of LOV.relatedStructureLOV">
                   <div class="form-group">
                     <label for="improvement">{{item.NOM_VALOR}}</label>
                     <input type="number" class="form-control">
@@ -368,28 +368,11 @@
             <div class="card-body" *ngIf="showRelatedContent">
               <div class="row">
 
-                <div class="col-lg-12">
-                  <div class="form-check">
-                    <!-- <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
-                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
-                      (change)="affecting('cbSportsEquipment', 'Sports Equipment Checkbox')"
-                      [attr.disabled]="editMode ? null : true"> -->
-                    <label class="form-check-label" for="cbSportsEquipment">
-                      will bring sports equipment?
-                    </label>
+                <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of LOV.relatedContentLOV">
+                  <div class="form-group">
+                    <label for="improvement">{{item.NOM_VALOR}}</label>
+                    <input type="number" class="form-control">
                   </div>
-                  <!-- <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['sportsEquipment'].invalid 
-                    && (quoteForm.controls['sportsEquipment'].dirty 
-                    || quoteForm.controls['sportsEquipment'].touched)}">
-                    <textarea class="form-control required"
-                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
-                      id="sportsEquipment" formControlName="sportsEquipment"
-                      oninput="this.value = this.value.toUpperCase()"
-                      [(ngModel)]="travelDetails.sportsEquipment"></textarea>
-                    <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
-                      * please indicate sport equipment/s
-                    </p>
-                  </div> -->
                 </div>
 
               </div>
