@@ -44,20 +44,6 @@ export function validateItinerary(control: AbstractControl) {
   return null;
 }
 
-export function validateNumber(control: AbstractControl) {
-  if (!Utility.isUndefined(control.value)) {
-
-    try {
-      parseInt(control.value);
-    } catch (e) {
-      return {
-        invalidNumber: true
-      };
-    }
-  }
-  return null;
-}
-
 export class Validate {
   static setGroupPolicyValidations(form: any, gp: GroupPolicy) {
     var groupPolicy = form.get('groupPolicy');

@@ -60,9 +60,6 @@ import {
 import {
   ThirdPartyLOVServices
 } from 'src/app/services/lov/third-party-lov-service';
-import {
-  validateNumber
-} from 'src/app/validators/validate';
 
 @Component({
   selector: 'app-quotation-home',
