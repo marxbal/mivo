@@ -32,7 +32,7 @@ export class HomeLOVServices {
   async getCurrency(home: Home): Promise < any[] > {
     const dto = new LOV('G2990005', '1', 'cod_cia~1|cod_ramo~' + home.subline +
       '|fec_validez~' + home.sublineEffectivityDate);
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, "COD_MON").then(lovs => lovs as any[]);
   }
 
   async getRelatedStructureProperty(home: Home): Promise < any[] > {

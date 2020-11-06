@@ -42,7 +42,8 @@
                   || quoteForm.controls['currency'].touched)}">
                     <label for="currency">Currency</label>
                     <select class="custom-select mr-sm-2 required" formControlName="currency"
-                      [(ngModel)]="homeDetails.currency">
+                      [(ngModel)]="homeDetails.currency"
+                      [attr.disabled]="true">
                       <option selected></option>
                       <option *ngFor="let currency of LOV.currencyLOV" [ngValue]="currency.COD_MON">{{ currency.NOM_MON }}
                       </option>
@@ -406,7 +407,8 @@
                     || quoteForm.controls['paymentMethod'].touched)}">
                     <label for="paymentMethod">Payment Method</label>
                     <select class="custom-select mr-sm-2 required" formControlName="paymentMethod"
-                      [(ngModel)]="homeDetails.paymentMethod">
+                      [(ngModel)]="homeDetails.paymentMethod"
+                      [attr.disabled]="editMode && LOV.paymentMethodLOV?.length ? null : true">
                       <option *ngFor="let paymentMethod of LOV.paymentMethodLOV" [ngValue]="paymentMethod.value">
                         {{ paymentMethod.name }}</option>
                     </select>
@@ -422,8 +424,9 @@
                     || quoteForm.controls['productList'].touched)}">
                     <label for="productList">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="productList"
-                      [(ngModel)]="homeDetails.productList">
-                      <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.value">{{ product.name }}
+                      [(ngModel)]="homeDetails.productList"
+                      [attr.disabled]="editMode && LOV.productListLOV?.length ? null : true">
+                      <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">{{ product.NOM_MODALIDAD }}
                       </option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['productList'].errors?.required">
