@@ -352,7 +352,7 @@
                   <div class="form-group" [formGroupName]="i">
                     <label>{{item.get('_name').value}}</label>
                     <input type="number" class="form-control" formControlName="_value">
-                    <p class="form-error" *ngIf="item.controls['_value'].errors?.min">
+                    <p class="form-error" *ngIf="item.get('_value').errors?.min">
                       * minimum value should be higher than 0
                     </p>
                     <input type="hidden" class="form-control" formControlName="_code">
