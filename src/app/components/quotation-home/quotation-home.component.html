@@ -337,7 +337,7 @@
                     <input type="text" placeholder="Datepicker" class="form-control required"
                       (bsValueChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
                       formControlName="effectivityDate"
-                      [(ngModel)]="accidentDetails.effectivityDate"
+                      [(ngModel)]="homeDetails.effectivityDate"
                       [attr.disabled]="editMode ? null : true"
                       bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['effectivityDate'].errors?.required">
@@ -355,7 +355,7 @@
                       [minDate]="expiryDateMinDate"
                       (bsValueChange)="affecting('expiryDate', 'Expirty Date')"
                       formControlName="expiryDate"
-                      [(ngModel)]="accidentDetails.expiryDate"
+                      [(ngModel)]="homeDetails.expiryDate"
                       [attr.disabled]="editMode ? null : true"
                       bsDatepicker>
                     <p class="form-error" *ngIf="quoteForm.controls['expiryDate'].errors?.required">

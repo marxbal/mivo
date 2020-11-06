@@ -16,5 +16,9 @@ export class Home {
 
   currency: number;
 
+  //general information
+  effectivityDate: Date;
+  expiryDate: Date;
+
   constructor() {}
 }

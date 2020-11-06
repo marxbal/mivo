@@ -232,6 +232,13 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  effectivityDateOnChange() {
+    setTimeout(() => {
+      this.homeDetails.expiryDate = moment(this.homeDetails.effectivityDate).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.homeDetails.expiryDate;
+    }, 500);
+  }
+
   setValidations() {
     Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
     // Validate.setEffecivityDateValidations(this.quoteForm, this.homeDetails, this.expiryDateMinDate);
