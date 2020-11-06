@@ -309,8 +309,8 @@
           </div>
 
           <app-group-policy #appGroupPolicy
-            [subline]="accidentDetails.subline"
-            [prevDetails]="prevAccidentDetails"
+            [subline]="homeDetails.subline"
+            [prevDetails]="prevHomeDetails"
             [groupPolicy]="groupPolicy"
             [editMode]="editMode"
             [showExpiring]="false"
@@ -371,7 +371,7 @@
           <app-policy-holder #appPolicyHolder
             [title]="'Policy Holder Information'"
             [showCreateBtn]="true"
-            [details]="accidentDetails"
+            [details]="homeDetails"
             [(policyHolder)]="policyHolder"
             [isIssuance]="isIssuance"
             [editMode]="editMode"
