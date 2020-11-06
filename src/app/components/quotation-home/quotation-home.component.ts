@@ -256,7 +256,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   getCity() {
     const _this = this;
-    this.homeAddress.city = this.homeDetails.city;
+    this.homeAddress.province = this.homeDetails.province;
     this.tpls.getCity(this.homeAddress).then(res => {
       _this.LOV.cityLOV = res;
     });
