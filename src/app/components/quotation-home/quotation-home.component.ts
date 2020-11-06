@@ -153,6 +153,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     private tpls: ThirdPartyLOVServices
   ) {
     this.createQuoteForm();
+    this.setValidations();
   }
 
   ngAfterViewChecked() {
@@ -209,6 +210,13 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
+  }
+
+  setValidations() {
+    var quotationNumber = this.quoteForm.get('quotationNumber');
+    quotationNumber.valueChanges.subscribe(number => {
+      this.disableLoadBtn = Utility.isUndefined(number);
+    });
   }
 
   loadInit() {
