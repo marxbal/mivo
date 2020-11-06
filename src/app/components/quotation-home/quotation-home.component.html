@@ -321,7 +321,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['improvement'].invalid 
                   && (quoteForm.controls['improvement'].dirty 
-                  || quoteForm.controls['improvement'].touched)}">>
+                  || quoteForm.controls['improvement'].touched)}">
                     <label for="improvement">Improvement</label>
                     <input type="number" formControlName="improvement" class="form-control"
                       [(ngModel)]="homeDetails.improvement">
