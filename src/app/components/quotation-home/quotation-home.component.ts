@@ -134,7 +134,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   setDefaultValue() {
     //setting default value
-    // this.homeDetails.sublineEffectivityDate = "01012016";
+    this.homeDetails.sublineEffectivityDate = "15102014";
     // this.homeDetails.effectivityDate = this.today; // current today
   }
 
