@@ -198,6 +198,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   loadInit() {
+    this.setDefaultValue();
+
     var _this = this;
     this.hls.getHomeBusinessLine().then(res => {
       var temp = [];
@@ -209,23 +211,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       });
       _this.LOV.sublineLOV = temp;
     });
-
-    this.setDefaultValue();
-  }
-
-  setDefaultValue() {
-    //setting default value
-    this.homeDetails.subline = 200; //residential
-    this.homeDetails.sublineEffectivityDate = "15102014";
-    this.homeDetails.effectivityDate = this.today; // current today
-    this.homeDetails.currency = 1; //Philippine peso
-
-    this.sublineOnChange();
-  }
-
-  sublineOnChange() {
-    var _this = this;
-    this.homeDetails.subline = this.quoteForm.controls['subline'].value;
 
     this.hls.getCurrency(this.homeDetails).then(res => {
       _this.LOV.currencyLOV = res;
@@ -242,6 +227,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.hls.getPaymentPlan(this.homeDetails).then(res => {
       _this.LOV.paymentMethodLOV = res;
     });
+  }
+
+  setDefaultValue() {
+    //setting default value
+    this.homeDetails.subline = 200; //residential
+    this.homeDetails.sublineEffectivityDate = "15102014";
+    this.homeDetails.effectivityDate = this.today; // current today
+    this.homeDetails.currency = 1; //Philippine peso
   }
 
   effectivityDateOnChange() {
