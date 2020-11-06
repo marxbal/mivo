@@ -175,6 +175,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   createQuoteForm() {
     this.quoteForm = this.fb.group({
+      quotationNumber: [null],
       subline: ['', Validators.required],
       currency: ['', Validators.required],
       buildingNumber: [null],
