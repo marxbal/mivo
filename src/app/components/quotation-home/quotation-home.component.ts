@@ -191,7 +191,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       right: ['', Validators.required],
       left: ['', Validators.required],
       rear: ['', Validators.required],
-      improvement: ['', [Validators.min(1)]],
+      improvement: ['', Validators.min(1)],
       relatedStructure: this.fb.array([]),
       relatedContent: this.fb.array([]),
 
@@ -264,7 +264,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   loadRelatedDetails(code: string, name: string): FormGroup {
     return this.fb.group({
-      _value: [null],
+      _value: [null, Validators.min(1)],
       _code: [code],
       _name: [name]
     });
