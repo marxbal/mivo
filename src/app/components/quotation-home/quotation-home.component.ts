@@ -219,6 +219,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeDetails.sublineEffectivityDate = "15102014";
     this.homeDetails.effectivityDate = this.today; // current today
     this.homeDetails.currency = 1; //Philippine peso
+
+    this.sublineOnChange();
   }
 
   sublineOnChange() {
