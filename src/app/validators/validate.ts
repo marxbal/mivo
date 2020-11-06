@@ -49,7 +49,8 @@ export function validateNumber(control: AbstractControl) {
   if (!Utility.isUndefined(control.value)) {
     const val = control.value;
     const int = parseInt(control.value);
-  
+    console.log("val " + val);
+    console.log("int " + int);
     //invalid if value is not the same
     if (int.toString() != val) {
       return {
