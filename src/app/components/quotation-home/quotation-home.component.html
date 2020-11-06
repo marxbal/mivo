@@ -321,28 +321,12 @@
             <div class="card-body" *ngIf="showImprovement">
               <div class="row">
 
-                <div class="col-lg-12">
-                  <div class="form-check">
-                    <!-- <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
-                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
-                      (change)="affecting('cbSportsEquipment', 'Sports Equipment Checkbox')"
-                      [attr.disabled]="editMode ? null : true"> -->
-                    <label class="form-check-label" for="cbSportsEquipment">
-                      will bring sports equipment?
-                    </label>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group">
+                    <label for="improvement">Improvement</label>
+                    <input type="number" formControlName="improvement" class="form-control required"
+                      [(ngModel)]="homeDetails.improvement">
                   </div>
-                  <!-- <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['sportsEquipment'].invalid 
-                    && (quoteForm.controls['sportsEquipment'].dirty 
-                    || quoteForm.controls['sportsEquipment'].touched)}">
-                    <textarea class="form-control required"
-                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
-                      id="sportsEquipment" formControlName="sportsEquipment"
-                      oninput="this.value = this.value.toUpperCase()"
-                      [(ngModel)]="travelDetails.sportsEquipment"></textarea>
-                    <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
-                      * please indicate sport equipment/s
-                    </p>
-                  </div> -->
                 </div>
 
               </div>

@@ -188,6 +188,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       right: ['', Validators.required],
       left: ['', Validators.required],
       rear: ['', Validators.required],
+
+      improvement: [null],
       //general information
       effectivityDate: ['', Validators.required],
       expiryDate: ['', Validators.required],
