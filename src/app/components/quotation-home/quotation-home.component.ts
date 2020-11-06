@@ -161,10 +161,16 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.loadInit();
-    this.GPLOV.groupPolicyLOV = lovUtil.getGroupPolicy();
-    this.GPLOV.contractLOV = lovUtil.getContract();
-    this.GPLOV.subContractLOV = lovUtil.getSubContract();
-    this.GPLOV.commercialStructureLOV = lovUtil.getCommercialStructure();
+    if (this.isIssuance) {
+      this.pageLabel = 'Issuance';
+      if (this.isLoadQuotation) {
+        //if loaded from accident quotation
+        this.homeDetails.quotationNumber = Globals.loadNumber;
+        // this.loadQuotation();
+        Globals.setLoadNumber('');
+        Globals.setLoadQuotation(false);
+      }
+    }
   }
 
   createQuoteForm() {
