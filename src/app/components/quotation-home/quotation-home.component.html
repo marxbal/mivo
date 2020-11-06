@@ -6,7 +6,7 @@
           <i class="fa fa-circle fa-stack-2x"></i>
           <i class="fa fa-home fa-stack-1x fa-inverse"></i>
         </span>
-        {{pageLabel}}
+        {{pageLabel}} tf
       </h4>
     </div>
     <!-- .page-header -->
@@ -500,18 +500,18 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['productList'].invalid 
-                    && (quoteForm.controls['productList'].dirty 
-                    || quoteForm.controls['productList'].touched)}">
-                    <label for="productList">Product List</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="productList"
-                      [(ngModel)]="homeDetails.productList"
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['product'].invalid 
+                    && (quoteForm.controls['product'].dirty 
+                    || quoteForm.controls['product'].touched)}">
+                    <label for="product">Product List</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="product"
+                      [(ngModel)]="homeDetails.product"
                       [attr.disabled]="editMode && LOV.productListLOV?.length ? null : true">
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">
                         {{ product.NOM_MODALIDAD }}
                       </option>
                     </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['productList'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['product'].errors?.required">
                       * product list is required
                     </p>
                   </div>

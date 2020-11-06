@@ -197,7 +197,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       expiryDate: ['', Validators.required],
       //product data
       paymentMethod: ['', Validators.required],
-      productList: ['', Validators.required],
+      product: ['', Validators.required],
     });
   }
 

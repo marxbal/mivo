@@ -23,8 +23,8 @@ export class Home {
   currency: number;
 
   //location of risk
-  houseNumber: string;
-  village: string;
+  buildingNumber: string;
+  subdivision: string;
   buildingName: string;
   streetName: string;
   barangay: string;
@@ -33,7 +33,7 @@ export class Home {
   city: number;
 
   //building/content details
-  buidlingCapital: number;
+  buildingCapital: number;
   contentValue: number;
 
   constructionOfBuilding: string;
@@ -43,6 +43,8 @@ export class Home {
   right: string;
   left: string;
   rear: string;
+
+  improvement: number;
 
   //general information
   effectivityDate: Date;
