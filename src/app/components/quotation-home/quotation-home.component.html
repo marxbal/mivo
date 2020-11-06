@@ -347,13 +347,13 @@
               <div class="row" formArrayName="relatedStructure">
                 <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of quoteForm.get('relatedStructure')['controls']; let i=index">
                   <div class="form-group" [formGroupName]="i">
-                    <label for="improvement">{{item.get('_name').value}}</label>
+                    <label>{{item.get('_name').value}}</label>
                     <input type="number" class="form-control" formControlName="_value">
                     <input type="hidden" class="form-control" formControlName="_code">
                   </div>
                 </div>
-
               </div>
+
             </div>
           </div>
 
@@ -369,12 +369,15 @@
             <div class="card-body" *ngIf="showRelatedContent">
               <div class="row">
 
-                <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of LOV.relatedContentLOV">
-                  <div class="form-group">
-                    <label for="improvement">{{item.NOM_VALOR}}</label>
-                    <input type="number" class="form-control" formControlName="{{item.COD_VALOR}}">
+                <div class="row" formArrayName="relatedContent">
+                <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of quoteForm.get('relatedContent')['controls']; let i=index">
+                  <div class="form-group" [formGroupName]="i">
+                    <label>{{item.get('_name').value}}</label>
+                    <input type="number" class="form-control" formControlName="_value">
+                    <input type="hidden" class="form-control" formControlName="_code">
                   </div>
                 </div>
+              </div>
 
               </div>
             </div>

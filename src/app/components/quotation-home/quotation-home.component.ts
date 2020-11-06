@@ -190,9 +190,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       rear: ['', Validators.required],
 
       improvement: [null],
-
-      //travelers
       relatedStructure: this.fb.array([]),
+      relatedContent: this.fb.array([]),
 
       //general information
       effectivityDate: ['', Validators.required],
@@ -222,13 +221,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       _this.LOV.currencyLOV = res;
     });
     this.hls.getRelatedStructureProperty(this.homeDetails).then(res => {
-      _this.LOV.relatedStructureLOV = res;
       res.forEach((rs: any) => {
-        this.relatedStructure().push(this.loadRelatedStructure(rs.COD_VALOR, rs.NOM_VALOR));
+        this.relatedStructure().push(this.loadRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
       });
     });
     this.hls.getRelatedContentProperty(this.homeDetails).then(res => {
-      _this.LOV.relatedContentLOV = res;
+      res.forEach((rs: any) => {
+        this.relatedContent().push(this.loadRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
+      });
     });
     this.hls.getProduct(this.homeDetails).then(res => {
       _this.LOV.productListLOV = res;
@@ -246,6 +246,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     return this.quoteForm.get("relatedStructure") as FormArray
   }
 
+  relatedContent(): FormArray {
+    return this.quoteForm.get("relatedContent") as FormArray
+  }
+
   setDefaultValue() {
     //setting default value
     this.homeDetails.subline = 200; //residential
@@ -256,7 +260,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeAddress.country = "PHL"; //Philippines
   }
 
-  loadRelatedStructure(code: string, name: string): FormGroup {
+  loadRelatedDetails(code: string, name: string): FormGroup {
     return this.fb.group({
       _value: [null],
       _code: [code],
