@@ -349,7 +349,9 @@
               <div class="row" formArrayName="relatedStructure">
                 <div class="col-lg-3 col-md-4 col-sm-6"
                   *ngFor="let item of quoteForm.get('relatedStructure')['controls']; let i=index">
-                  <div class="form-group" [formGroupName]="i">
+                  <div class="form-group" [formGroupName]="i" [ngClass]="{'input-error': item.controls['_value'].invalid 
+                  && (item.controls['_value'].dirty 
+                  || item.controls['_value'].touched)}">
                     <label>{{item.get('_name').value}}</label>
                     <input type="number" class="form-control" formControlName="_value">
                     <p class="form-error" *ngIf="item.controls['_value'].errors?.min">
