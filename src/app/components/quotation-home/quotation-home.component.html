@@ -325,8 +325,8 @@
                     <label for="improvement">Improvement</label>
                     <input type="number" formControlName="improvement" class="form-control"
                       [(ngModel)]="homeDetails.improvement">
-                    <p class="form-error" *ngIf="quoteForm.controls['improvement'].errors?.invalidNumber">
-                      * invalid number value
+                    <p class="form-error" *ngIf="quoteForm.controls['improvement'].errors?.min">
+                      * minimum value should be higher than 0
                     </p>
                   </div>
                 </div>
