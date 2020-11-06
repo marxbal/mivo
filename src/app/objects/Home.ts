@@ -3,7 +3,7 @@ export class Home {
   mcaTmpPptoMph: string;
   affecting: boolean;
 
-  subline: string; // *
+  subline: number; // *
   sublineEffectivityDate: string;
 
   cbBuilding: boolean; // *

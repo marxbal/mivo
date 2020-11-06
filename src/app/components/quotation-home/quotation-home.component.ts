@@ -215,8 +215,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   setDefaultValue() {
     //setting default value
+    this.homeDetails.subline = 200; //residential
     this.homeDetails.sublineEffectivityDate = "15102014";
-    this.homeDetails.currency = 1;
+    this.homeDetails.effectivityDate = this.today; // current today
+    this.homeDetails.currency = 1; //Philippine peso
   }
 
   sublineOnChange() {
@@ -267,11 +269,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   newQuote() {
-    this.newPage(page.QUO.ACC);
+    this.newPage(page.QUO.HOM);
   }
 
   newPolicy() {
-    this.newPage(page.ISS.ACC);
+    this.newPage(page.ISS.HOM);
   }
 
   newPage(page: string) {
