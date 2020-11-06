@@ -192,7 +192,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       improvement: [null],
 
       //travelers
-      relatedStructure: this.fb.array([this.loadRelatedStructure(null, null)]),
+      relatedStructure: this.fb.array([]),
 
       //general information
       effectivityDate: ['', Validators.required],
