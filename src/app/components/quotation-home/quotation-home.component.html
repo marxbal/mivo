@@ -393,8 +393,13 @@
             </div>
           </div>
 
-          <app-group-policy #appGroupPolicy [subline]="homeDetails.subline" [prevDetails]="prevHomeDetails"
-            [groupPolicy]="groupPolicy" [editMode]="editMode" [showExpiring]="false" [(changedValues)]="changedValues"
+          <app-group-policy #appGroupPolicy
+            [subline]="homeDetails.subline"
+            [prevDetails]="prevHomeDetails"
+            [groupPolicy]="groupPolicy"
+            [editMode]="editMode"
+            [showExpiring]="true"
+            [(changedValues)]="changedValues"
             [loadQuotation]="triggerCounter">
           </app-group-policy>
 
@@ -443,9 +448,16 @@
             </div>
           </div>
 
-          <app-policy-holder #appPolicyHolder [title]="'Policy Holder Information'" [showCreateBtn]="true"
-            [details]="homeDetails" [(policyHolder)]="policyHolder" [isIssuance]="isIssuance" [editMode]="editMode"
-            [type]="'primary'" [optional]="false" [loadQuotation]="triggerCounter">
+          <app-policy-holder #appPolicyHolder
+            [title]="'Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="homeDetails"
+            [(policyHolder)]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'primary'"
+            [optional]="false"
+            [loadQuotation]="triggerCounter">
           </app-policy-holder>
 
           <div class="card shadow mb-3">
