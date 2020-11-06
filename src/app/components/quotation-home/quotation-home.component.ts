@@ -207,6 +207,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  loadQuotation() {
+  }
+
   loadInit() {
     this.setDefaultValue();
 
