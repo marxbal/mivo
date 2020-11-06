@@ -37,7 +37,7 @@ export class HomeLOVServices {
 
   async getRelatedStructureProperty(home: Home): Promise < any[] > {
     const dto = new LOV('G2990006', '5', 'cod_campo~TXT_DESCRIPTION_PROPERTY_2156' +
-      'cod_cia~1|cod_ramo~' + home.subline +
+      '|cod_cia~1|cod_ramo~' + home.subline +
       '|fec_validez~' + home.sublineEffectivityDate +
       '|DVCOD_MODALIDAD~20001');
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
@@ -45,7 +45,7 @@ export class HomeLOVServices {
 
   async getRelatedContentProperty(home: Home): Promise < any[] > {
     const dto = new LOV('G2990006', '5', 'cod_campo~TXT_DESCRIPTION_PROPERTY_2356' +
-      'cod_cia~1|cod_ramo~' + home.subline +
+      '|cod_cia~1|cod_ramo~' + home.subline +
       '|fec_validez~' + home.sublineEffectivityDate +
       '|DVCOD_MODALIDAD~20001');
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
