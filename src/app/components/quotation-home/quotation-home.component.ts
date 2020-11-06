@@ -191,7 +191,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       right: ['', Validators.required],
       left: ['', Validators.required],
       rear: ['', Validators.required],
-      improvement: ['', [validateNumber]],
+      improvement: ['', [Validators.required, validateNumber]],
       relatedStructure: this.fb.array([]),
       relatedContent: this.fb.array([]),
 
