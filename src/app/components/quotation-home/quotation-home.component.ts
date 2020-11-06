@@ -95,6 +95,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   today: Date = new Date();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
 
+  showImprovement = false;
+  showRelatedStructure = false;
+  showRelatedContent = false;
+
   showOtherOccupation = false;
   showDetails: boolean = false;
   showSPADetails: boolean = false;

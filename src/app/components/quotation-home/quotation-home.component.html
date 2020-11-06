@@ -309,6 +309,126 @@
             </div>
           </div>
 
+          <div class="card shadow mb-3">
+            <div class="card-header d-flex justify-content-between optional"
+              (click)="showImprovement = !showImprovement"
+              matTooltip="click to show/hide improvement details">
+              <strong>Improvement Details</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="showImprovement">
+              <div class="row">
+
+                <div class="col-lg-12">
+                  <div class="form-check">
+                    <!-- <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
+                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
+                      (change)="affecting('cbSportsEquipment', 'Sports Equipment Checkbox')"
+                      [attr.disabled]="editMode ? null : true"> -->
+                    <label class="form-check-label" for="cbSportsEquipment">
+                      will bring sports equipment?
+                    </label>
+                  </div>
+                  <!-- <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['sportsEquipment'].invalid 
+                    && (quoteForm.controls['sportsEquipment'].dirty 
+                    || quoteForm.controls['sportsEquipment'].touched)}">
+                    <textarea class="form-control required"
+                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
+                      id="sportsEquipment" formControlName="sportsEquipment"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [(ngModel)]="travelDetails.sportsEquipment"></textarea>
+                    <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
+                      * please indicate sport equipment/s
+                    </p>
+                  </div> -->
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card shadow mb-3">
+            <div class="card-header d-flex justify-content-between optional"
+              (click)="showRelatedStructure = !showRelatedStructure"
+              matTooltip="click to show/hide other related structure details">
+              <strong>Other Related Structure Details</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="showRelatedStructure">
+              <div class="row">
+
+                <div class="col-lg-12">
+                  <div class="form-check">
+                    <!-- <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
+                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
+                      (change)="affecting('cbSportsEquipment', 'Sports Equipment Checkbox')"
+                      [attr.disabled]="editMode ? null : true"> -->
+                    <label class="form-check-label" for="cbSportsEquipment">
+                      will bring sports equipment?
+                    </label>
+                  </div>
+                  <!-- <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['sportsEquipment'].invalid 
+                    && (quoteForm.controls['sportsEquipment'].dirty 
+                    || quoteForm.controls['sportsEquipment'].touched)}">
+                    <textarea class="form-control required"
+                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
+                      id="sportsEquipment" formControlName="sportsEquipment"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [(ngModel)]="travelDetails.sportsEquipment"></textarea>
+                    <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
+                      * please indicate sport equipment/s
+                    </p>
+                  </div> -->
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card shadow mb-3">
+            <div class="card-header d-flex justify-content-between optional"
+              (click)="showRelatedContent = !showRelatedContent"
+              matTooltip="click to show/hide other related content details">
+              <strong>Other Related Content Details</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="showRelatedContent">
+              <div class="row">
+
+                <div class="col-lg-12">
+                  <div class="form-check">
+                    <!-- <input class="form-check-input" type="checkbox" id="cbSportsEquipment"
+                      formControlName="cbSportsEquipment" [(ngModel)]="travelDetails.cbSportsEquipment"
+                      (change)="affecting('cbSportsEquipment', 'Sports Equipment Checkbox')"
+                      [attr.disabled]="editMode ? null : true"> -->
+                    <label class="form-check-label" for="cbSportsEquipment">
+                      will bring sports equipment?
+                    </label>
+                  </div>
+                  <!-- <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['sportsEquipment'].invalid 
+                    && (quoteForm.controls['sportsEquipment'].dirty 
+                    || quoteForm.controls['sportsEquipment'].touched)}">
+                    <textarea class="form-control required"
+                      [attr.disabled]="editMode && travelDetails.cbSportsEquipment ? null : ''" type="text"
+                      id="sportsEquipment" formControlName="sportsEquipment"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [(ngModel)]="travelDetails.sportsEquipment"></textarea>
+                    <p class="form-error" *ngIf="quoteForm.controls['sportsEquipment'].errors?.required">
+                      * please indicate sport equipment/s
+                    </p>
+                  </div> -->
+                </div>
+
+              </div>
+            </div>
+          </div>
+
           <app-group-policy #appGroupPolicy
             [subline]="homeDetails.subline"
             [prevDetails]="prevHomeDetails"
