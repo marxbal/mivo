@@ -258,9 +258,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   loadRelatedStructure(code: string, name: string): FormGroup {
     return this.fb.group({
-      value: [null],
-      code: [code],
-      name: [name]
+      _value: [null],
+      _code: [code],
+      _name: [name]
     });
   }
 
