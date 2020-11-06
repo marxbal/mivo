@@ -26,14 +26,14 @@ export function validateItinerary(control: AbstractControl) {
     var arr = smallcaps.split('-');
     var firstItinerary = arr[0].trim();
     var lastItinarary = arr[arr.length - 1].trim();
-  
+
     var hasEmptyItem = false;
     arr.forEach(a => {
       if (a.trim() == '') {
         hasEmptyItem = true;
       }
     });
-  
+
     //invalid if first and last itinerary is not the same, has empty item and itinerary is only 1
     if (firstItinerary != lastItinarary || hasEmptyItem || arr.length < 3) {
       return {
@@ -45,14 +45,11 @@ export function validateItinerary(control: AbstractControl) {
 }
 
 export function validateNumber(control: AbstractControl) {
-  debugger
   if (!Utility.isUndefined(control.value)) {
-    const val = control.value;
-    const int = parseInt(control.value);
-    console.log("val " + val);
-    console.log("int " + int);
-    //invalid if value is not the same
-    if (int.toString() != val) {
+
+    try {
+      parseInt(control.value);
+    } catch (e) {
       return {
         invalidNumber: true
       };
