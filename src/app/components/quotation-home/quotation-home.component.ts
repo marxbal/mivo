@@ -1,15 +1,25 @@
 import {
   Component,
   OnInit,
-  Input,
   AfterViewChecked,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
   Validators
 } from '@angular/forms';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef
+} from '@angular/material';
+import {
+  BsModalRef,
+  BsModalService
+} from 'ngx-bootstrap/modal';
 import * as moment from 'moment';
 import {
   Home
@@ -32,6 +42,12 @@ import {
 import {
   HomeLOVServices
 } from '../../services/lov/home.service';
+import {
+  Globals
+} from 'src/app/utils/global';
+import {
+  PolicyHolder
+} from 'src/app/objects/PolicyHolder';
 
 @Component({
   selector: 'app-quotation-home',
@@ -39,20 +55,77 @@ import {
   styleUrls: ['./quotation-home.component.css']
 })
 export class QuotationHomeComponent implements OnInit, AfterViewChecked {
-  homeDetails = new Home();
-  groupPolicy = new GroupPolicy();
+  @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
+  @ViewChild('validationModal') validationModal: TemplateRef < any > ;
 
+  // currentUser = this.auths.currentUserValue;
+  isIssuance: boolean = Globals.getAppType() == "I";
+  isLoadQuotation: boolean = Globals.isLoadQuotation;
+  pageLabel: String = 'Quotation';
+  triggerCounter: number = 0;
+  triggerCoverage: number = 0;
+  triggerBreakdown: number = 0;
+  insuredHeadCount: number = 1;
+
+  homeDetails = new Home();
+  prevHomeDetails: Home = null;
+  changedValues: any[] = [];
+
+  invalidForms: any[] = [];
+
+  groupPolicy = new GroupPolicy();
+  policyHolder = new PolicyHolder();
   quoteForm: FormGroup;
-  mindate: Date = new Date();
+  minDate: Date = moment().subtract(65, 'years').toDate();
+  maxDate: Date = moment().subtract(18, 'years').toDate();
+
+  today: Date = new Date();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
+
+  showOtherOccupation = false;
+  showDetails: boolean = false;
+  showSPADetails: boolean = false;
+  showHCBIDetails: boolean = false;
+  showCoverage: boolean = false;
+  showPaymentBreakdown: boolean = false;
+
+  //for payment breakdown
+  paymentBreakdown: any[];
+  paymentReceipt: {};
+
+  //for coverage
+  coverageList: any[];
 
   LOV = new HomeListObject();
   GPLOV = new GroupPolicyListObject();
 
-  groupPolicyLOV: any[];
-  contractLOV: any[];
-  subContractLOV: any[];
-  commercialStructureLOV: any[];
+  //allow user to edit the form
+  editMode = true;
+
+  //flag to show generate btn
+  showGenerateBtn: boolean = true;
+  //flag to show issue btn
+  showIssueQuoteBtn: boolean = false;
+  //flag to show print quote/proceed to issuance
+  showProceedToIssuanceBtn: boolean = false;
+
+  //flat to show issuance generate btn
+  showIssuanceGenerateBtn = true;
+  //flag to show save btn
+  showSaveBtn: boolean = false;
+  //flag to show post btn
+  showPostBtn: boolean = false;
+  //flag to show print btn
+  showPrintBtn: boolean = false;
+
+  //disable load button
+  disableLoadBtn: boolean = true;
+
+  //modal reference
+  modalRef: BsModalRef;
+  dialogRef: MatDialogRef < TemplateRef < any >> ;
+
+  codeName: String;
 
   constructor(
     private fb: FormBuilder,
@@ -122,7 +195,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       var temp = [];
       res.forEach(subline => {
         debugger
-        if(subline.COD_RAMO === 200) {
+        if (subline.COD_RAMO === 200) {
           temp.push(subline);
         }
       });
