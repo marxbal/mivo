@@ -135,7 +135,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   setDefaultValue() {
     //setting default value
     this.homeDetails.sublineEffectivityDate = "15102014";
-    // this.homeDetails.effectivityDate = this.today; // current today
+    this.homeDetails.currency = 1;
   }
 
   sublineOnChange() {
@@ -149,6 +149,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       _this.LOV.relatedStructureLOV = res;
     });
     this.hls.getRelatedContentProperty(this.homeDetails).then(res => {
+      _this.LOV.relatedContentLOV = res;
+    });
+    this.hls.getProduct(this.homeDetails).then(res => {
       _this.LOV.relatedContentLOV = res;
     });
   }
