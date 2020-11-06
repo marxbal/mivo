@@ -1,5 +1,8 @@
 // * - used in quick quotation
 export class Home {
+  mcaTmpPptoMph: string;
+  affecting: boolean;
+
   subline: string; // *
   sublineEffectivityDate: string;
 
@@ -13,6 +16,9 @@ export class Home {
   relatedBuild: number = 0; // *
   cbRelatedContent: boolean; // *
   relatedContent: number = 0; // *
+
+  policyNumber: string
+  quotationNumber: string;
 
   currency: number;
 

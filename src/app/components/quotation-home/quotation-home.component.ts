@@ -48,6 +48,15 @@ import {
 import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
+import {
+  Utility
+} from 'src/app/utils/utility';
+import {
+  Router
+} from '@angular/router';
+import {
+  page
+} from 'src/app/constants/page';
 
 @Component({
   selector: 'app-quotation-home',
@@ -129,12 +138,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    // private qq: QuickQuoteService,
     private hls: HomeLOVServices,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
   ) {
     this.createQuoteForm();
-    this.setValidations();
   }
 
   ngAfterViewChecked() {
@@ -239,9 +247,63 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     }, 500);
   }
 
-  setValidations() {
-    Validate.setGroupPolicyValidations(this.quoteForm, this.groupPolicy);
-    // Validate.setEffecivityDateValidations(this.quoteForm, this.homeDetails, this.expiryDateMinDate);
+  manageBtn(opt: number) {
+    if (opt == 1) {
+      //hides payment breakdown panel
+      this.showPaymentBreakdown = false;
+      this.editMode = true;
+    }
+
+    if (this.isIssuance) {
+      this.showIssuanceGenerateBtn = (opt == 1);
+      this.showSaveBtn = (opt == 2);
+      this.showPostBtn = (opt == 3);
+      this.showPrintBtn = (opt == 4);
+    } else {
+      this.showGenerateBtn = (opt == 1);
+      this.showIssueQuoteBtn = (opt == 2);
+      this.showProceedToIssuanceBtn = (opt == 3);
+    }
+  }
+
+  newQuote() {
+    this.newPage(page.QUO.ACC);
+  }
+
+  newPolicy() {
+    this.newPage(page.ISS.ACC);
+  }
+
+  newPage(page: string) {
+    Utility.scroll('topDiv');
+    setTimeout(() => {
+      Globals.setPage(page);
+      this.router.navigate(['/reload']);
+    }, 500);
+  }
+
+  affecting(key: string, label: string) {
+    if (!Utility.isUndefined(this.homeDetails.quotationNumber) && this.prevHomeDetails != null) {
+      let prev = this.prevHomeDetails[key] == undefined ? "" : this.prevHomeDetails[key];
+      let curr = this.homeDetails[key] == undefined ? "" : this.homeDetails[key];
+      if (curr instanceof Date) {
+        curr = curr.getMonth() + "/" + curr.getDate() + "/" + curr.getFullYear();
+        if (!Utility.isUndefined(prev)) {
+          var prevDate = new Date(prev);
+          prev = prevDate.getMonth() + "/" + prevDate.getDate() + "/" + prevDate.getFullYear();
+        }
+      }
+
+      if (prev != curr) {
+        if (!this.changedValues.includes(label)) {
+          //if changedValues length is greater than 0, request is affecting
+          this.changedValues.push(label);
+        }
+      } else {
+        //remove all occurence
+        this.changedValues = this.changedValues.filter(v => v !== label);
+      }
+    }
   }
 
   issueQuote(homeDetails: Home, groupPolicy: GroupPolicy) {
