@@ -128,6 +128,20 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       });
       _this.LOV.sublineLOV = temp;
     });
+
+    this.setDefaultValue();
+  }
+
+  setDefaultValue() {
+    //setting default value
+    // this.homeDetails.sublineEffectivityDate = "01012016";
+    // this.homeDetails.effectivityDate = this.today; // current today
+  }
+
+  sublineOnChange() {
+    var _this = this;
+    this.homeDetails.subline = this.quoteForm.controls['subline'].value;
+
     this.hls.getCurrency(this.homeDetails).then(res => {
       _this.LOV.currencyLOV = res;
     });
@@ -137,14 +151,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.hls.getRelatedContentProperty(this.homeDetails).then(res => {
       _this.LOV.relatedContentLOV = res;
     });
-
-    this.setDefaultValue();
-  }
-
-  setDefaultValue() {
-    //setting default value
-    // this.homeDetails.sublineEffectivityDate = "01012016";
-    // this.homeDetails.effectivityDate = this.today; // current today
   }
 
   setValidations() {
