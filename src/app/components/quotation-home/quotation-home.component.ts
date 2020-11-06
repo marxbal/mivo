@@ -225,7 +225,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       _this.LOV.relatedContentLOV = res;
     });
     this.hls.getProduct(this.homeDetails).then(res => {
-      _this.LOV.relatedContentLOV = res;
+      _this.LOV.productListLOV = res;
     });
     this.hls.getPaymentPlan(this.homeDetails).then(res => {
       _this.LOV.paymentMethodLOV = res;
