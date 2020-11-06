@@ -343,12 +343,13 @@
               </div>
             </div>
             <div class="card-body" *ngIf="showRelatedStructure">
-              <div class="row">
 
-                <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of LOV.relatedStructureLOV">
-                  <div class="form-group">
-                    <label for="improvement">{{item.NOM_VALOR}}</label>
-                    <input type="number" class="form-control">
+              <div class="row" formArrayName="relatedStructure">
+                <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of quoteForm.get('relatedStructure')['controls'];">
+                  <div class="form-group" [formGroupName]="item.NOM_VALOR">
+                    <label for="improvement">{{item.name}}</label>
+                    <input type="number" class="form-control" formControlName="value">
+                    <input type="hidden" class="form-control" formControlName="code" [ngValue]="{{item.code}}">
                   </div>
                 </div>
 
@@ -371,7 +372,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of LOV.relatedContentLOV">
                   <div class="form-group">
                     <label for="improvement">{{item.NOM_VALOR}}</label>
-                    <input type="number" class="form-control">
+                    <input type="number" class="form-control" formControlName="{{item.COD_VALOR}}">
                   </div>
                 </div>
 

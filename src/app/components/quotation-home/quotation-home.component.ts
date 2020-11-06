@@ -9,7 +9,7 @@ import {
 import {
   FormGroup,
   FormBuilder,
-  Validators
+  Validators, FormArray
 } from '@angular/forms';
 import {
   MatDialog,
@@ -190,6 +190,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       rear: ['', Validators.required],
 
       improvement: [null],
+
+      //travelers
+      relatedStructure: this.fb.array([this.loadRelatedStructure(null, null)]),
+
       //general information
       effectivityDate: ['', Validators.required],
       expiryDate: ['', Validators.required],
@@ -219,6 +223,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
     this.hls.getRelatedStructureProperty(this.homeDetails).then(res => {
       _this.LOV.relatedStructureLOV = res;
+      res.forEach((rs: any) => {
+        this.relatedStructure().push(this.loadRelatedStructure(rs.COD_VALOR, rs.NOM_VALOR));
+      });
     });
     this.hls.getRelatedContentProperty(this.homeDetails).then(res => {
       _this.LOV.relatedContentLOV = res;
@@ -235,6 +242,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  relatedStructure(): FormArray {
+    return this.quoteForm.get("relatedStructure") as FormArray
+  }
+
   setDefaultValue() {
     //setting default value
     this.homeDetails.subline = 200; //residential
@@ -243,6 +254,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeDetails.currency = 1; //Philippine peso
 
     this.homeAddress.country = "PHL"; //Philippines
+  }
+
+  loadRelatedStructure(code: string, name: string): FormGroup {
+    return this.fb.group({
+      value: [null],
+      code: [code],
+      name: [name]
+    });
   }
 
   effectivityDateOnChange() {
