@@ -148,7 +148,7 @@
                     <label for="province">Province</label>
                     <select class="custom-select mr-sm-2 required" formControlName="province"
                       [(ngModel)]="homeDetails.province"
-                      (change)="getProvince()">
+                      (change)="getCity()">
                       <option selected></option>
                       <option *ngFor="let province of LOV.provinceLOV" [ngValue]="province.COD_PROV">
                         {{ province.NOM_PROV }}</option>
