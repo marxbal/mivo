@@ -346,8 +346,8 @@
 
               <div class="row" formArrayName="relatedStructure">
                 <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of quoteForm.get('relatedStructure')['controls'];">
-                  <div class="form-group" [formGroupName]="item.get('name')">
-                    <label for="improvement">{{item.get('name')}}</label>
+                  <div class="form-group" [formGroupName]="item.get('name').value">
+                    <label for="improvement">{{item.get('name').value}}</label>
                     <input type="number" class="form-control" formControlName="value">
                     <input type="hidden" class="form-control" formControlName="code">
                   </div>
