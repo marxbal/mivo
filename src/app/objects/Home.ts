@@ -22,9 +22,35 @@ export class Home {
 
   currency: number;
 
+  //location of risk
+  houseNumber: string;
+  village: string;
+  buildingName: string;
+  streetName: string;
+  barangay: string;
+  region: number;
+  province: number;
+  city: number;
+
+  //building/content details
+  buidlingCapital: number;
+  contentValue: number;
+
+  constructionOfBuilding: string;
+  occupancyOfBuilding: string;
+
+  front: string;
+  right: string;
+  left: string;
+  rear: string;
+
   //general information
   effectivityDate: Date;
   expiryDate: Date;
+  
+  //product
+  paymentMethod: number;
+  product: number;
 
   constructor() {}
 }

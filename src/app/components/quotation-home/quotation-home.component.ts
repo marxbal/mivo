@@ -248,6 +248,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   getProvince() {
     const _this = this;
+    this.homeAddress.state = this.homeDetails.region;
     this.tpls.getProvince(this.homeAddress).then(res => {
       _this.LOV.provinceLOV = res;
     });
@@ -255,6 +256,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   getCity() {
     const _this = this;
+    this.homeAddress.city = this.homeDetails.city;
     this.tpls.getCity(this.homeAddress).then(res => {
       _this.LOV.cityLOV = res;
     });
