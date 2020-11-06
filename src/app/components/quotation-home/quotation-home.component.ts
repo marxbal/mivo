@@ -349,6 +349,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   issueQuote(homeDetails: Home, groupPolicy: GroupPolicy) {
-    console.log(homeDetails, groupPolicy);
+    // console.log(homeDetails, groupPolicy);
+    console.log(this.quoteForm)
   }
 }
