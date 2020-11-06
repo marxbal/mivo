@@ -60,6 +60,9 @@ import {
 import {
   ThirdPartyLOVServices
 } from 'src/app/services/lov/third-party-lov-service';
+import {
+  validateNumber
+} from 'src/app/validators/validate';
 
 @Component({
   selector: 'app-quotation-home',
@@ -188,8 +191,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       right: ['', Validators.required],
       left: ['', Validators.required],
       rear: ['', Validators.required],
-
-      improvement: [null],
+      improvement: [null, validateNumber],
       relatedStructure: this.fb.array([]),
       relatedContent: this.fb.array([]),
 
