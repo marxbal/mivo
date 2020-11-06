@@ -160,19 +160,19 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['municipality'].invalid 
-                  && (quoteForm.controls['municipality'].dirty 
-                  || quoteForm.controls['municipality'].touched)}">
-                    <label for="municipality">Municipality</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="municipality"
-                      [(ngModel)]="homeDetails.municipality">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['city'].invalid 
+                  && (quoteForm.controls['city'].dirty 
+                  || quoteForm.controls['city'].touched)}">
+                    <label for="city">City</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="city"
+                      [(ngModel)]="homeDetails.city">
                       <option selected></option>
-                      <option *ngFor="let municipality of LOV.municipalityLOV" [ngValue]="municipality.value">
-                        {{ municipality.name }}
+                      <option *ngFor="let city of LOV.cityLOV" [ngValue]="city.value">
+                        {{ city.name }}
                       </option>
                     </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['municipality'].errors?.required">
-                      * municipality is required
+                    <p class="form-error" *ngIf="quoteForm.controls['city'].errors?.required">
+                      * city is required
                     </p>
                   </div>
                 </div>

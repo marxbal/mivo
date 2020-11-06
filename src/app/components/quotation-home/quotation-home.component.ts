@@ -174,7 +174,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       barangay: [null],
       region: ['', Validators.required],
       province: ['', Validators.required],
-      municipality: ['', Validators.required],
+      city: ['', Validators.required],
       //building / content details
       buildingCapital: ['', Validators.required],
       contentValue: ['', Validators.required],
@@ -225,7 +225,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
 
     this.tpls.getState(this.homeAddress).then(res => {
-      _this.TPLOV.stateLOV = res;
+      _this.LOV.regionLOV = res;
     });
   }
 
@@ -249,14 +249,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   getProvince() {
     const _this = this;
     this.tpls.getProvince(this.homeAddress).then(res => {
-      _this.TPLOV.municipalityLOV = res;
+      _this.LOV.provinceLOV = res;
     });
   }
 
   getCity() {
     const _this = this;
     this.tpls.getCity(this.homeAddress).then(res => {
-      _this.TPLOV.cityLOV = res;
+      _this.LOV.cityLOV = res;
     });
   }
 

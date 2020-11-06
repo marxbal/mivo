@@ -199,7 +199,7 @@ export class CreateThirdPartyComponent implements OnInit {
   getProvince() {
     const _this = this;
     this.tpls.getProvince(this.thirdParty).then(res => {
-      _this.TPLOV.municipalityLOV = res;
+      _this.TPLOV.provinceLOV = res;
     });
   }
 
