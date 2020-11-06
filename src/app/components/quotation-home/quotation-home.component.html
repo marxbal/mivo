@@ -132,8 +132,8 @@
                       [(ngModel)]="homeDetails.region"
                       (change)="getProvince()">
                       <option selected></option>
-                      <option *ngFor="let region of LOV.regionLOV" [ngValue]="region.value">
-                        {{ region.name }}</option>
+                      <option *ngFor="let region of LOV.regionLOV" [ngValue]="region.COD_ESTADO">
+                        {{ region.NOM_ESTADO }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['region'].errors?.required">
                       * region is required
@@ -150,8 +150,8 @@
                       [(ngModel)]="homeDetails.province"
                       (change)="getProvince()">
                       <option selected></option>
-                      <option *ngFor="let province of LOV.provinceLOV" [ngValue]="province.value">
-                        {{ province.name }}</option>
+                      <option *ngFor="let province of LOV.provinceLOV" [ngValue]="province.COD_PROV">
+                        {{ province.NOM_PROV }}</option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['province'].errors?.required">
                       * province is required
@@ -167,8 +167,8 @@
                     <select class="custom-select mr-sm-2 required" formControlName="city"
                       [(ngModel)]="homeDetails.city">
                       <option selected></option>
-                      <option *ngFor="let city of LOV.cityLOV" [ngValue]="city.value">
-                        {{ city.name }}
+                      <option *ngFor="let city of LOV.cityLOV" [ngValue]="city.COD_LOCALIDAD">
+                        {{ city.NOM_LOCALIDAD }}
                       </option>
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['city'].errors?.required">
