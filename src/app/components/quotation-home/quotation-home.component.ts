@@ -9,7 +9,8 @@ import {
 import {
   FormGroup,
   FormBuilder,
-  Validators, FormArray
+  Validators,
+  FormArray
 } from '@angular/forms';
 import {
   MatDialog,
@@ -28,9 +29,6 @@ import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
 import {
-  GroupPolicyLOV as lovUtil
-} from '../../utils/lov/groupPolicy';
-import {
   HomeListObject
 } from 'src/app/objects/LOV/homeList';
 import {
@@ -39,6 +37,9 @@ import {
 import {
   HomeLOVServices
 } from '../../services/lov/home.service';
+import {
+  HomeIssueServices
+} from '../../services/home-issue.service';
 import {
   Globals
 } from 'src/app/utils/global';
@@ -60,6 +61,15 @@ import {
 import {
   ThirdPartyLOVServices
 } from 'src/app/services/lov/third-party-lov-service';
+import {
+  PaymentBreakdownModalComponent
+} from '../payment-breakdown-modal/payment-breakdown-modal.component';
+import {
+  PrintingService
+} from 'src/app/services/printing.service';
+import {
+  ReturnDTO
+} from 'src/app/objects/ReturnDTO';
 
 @Component({
   selector: 'app-quotation-home',
@@ -77,7 +87,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
   triggerBreakdown: number = 0;
-  insuredHeadCount: number = 1;
+  // insuredHeadCount: number = 1;
 
   homeDetails = new Home();
   prevHomeDetails: Home = null;
@@ -87,7 +97,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
-  homeAddress = new PolicyHolder;
+  homeAddress = new PolicyHolder();
   quoteForm: FormGroup;
   minDate: Date = moment().subtract(65, 'years').toDate();
   maxDate: Date = moment().subtract(18, 'years').toDate();
@@ -150,7 +160,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     private hls: HomeLOVServices,
     private changeDetector: ChangeDetectorRef,
     private router: Router,
-    private tpls: ThirdPartyLOVServices
+    private tpls: ThirdPartyLOVServices,
+    private his: HomeIssueServices,
+    private ps: PrintingService,
+    private bms: BsModalService,
+    public dialog: MatDialog,
   ) {
     this.createQuoteForm();
     this.setValidations();
@@ -165,9 +179,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
       if (this.isLoadQuotation) {
-        //if loaded from accident quotation
+        //if loaded from home quotation
         this.homeDetails.quotationNumber = Globals.loadNumber;
-        // this.loadQuotation();
+        this.loadQuotation();
         Globals.setLoadNumber('');
         Globals.setLoadQuotation(false);
       }
@@ -209,8 +223,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadQuotation() {
-  }
+  loadQuotation() {}
+
+  loadLOVs() {}
 
   setValidations() {
     var quotationNumber = this.quoteForm.get('quotationNumber');
@@ -259,14 +274,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  relatedStructure(): FormArray {
-    return this.quoteForm.get("relatedStructure") as FormArray
-  }
-
-  relatedContent(): FormArray {
-    return this.quoteForm.get("relatedContent") as FormArray
-  }
-
   setDefaultValue() {
     //setting default value
     this.homeDetails.subline = 200; //residential
@@ -277,19 +284,20 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeAddress.country = "PHL"; //Philippines
   }
 
+  relatedStructure(): FormArray {
+    return this.quoteForm.get("relatedStructure") as FormArray
+  }
+
+  relatedContent(): FormArray {
+    return this.quoteForm.get("relatedContent") as FormArray
+  }
+
   loadRelatedDetails(code: string, name: string): FormGroup {
     return this.fb.group({
       _value: ['', Validators.min(1)],
       _code: [code],
       _name: [name]
     });
-  }
-
-  effectivityDateOnChange() {
-    setTimeout(() => {
-      this.homeDetails.expiryDate = moment(this.homeDetails.effectivityDate).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.homeDetails.expiryDate;
-    }, 500);
   }
 
   getProvince() {
@@ -307,6 +315,137 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.tpls.getCity(this.homeAddress).then(res => {
       _this.LOV.cityLOV = res;
       this.homeDetails.city = null;
+    });
+  }
+
+  effectivityDateOnChange() {
+    setTimeout(() => {
+      this.homeDetails.expiryDate = moment(this.homeDetails.effectivityDate).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.homeDetails.expiryDate;
+    }, 500);
+  }
+
+  populateCoverage(coverageList: any[]) {
+    this.coverageList = coverageList;
+    this.showCoverage = true;
+    this.triggerCoverage = this.triggerCoverage + 1;
+  }
+
+  populatePaymentBreakdown(breakdown: any[], receipt: {}) {
+    this.paymentBreakdown = breakdown;
+    this.paymentReceipt = receipt;
+    this.showPaymentBreakdown = true;
+    this.triggerBreakdown = this.triggerBreakdown + 1;
+    Utility.scroll('paymentBreakdown');
+  }
+
+  proceed(type: number) {
+    //if user changes affecting values
+    const hasChanges = this.changedValues.length != 0;
+
+    const hasQuotationNumber = !Utility.isUndefined(this.homeDetails.quotationNumber);
+    const isTemporaryQuotation = hasQuotationNumber && this.homeDetails.quotationNumber.startsWith('999');
+    this.homeDetails.affecting = !hasQuotationNumber ||
+      (hasQuotationNumber && isTemporaryQuotation) ||
+      (hasQuotationNumber && !isTemporaryQuotation && hasChanges);
+    if (hasChanges) {
+      this.openProceedModal(type);
+    } else {
+      switch (type) {
+        case 1: {
+          this.issueQuote('S');
+          break;
+        }
+        case 2: {
+          this.issueQuote('N');
+          break;
+        }
+        case 3: {
+          this.savePolicy();
+          break;
+        }
+        default: {
+          this.postPolicy();
+          break;
+        }
+      }
+    }
+  }
+
+  openProceedModal(type: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '500px';
+    dialogConfig.data = {
+      generateBtn: type == 1 || type == 2 || type == 3,
+      saveBtn: type == 4
+    };
+
+    this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
+  }
+
+  openValidationModal(q: FormGroup, g: FormGroup, c: FormGroup): void {
+    //clear arrays
+    let invalid = [];
+    this.invalidForms = [];
+
+    //list of incorrect label names
+    var formLabels = [{
+        cbOneTripOnly: 'oneTripOnly'
+      },
+      {
+        name: "client'sName"
+      }
+    ]
+
+    var quoteArr = Utility.findInvalidControls(q);
+    invalid.push(...quoteArr);
+
+    var groupPolicyArr = Utility.findInvalidControls(g);
+    invalid.push(...groupPolicyArr);
+
+    var policyHolderArr = Utility.findInvalidControls(c);
+    invalid.push(...policyHolderArr);
+
+    invalid.forEach((i) => {
+      formLabels.forEach(f => {
+        var correctLabel = f[i];
+        if (!Utility.isUndefined(correctLabel)) {
+          //replace label
+          i = correctLabel;
+        }
+      });
+
+      let label: string = i.replace(/([A-Z])/g, ' $1').trim();
+      this.invalidForms.push(label.toLowerCase());
+    });
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '500px';
+
+    this.dialogRef = this.dialog.open(this.validationModal, dialogConfig);
+  }
+
+  openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
+    const modalData = {
+      number: isPostPolicy ? this.homeDetails.policyNumber : this.homeDetails.quotationNumber,
+      product: this.codeName,
+      payment: "ANNUAL",
+      receipt: receipt,
+      breakdown: breakdown,
+      showExchangeRate: false,
+      isPostPolicy: isPostPolicy,
+      line: 'HOME' //TODO
+    };
+
+    this.dialog.open(PaymentBreakdownModalComponent, {
+      width: '1000px',
+      data: modalData
     });
   }
 
@@ -369,8 +508,218 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  issueQuote(homeDetails: Home, groupPolicy: GroupPolicy) {
-    // console.log(homeDetails, groupPolicy);
-    console.log(this.quoteForm)
+  printQuote() {
+    this.ps.printQuote(this.homeDetails.quotationNumber);
+  }
+
+  printPolicy() {
+    this.ps.printPolicy(this.homeDetails.policyNumber);
+  }
+
+  proceedToIssuance() {
+    this.ps.proceedToIssuance(this.homeDetails.quotationNumber, page.ISS.HOM);
+  }
+
+  getProductCode() {
+    const _this = this;
+    this.codeName = null;
+    this.LOV.productListLOV.forEach(p => {
+      if (p.COD_MODALIDAD == this.homeDetails.product) {
+        _this.codeName = p.NOM_MODALIDAD;
+      }
+    });
+  }
+
+  //getting error or warning items
+  getErrorItems(res: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    const resErrorCode = res.obj["errorCode"];
+    const resError = res.obj["error"];
+
+    const isPostPolicy = Utility.isUndefined(resErrorCode);
+    let items: any[] = isPostPolicy ?
+      ["Error occured while posting policy. Please contact administration."] :
+      ["Error code is " + resErrorCode + " but does not return any error message. Please contact administration."];
+
+    if (!Utility.isUndefined(resError)) {
+      const errArr = resError.split("~");
+      if (errArr.length) {
+        var arr = [];
+        errArr.forEach((err: string) => {
+          if (!Utility.isEmpty(err)) {
+            arr.push(err);
+          }
+        });
+
+        const resStatus = res.obj["status"];
+        if (arr.length) {
+          if (!resStatus && isPostPolicy) {
+            //has error - can't proceed
+            items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
+          } else {
+            // has warning - can proceed
+            if (isIssuance) {
+              items = ["Quotation has technical control due to following reason/s:"].concat(arr);
+            } else {
+              items = ("N" == mcaTmpPptoMph) ? ["Routed for approval due to following reason/s:"].concat(arr) : arr;
+            }
+          }
+        }
+      }
+    }
+    return items;
+  }
+
+  //generate and issue quote button
+  issueQuote(mcaTmpPptoMph: string) {
+    // S for generation and N for issue quotation
+    this.assembleData(mcaTmpPptoMph);
+
+    this.his.issueQuote(this.homeDetails).then(res => {
+      if (res.status) {
+        //clear affecting fields
+        this.changedValues = [];
+
+        const items = this.getErrorItems(res, mcaTmpPptoMph, false);
+        const status = res.obj["status"];
+        if (status) {
+          //duplicating car details for comparison
+          const deepClone = JSON.parse(JSON.stringify(this.homeDetails));
+          this.prevHomeDetails = deepClone;
+
+          this.editMode = false;
+          const errorCode = res.obj["errorCode"];
+          if (errorCode == "S") {
+            //if quotation has a warning
+            this.modalRef = Utility.showHTMLWarning(this.bms, items);
+          }
+
+          const policyNumber = res.obj["policyNumber"];
+          this.homeDetails.quotationNumber = policyNumber;
+
+          const breakdown = res.obj["breakdown"];
+          const receipt = res.obj["receipt"];
+
+          if ("S" == mcaTmpPptoMph) {
+            //for generation of quote
+            const message = "You have successfully generated a quotation - " + policyNumber;
+            this.modalRef = Utility.showInfo(this.bms, message);
+
+            const coverageList = res.obj["coverageList"];
+            this.populateCoverage(coverageList);
+
+            this.populatePaymentBreakdown(breakdown, receipt);
+            this.manageBtn(2);
+          } else {
+            // for issuing the quote
+            this.openPaymentBreakdownModal(receipt, breakdown, false);
+            this.manageBtn(3);
+          }
+        } else {
+          this.modalRef = Utility.showHTMLError(this.bms, items);
+        }
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
+    });
+  }
+
+  assembleData(mcaTmpPptoMph: string) {
+    this.homeDetails.mcaTmpPptoMph = mcaTmpPptoMph;
+
+    // includes group policy to home details DTO
+    this.homeDetails.groupPolicy = this.groupPolicy;
+    // includes policy holder to home details DTO
+    this.homeDetails.policyHolder = this.policyHolder;
+
+    // includes insured individuals to home details DTO
+    // var insured = this.quoteForm.get('insured').value;
+    // this.homeDetails.insuredDetails = insured.length ? insured : [];
+
+    // get product code
+    this.getProductCode();
+
+    // to trigger changes when regenerating quotation
+    this.showCoverage = false;
+    this.showPaymentBreakdown = false;
+  }
+
+  //save policy button
+  savePolicy() {
+    this.assembleData("N");
+
+    this.his.savePolicy(this.homeDetails).then(res => {
+      if (res.status) {
+        //clear affecting fields
+        this.changedValues = [];
+
+        var items = this.getErrorItems(res, this.homeDetails.mcaTmpPptoMph, true);
+        const status = res.obj["status"];
+        if (status) {
+          //duplicating home details for comparison
+          const deepClone = JSON.parse(JSON.stringify(this.homeDetails));
+          this.prevHomeDetails = deepClone;
+
+          this.editMode = false;
+
+          const errorCode = res.obj["errorCode"];
+          const policyNumber = res.obj["policyNumber"];
+          this.homeDetails.quotationNumber = policyNumber;
+
+          const message = "You have successfully generated a new quotation: " + policyNumber;
+          this.modalRef = Utility.showInfo(this.bms, message);
+
+          const breakdown = res.obj["breakdown"];
+          const receipt = res.obj["receipt"];
+          this.populatePaymentBreakdown(breakdown, receipt);
+
+          if (errorCode == "S") {
+            //if quotation has a warning
+            if (this.homeDetails.affecting) {
+              items = ["Updated quotation number is: " + policyNumber].concat(items);
+            }
+            this.modalRef = Utility.showHTMLWarning(this.bms, items);
+          } else {
+            const message = "Policy saved successfully.";
+            this.modalRef = Utility.showInfo(this.bms, message);
+          }
+          this.editMode = false;
+          this.manageBtn(3);
+        } else {
+          this.modalRef = Utility.showHTMLError(this.bms, items);
+        }
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
+    });
+  }
+
+  //post policy button
+  postPolicy() {
+    this.assembleData("N");
+
+    this.his.postPolicy(this.homeDetails).then(res => {
+      if (res.status) {
+        //clear affecting fields
+        this.changedValues = [];
+
+        var items = this.getErrorItems(res, this.homeDetails.mcaTmpPptoMph, true);
+        const status = res.obj["status"];
+        const policyNumber = res.obj["policyNumber"];
+        if (status && !Utility.isUndefined(policyNumber)) {
+          this.editMode = false;
+          this.homeDetails.policyNumber = policyNumber;
+
+          const breakdown = res.obj["breakdown"];
+          const receipt = res.obj["receipt"];
+          this.populatePaymentBreakdown(breakdown, receipt);
+          this.openPaymentBreakdownModal(receipt, breakdown, true);
+          this.manageBtn(4);
+        } else {
+          this.modalRef = Utility.showHTMLError(this.bms, items);
+        }
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
+    });
   }
 }

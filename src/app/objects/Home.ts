@@ -1,3 +1,10 @@
+import {
+  GroupPolicy
+} from './GroupPolicy';
+import {
+  PolicyHolder
+} from './PolicyHolder';
+
 // * - used in quick quotation
 export class Home {
   mcaTmpPptoMph: string;
@@ -49,7 +56,13 @@ export class Home {
   //general information
   effectivityDate: Date;
   expiryDate: Date;
-  
+
+  //group policy
+  groupPolicy: GroupPolicy;
+
+  //policy holder information
+  policyHolder: PolicyHolder;
+
   //product
   paymentMethod: number;
   product: number;
