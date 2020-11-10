@@ -52,6 +52,8 @@ export class Home {
   rear: string;
 
   improvement: number;
+  relatedStructureDetails: [];
+  relatedContentDetails: [];
 
   //general information
   effectivityDate: Date;

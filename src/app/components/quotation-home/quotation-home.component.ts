@@ -631,9 +631,13 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     // includes policy holder to home details DTO
     this.homeDetails.policyHolder = this.policyHolder;
 
-    // includes insured individuals to home details DTO
-    // var insured = this.quoteForm.get('insured').value;
-    // this.homeDetails.insuredDetails = insured.length ? insured : [];
+    // includes related structure to home details DTO
+    var relatedStructure = this.quoteForm.get('relatedStructure').value;
+    this.homeDetails.relatedStructureDetails = relatedStructure.length ? relatedStructure : [];
+
+    // includes related content to home details DTO
+    var relatedContent = this.quoteForm.get('relatedContent').value;
+    this.homeDetails.relatedContentDetails = relatedContent.length ? relatedContent : [];
 
     // get product code
     this.getProductCode();
