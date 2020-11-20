@@ -98,7 +98,9 @@
                   || quoteForm.controls['buildingNumber'].touched)}">
                     <label for="buildingNumber">House/Building Number</label>
                     <input type="text" formControlName="buildingNumber" class="form-control"
-                      [(ngModel)]="homeDetails.buildingNumber">
+                      [(ngModel)]="homeDetails.buildingNumber"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['buildingNumber'].errors?.required">
                       * building number is required
                     </p>
@@ -111,7 +113,9 @@
                   || quoteForm.controls['subdivision'].touched)}">
                     <label for="subdivision">Village/Subdivision</label>
                     <input type="text" formControlName="subdivision" class="form-control"
-                      [(ngModel)]="homeDetails.subdivision">
+                      [(ngModel)]="homeDetails.subdivision"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['subdivision'].errors?.required">
                       * subdivision is required
                     </p>
@@ -124,7 +128,9 @@
                   || quoteForm.controls['buildingName'].touched)}">
                     <label for="buildingName">Building Name</label>
                     <input type="text" formControlName="buildingName" class="form-control"
-                      [(ngModel)]="homeDetails.buildingName">
+                      [(ngModel)]="homeDetails.buildingName"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['buildingName'].errors?.required">
                       * building name is required
                     </p>
@@ -137,7 +143,9 @@
                   || quoteForm.controls['streetName'].touched)}">
                     <label for="streetName">Street Name</label>
                     <input type="text" formControlName="streetName" class="form-control"
-                      [(ngModel)]="homeDetails.streetName">
+                      [(ngModel)]="homeDetails.streetName"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['streetName'].errors?.required">
                       * street name is required
                     </p>
@@ -150,7 +158,9 @@
                   || quoteForm.controls['barangay'].touched)}">
                     <label for="barangay">Barangay</label>
                     <input type="text" formControlName="barangay" class="form-control"
-                      [(ngModel)]="homeDetails.barangay">
+                      [(ngModel)]="homeDetails.barangay"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['barangay'].errors?.required">
                       * barangay is required
                     </p>
@@ -163,7 +173,9 @@
                   || quoteForm.controls['region'].touched)}">
                     <label for="region">Region</label>
                     <select class="custom-select mr-sm-2 required" formControlName="region"
-                      [(ngModel)]="homeDetails.region" (change)="getProvince()">
+                      [(ngModel)]="homeDetails.region" (change)="getProvince()"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let region of LOV.regionLOV" [ngValue]="region.COD_ESTADO">
                         {{ region.NOM_ESTADO }}</option>
@@ -180,7 +192,9 @@
                   || quoteForm.controls['province'].touched)}">
                     <label for="province">Province</label>
                     <select class="custom-select mr-sm-2 required" formControlName="province"
-                      [(ngModel)]="homeDetails.province" (change)="getCity()">
+                      [(ngModel)]="homeDetails.province" (change)="getCity()"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let province of LOV.provinceLOV" [ngValue]="province.COD_PROV">
                         {{ province.NOM_PROV }}</option>
@@ -197,7 +211,9 @@
                   || quoteForm.controls['city'].touched)}">
                     <label for="city">City</label>
                     <select class="custom-select mr-sm-2 required" formControlName="city"
-                      [(ngModel)]="homeDetails.city">
+                      [(ngModel)]="homeDetails.city"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let city of LOV.cityLOV" [ngValue]="city.COD_LOCALIDAD">
                         {{ city.NOM_LOCALIDAD }}
@@ -229,7 +245,8 @@
                   || quoteForm.controls['buildingCapital'].touched)}">
                     <label for="buildingCapital">Building Capital</label>
                     <input type="number" formControlName="buildingCapital" class="form-control required"
-                      [(ngModel)]="homeDetails.buildingCapital">
+                      [(ngModel)]="homeDetails.buildingCapital"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['buildingCapital'].errors?.required">
                       * building capital is required
                     </p>
@@ -242,7 +259,8 @@
                   || quoteForm.controls['contentValue'].touched)}">
                     <label for="contentValue">Content Value</label>
                     <input type="number" formControlName="contentValue" class="form-control required"
-                      [(ngModel)]="homeDetails.contentValue">
+                      [(ngModel)]="homeDetails.contentValue"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['contentValue'].errors?.required">
                       * content value is required
                     </p>
@@ -260,7 +278,9 @@
                   || quoteForm.controls['constructionOfBuilding'].touched)}">
                     <label for="constructionOfBuilding">Construction of Building</label>
                     <textarea type="text" formControlName="constructionOfBuilding" class="form-control required"
-                      [(ngModel)]="homeDetails.constructionOfBuilding"></textarea>
+                      [(ngModel)]="homeDetails.constructionOfBuilding"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['constructionOfBuilding'].errors?.required">
                       * construction of building required
                     </p>
@@ -273,7 +293,9 @@
                   || quoteForm.controls['occupancyOfBuilding'].touched)}">
                     <label for="occupancyOfBuilding">Occupancy of Building</label>
                     <textarea type="text" formControlName="occupancyOfBuilding" class="form-control required"
-                      [(ngModel)]="homeDetails.occupancyOfBuilding"></textarea>
+                      [(ngModel)]="homeDetails.occupancyOfBuilding"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['occupancyOfBuilding'].errors?.required">
                       * occupancy of building is required
                     </p>
@@ -291,7 +313,9 @@
                   || quoteForm.controls['front'].touched)}">
                     <label for="front">Front</label>
                     <textarea type="text" formControlName="front" class="form-control required"
-                      [(ngModel)]="homeDetails.front"></textarea>
+                      [(ngModel)]="homeDetails.front"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['front'].errors?.required">
                       * front is required
                     </p>
@@ -304,7 +328,9 @@
                   || quoteForm.controls['right'].touched)}">
                     <label for="right">Right</label>
                     <textarea type="text" formControlName="right" class="form-control required"
-                      [(ngModel)]="homeDetails.right"></textarea>
+                      [(ngModel)]="homeDetails.right"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['right'].errors?.required">
                       * right is required
                     </p>
@@ -317,7 +343,9 @@
                   || quoteForm.controls['left'].touched)}">
                     <label for="left">Left</label>
                     <textarea type="text" formControlName="left" class="form-control required"
-                      [(ngModel)]="homeDetails.left"></textarea>
+                      [(ngModel)]="homeDetails.left"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['left'].errors?.required">
                       * left is required
                     </p>
@@ -330,7 +358,9 @@
                   || quoteForm.controls['rear'].touched)}">
                     <label for="rear">Rear</label>
                     <textarea type="text" formControlName="rear" class="form-control required"
-                      [(ngModel)]="homeDetails.rear"></textarea>
+                      [(ngModel)]="homeDetails.rear"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                     <p class="form-error" *ngIf="quoteForm.controls['rear'].errors?.required">
                       * rear is required
                     </p>
@@ -358,7 +388,8 @@
                   || quoteForm.controls['improvement'].touched)}">
                     <label for="improvement">Improvement</label>
                     <input type="number" formControlName="improvement" class="form-control"
-                      [(ngModel)]="homeDetails.improvement">
+                      [(ngModel)]="homeDetails.improvement"
+                      [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="quoteForm.controls['improvement'].errors?.min">
                       * should be higher than 0
                     </p>
@@ -387,7 +418,7 @@
                   && (item.controls['_value'].dirty 
                   || item.controls['_value'].touched)}">
                     <label>{{item.get('_name').value}}</label>
-                    <input type="number" class="form-control" formControlName="_value">
+                    <input type="number" class="form-control" formControlName="_value" [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="item.controls['_value'].errors?.min">
                       * should be higher than 0
                     </p>
@@ -416,7 +447,7 @@
                   && (item.controls['_value'].dirty 
                   || item.controls['_value'].touched)}">
                     <label>{{item.get('_name').value}}</label>
-                    <input type="number" class="form-control" formControlName="_value">
+                    <input type="number" class="form-control" formControlName="_value" [attr.disabled]="editMode ? null : true">
                     <p class="form-error" *ngIf="item.controls['_value'].errors?.min">
                       * should be higher than 0
                     </p>
