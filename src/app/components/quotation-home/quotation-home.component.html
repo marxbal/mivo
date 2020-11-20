@@ -494,6 +494,22 @@
             [loadQuotation]="triggerCounter">
           </app-policy-holder>
 
+          <app-payment-breakdown
+            *ngIf="showPaymentBreakdown"
+            #appPaymentBreakdown
+            [paymentReceipt]="paymentReceipt"
+            [paymentBreakdown]="paymentBreakdown"
+            [showExchangeRate]="false"
+            [loadBreakdown]="triggerBreakdown">
+          </app-payment-breakdown>
+
+          <app-fixed-coverages
+            *ngIf="showCoverage"
+            [line]="'home'"
+            [coverageList]="coverageList"
+            [loadCoverage]="triggerCoverage">
+          </app-fixed-coverages>
+
           <div class="card shadow mb-3">
             <div class="card-header">
               <strong>Product</strong>

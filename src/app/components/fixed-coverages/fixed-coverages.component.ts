@@ -48,6 +48,8 @@ export class FixedCoveragesComponent implements OnInit {
       headers = [300, 332, 330, 302, 316, 319, 324, 333];
     } else if (this.line = 'accident') {
       headers = [340];
+    } else if (this.line = 'home') {
+      headers = [340];
     };
 
     this.coverageList.forEach(coverage => {

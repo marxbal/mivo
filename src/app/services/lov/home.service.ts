@@ -26,7 +26,7 @@ export class HomeLOVServices {
       '|cod_mon~' + home.currency +
       '|fec_validez~' + home.sublineEffectivityDate +
       '|cod_nivel1~|cod_nivel2~|cod_nivel3~|tip_docum~|cod_docum~|COD_CIA~1');
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, "COD_FRACC_PAGO").then(lovs => lovs as any[]);
   }
 
   async getCurrency(home: Home): Promise < any[] > {
@@ -53,6 +53,6 @@ export class HomeLOVServices {
 
   async getProduct(home: Home): Promise < any[] > {
     const dto = new LOV('G2990004', '10', 'cod_cia~1|cod_ramo~' + home.subline);
-    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+    return this.lov.getIntLOV(dto, "COD_MODALIDAD").then(lovs => lovs as any[]);
   }
 }
