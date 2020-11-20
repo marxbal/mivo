@@ -241,7 +241,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.hls.getHomeBusinessLine().then(res => {
       var temp = [];
       res.forEach(subline => {
-        debugger
         if (subline.COD_RAMO === 200) {
           temp.push(subline);
         }

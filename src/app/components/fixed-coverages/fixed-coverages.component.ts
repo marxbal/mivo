@@ -48,15 +48,17 @@ export class FixedCoveragesComponent implements OnInit {
       headers = [300, 332, 330, 302, 316, 319, 324, 333];
     } else if (this.line = 'accident') {
       headers = [340];
-    } else if (this.line = 'home') {
-      headers = [340];
-    };
+    }
 
     this.coverageList.forEach(coverage => {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
       obj.code = coverage.codCob;
-      obj.isHeader = headers.indexOf(obj.code) !== -1;
+      if (this.line == 'home') {
+        obj.isHeader = coverage.MCA_TIP_CAPITAL == '5' || coverage.nomCob == 'OTHER RELATED STRUCTURES' || coverage.nomCob == 'OTHER RELATED CONTENTS';
+      } else {
+        obj.isHeader = headers.indexOf(obj.code) !== -1;
+      }
 
       obj.label = obj.isHeader ? '<strong>' + coverage.nomCob + '</strong>' : coverage.nomCob;
       obj.sumInsured = coverage.sumaAseg;
