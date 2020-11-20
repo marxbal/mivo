@@ -46,7 +46,7 @@ export class FixedCoveragesComponent implements OnInit {
 
     if (this.line == 'travel') {
       headers = [300, 332, 330, 302, 316, 319, 324, 333];
-    } else if (this.line = 'accident') {
+    } else if (this.line == 'accident') {
       headers = [340];
     }
 
