@@ -54,6 +54,7 @@ export class FixedCoveragesComponent implements OnInit {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
       obj.code = coverage.codCob;
+      debugger
       if (this.line == 'home') {
         obj.isHeader = coverage.MCA_TIP_CAPITAL == '5' || coverage.nomCob == 'OTHER RELATED STRUCTURES' || coverage.nomCob == 'OTHER RELATED CONTENTS';
       } else {
