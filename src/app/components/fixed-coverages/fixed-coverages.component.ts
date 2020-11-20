@@ -65,7 +65,9 @@ export class FixedCoveragesComponent implements OnInit {
       obj.showDetails = false;
 
       if (obj.isHeader && obj.code != 330 && obj.code != 332) {
-        obj.showDetails = true;
+        if (this.line != 'home') {
+          obj.showDetails = true;
+        }
         obj.details = '';
       } else if (obj.sumInsured == null) {
         obj.showDetails = true;
