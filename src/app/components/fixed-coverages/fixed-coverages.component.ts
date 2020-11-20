@@ -54,7 +54,6 @@ export class FixedCoveragesComponent implements OnInit {
       var obj = {} as coverageDTO;
       // bolder label if it is a header
       obj.code = coverage.codCob;
-      debugger
       if (this.line == 'home') {
         obj.isHeader = coverage.MCA_TIP_CAPITAL == '5' || coverage.nomCob == 'OTHER RELATED STRUCTURES' || coverage.nomCob == 'OTHER RELATED CONTENTS';
       } else {
@@ -65,15 +64,22 @@ export class FixedCoveragesComponent implements OnInit {
       obj.sumInsured = coverage.sumaAseg;
       obj.showDetails = false;
 
-      if (obj.isHeader && obj.code != 330 && obj.code != 332) {
-        obj.showDetails = true;
-        obj.details = '';
-      } else if (obj.sumInsured == null) {
-        obj.showDetails = true;
-        obj.details = 'n/a';
-      } else if (obj.sumInsured == 0) {
-        obj.showDetails = true;
-        obj.details = obj.isHeader ? '' : 'actual cost';
+      if (this.line == 'home') {
+        if (obj.isHeader) {
+          obj.showDetails = true;
+          obj.details = obj.sumInsured.toString();
+        }
+      } else {
+        if (obj.isHeader && obj.code != 330 && obj.code != 332) {
+          obj.showDetails = true;
+          obj.details = '';
+        } else if (obj.sumInsured == null) {
+          obj.showDetails = true;
+          obj.details = 'n/a';
+        } else if (obj.sumInsured == 0) {
+          obj.showDetails = true;
+          obj.details = obj.isHeader ? '' : 'actual cost';
+        }
       }
 
       if (coverage.codMon == 2) {
