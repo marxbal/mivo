@@ -64,22 +64,15 @@ export class FixedCoveragesComponent implements OnInit {
       obj.sumInsured = coverage.sumaAseg;
       obj.showDetails = false;
 
-      if (this.line == 'home') {
-        if (obj.isHeader) {
-          obj.showDetails = true;
-          obj.details = obj.sumInsured.toString();
-        }
-      } else {
-        if (obj.isHeader && obj.code != 330 && obj.code != 332) {
-          obj.showDetails = true;
-          obj.details = '';
-        } else if (obj.sumInsured == null) {
-          obj.showDetails = true;
-          obj.details = 'n/a';
-        } else if (obj.sumInsured == 0) {
-          obj.showDetails = true;
-          obj.details = obj.isHeader ? '' : 'actual cost';
-        }
+      if (obj.isHeader && obj.code != 330 && obj.code != 332) {
+        obj.showDetails = true;
+        obj.details = '';
+      } else if (obj.sumInsured == null) {
+        obj.showDetails = true;
+        obj.details = 'n/a';
+      } else if (obj.sumInsured == 0) {
+        obj.showDetails = true;
+        obj.details = obj.isHeader ? '' : 'actual cost';
       }
 
       if (coverage.codMon == 2) {
