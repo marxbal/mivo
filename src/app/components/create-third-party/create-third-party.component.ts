@@ -205,6 +205,7 @@ export class CreateThirdPartyComponent implements OnInit {
 
   getCity() {
     const _this = this;
+    console.log(this.thirdParty);
     this.tpls.getCity(this.thirdParty).then(res => {
       _this.TPLOV.cityLOV = res;
     });
