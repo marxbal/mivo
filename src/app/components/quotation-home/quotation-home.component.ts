@@ -380,7 +380,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     relatedStructure.forEach(rs => { 
       if (element.value._code == rs.occ) {
         // element.setValue(rs.val)
-        element.get("_value").setValue = rs.val;
+        element.get("_value").setValue(rs.val);
         // element.value._value = rs.val;
       }
     });
