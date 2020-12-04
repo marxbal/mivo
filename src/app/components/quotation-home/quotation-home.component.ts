@@ -510,20 +510,20 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   
         this.loadLOVs();
   
-        // const coverageList = res.obj["coverageList"];
-        // this.populateCoverage(coverageList);
+        const coverageList = res.obj["coverageList"];
+        this.populateCoverage(coverageList);
   
-        // //breakdwon
-        // const breakdown = res.obj["breakdown"];
-        // const receipt = res.obj["receipt"];
-        // this.populatePaymentBreakdown(breakdown, receipt);
+        //breakdwon
+        const breakdown = res.obj["breakdown"];
+        const receipt = res.obj["receipt"];
+        this.populatePaymentBreakdown(breakdown, receipt);
   
-        // //cloning details from load quotation
-        // const deepClone = JSON.parse(JSON.stringify(this.accidentDetails));
-        // this.prevAccidentDetails = deepClone;
+        //cloning details from load quotation
+        const deepClone = JSON.parse(JSON.stringify(this.homeDetails));
+        this.prevHomeDetails = deepClone;
       } else {
-        // this.modalRef = Utility.showError(this.bms, res.message);
-        // this.accidentDetails.quotationNumber = "";
+        this.modalRef = Utility.showError(this.bms, res.message);
+        this.homeDetails.quotationNumber = "";
       }
     }).finally(() => {
       //trigger child component load quotation function
