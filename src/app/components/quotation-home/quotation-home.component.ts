@@ -245,60 +245,60 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   
           switch (code) {
             case "NUM_HOUSE_LOCATION": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.buildingNumber = value;
               break;
             }
             case "TXT_VILLAGE_SUBDIVISION": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.subdivision = value;
               break;
             }
             case "TXT_BUILDING_NAME": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.buildingName = value;
               break;
             }
             case "TXT_STREET_NAME": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.streetName = value;
               break;
             }
             case "TXT_BARANGAY": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.barangay = value;
               break;
             }
             case "COD_REGION": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.region = valueInt;
               break;
             }
             case "COD_PROVINCE": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.province = valueInt;
               break;
             }
             case "COD_MUNICIPALITY": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.city = valueInt;
               break;
             }
             case "TXT_CONSTRUCTION_BUILDING": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.constructionOfBuilding = value;
               break;
             }
             case "TXT_OCCUPANCY_BUILDING": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.occupancyOfBuilding = value;
               break;
             }
 
             case "TXT_BOUNDARY_DESC1": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.front = value;
               break;
             }
             case "TXT_BOUNDARY_DESC2": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.right = value;
               break;
             }
             case "TXT_BOUNDARY_DESC3": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.left = value;
               break;
             }
             case "TXT_BOUNDARY_DESC4": {
-              this.homeDetails.product = valueInt;
+              this.homeDetails.rear = value;
               break;
             }
 
