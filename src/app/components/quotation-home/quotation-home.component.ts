@@ -231,59 +231,59 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         this.editMode = true;
 
         this.manageBtn(2);
-        // const variableData = res.obj["variableData"] as any[];
-        // variableData.forEach(v => {
-        //   const code = v.codCampo;
-        //   const value: string = v.valCampo;
-        //   let valueInt: number = undefined;
+        const variableData = res.obj["variableData"] as any[];
+        variableData.forEach(v => {
+          const code = v.codCampo;
+          const value: string = v.valCampo;
+          let valueInt: number = undefined;
   
-        //   try {
-        //     valueInt = parseInt(value);
-        //   } catch (e) {
-        //     // do nothing
-        //   }
+          try {
+            valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
   
-        //   switch (code) {
-        //     //general information details
-        //     //TODO
-        //     case "COD_MODALIDAD": {
-        //       this.accidentDetails.product = valueInt;
-        //       break;
-        //     }
+          switch (code) {
+            //general information details
+            //TODO
+            case "COD_MODALIDAD": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
   
-        //     default: {
-        //       // do nothing
-        //     }
-        //   }
-        // });
+            default: {
+              // do nothing
+            }
+          }
+        });
   
-        // const generalInfo = res.obj["generalInfo"];
-        // this.accidentDetails.subline = generalInfo.codRamo;
-        // this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        // this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        const generalInfo = res.obj["generalInfo"];
+        this.homeDetails.subline = generalInfo.codRamo;
+        this.homeDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.homeDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
   
-        // this.groupPolicy = new GroupPolicy;
-        // this.groupPolicy.agentCode = generalInfo.codAgt;
-        // if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
-        //   this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
-        // }
-        // if (!Utility.isUndefined(generalInfo.numContrato)) {
-        //   this.groupPolicy.contract = parseInt(generalInfo.numContrato);
-        // }
-        // if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
-        //   this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
-        // }
-        // this.groupPolicy.commercialStructure = generalInfo.codNivel3;
-        // this.accidentDetails.groupPolicy = this.groupPolicy;
+        this.groupPolicy = new GroupPolicy;
+        this.groupPolicy.agentCode = generalInfo.codAgt;
+        if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
+          this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        }
+        if (!Utility.isUndefined(generalInfo.numContrato)) {
+          this.groupPolicy.contract = parseInt(generalInfo.numContrato);
+        }
+        if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
+          this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
+        }
+        this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        this.homeDetails.groupPolicy = this.groupPolicy;
   
-        // const docType = generalInfo.tipDocum;
-        // const docCode = generalInfo.codDocum;
-        // // preventing generic document type and code
-        // if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
-        //   this.policyHolder.documentType = docType;
-        //   this.policyHolder.documentCode = docCode;
-        //   this.policyHolder.isExisting = true;
-        // }
+        const docType = generalInfo.tipDocum;
+        const docCode = generalInfo.codDocum;
+        // preventing generic document type and code
+        if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+          this.policyHolder.documentType = docType;
+          this.policyHolder.documentCode = docCode;
+          this.policyHolder.isExisting = true;
+        }
 
         // var tempInsured = [];
         // const insuredDetails = res.obj["insuredDetails"] as any[];
