@@ -371,6 +371,19 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           }
         });
 
+          //  res.forEach((rs: any) => {
+  //       this.relatedContent().push(this.newRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
+  //     });
+
+  this.relatedContent().controls.forEach(element => {
+    debugger
+    console.log(element);
+  });
+
+  // relatedStructure.forEach(rs => { 
+  //   this.relatedContent().push(this.loadRelatedDetails(rs.value, rs.COD_VALOR, rs.NOM_VALOR));
+  // }
+
         // var insureds = [];
         // tempInsured.forEach(t => {
         //   const iObj = new InsuredDetails();
@@ -543,12 +556,12 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
     this.hls.getRelatedStructureProperty(this.homeDetails).then(res => {
       res.forEach((rs: any) => {
-        this.relatedStructure().push(this.loadRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
+        this.relatedStructure().push(this.newRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
       });
     });
     this.hls.getRelatedContentProperty(this.homeDetails).then(res => {
       res.forEach((rs: any) => {
-        this.relatedContent().push(this.loadRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
+        this.relatedContent().push(this.newRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
       });
     });
     this.hls.getProduct(this.homeDetails).then(res => {
@@ -581,7 +594,35 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     return this.quoteForm.get("relatedContent") as FormArray
   }
 
-  loadRelatedDetails(code: string, name: string): FormGroup {
+  loadRelatedDetails(value: number, code: string, name: string): FormGroup {
+    return this.fb.group({
+      _value: ['', Validators.min(1)],
+      _code: [code],
+      _name: [name]
+    });
+  }
+
+  removeRelatedStructure() {
+    // removing all related structure details
+    var relatedStructure = this.quoteForm.get('relatedStructure').value;
+    if (relatedStructure.length > 0) {
+      // loop until all related structure details removed
+      this.relatedStructure().removeAt(0);
+      this.removeRelatedStructure();
+    }
+  }
+
+  removeRelatedContent() {
+    // removing all related content details
+    var relatedContent = this.quoteForm.get('relatedContent').value;
+    if (relatedContent.length > 0) {
+      // loop until all related structure content removed
+      this.relatedContent().removeAt(0);
+      this.removeRelatedContent();
+    }
+  }
+
+  newRelatedDetails(code: string, name: string): FormGroup {
     return this.fb.group({
       _value: ['', Validators.min(1)],
       _code: [code],
