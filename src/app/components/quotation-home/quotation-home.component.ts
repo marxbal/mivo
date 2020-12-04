@@ -378,7 +378,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   this.relatedContent().controls.forEach(element => {
     debugger
     relatedStructure.forEach(rs => { 
-      if (element.value._code === rs.occ) {
+      if (element.value._code == rs.occ) {
         element.setValue(rs.value)
       }
     });
