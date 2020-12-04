@@ -371,22 +371,21 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           }
         });
 
-          //  res.forEach((rs: any) => {
-  //       this.relatedContent().push(this.newRelatedDetails(rs.COD_VALOR, rs.NOM_VALOR));
-  //     });
+      this.relatedStructure().controls.forEach(element => {
+        relatedStructure.forEach(rs => { 
+          if (element.value._code == rs.occ) {
+            element.get("_value").setValue(rs.val);
+          }
+        });
+      });
 
-  this.relatedContent().controls.forEach(element => {
-    debugger
-    relatedStructure.forEach(rs => { 
-      if (element.value._code == rs.occ) {
-        // element.setValue(rs.val)
-        element.get("_value").setValue(rs.val);
-        // element.value._value = rs.val;
-      }
-    });
-  });
-
-
+      this.relatedContent().controls.forEach(element => {
+        relatedContent.forEach(rs => { 
+          if (element.value._code == rs.occ) {
+            element.get("_value").setValue(rs.val);
+          }
+        });
+      });
 
         // var insureds = [];
         // tempInsured.forEach(t => {
@@ -509,7 +508,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         //   this.accidentDetails.insuredDetails = [] as any; //TODO
         // }
   
-        // this.loadLOVs();
+        this.loadLOVs();
   
         // const coverageList = res.obj["coverageList"];
         // this.populateCoverage(coverageList);
@@ -532,7 +531,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadLOVs() {}
+  loadLOVs() {
+    this.getProvince();
+    this.getCity();
+  }
 
   setValidations() {
     var quotationNumber = this.quoteForm.get('quotationNumber');
