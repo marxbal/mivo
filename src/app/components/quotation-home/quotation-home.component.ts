@@ -377,12 +377,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   this.relatedContent().controls.forEach(element => {
     debugger
-    console.log(element);
+    relatedStructure.forEach(rs => { 
+      if (element.value._code === rs.occ) {
+        element.setValue(rs.value)
+      }
+    });
   });
 
-  // relatedStructure.forEach(rs => { 
-  //   this.relatedContent().push(this.loadRelatedDetails(rs.value, rs.COD_VALOR, rs.NOM_VALOR));
-  // }
+
 
         // var insureds = [];
         // tempInsured.forEach(t => {
