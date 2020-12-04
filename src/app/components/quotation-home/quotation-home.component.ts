@@ -178,8 +178,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.loadInit();
     if (this.isIssuance) {
       this.pageLabel = 'Issuance';
+      this.editMode = false;
       if (this.isLoadQuotation) {
         //if loaded from home quotation
+        this.editMode = true;
         this.homeDetails.quotationNumber = Globals.loadNumber;
         this.loadQuotation();
         Globals.setLoadNumber('');
@@ -223,7 +225,230 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  loadQuotation() {}
+  loadQuotation() {
+    this.his.loadQuotation(this.homeDetails.quotationNumber).then(res => {
+      if (res.status) {
+        this.editMode = true;
+
+        this.manageBtn(2);
+        // const variableData = res.obj["variableData"] as any[];
+        // variableData.forEach(v => {
+        //   const code = v.codCampo;
+        //   const value: string = v.valCampo;
+        //   let valueInt: number = undefined;
+  
+        //   try {
+        //     valueInt = parseInt(value);
+        //   } catch (e) {
+        //     // do nothing
+        //   }
+  
+        //   switch (code) {
+        //     //general information details
+        //     //TODO
+        //     case "COD_MODALIDAD": {
+        //       this.accidentDetails.product = valueInt;
+        //       break;
+        //     }
+  
+        //     default: {
+        //       // do nothing
+        //     }
+        //   }
+        // });
+  
+        // const generalInfo = res.obj["generalInfo"];
+        // this.accidentDetails.subline = generalInfo.codRamo;
+        // this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        // this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+  
+        // this.groupPolicy = new GroupPolicy;
+        // this.groupPolicy.agentCode = generalInfo.codAgt;
+        // if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
+        //   this.groupPolicy.groupPolicy = parseInt(generalInfo.numPolizaGrupo);
+        // }
+        // if (!Utility.isUndefined(generalInfo.numContrato)) {
+        //   this.groupPolicy.contract = parseInt(generalInfo.numContrato);
+        // }
+        // if (!Utility.isUndefined(generalInfo.numSubcontrato)) {
+        //   this.groupPolicy.subContract = parseInt(generalInfo.numSubcontrato);
+        // }
+        // this.groupPolicy.commercialStructure = generalInfo.codNivel3;
+        // this.accidentDetails.groupPolicy = this.groupPolicy;
+  
+        // const docType = generalInfo.tipDocum;
+        // const docCode = generalInfo.codDocum;
+        // // preventing generic document type and code
+        // if ("MVO" != docType && !docCode.startsWith("MAPFREXX")) {
+        //   this.policyHolder.documentType = docType;
+        //   this.policyHolder.documentCode = docCode;
+        //   this.policyHolder.isExisting = true;
+        // }
+
+        // var tempInsured = [];
+        // const insuredDetails = res.obj["insuredDetails"] as any[];
+        // insuredDetails.forEach(i => {
+        //   const code = i.codCampo;
+        //   const value: string = i.valCampo;
+        //   const occurence: number = i.numOcurrencia;
+
+        //   switch (code) {
+        //     //insured individual
+        //     case "TXT_FIRST_NAME": {
+        //       const obj = { firstName: value, occurence: occurence };
+        //       tempInsured.push(obj);
+        //       break;
+        //     }
+  
+        //     default: {
+        //       // do nothing
+        //     }
+        //   }
+        // });
+
+        // var insureds = [];
+        // tempInsured.forEach(t => {
+        //   const iObj = new InsuredDetails();
+        //   iObj.firstName = t.firstName;
+        //   insuredDetails.forEach(id => {
+        //     const code = id.codCampo;
+        //     const value: string = id.valCampo;
+        //     const text: string = id.txtCampo;
+        //     const occurence: number = id.numOcurrencia;
+        //     let valueInt: number = undefined;
+    
+        //     try {
+        //       valueInt = parseInt(value);
+        //     } catch (e) {
+        //       // do nothing
+        //     }
+
+        //     if (t.occurence == occurence) {
+        //       iObj.occurence = occurence.toString();
+        //       switch (code) {
+        //         case "TXT_FIRST_NAME": {
+        //           iObj.firstName = value;
+        //           break;
+        //         }
+        //         case "TXT_LAST_NAME": {
+        //           iObj.lastName = value;
+        //           break;
+        //         }
+        //         case "TXT_MIDDLE_INITIAL": {
+        //           iObj.middleName = value;
+        //           break;
+        //         }
+        //         case "TXT_SUFFIX": {
+        //           iObj.suffix = valueInt;
+        //           iObj.suffixLabel = text;
+        //           break;
+        //         }
+        //         case "MCA_SEXO_ASEG": {
+        //           iObj.gender = valueInt;
+        //           break;
+        //         }
+        //         case "RELATIONSHIP": {
+        //           iObj.relationship = value;
+        //           iObj.relationshipLabel = text;
+        //           break;
+        //         }
+        //         case "BIRTHDATE": {
+        //           const date = Utility.convertStringDate(value);
+        //           iObj.birthDate = date;
+        //           break;
+        //         }
+        //         case "TXT_HEALTH_DECLARA": {
+        //           iObj.cbWithHealthDeclaration = value == 'S';
+        //           break;
+        //         }
+        //         case "TXT_HEALTH_DECLARA_EXIST": {
+        //           iObj.preExistingIllness = value;
+        //           break;
+        //         }
+        //         case "COD_OCCUPATIONAL_CLASS": {
+        //           iObj.occupationalClass = value;
+        //           iObj.occupationalClassLabel = text;
+        //           break;
+        //         }
+        //         case "TXT_OCCUPATION": {
+        //           iObj.occupation = value;
+        //           iObj.occupationLabel = text;
+        //           break;
+        //         }
+        //         case "TXT_OCCUPATIONAL_CLAS_OTH": {
+        //           iObj.otherOccupation = value;
+        //           break;
+        //         }
+        //         default: {
+        //           // do nothing
+        //         }
+        //       }
+        //     }
+        //   });
+        //   insureds.push(iObj);
+        // });
+
+        // const occupationLists = res.obj["occupationLists"] as any[];
+        
+        // if (insureds.length) {
+        //   //removes all insured individual
+        //   this.removeAllInsured();
+        //   var temp: any[] = [];
+        //   insureds.forEach((ins: any) => {
+        //     temp.push({
+        //       insured: ins.firstName
+        //     });
+
+        //     const showOtherOccupation = !Utility.isUndefined(ins.otherOccupation);
+        //     this.insured().push(this.loadInsured(
+        //       ins.firstName,
+        //       ins.lastName,
+        //       ins.middleName,
+        //       ins.suffix,
+        //       ins.suffixLabel,
+        //       ins.gender,
+        //       ins.birthDate,
+        //       ins.relationship,
+        //       ins.relationshipLabel,
+        //       ins.cbWithHealthDeclaration,
+        //       ins.preExistingIllness,
+        //       ins.occupationalClass,
+        //       ins.occupationalClassLabel,
+        //       ins.occupation,
+        //       ins.occupationLabel,
+        //       ins.otherOccupation,
+        //       showOtherOccupation,
+        //       occupationLists[ins.occurence]));
+        //   });
+
+        //   var insuredForm = this.quoteForm.get('insured').value;
+        //   this.accidentDetails.insuredDetails = insuredForm;
+        // } else {
+        //   this.accidentDetails.insuredDetails = [] as any; //TODO
+        // }
+  
+        // this.loadLOVs();
+  
+        // const coverageList = res.obj["coverageList"];
+        // this.populateCoverage(coverageList);
+  
+        // //breakdwon
+        // const breakdown = res.obj["breakdown"];
+        // const receipt = res.obj["receipt"];
+        // this.populatePaymentBreakdown(breakdown, receipt);
+  
+        // //cloning details from load quotation
+        // const deepClone = JSON.parse(JSON.stringify(this.accidentDetails));
+        // this.prevAccidentDetails = deepClone;
+      } else {
+        // this.modalRef = Utility.showError(this.bms, res.message);
+        // this.accidentDetails.quotationNumber = "";
+      }
+    }).finally(() => {
+      //trigger child component load quotation function
+      this.triggerCounter = this.triggerCounter + 1;
+    });
+  }
 
   loadLOVs() {}
 

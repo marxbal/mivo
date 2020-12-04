@@ -28,6 +28,12 @@
             </div>
             <div class="card-body">
               <div class="row">
+                <div class="col-xl-12">
+                  <div class="alert alert-info note">
+                    <p><strong>Important Reminder:</strong> You need to have an approved quotation to proceed issuing a policy.</p>
+                  </div>
+                  <!-- .note -->
+                </div>
                 <div class="col-lg-12">
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -458,7 +464,8 @@
             </div>
           </div>
 
-          <app-group-policy #appGroupPolicy
+          <app-group-policy 
+            #appGroupPolicy
             [subline]="homeDetails.subline"
             [prevDetails]="prevHomeDetails"
             [groupPolicy]="groupPolicy"
@@ -626,6 +633,7 @@
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <button *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
+                [disabled]="!editMode"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
               <button *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary" (click)="proceed(1)">Generate</button>
