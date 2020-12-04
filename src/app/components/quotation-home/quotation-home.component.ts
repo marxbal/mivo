@@ -244,8 +244,64 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           }
   
           switch (code) {
-            //general information details
-            //TODO
+            case "NUM_HOUSE_LOCATION": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_VILLAGE_SUBDIVISION": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_BUILDING_NAME": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_STREET_NAME": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_BARANGAY": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "COD_REGION": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "COD_PROVINCE": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "COD_MUNICIPALITY": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_CONSTRUCTION_BUILDING": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_OCCUPANCY_BUILDING": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+
+            case "TXT_BOUNDARY_DESC1": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_BOUNDARY_DESC2": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_BOUNDARY_DESC3": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+            case "TXT_BOUNDARY_DESC4": {
+              this.homeDetails.product = valueInt;
+              break;
+            }
+
             case "COD_MODALIDAD": {
               this.homeDetails.product = valueInt;
               break;
@@ -261,6 +317,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         this.homeDetails.subline = generalInfo.codRamo;
         this.homeDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
         this.homeDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.homeDetails.paymentMethod = generalInfo.codFraccPago;
   
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
@@ -285,26 +342,34 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           this.policyHolder.isExisting = true;
         }
 
-        // var tempInsured = [];
-        // const insuredDetails = res.obj["insuredDetails"] as any[];
-        // insuredDetails.forEach(i => {
-        //   const code = i.codCampo;
-        //   const value: string = i.valCampo;
-        //   const occurence: number = i.numOcurrencia;
+        var relatedStructure = [];
+        var relatedContent = [];
+        const relatedDetails = res.obj["relatedDetails"] as any[];
+        relatedDetails.forEach(i => {
+          const code = i.codCampo;
+          const value: string = i.valCampo;
+          const occurence: number = i.numOcurrencia;
 
-        //   switch (code) {
-        //     //insured individual
-        //     case "TXT_FIRST_NAME": {
-        //       const obj = { firstName: value, occurence: occurence };
-        //       tempInsured.push(obj);
-        //       break;
-        //     }
+          switch (code) {
+            //related structure
+            case "VAL_RISK_2157": {
+              const obj = { val: value, occ: occurence };
+              relatedStructure.push(obj);
+              break;
+            }
+
+            //related content
+            case "VAL_RISK_2357": {
+              const obj = { val: value, occ: occurence };
+              relatedContent.push(obj);
+              break;
+            }
   
-        //     default: {
-        //       // do nothing
-        //     }
-        //   }
-        // });
+            default: {
+              // do nothing
+            }
+          }
+        });
 
         // var insureds = [];
         // tempInsured.forEach(t => {
