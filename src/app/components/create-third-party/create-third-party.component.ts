@@ -88,7 +88,7 @@ export class CreateThirdPartyComponent implements OnInit {
       correspondenceType: ['', Validators.required],
       country: [null],
       state: [null],
-      municipality: [null],
+      province: [null],
       city: [null],
       address: ['', Validators.required],
       zipcode: [null],
