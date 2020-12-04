@@ -532,8 +532,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   loadLOVs() {
-    this.getProvince();
-    this.getCity();
+    var _this = this;
+    this.tpls.getProvince(this.homeAddress).then(res => {
+      _this.LOV.provinceLOV = res;
+    });
+
+    this.tpls.getCity(this.homeAddress).then(res => {
+      _this.LOV.cityLOV = res;
+    });
   }
 
   setValidations() {
