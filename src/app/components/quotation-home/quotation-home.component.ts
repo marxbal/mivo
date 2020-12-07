@@ -670,6 +670,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       _this.LOV.zipCodeLOV = res;
       this.homeDetails.zipCode = null;
       console.log(res);
+      console.log(res);
     });
   }
 
