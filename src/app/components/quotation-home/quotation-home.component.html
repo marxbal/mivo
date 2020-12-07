@@ -180,7 +180,6 @@
                     <label for="region">Region</label>
                     <select class="custom-select mr-sm-2 required" formControlName="region"
                       [(ngModel)]="homeDetails.region" (change)="getProvince()"
-                      oninput="this.value = this.value.toUpperCase()"
                       [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let region of LOV.regionLOV" [ngValue]="region.COD_ESTADO">
@@ -199,7 +198,6 @@
                     <label for="province">Province</label>
                     <select class="custom-select mr-sm-2 required" formControlName="province"
                       [(ngModel)]="homeDetails.province" (change)="getCity()"
-                      oninput="this.value = this.value.toUpperCase()"
                       [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let province of LOV.provinceLOV" [ngValue]="province.COD_PROV">
@@ -217,8 +215,7 @@
                   || quoteForm.controls['city'].touched)}">
                     <label for="city">City</label>
                     <select class="custom-select mr-sm-2 required" formControlName="city"
-                      [(ngModel)]="homeDetails.city"
-                      oninput="this.value = this.value.toUpperCase()"
+                      [(ngModel)]="homeDetails.city" (change)="getZipCode()"
                       [attr.disabled]="editMode ? null : true">
                       <option selected></option>
                       <option *ngFor="let city of LOV.cityLOV" [ngValue]="city.COD_LOCALIDAD">
@@ -227,6 +224,25 @@
                     </select>
                     <p class="form-error" *ngIf="quoteForm.controls['city'].errors?.required">
                       * city is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['zipCode'].invalid 
+                  && (quoteForm.controls['zipCode'].dirty 
+                  || quoteForm.controls['zipCode'].touched)}">
+                    <label for="zipCode">Zip Code</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="zipCode"
+                      [(ngModel)]="homeDetails.zipCode"
+                      [attr.disabled]="editMode ? null : true">
+                      <option selected></option>
+                      <option *ngFor="let zipCode of LOV.zipCodeLOV" [ngValue]="zipCode.COD_POSTAL">
+                        {{ zipCode.COD_POSTAL }}
+                      </option>
+                    </select>
+                    <p class="form-error" *ngIf="quoteForm.controls['zipCode'].errors?.required">
+                      * zip code is required
                     </p>
                   </div>
                 </div>

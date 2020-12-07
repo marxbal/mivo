@@ -7,6 +7,7 @@ export class HomeListObject {
   regionLOV: any[];
   provinceLOV: any[];
   cityLOV: any[];
+  zipCodeLOV: any[];
 
   relatedStructureLOV: any[];
   relatedContentLOV: any[];

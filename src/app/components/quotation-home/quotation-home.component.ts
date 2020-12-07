@@ -203,6 +203,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       region: ['', Validators.required],
       province: ['', Validators.required],
       city: ['', Validators.required],
+      zipCode: ['', Validators.required],
       //building / content details
       buildingCapital: ['', Validators.required],
       contentValue: ['', Validators.required],
@@ -659,6 +660,16 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.tpls.getCity(this.homeAddress).then(res => {
       _this.LOV.cityLOV = res;
       this.homeDetails.city = null;
+    });
+  }
+
+  getZipCode() {
+    const _this = this;
+    this.homeAddress.city = this.homeDetails.city;
+    this.tpls.getZipCode(this.homeAddress).then(res => {
+      _this.LOV.zipCodeLOV = res;
+      this.homeDetails.zipCode = null;
+      console.log(res);
     });
   }
 

@@ -38,6 +38,7 @@ export class Home {
   region: number;
   province: number;
   city: number;
+  zipCode: number;
 
   //building/content details
   buildingCapital: number;
