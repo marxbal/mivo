@@ -252,9 +252,16 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           const code = v.codCampo;
           const value: string = v.valCampo;
           let valueInt: number = undefined;
+          let valueFloat: number = undefined;
   
           try {
             valueInt = parseInt(value);
+          } catch (e) {
+            // do nothing
+          }
+
+          try {
+            valueFloat = parseFloat(value);
           } catch (e) {
             // do nothing
           }
@@ -315,6 +322,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
             }
             case "TXT_BOUNDARY_DESC4": {
               this.homeDetails.rear = value;
+              break;
+            }
+
+            case "PCT_RATE_MANUAL": {
+              this.homeDetails.ratePercentage = valueFloat;
               break;
             }
 

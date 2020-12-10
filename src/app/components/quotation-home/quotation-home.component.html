@@ -707,7 +707,7 @@
                         <label for="ratePercentage">Rate Percentage</label>
                         <input type="number" formControlName="ratePercentage" class="form-control"
                           [(ngModel)]="homeDetails.ratePercentage"
-                          [attr.disabled]="true">
+                          [attr.disabled]="editMode ? null : true">
                           <p class="form-error" *ngIf="quoteForm.controls['ratePercentage'].errors?.required">
                             * rate percentage is required
                           </p>
@@ -739,7 +739,7 @@
                         <label for="warrantedNoLoss">Warranted No Loss</label>
                         <input type="number" formControlName="warrantedNoLoss" class="form-control"
                           [(ngModel)]="homeDetails.warrantedNoLoss"
-                          [attr.disabled]="true">
+                          [attr.disabled]="editMode ? null : true">
                       </div>
                     </div>
 
