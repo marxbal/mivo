@@ -73,8 +73,6 @@
                   </div>
                 </div>
 
-                <div class="clearfix"></div>
-
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['currency'].invalid 
                   && (quoteForm.controls['currency'].dirty 
@@ -96,6 +94,44 @@
                 <div class="form-divider"></div>
                 <div class="col-xl-12">
                   <h6>Location of Risk</h6>
+                </div>
+
+                <div *ngIf="isIssuance" class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['district'].invalid 
+                  && (quoteForm.controls['district'].dirty 
+                  || quoteForm.controls['district'].touched)}">
+                    <label for="district">District</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="district"
+                      [(ngModel)]="homeDetails.district" (change)="getBlockNumber()"
+                      [attr.disabled]="editMode ? null : true">
+                      <option selected></option>
+                      <option *ngFor="let district of LOV.districtLOV" [ngValue]="district.NUM_DISTRICT">
+                        {{ district.NUM_DISTRICT }}
+                      </option>
+                    </select>
+                    <p class="form-error" *ngIf="quoteForm.controls['district'].errors?.required">
+                      * district is required
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="isIssuance" class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['blockNumber'].invalid 
+                  && (quoteForm.controls['blockNumber'].dirty 
+                  || quoteForm.controls['blockNumber'].touched)}">
+                    <label for="blockNumber">Block Number</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="blockNumber"
+                      [(ngModel)]="homeDetails.blockNumber"
+                      [attr.disabled]="editMode ? null : true">
+                      <option selected></option>
+                      <option *ngFor="let blockNumber of LOV.blockNumberLOV" [ngValue]="blockNumber.NUM_BLOCK">
+                        {{ blockNumber.NUM_BLOCK }}
+                      </option>
+                    </select>
+                    <p class="form-error" *ngIf="quoteForm.controls['blockNumber'].errors?.required">
+                      * block number is required
+                    </p>
+                  </div>
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
@@ -227,25 +263,6 @@
                     </p>
                   </div>
                 </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['zipCode'].invalid 
-                  && (quoteForm.controls['zipCode'].dirty 
-                  || quoteForm.controls['zipCode'].touched)}">
-                    <label for="zipCode">Zip Code</label>
-                    <select class="custom-select mr-sm-2 required" formControlName="zipCode"
-                      [(ngModel)]="homeDetails.zipCode"
-                      [attr.disabled]="editMode ? null : true">
-                      <option selected></option>
-                      <option *ngFor="let zipCode of LOV.zipCodeLOV" [ngValue]="zipCode.COD_POSTAL">
-                        {{ zipCode.COD_POSTAL }}
-                      </option>
-                    </select>
-                    <p class="form-error" *ngIf="quoteForm.controls['zipCode'].errors?.required">
-                      * zip code is required
-                    </p>
-                  </div>
-                </div>
                 <div class="clearfix"></div>
               </div>
             </div>
@@ -286,6 +303,16 @@
                     <p class="form-error" *ngIf="quoteForm.controls['contentValue'].errors?.required">
                       * content value is required
                     </p>
+                  </div>
+                </div>
+
+                <div *ngIf="isIssuance" class="col-lg-12">
+                  <div class="form-group">
+                    <label for="buildingContent">Content</label>
+                    <textarea type="text" formControlName="buildingContent" class="form-control"
+                      [(ngModel)]="homeDetails.buildingContent"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true"></textarea>
                   </div>
                 </div>
 
@@ -548,6 +575,186 @@
             [loadQuotation]="triggerCounter">
           </app-policy-holder>
 
+          <app-policy-holder
+            *ngIf="isIssuance"
+            [title]="'Alternative Policy Holder (Optional)'"
+            [showCreateBtn]="true"
+            [details]="homeDetails"
+            [(policyHolder)]="secondaryPolicyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'secondary'"
+            [optional]="true">
+          </app-policy-holder>
+
+          <div class="card shadow mb-3" *ngIf="isIssuance">
+            <div class="card-header d-flex justify-content-between">
+              <strong>Additional Policy Information</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-12">
+                  <h6>Additional Details for Location of Risk</h6>
+                </div>
+
+                <div class="col-xl-12">
+                  <div class="row">
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <label for="crestaZone">Cresta Zone</label>
+                        <input type="number" formControlName="crestaZone" class="form-control"
+                          [(ngModel)]="homeDetails.crestaZone"
+                          [attr.disabled]="true">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['zipCode'].invalid 
+                        && (quoteForm.controls['zipCode'].dirty 
+                        || quoteForm.controls['zipCode'].touched)}">
+                        <label for="zipCode">Zip Code</label>
+                        <select class="custom-select mr-sm-2 required" formControlName="zipCode"
+                          [(ngModel)]="homeDetails.zipCode" [attr.disabled]="editMode ? null : true">
+                          <option selected></option>
+                          <option *ngFor="let zipCode of LOV.zipCodeLOV" [ngValue]="zipCode.COD_POSTAL">
+                            {{ zipCode.COD_POSTAL }}
+                          </option>
+                        </select>
+                        <p class="form-error" *ngIf="quoteForm.controls['zipCode'].errors?.required">
+                          * zip code is required
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-divider"></div>
+
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="alert alert-info note">
+                    <p><strong>Important Reminder:</strong> Please provide mortgagee details if you selected <strong>Mortgagee</strong>.
+                    </p>
+                  </div>
+                  <!-- .note -->
+                </div>
+
+                <div class="col-xl-12">
+                  <h6>Mortgagee</h6>
+                </div>
+
+                <div class="col-xl-12">
+                  <div class="row">
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="cbMortgagee"
+                            [(ngModel)]="homeDetails.cbMortgagee" formControlName="cbMortgagee"
+                            (change)="showMortgagee = !showMortgagee" [attr.disabled]="editMode ? null : true">
+                          <label class="form-check-label" for="cbMortgagee">
+                            Mortgagee
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <app-policy-holder
+            *ngIf="isIssuance && showMortgagee"
+            [title]="'Mortgagee Policy Holder Information'"
+            [showCreateBtn]="false"
+            [details]="homeDetails"
+            [(policyHolder)]="mortgageePolicyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'mortgagee'"
+            [optional]="false">
+          </app-policy-holder>
+
+          <div class="card shadow mb-3" *ngIf="isIssuance">
+            <div class="card-header d-flex justify-content-between">
+              <strong>Rate Percentage</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-xl-12">
+                  <div class="alert alert-info note">
+                    <p><strong>Important Reminder:</strong> Rate should be modified <strong>higher</strong> than the original rate.
+                    </p>
+                  </div>
+                  <!-- .note -->
+                </div>
+
+                <div class="col-xl-12">
+                  <div class="row">
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['ratePercentage'].invalid 
+                      && (quoteForm.controls['ratePercentage'].dirty 
+                      || quoteForm.controls['ratePercentage'].touched)}">
+                        <label for="ratePercentage">Rate Percentage</label>
+                        <input type="number" formControlName="ratePercentage" class="form-control"
+                          [(ngModel)]="homeDetails.ratePercentage"
+                          [attr.disabled]="true">
+                          <p class="form-error" *ngIf="quoteForm.controls['ratePercentage'].errors?.required">
+                            * rate percentage is required
+                          </p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card shadow mb-3" *ngIf="isIssuance">
+            <div class="card-header d-flex justify-content-between">
+              <strong>Warranted No Loss</strong>
+              <div class="dropdown no-arrow">
+                <i class="fas fa-angle-double-down fa-sm fa-fw text-gray-400"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-xl-12">
+                  <div class="row">
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div class="form-group">
+                        <label for="warrantedNoLoss">Warranted No Loss</label>
+                        <input type="number" formControlName="warrantedNoLoss" class="form-control"
+                          [(ngModel)]="homeDetails.warrantedNoLoss"
+                          [attr.disabled]="true">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <app-payment-breakdown
             *ngIf="showPaymentBreakdown"
             #appPaymentBreakdown
@@ -646,14 +853,14 @@
 
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance">
-            <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
+            <!-- <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <button *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 [disabled]="!editMode"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
               <button *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary" (click)="proceed(1)">Generate</button>
-            </div>
+            </div> -->
             <div *ngIf="showSaveBtn" class="btn-group" role="group">
               <button *ngIf="!editMode" type="button" class="btn btn-primary" (click)="manageBtn(1)">Edit
                 Details</button>

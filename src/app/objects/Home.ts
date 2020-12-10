@@ -30,6 +30,9 @@ export class Home {
   currency: number;
 
   //location of risk
+  district: string;
+  blockNumber: string;
+
   buildingNumber: string;
   subdivision: string;
   buildingName: string;
@@ -38,11 +41,14 @@ export class Home {
   region: number;
   province: number;
   city: number;
-  zipCode: number;
 
   //building/content details
   buildingCapital: number;
   contentValue: number;
+  buildingContent: string;
+
+  //rate percentage
+  ratePercentage: number;
 
   constructionOfBuilding: string;
   occupancyOfBuilding: string;
@@ -65,6 +71,12 @@ export class Home {
 
   //policy holder information
   policyHolder: PolicyHolder;
+
+  crestaZone: string;
+  zipCode: number;
+  cbMortgagee: boolean;
+
+  warrantedNoLoss: string;
 
   //product
   paymentMethod: number;

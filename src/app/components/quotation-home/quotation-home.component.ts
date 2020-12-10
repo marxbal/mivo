@@ -97,6 +97,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
+  secondaryPolicyHolder = new PolicyHolder();
+  mortgageePolicyHolder = new PolicyHolder();
   homeAddress = new PolicyHolder();
   quoteForm: FormGroup;
   minDate: Date = moment().subtract(65, 'years').toDate();
@@ -195,6 +197,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       quotationNumber: [null],
       subline: ['', Validators.required],
       currency: ['', Validators.required],
+
+      district: this.isIssuance ? ['', Validators.required] : [null],
+      blockNumber: this.isIssuance ? ['', Validators.required] : [null],
       buildingNumber: [null],
       subdivision: [null],
       buildingName: [null],
@@ -203,10 +208,12 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       region: ['', Validators.required],
       province: ['', Validators.required],
       city: ['', Validators.required],
-      zipCode: ['', Validators.required],
+      
       //building / content details
       buildingCapital: ['', Validators.required],
       contentValue: ['', Validators.required],
+      buildingContent: [null],
+
       constructionOfBuilding: ['', Validators.required],
       occupancyOfBuilding: ['', Validators.required],
       front: ['', Validators.required],
@@ -216,6 +223,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       improvement: ['', Validators.min(1)],
       relatedStructure: this.fb.array([]),
       relatedContent: this.fb.array([]),
+
+      crestaZone: [null],
+      zipCode: this.isIssuance ? ['', Validators.required] : [null],
+      cbMortgagee: [null],
+
+      warrantedNoLoss: [null],
+
+      ratePercentage: this.isIssuance ? ['', Validators.required] : [null],
 
       //general information
       effectivityDate: ['', Validators.required],
@@ -559,6 +574,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.hls.getHomeBusinessLine().then(res => {
       var temp = [];
       res.forEach(subline => {
+        //residential only
         if (subline.COD_RAMO === 200) {
           temp.push(subline);
         }
@@ -588,6 +604,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
     this.tpls.getState(this.homeAddress).then(res => {
       _this.LOV.regionLOV = res;
+    });
+
+    this.hls.getDistrict().then(res => {
+      _this.LOV.districtLOV = res;
     });
   }
 
@@ -642,6 +662,13 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       _value: ['', Validators.min(1)],
       _code: [code],
       _name: [name]
+    });
+  }
+
+  getBlockNumber() {
+    const _this = this;
+    this.hls.getBlockNumber(this.homeDetails.district).then(res => {
+      _this.LOV.blockNumberLOV = res;
     });
   }
 

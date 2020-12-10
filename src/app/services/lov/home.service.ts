@@ -29,6 +29,16 @@ export class HomeLOVServices {
     return this.lov.getIntLOV(dto, "COD_FRACC_PAGO").then(lovs => lovs as any[]);
   }
 
+  async getDistrict(): Promise < any[] > {
+    const dto = new LOV('A2009101_MPH', '1', '');
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+  }
+
+  async getBlockNumber(district : string): Promise < any[] > {
+    const dto = new LOV('A2009101_MPH', '3', 'COD_CIA~1|DVCOD_DISTRICT~' + district);
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
+  }
+
   async getCurrency(home: Home): Promise < any[] > {
     const dto = new LOV('G2990005', '1', 'cod_cia~1|cod_ramo~' + home.subline +
       '|fec_validez~' + home.sublineEffectivityDate);

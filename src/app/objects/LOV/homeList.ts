@@ -4,6 +4,10 @@ export class HomeListObject {
 
   //quote
   currencyLOV: any[];
+
+  districtLOV: any[];
+  blockNumberLOV: any[];
+
   regionLOV: any[];
   provinceLOV: any[];
   cityLOV: any[];
@@ -14,7 +18,6 @@ export class HomeListObject {
 
   paymentMethodLOV: any[];
   productListLOV: any[];
-
 
   constructor() {
   }
