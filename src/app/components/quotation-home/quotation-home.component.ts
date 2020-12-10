@@ -394,7 +394,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         }
 
         const contentValue = res.obj["contentValue"];
-        if (buildingCapital.length != 0) {
+        if (contentValue.length != 0) {
           this.homeDetails.contentValue = contentValue[0].sumaAseg;
         }
 
