@@ -389,8 +389,18 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
         const buildingCapital = res.obj["buildingCapital"];
         debugger;
-        if (buildingCapital.length()) {
-          this.homeDetails.buildingCapital = buildingCapital.get(0).sumaAseg;
+        if (buildingCapital.length != 0) {
+          this.homeDetails.buildingCapital = buildingCapital[0].sumaAseg;
+        }
+
+        const contentValue = res.obj["contentValue"];
+        if (buildingCapital.length != 0) {
+          this.homeDetails.contentValue = contentValue[0].sumaAseg;
+        }
+
+        const improvement = res.obj["improvement"];
+        if (improvement.length != 0) {
+          this.homeDetails.improvement = improvement[0].sumaAseg;
         }
 
         this.relatedStructure().controls.forEach(element => {
