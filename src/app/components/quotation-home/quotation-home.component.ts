@@ -577,6 +577,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.tpls.getCity(this.homeAddress).then(res => {
       _this.LOV.cityLOV = res;
     });
+
+    this.homeAddress.city = this.homeDetails.city;
+    this.tpls.getZipCode(this.homeAddress).then(res => {
+      _this.LOV.cityLOV = res;
+    });
   }
 
   setValidations() {
@@ -715,8 +720,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.tpls.getZipCode(this.homeAddress).then(res => {
       _this.LOV.zipCodeLOV = res;
       this.homeDetails.zipCode = null;
-      console.log(res);
-      console.log(res);
     });
   }
 
