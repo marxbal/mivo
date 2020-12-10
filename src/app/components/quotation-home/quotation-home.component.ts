@@ -388,7 +388,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         });
 
         const buildingCapital = res.obj["buildingCapital"];
-        debugger;
         if (buildingCapital.length != 0) {
           this.homeDetails.buildingCapital = buildingCapital[0].sumaAseg;
         }
@@ -406,6 +405,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         this.relatedStructure().controls.forEach(element => {
           relatedStructure.forEach(rs => {
             if (element.value._code == rs.occ) {
+              debugger
               element.get("_value").setValue(rs.val);
             }
           });
