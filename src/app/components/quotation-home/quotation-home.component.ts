@@ -387,21 +387,27 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           }
         });
 
-      this.relatedStructure().controls.forEach(element => {
-        relatedStructure.forEach(rs => { 
-          if (element.value._code == rs.occ) {
-            element.get("_value").setValue(rs.val);
-          }
-        });
-      });
+        const buildingCapital = res.obj["buildingCapital"];
+        debugger;
+        if (buildingCapital.length()) {
+          this.homeDetails.buildingCapital = buildingCapital.get(0).sumaAseg;
+        }
 
-      this.relatedContent().controls.forEach(element => {
-        relatedContent.forEach(rs => { 
-          if (element.value._code == rs.occ) {
-            element.get("_value").setValue(rs.val);
-          }
+        this.relatedStructure().controls.forEach(element => {
+          relatedStructure.forEach(rs => {
+            if (element.value._code == rs.occ) {
+              element.get("_value").setValue(rs.val);
+            }
+          });
         });
-      });
+
+        this.relatedContent().controls.forEach(element => {
+          relatedContent.forEach(rs => {
+            if (element.value._code == rs.occ) {
+              element.get("_value").setValue(rs.val);
+            }
+          });
+        });
 
         // var insureds = [];
         // tempInsured.forEach(t => {
