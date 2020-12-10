@@ -293,16 +293,11 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['contentValue'].invalid 
-                  && (quoteForm.controls['contentValue'].dirty 
-                  || quoteForm.controls['contentValue'].touched)}">
+                  <div class="form-group">
                     <label for="contentValue">Content Value</label>
-                    <input type="number" formControlName="contentValue" class="form-control required"
+                    <input type="number" formControlName="contentValue" class="form-control"
                       [(ngModel)]="homeDetails.contentValue"
                       [attr.disabled]="editMode ? null : true">
-                    <p class="form-error" *ngIf="quoteForm.controls['contentValue'].errors?.required">
-                      * content value is required
-                    </p>
                   </div>
                 </div>
 

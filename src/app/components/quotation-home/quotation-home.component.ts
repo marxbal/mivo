@@ -211,7 +211,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       
       //building / content details
       buildingCapital: ['', Validators.required],
-      contentValue: ['', Validators.required],
+      contentValue: [null],
       buildingContent: [null],
 
       constructionOfBuilding: ['', Validators.required],
@@ -580,7 +580,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
     this.homeAddress.city = this.homeDetails.city;
     this.tpls.getZipCode(this.homeAddress).then(res => {
-      _this.LOV.cityLOV = res;
+      _this.LOV.zipCodeLOV = res;
     });
   }
 
