@@ -404,17 +404,20 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
         this.relatedStructure().controls.forEach(element => {
           relatedStructure.forEach(rs => {
-            if (element.value._code == rs.occ) {
-              debugger
-              element.get("_value").setValue(rs.val);
+            const stringValue = rs.val;
+            const num = parseInt(stringValue);
+            if (element.value._code == rs.occ && num > 0) {
+              element.get("_value").setValue(stringValue);
             }
           });
         });
 
         this.relatedContent().controls.forEach(element => {
           relatedContent.forEach(rs => {
-            if (element.value._code == rs.occ) {
-              element.get("_value").setValue(rs.val);
+            const stringValue = rs.val;
+            const num = parseInt(stringValue);
+            if (element.value._code == rs.occ && num > 0) {
+              element.get("_value").setValue(stringValue);
             }
           });
         });
