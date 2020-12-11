@@ -611,6 +611,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.tpls.getZipCode(this.homeAddress).then(res => {
       _this.LOV.zipCodeLOV = res;
     });
+
+    if (!Utility.isUndefined(this.homeDetails.district)) {
+      this.getBlockNumber();
+    }
   }
 
   setValidations() {
