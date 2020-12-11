@@ -155,8 +155,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   modalRef: BsModalRef;
   dialogRef: MatDialogRef < TemplateRef < any >> ;
 
-  codeName: String;
-
   constructor(
     private fb: FormBuilder,
     private hls: HomeLOVServices,
@@ -870,10 +868,24 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
+    let product = "";
+    this.LOV.productListLOV.forEach((p) => {
+      if (p.COD_MODALIDAD == this.homeDetails.product) {
+        product = p.NOM_MODALIDAD;
+      }
+    });
+
+    let payment = "";
+    this.LOV.paymentMethodLOV.forEach((p) => {
+      if (p.COD_FRACC_PAGO == this.homeDetails.paymentMethod) {
+        payment = p.NOM_FRACC_PAGO;
+      }
+    });
+
     const modalData = {
       number: isPostPolicy ? this.homeDetails.policyNumber : this.homeDetails.quotationNumber,
-      product: this.codeName,
-      payment: "ANNUAL",
+      product: product,
+      payment: payment,
       receipt: receipt,
       breakdown: breakdown,
       showExchangeRate: false,
@@ -956,16 +968,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   proceedToIssuance() {
     this.ps.proceedToIssuance(this.homeDetails.quotationNumber, page.ISS.HOM);
-  }
-
-  getProductCode() {
-    const _this = this;
-    this.codeName = null;
-    this.LOV.productListLOV.forEach(p => {
-      if (p.COD_MODALIDAD == this.homeDetails.product) {
-        _this.codeName = p.NOM_MODALIDAD;
-      }
-    });
   }
 
   //getting error or warning items
@@ -1076,9 +1078,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     // includes related content to home details DTO
     var relatedContent = this.quoteForm.get('relatedContent').value;
     this.homeDetails.relatedContentDetails = relatedContent.length ? relatedContent : [];
-
-    // get product code
-    this.getProductCode();
 
     // to trigger changes when regenerating quotation
     this.showCoverage = false;
