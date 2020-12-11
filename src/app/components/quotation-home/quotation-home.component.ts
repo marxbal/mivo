@@ -267,6 +267,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           }
   
           switch (code) {
+            case "COD_DISTRICT": {
+              this.homeDetails.district = value;
+              break;
+            }
+            case "NUM_BLOCK_DISTRICT": {
+              this.homeDetails.blockNumber = value;
+              break;
+            }
             case "NUM_HOUSE_LOCATION": {
               this.homeDetails.buildingNumber = value;
               break;
@@ -322,6 +330,15 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
             }
             case "TXT_BOUNDARY_DESC4": {
               this.homeDetails.rear = value;
+              break;
+            }
+
+            case "COD_CRESTA_ZONE": {
+              this.homeDetails.crestaZone = value;
+              break;
+            }
+            case "NUM_ZIPCODE": {
+              this.homeDetails.zipCode = valueInt;
               break;
             }
 
