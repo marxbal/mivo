@@ -331,6 +331,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
               break;
             }
 
+            case "DES_CONTENTS": {
+              this.homeDetails.buildingContent = value;
+              break;
+            }
+
             case "COD_CRESTA_ZONE": {
               this.homeDetails.crestaZone = value;
               break;
