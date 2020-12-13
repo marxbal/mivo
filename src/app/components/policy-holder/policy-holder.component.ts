@@ -51,7 +51,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() type: String;
   @Input() optional: boolean;
   @Input() editMode: boolean;
-  @Input() hidePrefix: boolean = false;
+  @Input() showPrefix: boolean = true;
   @Input()
   set loadQuotation(value: number) {
     this.triggerCounter = value;
@@ -105,7 +105,7 @@ export class PolicyHolderComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    alert(this.hidePrefix);
+    alert(this.showPrefix);
 
     this.createForm();
     this.setValidations();
