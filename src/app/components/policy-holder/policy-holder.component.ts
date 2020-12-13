@@ -51,6 +51,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() type: String;
   @Input() optional: boolean;
   @Input() editMode: boolean;
+  @Input() hidePrefix: boolean = false;
   @Input()
   set loadQuotation(value: number) {
     this.triggerCounter = value;

@@ -71,6 +71,12 @@ export class Home {
 
   //policy holder information
   policyHolder: PolicyHolder;
+  //alternative policy holder information
+  secondaryPolicyHolderPrefix: number;
+  secondaryPolicyHolderSeparator: string;
+  secondaryPolicyHolder: PolicyHolder;
+  //mortgagee policy holder information
+  mortgageePolicyHolder: PolicyHolder;
 
   crestaZone: string;
   zipCode: number;

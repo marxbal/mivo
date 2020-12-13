@@ -1075,6 +1075,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeDetails.groupPolicy = this.groupPolicy;
     // includes policy holder to home details DTO
     this.homeDetails.policyHolder = this.policyHolder;
+    // includes secondary policy holder to car details DTO
+    this.homeDetails.secondaryPolicyHolder = this.secondaryPolicyHolder;
+    // includes mortgagee policy holder to car details DTO
+    this.homeDetails.mortgageePolicyHolder = this.mortgageePolicyHolder;
 
     // includes related structure to home details DTO
     var relatedStructure = this.quoteForm.get('relatedStructure').value;
