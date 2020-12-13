@@ -74,6 +74,7 @@ export class Home {
   //alternative policy holder information
   secondaryPolicyHolderPrefix: number;
   secondaryPolicyHolderSeparator: string;
+  secondaryPolicyHolderSeparatorCode: number;
   secondaryPolicyHolder: PolicyHolder;
   //mortgagee policy holder information
   mortgageePolicyHolder: PolicyHolder;

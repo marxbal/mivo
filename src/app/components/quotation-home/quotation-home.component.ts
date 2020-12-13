@@ -70,6 +70,9 @@ import {
 import {
   ReturnDTO
 } from 'src/app/objects/ReturnDTO';
+import {
+  CarLOVServices
+} from 'src/app/services/lov/car.service';
 
 @Component({
   selector: 'app-quotation-home',
@@ -164,6 +167,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     private his: HomeIssueServices,
     private ps: PrintingService,
     private bms: BsModalService,
+    private cls: CarLOVServices,
     public dialog: MatDialog,
   ) {
     this.createQuoteForm();
@@ -1077,6 +1081,18 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.homeDetails.policyHolder = this.policyHolder;
     // includes secondary policy holder to car details DTO
     this.homeDetails.secondaryPolicyHolder = this.secondaryPolicyHolder;
+
+    if (!Utility.isUndefined(this.homeDetails.secondaryPolicyHolderSeparator)) {
+      const _this = this;
+      this.cls.getPHSeparator().then(res => {
+        res.forEach(sep => {
+          if (sep.NOM_VALOR == this.homeDetails.secondaryPolicyHolderSeparator) {
+            _this.homeDetails.secondaryPolicyHolderSeparatorCode = sep.COD_VALOR;
+          }
+        });
+      });
+    }
+
     // includes mortgagee policy holder to car details DTO
     this.homeDetails.mortgageePolicyHolder = this.mortgageePolicyHolder;
 
