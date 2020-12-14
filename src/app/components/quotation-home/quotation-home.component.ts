@@ -1087,7 +1087,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       this.cls.getPHSeparator().then(res => {
         res.forEach(sep => {
           if (sep.NOM_VALOR == this.homeDetails.secondaryPolicyHolderSeparator) {
-            _this.homeDetails.secondaryPolicyHolderSeparatorCode = sep.COD_VALOR;
+            _this.homeDetails.secondaryPolicyHolderSeparatorCode = sep.TIP_ASEG_SEP_LOV;
           }
         });
       });
