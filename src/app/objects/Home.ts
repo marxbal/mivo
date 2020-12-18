@@ -59,8 +59,8 @@ export class Home {
   rear: string;
 
   improvement: number;
-  relatedStructureDetails: [];
-  relatedContentDetails: [];
+  relatedStructureDetails: any[];
+  relatedContentDetails: any[];
 
   //general information
   effectivityDate: Date;

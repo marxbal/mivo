@@ -95,6 +95,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   homeDetails = new Home();
   prevHomeDetails: Home = null;
   changedValues: any[] = [];
+  hasRSChanges: boolean = false;
+  hasRCChanges: boolean = false;
 
   invalidForms: any[] = [];
 
@@ -667,8 +669,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   proceed(type: number) {
+    //checking the affecting related details
+    this.hasAffectingRelatedDetails();
     //if user changes affecting values
-    const hasChanges = this.changedValues.length != 0;
+    const hasChanges = this.changedValues.length != 0 || this.hasRSChanges || this.hasRCChanges;
 
     const hasQuotationNumber = !Utility.isUndefined(this.homeDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.homeDetails.quotationNumber.startsWith('999');
@@ -849,6 +853,80 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  // getRelatedDetailsTotalCount(relatedDetails : any[], param : String) {
+  //   let count = 0;
+  //   relatedDetails.forEach(i => {
+  //     const code = i.codCampo;
+  //     const value: string = i.valCampo;
+
+  //     var amount = 0;
+  //     try {
+  //       amount = parseInt(value);
+  //     } catch(e) {
+  //       //do nothing
+  //     }
+
+  //     // VAL_RISK_2157 related structure
+  //     // VAL_RISK_2357 related content
+  //     switch (code) {
+  //       case param: {
+  //         count = count + amount;
+  //         break;
+  //       }
+
+  //       default: {
+  //         // do nothing
+  //       }
+  //     }
+  //   });
+  //   return count;
+  // }
+
+  hasAffectingRelatedDetails() {
+    var currentRSTotalAmount = 0;
+    var currentRCTotalAmount = 0;
+    var prevRSTotalAmount = 0;
+    var prevRCTotalAmount = 0;
+
+    var relatedStructure = this.quoteForm.get('relatedStructure').value;
+    const relatedStructureArray = relatedStructure.length ? relatedStructure : [];
+    currentRSTotalAmount = this.getTotal(relatedStructureArray);
+
+    var relatedContent = this.quoteForm.get('relatedContent').value;
+    const relatedContentArray = relatedContent.length ? relatedContent : [];
+    currentRCTotalAmount = this.getTotal(relatedContentArray);
+    
+    if (this.prevHomeDetails != null) {
+      if (!Utility.isUndefined(this.prevHomeDetails.relatedStructureDetails)) {
+        prevRSTotalAmount = this.getTotal(this.prevHomeDetails.relatedStructureDetails);
+      }
+      
+      if (!Utility.isUndefined(this.prevHomeDetails.relatedContentDetails)) {
+        prevRCTotalAmount = this.getTotal(this.prevHomeDetails.relatedContentDetails);
+      }
+  
+      this.hasRSChanges = currentRSTotalAmount != prevRSTotalAmount;
+      this.hasRCChanges = currentRCTotalAmount != prevRCTotalAmount;
+    }
+  }
+
+  getTotal(arr : any[]) {
+    var total = 0;
+    arr.forEach(relatedDetails => {
+      if(!Utility.isUndefined(relatedDetails._value) && relatedDetails._value != 0) {
+        var val = 0;
+        try {
+          val = parseInt(relatedDetails._value);
+        } catch (e) {
+          //do nothing
+        }
+
+        total = total + val;
+      }
+    });
+    return total;
+  }
+
   printQuote() {
     this.ps.printQuote(this.homeDetails.quotationNumber);
   }
@@ -935,6 +1013,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
+        this.hasRSChanges = false;
+        this.hasRCChanges = false;
 
         const items = this.getErrorItems(res, mcaTmpPptoMph, false);
         const status = res.obj["status"];
@@ -1030,6 +1110,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
+        this.hasRSChanges = false;
+        this.hasRCChanges = false;
 
         var items = this.getErrorItems(res, this.homeDetails.mcaTmpPptoMph, true);
         const status = res.obj["status"];
@@ -1080,6 +1162,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
+        this.hasRSChanges = false;
+        this.hasRCChanges = false;
 
         var items = this.getErrorItems(res, this.homeDetails.mcaTmpPptoMph, true);
         const status = res.obj["status"];

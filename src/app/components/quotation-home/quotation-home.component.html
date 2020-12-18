@@ -914,6 +914,14 @@
       <li *ngFor="let item of changedValues">
         {{item}}
       </li>
+
+      <li *ngIf="hasRSChanges">
+        Other Related Structure Details
+      </li>
+
+      <li *ngIf="hasRCChanges">
+        Other Related Content Details
+      </li>
     </ul>
     <h6>Changes may affect your premium and will create a new quotation.</h6>
   </mat-dialog-content>
