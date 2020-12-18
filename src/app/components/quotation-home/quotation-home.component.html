@@ -680,7 +680,7 @@
             [optional]="false">
           </app-policy-holder>
 
-          <div class="card shadow mb-3" *ngIf="isIssuance">
+          <div class="card shadow mb-3" *ngIf="showRatePercentage">
             <div class="card-header d-flex justify-content-between">
               <strong>Rate Percentage</strong>
               <div class="dropdown no-arrow">
@@ -715,6 +715,15 @@
                       </div>
                     </div>
 
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                      <div *ngIf="showGenerateBtn" class="btn-group" role="group">
+                        <button *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
+                          type="button" class="btn btn-primary"
+                          (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Save Rate</button>
+                        <button *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
+                          type="button" class="btn btn-primary" (click)="issueQuote('S')">Save Rate</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
