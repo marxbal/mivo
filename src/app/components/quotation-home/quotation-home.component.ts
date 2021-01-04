@@ -853,37 +853,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  // getRelatedDetailsTotalCount(relatedDetails : any[], param : String) {
-  //   let count = 0;
-  //   relatedDetails.forEach(i => {
-  //     const code = i.codCampo;
-  //     const value: string = i.valCampo;
-
-  //     var amount = 0;
-  //     try {
-  //       amount = parseInt(value);
-  //     } catch(e) {
-  //       //do nothing
-  //     }
-
-  //     // VAL_RISK_2157 related structure
-  //     // VAL_RISK_2357 related content
-  //     switch (code) {
-  //       case param: {
-  //         count = count + amount;
-  //         break;
-  //       }
-
-  //       default: {
-  //         // do nothing
-  //       }
-  //     }
-  //   });
-  //   return count;
-  // }
-
   hasAffectingRelatedDetails() {
-    debugger
     var currentRSTotalAmount = 0;
     var currentRCTotalAmount = 0;
     var prevRSTotalAmount = 0;
