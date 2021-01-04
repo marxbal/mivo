@@ -883,6 +883,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   // }
 
   hasAffectingRelatedDetails() {
+    debugger
     var currentRSTotalAmount = 0;
     var currentRCTotalAmount = 0;
     var prevRSTotalAmount = 0;
