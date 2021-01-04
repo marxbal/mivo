@@ -15,7 +15,7 @@ export class PolicyHolder {
   correspondenceType: number; //tipEtiqueta
   country: string; //codPais
   state: number; //codEstado
-  municipality: number; //codProv
+  province: number; //codProv
   city: number; //codLocalidad
   address: string; //nomDomicilio1
   zipcode: number; //codPostal

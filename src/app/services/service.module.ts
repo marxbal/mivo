@@ -37,6 +37,9 @@ import {
   AccidentIssueServices
 } from './accident-issue.service';
 import {
+  HomeIssueServices
+} from './home-issue.service';
+import {
   AgentService
 } from './agent.service';
 import {
@@ -45,6 +48,9 @@ import {
 import {
   UtilityService
 } from './utility.service';
+import {
+  PrintingService
+} from './printing.service';
 import {
   ThirdPartyService
 } from './third-party.service';
@@ -89,9 +95,11 @@ import {
     TravelUtilityServices, //tus
     TravelIssueServices, //tis
     AccidentIssueServices, //ais
+    HomeIssueServices, //his
     AgentService, //as
     DashboardService, //ds
     UtilityService, //us
+    PrintingService, //ps
     ThirdPartyService, //tps
 
     LovService, //ls

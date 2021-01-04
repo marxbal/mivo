@@ -14,15 +14,21 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
+// import {
+//   CarQuoteServices
+// } from 'src/app/services/car-quote.service';
+// import {
+//   TravelIssueServices
+// } from 'src/app/services/travel-issue.service';
+// import {
+//   AccidentIssueServices
+// } from 'src/app/services/accident-issue.service';
 import {
-  CarQuoteServices
-} from 'src/app/services/car-quote.service';
+  PrintingService
+} from 'src/app/services/printing.service';
 import {
-  TravelIssueServices
-} from 'src/app/services/travel-issue.service';
-import {
-  AccidentIssueServices
-} from 'src/app/services/accident-issue.service';
+  page
+} from 'src/app/constants/page';
 
 export interface TablesDTO {
   effectivityDate: string;
@@ -42,9 +48,10 @@ export interface TablesDTO {
 export class PaymentBreakdownModalComponent implements OnInit {
 
   constructor(
-    private cqs: CarQuoteServices,
-    private tis: TravelIssueServices,
-    private ais: AccidentIssueServices,
+    // private cqs: CarQuoteServices,
+    // private tis: TravelIssueServices,
+    // private ais: AccidentIssueServices,
+    private ps: PrintingService,
     public dialogRef: MatDialogRef < PaymentBreakdownModalComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -114,23 +121,26 @@ export class PaymentBreakdownModalComponent implements OnInit {
   }
 
   printPolicy() {
-    this.cqs.printPolicy(this.data.number);
+    this.ps.printPolicy(this.data.number);
   }
 
   printQuote() {
-    this.cqs.printQuote(this.data.number);
+    this.ps.printQuote(this.data.number);
   }
 
   proceedToIssuance(line: string) {
     this.dialogRef.close(false);
     if (line == "CAR") {
-      this.cqs.proceedToIssuance(this.data.number);
+      // this.cqs.proceedToIssuance(this.data.number);
+      this.ps.proceedToIssuance(this.data.number, page.ISS.CAR);
     } else if (line == "TRAVEL") {
-      this.tis.proceedToIssuance(this.data.number);
+      // this.tis.proceedToIssuance(this.data.number);
+      this.ps.proceedToIssuance(this.data.number, page.ISS.TRA);
     } else if (line == "ACCIDENT") {
-      this.ais.proceedToIssuance(this.data.number);
-    } else  { //HOME
-      //
+      // this.ais.proceedToIssuance(this.data.number);
+      this.ps.proceedToIssuance(this.data.number, page.ISS.ACC);
+    } else if (line == "HOME") {
+      this.ps.proceedToIssuance(this.data.number, page.ISS.HOM);
     }
   }
 

@@ -18,8 +18,8 @@ import {
   Utility
 } from '../../utils/utility';
 import {
-  QQHome
-} from '../../objects/QQHome';
+  Home
+} from '../../objects/Home';
 import {
   HomeListObject
 } from 'src/app/objects/LOV/homeList';
@@ -44,7 +44,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationHomeComponent implements OnInit, AfterViewChecked {
-  @Input() homeDetails = new QQHome();
+  @Input() homeDetails = new Home();
   LOV = new HomeListObject();
   quickQuoteForm: FormGroup;
 
@@ -333,7 +333,7 @@ export class QuickQuotationHomeComponent implements OnInit, AfterViewChecked {
     return obj;
   }
 
-  quickQuote(homeDetails: QQHome) {
+  quickQuote(homeDetails: Home) {
     this.qqs.quickQuoteHome(homeDetails).then(res => {
       if (res.status) {
         var quickQuoteDetails = res.obj["quickQuoteDetails"];

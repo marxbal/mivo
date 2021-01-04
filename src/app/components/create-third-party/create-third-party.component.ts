@@ -88,7 +88,7 @@ export class CreateThirdPartyComponent implements OnInit {
       correspondenceType: ['', Validators.required],
       country: [null],
       state: [null],
-      municipality: [null],
+      province: [null],
       city: [null],
       address: ['', Validators.required],
       zipcode: [null],
@@ -127,7 +127,7 @@ export class CreateThirdPartyComponent implements OnInit {
         this.tpForm.get('gender').markAsDirty();
       }
       this.getState()
-      this.getMunicipality();
+      this.getProvince();
       this.getCity();
       this.getZipCode();
     }
@@ -196,10 +196,10 @@ export class CreateThirdPartyComponent implements OnInit {
     });
   }
 
-  getMunicipality() {
+  getProvince() {
     const _this = this;
-    this.tpls.getMunicipality(this.thirdParty).then(res => {
-      _this.TPLOV.municipalityLOV = res;
+    this.tpls.getProvince(this.thirdParty).then(res => {
+      _this.TPLOV.provinceLOV = res;
     });
   }
 

@@ -5,7 +5,7 @@ export class ThirdPartyListObject {
   correspondenceTypeLOV: any[];
   countryLOV: any[];
   stateLOV: any[];
-  municipalityLOV: any[];
+  provinceLOV: any[];
   cityLOV: any[];
   zipcodeLOV: any[];
   nationalityLOV: any[];

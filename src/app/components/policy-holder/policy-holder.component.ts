@@ -51,6 +51,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() type: String;
   @Input() optional: boolean;
   @Input() editMode: boolean;
+  @Input() showPrefix: boolean = true;
   @Input()
   set loadQuotation(value: number) {
     this.triggerCounter = value;
@@ -259,6 +260,7 @@ export class PolicyHolderComponent implements OnInit {
   }
 }
 
+// for testing
 const thirdPartyList: any[] = [{
   "codCia": 1,
   "tipDocum": "PAS",

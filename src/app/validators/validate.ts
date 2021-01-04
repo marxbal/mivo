@@ -26,14 +26,14 @@ export function validateItinerary(control: AbstractControl) {
     var arr = smallcaps.split('-');
     var firstItinerary = arr[0].trim();
     var lastItinarary = arr[arr.length - 1].trim();
-  
+
     var hasEmptyItem = false;
     arr.forEach(a => {
       if (a.trim() == '') {
         hasEmptyItem = true;
       }
     });
-  
+
     //invalid if first and last itinerary is not the same, has empty item and itinerary is only 1
     if (firstItinerary != lastItinarary || hasEmptyItem || arr.length < 3) {
       return {

@@ -66,7 +66,7 @@ export class ThirdPartyLOVServices {
     return this.lov.getIntLOV(dto, 'COD_ESTADO').then(lovs => lovs as any[]);
   }
 
-  async getMunicipality(thirdParty: PolicyHolder): Promise < any[] > {
+  async getProvince(thirdParty: PolicyHolder): Promise < any[] > {
     const dto = new LOV(
       'A1000100',
       '6',
@@ -80,7 +80,7 @@ export class ThirdPartyLOVServices {
       'A1000102',
       '3',
       'COD_PAIS~' + thirdParty.country +
-      '|COD_PROV~' + thirdParty.municipality);
+      '|COD_PROV~' + thirdParty.province);
     return this.lov.getIntLOV(dto, 'COD_LOCALIDAD').then(lovs => lovs as any[]);
   }
 
@@ -90,7 +90,7 @@ export class ThirdPartyLOVServices {
       '3',
       'COD_PAIS~' + thirdParty.country +
       '|COD_ESTADO~' + thirdParty.state +
-      '|COD_PROV~' + thirdParty.municipality +
+      '|COD_PROV~' + thirdParty.province +
       '|COD_LOCALIDAD~' + thirdParty.city);
     return this.lov.getIntLOV(dto, 'COD_POSTAL').then(lovs => lovs as any[]);
   }
