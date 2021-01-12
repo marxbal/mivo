@@ -874,11 +874,11 @@
               <div class="row">
                 <div class="col-sm-6">
                   <h6>Subagent List</h6>
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subAgent'].invalid 
-                      && (quoteForm.controls['subAgent'].dirty 
-                      || quoteForm.controls['subAgent'].touched)}">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subAgents'].invalid 
+                      && (quoteForm.controls['subAgents'].dirty 
+                      || quoteForm.controls['subAgents'].touched)}">
                     <ng-select [items]="LOV.subagentLOV" bindLabel="name" placeholder="Select Subagent" appendTo="body"
-                      formControlName="subAgent" multiple="true" [(ngModel)]="carDetails.subAgent">
+                      formControlName="subAgents" multiple="true" [(ngModel)]="carDetails.subAgents">
                     </ng-select>
                     <p class="form-error" *ngIf="quoteForm.controls['subAgent'].errors?.required">
                       * subagent is required

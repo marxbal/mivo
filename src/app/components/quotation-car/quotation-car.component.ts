@@ -344,7 +344,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       paymentMethod: ['', Validators.required],
       product: ['', Validators.required],
       //subagent
-      subAgent: [null],
+      subAgents: [null],
     });
   }
 
