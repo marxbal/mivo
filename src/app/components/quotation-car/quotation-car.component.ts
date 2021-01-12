@@ -605,8 +605,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
   
         this.carDetails.paymentMethod = generalInfo.codFraccPago;
-  
-        // debugger
 
         const beneficiary = res.obj["beneficiary"];
         const subAgentList = res.obj["subAgentList"];
