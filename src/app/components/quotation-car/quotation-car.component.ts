@@ -532,6 +532,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.carDetails.mortgageClause = valueInt;
               break;
             }
+
+            case "NUM_COC": {
+              this.carDetails.cocNumber = value;
+              break;
+            }
   
             case "COD_MODALIDAD": {
               this.carDetails.productList = valueInt;
