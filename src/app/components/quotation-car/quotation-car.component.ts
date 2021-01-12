@@ -22,8 +22,8 @@ import {
   BsModalRef
 } from 'ngx-bootstrap/modal';
 import {
-  QuoteCar
-} from '../../objects/QuoteCar';
+  Car
+} from '../../objects/Car';
 import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
@@ -105,8 +105,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   triggerCoverage: number = 0;
   triggerBreakdown: number = 0;
 
-  carDetails = new QuoteCar();
-  prevCarDetails: QuoteCar = null;
+  carDetails = new Car();
+  prevCarDetails: Car = null;
   changedValues: any[] = [];
   changedAccessoryValues: any[] = [];
 

@@ -14,8 +14,8 @@ import {
   FormArray,
 } from '@angular/forms';
 import {
-  QuoteCar
-} from 'src/app/objects/QuoteCar';
+  Car
+} from 'src/app/objects/Car';
 import {
   MatDialog
 } from '@angular/material';
@@ -50,7 +50,7 @@ export interface TablesDTO {
   styleUrls: ['./coverages.component.css']
 })
 export class CoveragesComponent implements OnInit {
-  @Input() carDetails: QuoteCar;
+  @Input() carDetails: Car;
   @Input() coverageList: any[];
   @Input() amountList: any[];
   @Input() coverageVariable: any[];
