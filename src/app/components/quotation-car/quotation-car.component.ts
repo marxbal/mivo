@@ -242,7 +242,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.cus.getSubagents().then(res => {
         var subAgents = res.obj["subAgents"];
         subAgents.forEach(subAgent => {
-          subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
+          // subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
+          subAgent.name = subAgent.codDocum;
           subAgent.value = subAgent.codDocum;
           subAgent.type = subAgent.tipDocum;
         });
@@ -631,7 +632,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.mortgageePolicyHolder.documentType = ben.tipDocum;
               this.mortgageePolicyHolder.isExisting = true;
             } else if (ben.tipBenef == 20) {
-              var obj = {codDocum: ben.codDocum, tipDocum: ben.tipDocum};
+              var obj = {name: ben.codDocum, codDocum: ben.codDocum, tipDocum: ben.tipDocum};
               subAgents.push(obj);
             }
           });
