@@ -80,7 +80,13 @@ import {
 import {
   ReturnDTO
 } from 'src/app/objects/ReturnDTO';
-import { Accessory } from 'src/app/objects/Accessory';
+import {
+  Accessory
+} from 'src/app/objects/Accessory';
+import {
+  LTOService
+} from 'src/app/services/lto.service';
+import { LTODetails } from 'src/app/objects/LTODetails';
 
 @Component({
   selector: 'app-quotation-car',
@@ -178,6 +184,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     private fb: FormBuilder,
     private cus: CarUtilityServices,
     private cls: CarLOVServices,
+    private ltos: LTOService,
     private cqs: CarQuoteServices,
     private changeDetector: ChangeDetectorRef,
     private auths: AuthenticationService,
@@ -1088,13 +1095,52 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   authCOCRegistration() {
-    this.cus.authCOCRegistration(this.carDetails).then(res => {
+    const lto : LTODetails = new LTODetails; 
+
+    var clientName = this.policyHolder.firstName + ' ' + this.policyHolder.lastName;
+    var tinNumber = '000-000-000-000';
+    if (this.policyHolder.documentType === 'TIN') {
+      tinNumber = this.policyHolder.documentCode;
+    }
+
+    lto.assuredName = clientName;
+    lto.assuredTin = tinNumber;
+
+    lto.engineNumber = this.carDetails.engineNumber;
+    lto.chassisNumber = this.carDetails.serialNumber;
+    lto.mvFileNumber = this.carDetails.mvFileNumber;
+    lto.plateNumber = this.carDetails.plateNumber;
+    lto.cocNumber = this.carDetails.cocNumber;
+    lto.inceptionDate = this.carDetails.effectivityDate;
+    lto.expiryDate = this.carDetails.expiryDate;
+    lto.regType = this.carDetails.registrationType;
+    lto.subline = this.carDetails.subline;
+    lto.vehicleType = this.carDetails.vehicleType;
+    lto.typeOfUse = this.carDetails.typeOfUse;
+    lto.mvType = this.carDetails.mvType;
+    lto.classification = this.carDetails.classification;
+
+    this.ltos.authenticateCOCRegistration(lto).then(res => {
       if (res.status) {
-        if (res.obj['status']) {
-          this.carDetails.authNumber = res.obj['authNumber'];
-        } else {
-          this.modalRef = Utility.showError(this.bms, res.obj['error']);
-        }
+          var registrationMsg = res.obj['registrationMessage'];
+          var verificationMsg = res.obj['verificationMessage'];
+          
+          var authNumber = registrationMsg.authNo;
+          var registrationErrorMsg = registrationMsg.errorMessage;
+          var verificationErrorMsg = verificationMsg.errorMessage;
+
+          if (registrationErrorMsg !== null) {
+            this.modalRef = Utility.showError(this.bms, registrationErrorMsg);
+          } else {
+            if (authNumber !== null) {
+              this.carDetails.authNumber = registrationMsg.authNo;
+              if (verificationErrorMsg !== null) {
+                this.modalRef = Utility.showError(this.bms, verificationErrorMsg);
+              }
+            } else {
+              this.modalRef = Utility.showWarning(this.bms, "Warning! No authentication number returned.");
+            }
+          }
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
       }

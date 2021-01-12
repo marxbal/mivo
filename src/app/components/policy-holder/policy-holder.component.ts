@@ -251,6 +251,9 @@ export class PolicyHolderComponent implements OnInit {
         this.policyHolder.isPerson = this.policyHolderType == "P";
         this.policyHolder.documentCode = row.codDocum;
         this.policyHolder.documentType = row.tipDocum;
+        this.policyHolder.firstName = this.firstName;
+        this.policyHolder.lastName = this.lastName;
+
         this.setPolicyHolder(this.policyHolder);
       }
     } else {
