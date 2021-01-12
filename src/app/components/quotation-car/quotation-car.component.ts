@@ -239,15 +239,21 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     if (this.isIssuance) {
+      var list : any[] = [];
       this.cus.getSubagents().then(res => {
         var subAgents = res.obj["subAgents"];
         subAgents.forEach(subAgent => {
-          subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
-          // subAgent.name = subAgent.codDocum;
-          subAgent.value = subAgent.codDocum;
-          subAgent.type = subAgent.tipDocum;
+          // subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
+          // subAgent.documentCode = subAgent.codDocum;
+          // subAgent.documentTYpe = subAgent.tipDocum;
+
+          var obj = {
+            name: subAgent.nomCompleto + "(" + subAgent.tipDocum + ")",
+            documentCode: subAgent.codDocum,
+            documentType: subAgent.tipDocum};
+          list.push(obj);
         });
-        _this.LOV.subagentLOV = subAgents;
+        _this.LOV.subagentLOV = list;
       });
 
       this.cls.getMortgageClause().then(res => {
@@ -640,7 +646,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
                 }
               });
 
-              var obj = {name: name, codDocum: ben.codDocum, tipDocum: ben.tipDocum};
+              var obj = {name: name, documentCode: ben.codDocum, documentType: ben.tipDocum};
               subAgents.push(obj);
             }
           });
