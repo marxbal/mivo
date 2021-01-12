@@ -631,7 +631,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.mortgageePolicyHolder.documentType = ben.tipDocum;
               this.mortgageePolicyHolder.isExisting = true;
             } else if (ben.tipBenef == 20) {
-              var obj = {value: ben.codDocum, type: ben.tipDocum};
+              var obj = {codDocum: ben.codDocum, tipDocum: ben.tipDocum};
               subAgents.push(obj);
             }
           });
