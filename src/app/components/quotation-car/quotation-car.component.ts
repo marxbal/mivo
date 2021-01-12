@@ -636,7 +636,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               var name = "";
               subAgentList.forEach(sa => {
                 if (sa.tipDocum == ben.tipDocum && sa.codDocum == ben.codDocum) {
-                  name = sa.nomCompleto + (" + subAgent.tipDocum + ");
+                  name = sa.nomCompleto + "(" + sa.tipDocum + ")";
                 }
               });
 
