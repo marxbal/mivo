@@ -879,7 +879,7 @@
                       || quoteForm.controls['subAgents'].touched)}">
                     <ng-select [items]="LOV.subagentLOV" bindLabel="name" placeholder="Select Subagent" appendTo="body"
                       formControlName="subAgents" multiple="true" [(ngModel)]="carDetails.subAgents"
-                      [disabled]="!editMode">
+                      [disabled]="true">
                     </ng-select>
                     <p class="form-error" *ngIf="quoteForm.controls['subAgents'].errors?.required">
                       * subagent is required
