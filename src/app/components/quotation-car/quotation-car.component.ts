@@ -45,9 +45,6 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
-// import {
-//   QQCar
-// } from 'src/app/objects/QQCar';
 import {
   AuthenticationService
 } from '../../services/authentication.service';
@@ -86,7 +83,9 @@ import {
 import {
   LTOService
 } from 'src/app/services/lto.service';
-import { LTODetails } from 'src/app/objects/LTODetails';
+import {
+  LTODetails
+} from 'src/app/objects/LTODetails';
 
 @Component({
   selector: 'app-quotation-car',
@@ -243,14 +242,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.cus.getSubagents().then(res => {
         var subAgents = res.obj["subAgents"];
         subAgents.forEach(subAgent => {
-          // subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
-          // subAgent.documentCode = subAgent.codDocum;
-          // subAgent.documentTYpe = subAgent.tipDocum;
-
           var obj = {
             name: subAgent.nomCompleto + "(" + subAgent.tipDocum + ")",
             documentCode: subAgent.codDocum,
-            documentType: subAgent.tipDocum};
+            documentType: subAgent.tipDocum,
+            beneficiaryType: 20};
           list.push(obj);
         });
         _this.LOV.subagentLOV = list;
@@ -562,13 +558,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const code = a.codCampo;
           const value: string = a.valCampo;
           const text: string = a.txtCampo;
-          let valueInt: number = undefined;
-  
-          try {
-            valueInt = parseInt(value);
-          } catch (e) {
-            // do nothing
-          }
   
           switch (code) {
             //risk details
@@ -617,7 +606,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   
         this.carDetails.paymentMethod = generalInfo.codFraccPago;
   
-        debugger
+        // debugger
 
         const beneficiary = res.obj["beneficiary"];
         const subAgentList = res.obj["subAgentList"];
@@ -646,14 +635,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
                 }
               });
 
-              var obj = {name: name, documentCode: ben.codDocum, documentType: ben.tipDocum};
+              var obj = {name: name, documentCode: ben.codDocum, documentType: ben.tipDocum, beneficiaryType: 20};
               subAgents.push(obj);
             }
           });
 
           if (subAgents.length > 0) {
-            console.log(subAgents);
-            this.carDetails.subAgent = subAgents;
+            this.carDetails.subAgents = subAgents;
           }
         }
   

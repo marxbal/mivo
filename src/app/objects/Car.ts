@@ -56,6 +56,8 @@ export class Car {
 
   //accessories
   accessories: Array < Accessory > = [];
+  //sub agents
+  subAgents: Array < Beneficiary > = [];
 
   //policy holder information
   clientName: string;
@@ -101,9 +103,6 @@ export class Car {
   //products
   paymentMethod: number;
   productList: number;
-
-  //sub agents
-  subAgent: any[];
 
   //coverages
   coverages: Array < Coverage > = [];
