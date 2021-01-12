@@ -244,6 +244,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         subAgents.forEach(subAgent => {
           subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
           subAgent.value = subAgent.codDocum;
+          subAgent.type = subAgent.tipDocum;
         });
         _this.LOV.subagentLOV = subAgents;
       });
@@ -609,7 +610,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   
         this.carDetails.paymentMethod = generalInfo.codFraccPago;
   
+        debugger
+
         const beneficiary = res.obj["beneficiary"];
+        var subAgents : any[] = [];
         if (beneficiary.length) {
           beneficiary.forEach((ben: any) => {
             if (ben.tipBenef == 1) {
@@ -626,8 +630,16 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.mortgageePolicyHolder.documentCode = ben.codDocum;
               this.mortgageePolicyHolder.documentType = ben.tipDocum;
               this.mortgageePolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 20) {
+              var obj = {value: ben.codDocum, type: ben.tipDocum};
+              subAgents.push(obj);
             }
           });
+
+          if (subAgents.length > 0) {
+            console.log(subAgents);
+            this.carDetails.subAgent = subAgents;
+          }
         }
   
         this.loadLOVs();
