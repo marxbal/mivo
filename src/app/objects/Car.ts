@@ -18,7 +18,7 @@ import {
 } from './CoverageVariableData';
 
 // * - used in quick quotation
-export class QuoteCar {
+export class Car {
   affecting: boolean;
   isModifiedCoverage: boolean;
   mcaTmpPptoMph: string;
@@ -111,7 +111,7 @@ export class QuoteCar {
   //coverage variable data
   coverageVariableData: CoverageVariableData;
 
-  constructor(init ? : Partial < QuoteCar > ) {
+  constructor(init ? : Partial < Car > ) {
     Object.assign(this, init);
   }
 }

@@ -45,9 +45,9 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
-import {
-  QQCar
-} from 'src/app/objects/QQCar';
+// import {
+//   QQCar
+// } from 'src/app/objects/QQCar';
 import {
   AuthenticationService
 } from '../../services/authentication.service';
@@ -726,10 +726,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     this.quoteForm.get('subline').markAsDirty();
-    var qqDetails = new QQCar;
-    qqDetails.vehicleType = this.carDetails.vehicleType;
-    qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    this.cus.getSubline(qqDetails).then(res => {
+    // var qqDetails = new QQCar;
+    // qqDetails.vehicleType = this.carDetails.vehicleType;
+    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
+    // this.cus.getSubline(qqDetails).then(res => {
+    this.cus.getSubline(this.carDetails).then(res => {
       _this.LOV.sublineLOV = res.obj["list"];
     });
 
@@ -994,22 +995,24 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   getVehicleValue() {
     const _this = this;
-    var qqDetails = new QQCar;
-    qqDetails.make = this.carDetails.make;
-    qqDetails.model = this.carDetails.model;
-    qqDetails.subModel = this.carDetails.subModel;
-    qqDetails.modelYear = this.carDetails.modelYear;
-    this.cus.getFMV(qqDetails).then(res => {
+    // var qqDetails = new QQCar;
+    // qqDetails.make = this.carDetails.make;
+    // qqDetails.model = this.carDetails.model;
+    // qqDetails.subModel = this.carDetails.subModel;
+    // qqDetails.modelYear = this.carDetails.modelYear;
+    // this.cus.getFMV(qqDetails).then(res => {
+      this.cus.getFMV(this.carDetails).then(res => {
       _this.carDetails.vehicleValue = res.obj["fmv"];
     });
   }
 
   getSubline() {
     const _this = this;
-    var qqDetails = new QQCar;
-    qqDetails.vehicleType = this.carDetails.vehicleType;
-    qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    this.cus.getSubline(qqDetails).then(res => {
+    // var qqDetails = new QQCar;
+    // qqDetails.vehicleType = this.carDetails.vehicleType;
+    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
+    // this.cus.getSubline(qqDetails).then(res => {
+    this.cus.getSubline(this.carDetails).then(res => {
       _this.LOV.sublineLOV = res.obj["list"];
     });
   }

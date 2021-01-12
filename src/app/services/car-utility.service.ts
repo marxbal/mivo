@@ -5,8 +5,8 @@ import {
   AppService
 } from '../services/app.service';
 import {
-  QQCar
-} from '../objects/QQCar';
+  Car
+} from '../objects/Car';
 import {
   ReturnDTO
 } from '../objects/ReturnDTO';
@@ -18,11 +18,11 @@ import {
 export class CarUtilityServices {
   constructor(private app: AppService) {}
 
-  async getFMV(carDetails: QQCar): Promise < ReturnDTO > {
+  async getFMV(carDetails: Car): Promise < ReturnDTO > {
     return this.app.post(carDetails, '/car/getFMV').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async getSubline(carDetails: QQCar): Promise < ReturnDTO > {
+  async getSubline(carDetails: Car): Promise < ReturnDTO > {
     return this.app.post(carDetails, '/car/getSubline').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
