@@ -890,6 +890,7 @@
           </div>
 
           <div *ngIf="isIssuance && showCTPL" class="card shadow mb-3" id="CTPLAuth">
+            <!-- <div *ngIf="isIssuance" class="card shadow mb-3" id="CTPLAuth"> -->
             <div class="card-header">
               <strong>CTPL Authenctication (for products with CTPL)</strong>
             </div>
@@ -963,7 +964,8 @@
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbIsNotRequiredAuthNumber"
                         formControlName="cbIsNotRequiredAuthNumber" [(ngModel)]="carDetails.cbIsNotRequiredAuthNumber"
-                        [attr.disabled]="editMode ? null : true">
+                        [attr.disabled]="editMode ? null : true"
+                        (change)="cbIsNotRequiredAuthNumberChange()">
                       <label class="form-check-label" for="cbIsNotRequiredAuthNumber">
                         Do not require Authentication Number
                       </label>
@@ -973,10 +975,10 @@
                     </label>
                     <div class="input-group mb-3">
                       <input type="text" formControlName="authNumber"
-                        [attr.disabled]="editMode && carDetails.cbIsNotRequiredAuthNumber ? '' : null" class="form-control required"
+                        [attr.disabled]="carDetails.cbIsNotRequiredAuthNumber ? '' : null" class="form-control required"
                         [(ngModel)]="carDetails.authNumber">
                       <div class="input-group-append">
-                        <button (click)="authCOCRegistration()" [attr.disabled]="editMode && carDetails.cbIsNotRequiredAuthNumber ? '' : null"
+                        <button (click)="authCOCRegistration()" [attr.disabled]="carDetails.cbIsNotRequiredAuthNumber ? '' : null"
                           class="btn btn-primary" type="button">Authenticate</button>
                       </div>
                       <p class="form-error" *ngIf="quoteForm.controls['authNumber'].errors?.required">
@@ -1105,7 +1107,7 @@
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
               <!-- <button type="button" class="btn btn-primary"
-                (click)="test()">test</button> -->
+                (click)="editMode = !editMode">test</button> -->
               <button
                 [disabled]="quoteForm.pristine || quoteForm.invalid ||
                 appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
@@ -1143,6 +1145,8 @@
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <!-- <button type="button" class="btn btn-primary"
                 (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
+                <!-- <button type="button" class="btn btn-primary"
+                (click)="editMode = !editMode">test</button> -->
               <button 
                 [disabled]="quoteForm.pristine || quoteForm.invalid ||
                 appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||

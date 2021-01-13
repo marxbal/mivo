@@ -806,9 +806,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
     });
 
-    cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
-      Utility.updateValidator(authNumber, bool ? null : Validators.required);
-    });
+    // cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
+    //   Utility.updateValidator(authNumber, bool ? null : Validators.required);
+    // });
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
@@ -1113,6 +1113,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         Utility.scroll('CTPLAuth');
       }
     }
+  }
+
+  cbIsNotRequiredAuthNumberChange() {
+    var authNumber = this.quoteForm.get('authNumber');
+    Utility.updateValidator(authNumber, this.carDetails.cbIsNotRequiredAuthNumber ? null : Validators.required);
   }
 
   authCOCRegistration() {
