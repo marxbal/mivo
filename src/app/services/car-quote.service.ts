@@ -159,6 +159,8 @@ export class CarQuoteServices {
     var registrationType = form.get('registrationType');
     var cocNumber = form.get('cocNumber');
     var authNumber = form.get('authNumber');
+    var isNotRequired = form.get('cbIsNotRequiredAuthNumber').value;
+    alert(isNotRequired);
 
     Utility.updateValidator(registrationType, isCTPL ? Validators.required : null);
     Utility.updateValidator(cocNumber, isCTPL ? Validators.required : null);
