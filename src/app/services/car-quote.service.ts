@@ -160,10 +160,11 @@ export class CarQuoteServices {
     var cocNumber = form.get('cocNumber');
     var authNumber = form.get('authNumber');
     var isNotRequired = form.get('cbIsNotRequiredAuthNumber').value;
-    alert(isNotRequired);
+    
+    const inr = isNotRequired != null ? isNotRequired : false;
 
     Utility.updateValidator(registrationType, isCTPL ? Validators.required : null);
     Utility.updateValidator(cocNumber, isCTPL ? Validators.required : null);
-    Utility.updateValidator(authNumber, isCTPL ? Validators.required : null);
+    Utility.updateValidator(authNumber, isCTPL && !inr ? Validators.required : null);
   }
 }

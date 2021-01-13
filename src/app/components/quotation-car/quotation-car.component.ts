@@ -783,8 +783,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     var conductionNumber = this.quoteForm.get('conductionNumber');
     var plateNumber = this.quoteForm.get('plateNumber');
     var vehicleType = this.quoteForm.get('vehicleType');
-    var cbIsNotRequiredAuthNumber = this.quoteForm.get('cbIsNotRequiredAuthNumber');
-    var authNumber = this.quoteForm.get('authNumber');
     var quotationNumber = this.quoteForm.get('quotationNumber');
     var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
     var mortgageClause = this.quoteForm.get('mortgageClause');
@@ -805,10 +803,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     plateNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(number => {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
     });
-
-    // cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
-    //   Utility.updateValidator(authNumber, bool ? null : Validators.required);
-    // });
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);

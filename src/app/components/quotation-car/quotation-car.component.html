@@ -1142,7 +1142,6 @@
 
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance">
-            {{quoteForm.invalid}} {{appGroupPolicy.gpForm.invalid}} {{appPolicyHolder.phForm.invalid}}
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <!-- <button type="button" class="btn btn-primary"
                 (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
@@ -1163,7 +1162,6 @@
                 (click)="manageBtn(1)">Edit Details</button>
               <button type="button" class="btn btn-primary"
                 (click)="manageBtn(1, true)">Edit Coverage</button>
-                {{quoteForm.invalid}} {{appGroupPolicy.gpForm.invalid}} {{appPolicyHolder.phForm.invalid}}
               <button 
                 [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
@@ -1177,7 +1175,6 @@
               <button *ngIf="!editMode"
                 type="button" class="btn btn-primary"
                 (click)="editMode = !editMode">Edit Details</button>
-                {{quoteForm.invalid}} {{appGroupPolicy.gpForm.invalid}} {{appPolicyHolder.phForm.invalid}}
               <button
                 [disabled]="quoteForm.invalid || ppGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
