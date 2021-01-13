@@ -1163,7 +1163,7 @@
               <button type="button" class="btn btn-primary"
                 (click)="manageBtn(1, true)">Edit Coverage</button>
               <button 
-                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || ppPolicyHolder.phForm.invalid ||
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                 (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                 (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
