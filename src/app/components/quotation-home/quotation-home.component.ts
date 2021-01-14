@@ -122,6 +122,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   showHCBIDetails: boolean = false;
   showCoverage: boolean = false;
   showPaymentBreakdown: boolean = false;
+  showMortgagee: boolean = false;
 
   //for payment breakdown
   paymentBreakdown: any[];
