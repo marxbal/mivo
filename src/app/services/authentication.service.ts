@@ -46,50 +46,50 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  // login(username: String, password: String) {
-  //   return this.http
-  //     .post < any > (`${API_URL}/users/authenticate`, {
-  //       username,
-  //       password,
-  //     })
-  //     .pipe(
-  //       map((user) => {
-  //         // store user details and jwt token in local storage to keep user logged in between page refreshes
-  //         delete user.password;
-  //         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-  //         this.currentUserSubject.next(user);
-  //         this.getPages();
-  //         return user;
-  //       })
-  //     );
-  // }
-
   login(username: String, password: String) {
-    return this.http.get(API_URL + '/auth', {
-      headers: {
-        authorization: this.createBasicAuthToken(username, password)
-      }
-    }).pipe(map((res) => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      const user = new User();
-      user.userId = 1101;
-      user.role = 1;
-      user.userName = username as string;
-      user.firstName = "MAPFRE";
-      user.lastName = "INSULAR";
-      user.fullName = "MAPFRE INSULAR";
-      user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
-      user.expiryDay = 4;
-      user.token = this.createBasicAuthToken(username, password);
-
-      localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-      this.currentUserSubject.next(user);
-
-      this.getPages();
-
-      return user;
-    }));
+    return this.http
+      .post < any > (`${API_URL}/users/authenticate`, {
+        username,
+        password,
+      })
+      .pipe(
+        map((user) => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          delete user.password;
+          localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          this.getPages();
+          return user;
+        })
+      );
   }
+
+  // login(username: String, password: String) {
+  //   return this.http.get(API_URL + '/auth', {
+  //     headers: {
+  //       authorization: this.createBasicAuthToken(username, password)
+  //     }
+  //   }).pipe(map((res) => {
+  //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+  //     const user = new User();
+  //     user.userId = 1101;
+  //     user.role = 1;
+  //     user.userName = username as string;
+  //     user.firstName = "MAPFRE";
+  //     user.lastName = "INSULAR";
+  //     user.fullName = "MAPFRE INSULAR";
+  //     user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
+  //     user.expiryDay = 4;
+  //     user.token = this.createBasicAuthToken(username, password);
+
+  //     localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+  //     this.currentUserSubject.next(user);
+
+  //     this.getPages();
+
+  //     return user;
+  //   }));
+  // }
 
   createBasicAuthToken(username: String, password: String) {
     return 'Basic ' + window.btoa(username + ":" + password)
