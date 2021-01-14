@@ -161,7 +161,7 @@ export class CarLOVServices {
       'G1010031',
       '58',
       '');
-    return this.lov.getIntLOV(dto, 'COD_VALOR').then(lovs => lovs as any[]);
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
   async getMVType(): Promise < any[] > {
@@ -169,7 +169,7 @@ export class CarLOVServices {
       'G1010031',
       '59',
       '');
-    return this.lov.getIntLOV(dto, 'COD_VALOR').then(lovs => lovs as any[]);
+    return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
   //get policy holder prefix

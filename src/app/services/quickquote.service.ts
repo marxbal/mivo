@@ -5,8 +5,8 @@ import {
   AppService
 } from './app.service';
 import {
-  QQCar
-} from '../objects/QQCar';
+  Car
+} from '../objects/Car';
 import {
   Home
 } from '../objects/Home';
@@ -24,12 +24,12 @@ import {
 export class QuickQuoteService {
   constructor(private app: AppService) {}
 
-  async quickQuoteCar(carDetails: QQCar): Promise < ReturnDTO > {
-    return this.app.post(carDetails, '/quickquote/car').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async checkRoadAssist(carDetails: Car): Promise < ReturnDTO > {
+    return this.app.post(carDetails, '/quickquote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async checkRoadAssist(carDetails: QQCar): Promise < ReturnDTO > {
-    return this.app.post(carDetails, '/quickquote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async quickQuoteCar(carDetails: Car): Promise < ReturnDTO > {
+    return this.app.post(carDetails, '/quickquote/car').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async quickQuoteHome(homeDetails: Home): Promise < ReturnDTO > {

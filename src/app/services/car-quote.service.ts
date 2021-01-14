@@ -8,8 +8,8 @@ import {
   ReturnDTO
 } from '../objects/ReturnDTO';
 import {
-  QuoteCar
-} from '../objects/QuoteCar';
+  Car
+} from '../objects/Car';
 import {
   DocumentPrinting
 } from '../objects/DocumentPrinting';
@@ -53,19 +53,19 @@ export class CarQuoteServices {
     return this.app.post({subline, vehicelType, modelYear, productList, coverageCode}, '/quote/checkRoadAssist').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async getCoverageByProduct(carDetails: QuoteCar): Promise < ReturnDTO > {
+  async getCoverageByProduct(carDetails: Car): Promise < ReturnDTO > {
     return this.app.post(carDetails, '/quote/getCoverageByProduct').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async issueQuote(carDetails: QuoteCar): Promise < ReturnDTO > {
+  async issueQuote(carDetails: Car): Promise < ReturnDTO > {
     return this.app.post(carDetails, '/quote/issueQuote').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async savePolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
+  async savePolicy(carDetails: Car): Promise < ReturnDTO > {
     return this.app.post(carDetails, '/quote/savePolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async postPolicy(carDetails: QuoteCar): Promise < ReturnDTO > {
+  async postPolicy(carDetails: Car): Promise < ReturnDTO > {
     return this.app.post(carDetails, '/quote/postPolicy').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
@@ -153,15 +153,18 @@ export class CarQuoteServices {
     }, 500);
   }
 
-  activateCTPL(form: FormGroup, carDetails: QuoteCar, selectedCoverage ? : boolean) {
+  activateCTPL(form: FormGroup, carDetails: Car, selectedCoverage ? : boolean) {
     //if selected product is CTPL
     const isCTPL = carDetails.productList == 10002 || selectedCoverage;
     var registrationType = form.get('registrationType');
     var cocNumber = form.get('cocNumber');
     var authNumber = form.get('authNumber');
+    var isNotRequired = form.get('cbIsNotRequiredAuthNumber').value;
+    
+    const inr = isNotRequired != null ? isNotRequired : false;
 
     Utility.updateValidator(registrationType, isCTPL ? Validators.required : null);
     Utility.updateValidator(cocNumber, isCTPL ? Validators.required : null);
-    Utility.updateValidator(authNumber, isCTPL ? Validators.required : null);
+    Utility.updateValidator(authNumber, isCTPL && !inr ? Validators.required : null);
   }
 }

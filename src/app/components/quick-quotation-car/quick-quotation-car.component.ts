@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   AfterViewChecked,
   ChangeDetectorRef
 } from '@angular/core';
@@ -19,8 +18,8 @@ import {
   Utility
 } from '../../utils/utility';
 import {
-  QQCar
-} from '../../objects/QQCar';
+  Car
+} from '../../objects/Car';
 import {
   CarListObject
 } from 'src/app/objects/LOV/carList';
@@ -52,7 +51,7 @@ export interface QuickQuoteResultDTO {
 })
 
 export class QuickQuotationCarComponent implements OnInit, AfterViewChecked {
-  carDetails = new QQCar();
+  carDetails = new Car();
   LOV = new CarListObject();
   quickQuoteForm: FormGroup;
 
@@ -525,11 +524,11 @@ export class QuickQuotationCarComponent implements OnInit, AfterViewChecked {
 
       //effectivity date change format
       var d = moment(effectivityDate, 'DDMMYYYY').format('MMDDYYYY');
-      this.carDetails.effectivityDate = d.toString();
+      this.carDetails.sublineEffectivityDate = d.toString();
     }
   }
 
-  quickQuote(carDetails: QQCar) {
+  quickQuote(carDetails: Car) {
     this.qqs.quickQuoteCar(carDetails).then(res => {
       if (!Utility.isUndefined(res)) {
         if (res.status) {

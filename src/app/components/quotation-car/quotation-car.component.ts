@@ -22,8 +22,8 @@ import {
   BsModalRef
 } from 'ngx-bootstrap/modal';
 import {
-  QuoteCar
-} from '../../objects/QuoteCar';
+  Car
+} from '../../objects/Car';
 import {
   GroupPolicy
 } from 'src/app/objects/GroupPolicy';
@@ -45,9 +45,6 @@ import {
 import {
   GroupPolicyListObject
 } from 'src/app/objects/LOV/groupPolicyList';
-import {
-  QQCar
-} from 'src/app/objects/QQCar';
 import {
   AuthenticationService
 } from '../../services/authentication.service';
@@ -80,7 +77,15 @@ import {
 import {
   ReturnDTO
 } from 'src/app/objects/ReturnDTO';
-import { Accessory } from 'src/app/objects/Accessory';
+import {
+  Accessory
+} from 'src/app/objects/Accessory';
+import {
+  LTOService
+} from 'src/app/services/lto.service';
+import {
+  LTODetails
+} from 'src/app/objects/LTODetails';
 
 @Component({
   selector: 'app-quotation-car',
@@ -99,8 +104,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   triggerCoverage: number = 0;
   triggerBreakdown: number = 0;
 
-  carDetails = new QuoteCar();
-  prevCarDetails: QuoteCar = null;
+  carDetails = new Car();
+  prevCarDetails: Car = null;
   changedValues: any[] = [];
   changedAccessoryValues: any[] = [];
 
@@ -178,6 +183,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     private fb: FormBuilder,
     private cus: CarUtilityServices,
     private cls: CarLOVServices,
+    private ltos: LTOService,
     private cqs: CarQuoteServices,
     private changeDetector: ChangeDetectorRef,
     private auths: AuthenticationService,
@@ -232,13 +238,18 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     if (this.isIssuance) {
+      var list : any[] = [];
       this.cus.getSubagents().then(res => {
         var subAgents = res.obj["subAgents"];
         subAgents.forEach(subAgent => {
-          subAgent.name = subAgent.nomCompleto + "(" + subAgent.tipDocum + ")";
-          subAgent.value = subAgent.codDocum;
+          var obj = {
+            name: subAgent.nomCompleto + "(" + subAgent.tipDocum + ")",
+            documentCode: subAgent.codDocum,
+            documentType: subAgent.tipDocum,
+            beneficiaryType: 20};
+          list.push(obj);
         });
-        _this.LOV.subagentLOV = subAgents;
+        _this.LOV.subagentLOV = list;
       });
 
       this.cls.getMortgageClause().then(res => {
@@ -333,7 +344,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       paymentMethod: ['', Validators.required],
       product: ['', Validators.required],
       //subagent
-      subAgent: [null],
+      subAgents: [null],
     });
   }
 
@@ -525,6 +536,27 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.carDetails.mortgageClause = valueInt;
               break;
             }
+
+            case "MCA_AUTO_REGISTRO": {
+              this.carDetails.automaticAuth = value;
+              break;
+            }
+            case "TIP_COCAF_MV": {
+              this.carDetails.mvType = value;
+              break;
+            }
+            case "TIP_COCAF_REGISTRATION": {
+              this.carDetails.registrationType = value;
+              break;
+            }
+            case "NUM_COC": {
+              this.carDetails.cocNumber = value;
+              break;
+            }
+            case "NUM_COC_AUTH": {
+              this.carDetails.authNumber = value;
+              break;
+            }
   
             case "COD_MODALIDAD": {
               this.carDetails.productList = valueInt;
@@ -542,13 +574,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           const code = a.codCampo;
           const value: string = a.valCampo;
           const text: string = a.txtCampo;
-          let valueInt: number = undefined;
-  
-          try {
-            valueInt = parseInt(value);
-          } catch (e) {
-            // do nothing
-          }
   
           switch (code) {
             //risk details
@@ -565,7 +590,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   
         const generalInfo = res.obj["generalInfo"];
         this.carDetails.subline = generalInfo.codRamo;
-        this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
+        // this.carDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
+        this.carDetails.sublineEffectivityDate = res.obj["sublineEffectivityDate"];
   
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
@@ -596,8 +622,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
   
         this.carDetails.paymentMethod = generalInfo.codFraccPago;
-  
+
         const beneficiary = res.obj["beneficiary"];
+        const subAgentList = res.obj["subAgentList"];
+        var subAgents : any[] = [];
         if (beneficiary.length) {
           beneficiary.forEach((ben: any) => {
             if (ben.tipBenef == 1) {
@@ -614,8 +642,22 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.mortgageePolicyHolder.documentCode = ben.codDocum;
               this.mortgageePolicyHolder.documentType = ben.tipDocum;
               this.mortgageePolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 20) {
+              var name = "";
+              subAgentList.forEach(sa => {
+                if (sa.tipDocum == ben.tipDocum && sa.codDocum == ben.codDocum) {
+                  name = sa.nomCompleto + "(" + sa.tipDocum + ")";
+                }
+              });
+
+              var obj = {name: name, documentCode: ben.codDocum, documentType: ben.tipDocum, beneficiaryType: 20};
+              subAgents.push(obj);
             }
           });
+
+          if (subAgents.length > 0) {
+            this.carDetails.subAgents = subAgents;
+          }
         }
   
         this.loadLOVs();
@@ -714,10 +756,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     this.quoteForm.get('subline').markAsDirty();
-    var qqDetails = new QQCar;
-    qqDetails.vehicleType = this.carDetails.vehicleType;
-    qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    this.cus.getSubline(qqDetails).then(res => {
+    // var qqDetails = new QQCar;
+    // qqDetails.vehicleType = this.carDetails.vehicleType;
+    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
+    // this.cus.getSubline(qqDetails).then(res => {
+    this.cus.getSubline(this.carDetails).then(res => {
       _this.LOV.sublineLOV = res.obj["list"];
     });
 
@@ -757,8 +800,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     var conductionNumber = this.quoteForm.get('conductionNumber');
     var plateNumber = this.quoteForm.get('plateNumber');
     var vehicleType = this.quoteForm.get('vehicleType');
-    var cbIsNotRequiredAuthNumber = this.quoteForm.get('cbIsNotRequiredAuthNumber');
-    var authNumber = this.quoteForm.get('authNumber');
     var quotationNumber = this.quoteForm.get('quotationNumber');
     var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
     var mortgageClause = this.quoteForm.get('mortgageClause');
@@ -778,10 +819,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     //if has plate number, conduction number is not required
     plateNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(number => {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
-    });
-
-    cbIsNotRequiredAuthNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(bool => {
-      Utility.updateValidator(authNumber, bool ? null : Validators.required);
     });
 
     quotationNumber.valueChanges.subscribe(number => {
@@ -982,22 +1019,24 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   getVehicleValue() {
     const _this = this;
-    var qqDetails = new QQCar;
-    qqDetails.make = this.carDetails.make;
-    qqDetails.model = this.carDetails.model;
-    qqDetails.subModel = this.carDetails.subModel;
-    qqDetails.modelYear = this.carDetails.modelYear;
-    this.cus.getFMV(qqDetails).then(res => {
+    // var qqDetails = new QQCar;
+    // qqDetails.make = this.carDetails.make;
+    // qqDetails.model = this.carDetails.model;
+    // qqDetails.subModel = this.carDetails.subModel;
+    // qqDetails.modelYear = this.carDetails.modelYear;
+    // this.cus.getFMV(qqDetails).then(res => {
+      this.cus.getFMV(this.carDetails).then(res => {
       _this.carDetails.vehicleValue = res.obj["fmv"];
     });
   }
 
   getSubline() {
     const _this = this;
-    var qqDetails = new QQCar;
-    qqDetails.vehicleType = this.carDetails.vehicleType;
-    qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    this.cus.getSubline(qqDetails).then(res => {
+    // var qqDetails = new QQCar;
+    // qqDetails.vehicleType = this.carDetails.vehicleType;
+    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
+    // this.cus.getSubline(qqDetails).then(res => {
+    this.cus.getSubline(this.carDetails).then(res => {
       _this.LOV.sublineLOV = res.obj["list"];
     });
   }
@@ -1087,14 +1126,58 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  cbIsNotRequiredAuthNumberChange() {
+    var authNumber = this.quoteForm.get('authNumber');
+    Utility.updateValidator(authNumber, this.carDetails.cbIsNotRequiredAuthNumber ? null : Validators.required);
+  }
+
   authCOCRegistration() {
-    this.cus.authCOCRegistration(this.carDetails).then(res => {
+    const lto : LTODetails = new LTODetails; 
+
+    var clientName = this.policyHolder.firstName + ' ' + this.policyHolder.lastName;
+    var tinNumber = '000-000-000-000';
+    if (this.policyHolder.documentType === 'TIN') {
+      tinNumber = this.policyHolder.documentCode;
+    }
+
+    lto.assuredName = clientName;
+    lto.assuredTin = tinNumber;
+
+    lto.engineNumber = this.carDetails.engineNumber;
+    lto.chassisNumber = this.carDetails.serialNumber;
+    lto.mvFileNumber = this.carDetails.mvFileNumber;
+    lto.plateNumber = this.carDetails.plateNumber;
+    lto.cocNumber = this.carDetails.cocNumber;
+    lto.inceptionDate = this.carDetails.effectivityDate;
+    lto.expiryDate = this.carDetails.expiryDate;
+    lto.regType = this.carDetails.registrationType;
+    lto.subline = this.carDetails.subline;
+    lto.vehicleType = this.carDetails.vehicleType;
+    lto.typeOfUse = this.carDetails.typeOfUse;
+    lto.mvType = this.carDetails.mvType;
+    lto.classification = this.carDetails.classification;
+
+    this.ltos.authenticateCOCRegistration(lto).then(res => {
       if (res.status) {
-        if (res.obj['status']) {
-          this.carDetails.authNumber = res.obj['authNumber'];
-        } else {
-          this.modalRef = Utility.showError(this.bms, res.obj['error']);
-        }
+          var registrationMsg = res.obj['registrationMessage'];
+          var verificationMsg = res.obj['verificationMessage'];
+          
+          var authNumber = registrationMsg.authNo;
+          var registrationErrorMsg = registrationMsg.errorMessage;
+          var verificationErrorMsg = verificationMsg.errorMessage;
+
+          if (registrationErrorMsg !== null) {
+            this.modalRef = Utility.showError(this.bms, registrationErrorMsg);
+          } else {
+            if (authNumber !== null) {
+              this.carDetails.authNumber = registrationMsg.authNo;
+              if (verificationErrorMsg !== null) {
+                this.modalRef = Utility.showError(this.bms, verificationErrorMsg);
+              }
+            } else {
+              this.modalRef = Utility.showWarning(this.bms, "Warning! No authentication number returned.");
+            }
+          }
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
       }

@@ -18,7 +18,7 @@ import {
 } from './CoverageVariableData';
 
 // * - used in quick quotation
-export class QuoteCar {
+export class Car {
   affecting: boolean;
   isModifiedCoverage: boolean;
   mcaTmpPptoMph: string;
@@ -56,6 +56,8 @@ export class QuoteCar {
 
   //accessories
   accessories: Array < Accessory > = [];
+  //sub agents
+  subAgents: Array < Beneficiary > = [];
 
   //policy holder information
   clientName: string;
@@ -102,16 +104,13 @@ export class QuoteCar {
   paymentMethod: number;
   productList: number;
 
-  //sub agents
-  subAgent: any[];
-
   //coverages
   coverages: Array < Coverage > = [];
 
   //coverage variable data
   coverageVariableData: CoverageVariableData;
 
-  constructor(init ? : Partial < QuoteCar > ) {
+  constructor(init ? : Partial < Car > ) {
     Object.assign(this, init);
   }
 }

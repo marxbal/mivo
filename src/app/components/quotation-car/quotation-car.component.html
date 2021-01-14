@@ -874,13 +874,13 @@
               <div class="row">
                 <div class="col-sm-6">
                   <h6>Subagent List</h6>
-                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subAgent'].invalid 
-                      && (quoteForm.controls['subAgent'].dirty 
-                      || quoteForm.controls['subAgent'].touched)}">
+                  <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['subAgents'].invalid 
+                      && (quoteForm.controls['subAgents'].dirty 
+                      || quoteForm.controls['subAgents'].touched)}">
                     <ng-select [items]="LOV.subagentLOV" bindLabel="name" placeholder="Select Subagent" appendTo="body"
-                      formControlName="subAgent" multiple="true" [(ngModel)]="carDetails.subAgent">
+                      formControlName="subAgents" multiple="true" [(ngModel)]="carDetails.subAgents">
                     </ng-select>
-                    <p class="form-error" *ngIf="quoteForm.controls['subAgent'].errors?.required">
+                    <p class="form-error" *ngIf="quoteForm.controls['subAgents'].errors?.required">
                       * subagent is required
                     </p>
                   </div>
@@ -890,6 +890,7 @@
           </div>
 
           <div *ngIf="isIssuance && showCTPL" class="card shadow mb-3" id="CTPLAuth">
+            <!-- <div *ngIf="isIssuance" class="card shadow mb-3" id="CTPLAuth"> -->
             <div class="card-header">
               <strong>CTPL Authenctication (for products with CTPL)</strong>
             </div>
@@ -963,7 +964,8 @@
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cbIsNotRequiredAuthNumber"
                         formControlName="cbIsNotRequiredAuthNumber" [(ngModel)]="carDetails.cbIsNotRequiredAuthNumber"
-                        [attr.disabled]="editMode ? null : true">
+                        [attr.disabled]="editMode ? null : true"
+                        (change)="cbIsNotRequiredAuthNumberChange()">
                       <label class="form-check-label" for="cbIsNotRequiredAuthNumber">
                         Do not require Authentication Number
                       </label>
@@ -973,10 +975,10 @@
                     </label>
                     <div class="input-group mb-3">
                       <input type="text" formControlName="authNumber"
-                        [attr.disabled]="editMode && carDetails.cbIsNotRequiredAuthNumber ? '' : null" class="form-control required"
+                        [attr.disabled]="carDetails.cbIsNotRequiredAuthNumber ? '' : null" class="form-control required"
                         [(ngModel)]="carDetails.authNumber">
                       <div class="input-group-append">
-                        <button (click)="authCOCRegistration()" [attr.disabled]="editMode && carDetails.cbIsNotRequiredAuthNumber ? '' : null"
+                        <button (click)="authCOCRegistration()" [attr.disabled]="carDetails.cbIsNotRequiredAuthNumber ? '' : null"
                           class="btn btn-primary" type="button">Authenticate</button>
                       </div>
                       <p class="form-error" *ngIf="quoteForm.controls['authNumber'].errors?.required">
@@ -1105,11 +1107,9 @@
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
               <!-- <button type="button" class="btn btn-primary"
-                (click)="test()">test</button> -->
+                (click)="editMode = !editMode">test</button> -->
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 (click)="proceed(1)">Generate</button>
             </div>
@@ -1121,9 +1121,7 @@
               <button type="button" class="btn btn-primary"
                 (click)="manageBtn(1, true)">Edit Coverage</button>
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 (click)="proceed(2)">Issue Qoute</button>
             </div>
@@ -1143,10 +1141,10 @@
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <!-- <button type="button" class="btn btn-primary"
                 (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
+                <!-- <button type="button" class="btn btn-primary"
+                (click)="editMode = !editMode">test</button> -->
               <button 
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                 (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                 (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
@@ -1161,9 +1159,7 @@
               <button type="button" class="btn btn-primary"
                 (click)="manageBtn(1, true)">Edit Coverage</button>
               <button 
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                 (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                 (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
@@ -1176,9 +1172,7 @@
                 type="button" class="btn btn-primary"
                 (click)="editMode = !editMode">Edit Details</button>
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid ||
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                 (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                 (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"

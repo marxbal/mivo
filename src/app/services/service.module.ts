@@ -54,6 +54,9 @@ import {
 import {
   ThirdPartyService
 } from './third-party.service';
+import {
+  LTOService
+} from './lto.service';
 
 /* LOV Services */
 import {
@@ -101,6 +104,7 @@ import {
     UtilityService, //us
     PrintingService, //ps
     ThirdPartyService, //tps
+    LTOService, //ltos
 
     LovService, //ls
     GroupPolicyLOVServices, //gpls
