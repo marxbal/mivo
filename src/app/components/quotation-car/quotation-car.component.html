@@ -1109,9 +1109,7 @@
               <!-- <button type="button" class="btn btn-primary"
                 (click)="editMode = !editMode">test</button> -->
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 (click)="proceed(1)">Generate</button>
             </div>
@@ -1123,9 +1121,7 @@
               <button type="button" class="btn btn-primary"
                 (click)="manageBtn(1, true)">Edit Coverage</button>
               <button
-                [disabled]="quoteForm.pristine || quoteForm.invalid ||
-                appGroupPolicy.gpForm.pristine || appGroupPolicy.gpForm.invalid ||
-                appPolicyHolder.phForm.pristine || appPolicyHolder.phForm.invalid"
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
                 (click)="proceed(2)">Issue Qoute</button>
             </div>
@@ -1176,7 +1172,7 @@
                 type="button" class="btn btn-primary"
                 (click)="editMode = !editMode">Edit Details</button>
               <button
-                [disabled]="quoteForm.invalid || ppGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
+                [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                 (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                 (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
