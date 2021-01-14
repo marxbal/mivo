@@ -537,8 +537,24 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
 
+            case "MCA_AUTO_REGISTRO": {
+              this.carDetails.automaticAuth = value;
+              break;
+            }
+            case "TIP_COCAF_MV": {
+              this.carDetails.mvType = value;
+              break;
+            }
+            case "TIP_COCAF_REGISTRATION": {
+              this.carDetails.registrationType = value;
+              break;
+            }
             case "NUM_COC": {
               this.carDetails.cocNumber = value;
+              break;
+            }
+            case "NUM_COC_AUTH": {
+              this.carDetails.authNumber = value;
               break;
             }
   
