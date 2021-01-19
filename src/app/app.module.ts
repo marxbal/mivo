@@ -12,6 +12,15 @@ import {
   HTTP_INTERCEPTORS
 } from "@angular/common/http";
 
+// import {
+//   NgxFileDropModule
+// } from 'ngx-file-drop';
+// import {
+//   NgxFileUploadCoreModule
+// } from "@ngx-file-upload/core";
+// import {
+//   NgxDropzoneModule
+// } from "ngx-dropzone";
 import {
   HttpClientModule
 } from "@angular/common/http";
@@ -182,6 +191,9 @@ import {
 import {
   RequestCreateComponent
 } from './components/request-create/request-create.component';
+import {
+  RequestListComponent
+} from './components/request-list/request-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -249,6 +261,7 @@ const routes: Routes = [{
     CreateThirdPartyComponent,
     FixedCoveragesComponent,
     RequestCreateComponent,
+    RequestListComponent,
   ],
   entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent],
   imports: [
@@ -266,6 +279,9 @@ const routes: Routes = [{
     HttpClientModule,
     ServiceModule,
     NgSelectModule,
+    // NgxFileDropModule,
+    // NgxDropzoneModule,
+    // NgxFileUploadCoreModule,
     TranslateModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
