@@ -98,15 +98,10 @@ export class AuthenticationService {
   getPages() {
     // removing pages for user
     const unavailablePages = [
-      "commissionsPaid",
-      "estimatedCommissions",
-      "premiumCollection",
-      "account",
       "client",
       "query",
       "changePassword",
       "news",
-      "requests",
     ];
     const page = new Page();
     for (let p in page) {
