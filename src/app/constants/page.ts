@@ -45,6 +45,8 @@ export const page = {
   },
   REQ: {
     N: 'requests',
+    LIS: 'requestList',
+    CRE: 'requestCreate',
   },
   UTI: {
     N: 'utilities',

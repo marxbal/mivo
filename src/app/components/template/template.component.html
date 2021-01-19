@@ -35,6 +35,9 @@
           <app-quotation-home *ngIf="page === p.ISS.HOM"></app-quotation-home>
           <app-quotation-travel *ngIf="page === p.ISS.TRA"></app-quotation-travel>
           <app-quotation-accident *ngIf="page === p.ISS.ACC"></app-quotation-accident>
+
+          <app-request-list *ngIf="page === p.REQ.LIS"></app-request-list>
+          <app-request-create *ngIf="page === p.REQ.CRE"></app-request-create>
           
           <app-query *ngIf="page === p.UTI.QUE"></app-query>
           <app-document-printing *ngIf="page === p.UTI.DOC"></app-document-printing>

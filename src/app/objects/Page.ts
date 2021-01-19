@@ -38,6 +38,8 @@
   issuanceAccident: boolean = true;
 
   requests: boolean = true;
+  requestList: boolean = true;
+  requestCreate: boolean = true;
 
   utilities: boolean = true;
   query: boolean = true;

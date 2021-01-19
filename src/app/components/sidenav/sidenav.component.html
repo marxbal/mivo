@@ -125,11 +125,27 @@
     </div>
   </li>
 
-  <li *ngIf="menu.requests" class="nav-item">
+  <!-- <li *ngIf="menu.requests" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-fw fa-bell"></i>
       <span>Requests</span>
     </a>
+  </li> -->
+
+  <li *ngIf="menu.requests" class="nav-item">
+    <a class="nav-link collapsed" data-toggle="collapse" data-target="#requests" aria-expanded="true"
+      aria-controls="requests">
+      <i class="fas fa-fw fa-bell"></i>
+      <span>Requests</span>
+    </a>
+    <div id="requests" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a *ngIf="menu.requestCreate" class="collapse-item" [ngClass]="{'active': page==p.REQ.CRE}"
+          (click)="setPage(p.REQ.CRE)"><i class="fas fa-fw fa-plus"></i> Create Request</a>
+        <a *ngIf="menu.requestList" class="collapse-item" [ngClass]="{'active': page==p.REQ.LIS}"
+          (click)="setPage(p.REQ.LIS)"><i class="fas fa-fw fa-clipboard-list"></i> Request List</a>
+      </div>
+    </div>
   </li>
 
   <li *ngIf="menu.utilities" class="nav-item">
