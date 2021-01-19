@@ -1,3 +1,23 @@
 textarea {
     height: 208px;
 }
+
+ngx-dropzone {
+    width: 100%;
+}
+
+ngx-dropzone-preview {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+ngx-dropzone,
+.custom-dropzone {
+  margin: 20px;
+}

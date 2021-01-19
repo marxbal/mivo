@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  Inject
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,6 +21,12 @@ import {
 import {
   RequestService
 } from 'src/app/services/request.service';
+import {
+  NgxFileDropEntry,
+  FileSystemFileEntry,
+  FileSystemDirectoryEntry
+} from 'ngx-file-drop';
+import { NgxFileUploadStorage, NgxFileUploadFactory, NgxFileUploadOptions, NgxFileUploadRequest } from "@ngx-file-upload/core";
 
 @Component({
   selector: 'app-request-create',
@@ -54,19 +61,30 @@ export class RequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.us.getDateRecord().then((res) => {
-    //   // date records for commission statement dates
-    //   if (res.status) {
-    //     this.csProcessDateLOV = res.obj as[];
-    //     if (this.csProcessDateLOV.length) {
-    //       this.formatDate(this.csProcessDateLOV);
-    //       this.showCsDate = true;
-    //     }
-    //   } else {
-    //     this.modalRef = Utility.showError(this.bms, res.message);
-    //   }
-    // });
+    // this.storage.change()
+    //     .subscribe(uploads => this.uploads = uploads);
   }
+  files: File[] = [];
+
+	onSelect(event) {
+	  const addedFiles = event.addedFiles;
+	  const hasFiles = event.addedFiles.length
+	  if (hasFiles) {
+	    addedFiles.forEach(file => {
+	      if (file.size <= 9000000) {
+	        this.files.push(file);
+	      } else {
+	        const message = "Can not upload file " + file.name + ". Allowed file size is 9MB below only."
+	        this.modalRef = Utility.showError(this.bms, message);
+	      }
+	    });
+    }
+	}
+
+	onRemove(event) {
+		console.log(event);
+		this.files.splice(this.files.indexOf(event), 1);
+	}
 
   createForm() {
     this.requestForm = this.fb.group({
@@ -156,6 +174,17 @@ export class RequestCreateComponent implements OnInit {
 
   request(requestDetails: RequestDetails) {
     this.rs.request(requestDetails).then((res) => {
+      if (res.status) {
+        this.modalRef = Utility.showInfo(this.bms, res.message);
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
+    });
+  }
+
+  upload(requestDetails: RequestDetails) {
+    requestDetails.files = this.files;
+    this.rs.upload(this.files, requestDetails).then((res) => {
       if (res.status) {
         this.modalRef = Utility.showInfo(this.bms, res.message);
       } else {

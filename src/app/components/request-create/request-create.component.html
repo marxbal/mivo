@@ -231,6 +231,32 @@
                   </div>
                 </div>
 
+                <div class="col-md-12">
+                  <div class="row">
+                    <ngx-dropzone (change)="onSelect($event)"
+                      accept="image/jpeg,
+                      image/jpg,
+                      image/png,
+                      image/gif,
+                      application/pdf,
+                      application/xls,
+                      application/xlsx,
+                      application/doc,
+                      application/docx,
+                      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                      application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      >
+                      <ngx-dropzone-label>Drop file here</ngx-dropzone-label>
+                      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                  </div>
+                  
+                </div>
+
+                
+
               </div>
             </div>
 
@@ -345,6 +371,13 @@
             <button [disabled]="requestForm.invalid" type="button" class="btn btn-primary"
               (click)="request(requestDetails)">Create Request</button>
           </div>
+
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary"
+              (click)="upload(requestDetails)">Upload Request</button>
+          </div>
+          
 
           <!-- .btn-group -->
 

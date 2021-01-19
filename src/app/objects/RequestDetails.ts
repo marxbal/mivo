@@ -23,6 +23,8 @@ export class RequestDetails {
   clientGroup: String;
   copyNotify: String;
   comments: String;
+
+  files: File[];
   
   constructor(init?: Partial<RequestDetails>) {
     Object.assign(this, init);
