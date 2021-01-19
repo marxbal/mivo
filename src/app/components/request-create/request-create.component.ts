@@ -173,23 +173,22 @@ export class RequestCreateComponent implements OnInit {
   }
 
   request(requestDetails: RequestDetails) {
-    this.rs.request(requestDetails).then((res) => {
-      if (res.status) {
-        this.modalRef = Utility.showInfo(this.bms, res.message);
-      } else {
-        this.modalRef = Utility.showError(this.bms, res.message);
-      }
-    });
-  }
-
-  upload(requestDetails: RequestDetails) {
-    requestDetails.files = this.files;
-    this.rs.upload(this.files, requestDetails).then((res) => {
-      if (res.status) {
-        this.modalRef = Utility.showInfo(this.bms, res.message);
-      } else {
-        this.modalRef = Utility.showError(this.bms, res.message);
-      }
-    });
+    if (requestDetails.type == 'P') { // policy request
+      this.rs.policy(this.files, requestDetails).then((res) => {
+        if (res.status) {
+          this.modalRef = Utility.showInfo(this.bms, res.message);
+        } else {
+          this.modalRef = Utility.showError(this.bms, res.message);
+        }
+      });
+    } else {
+      this.rs.request(requestDetails, requestDetails.type).then((res) => {
+        if (res.status) {
+          this.modalRef = Utility.showInfo(this.bms, res.message);
+        } else {
+          this.modalRef = Utility.showError(this.bms, res.message);
+        }
+      });
+    }
   }
 }

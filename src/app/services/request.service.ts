@@ -16,22 +16,31 @@ export class RequestService {
 
   constructor(private app: AppService) {}
 
-  async request(requestDetails: RequestDetails): Promise < ReturnDTO > {
-    return this.app.post(requestDetails, '/request').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async request(requestDetails: RequestDetails, type: String): Promise < ReturnDTO > {
+    let url = '/request/endorsement';
+    if (type == 'R') {
+      url = '/request/renewal';
+    } else if (type == 'U') {
+      url = '/request/underwriting';
+    }
+
+    return this.app.post(requestDetails, url).then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async upload(files: File[], requestDetails: RequestDetails): Promise < ReturnDTO > {
+  async policy(files: File[], requestDetails: RequestDetails): Promise < ReturnDTO > {
     const formData = new FormData();
     files.forEach(file => {
-      formData.append("files[]", file);
+      formData.append("files", file);
     });
+
+    formData.append("request", requestDetails.toString());
 
     for (let entry in requestDetails) {
       if (requestDetails[entry] != undefined) {
         formData.append(entry, requestDetails[entry]);
       }
-  }
-    
-    return this.app.post(formData, '/request/policyRequest').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    }
+
+    return this.app.post(formData, '/request/policy').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }
