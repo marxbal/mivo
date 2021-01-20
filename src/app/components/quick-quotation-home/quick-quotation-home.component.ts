@@ -86,6 +86,9 @@ export class QuickQuotationHomeComponent implements OnInit, AfterViewChecked {
         }
       });
     });
+
+    // default to residential
+    this.homeDetails.subline = 200;
   }
 
   createQuickQuoteForm() {

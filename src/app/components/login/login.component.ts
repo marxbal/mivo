@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.modalRef = Utility.modal(
       this.modalService,
-      "You are about to enter MAPFRE Insurance Information System. The access and use of this system is limited to duly authorized personnel and strictly for official use only. MAPFRE Insurance informs all of its employees, agents, representatives, service providers, and all natural or juridical persons having official transactions with the company involving similar access to its information system that Information accessed in MAPFRE SYSTEM is considered property of MAPFRE Insurance and is subject to obligation of confidentiality and security in accordance with the laws on privacy and protection of personal information.",
+      "You are about to enter MAPFRE Insurance Information System. The access and use of this system is limited to duly authorized personnel and strictly for official use only. MAPFRE Insurance informs all of its employees, agents, representatives, service providers, and all natural or juridical persons having official transactions with the company involving similar access to its information system that Information accessed in MAPFRE SYSTEM is considered property of MAPFRE Insurance and is subject to obligation of confidentiality and security in accordance with the laws on privacy and protection of personal information. All registered users of this system shall be monitored and all accesses be recorded by MAPFRE INSURANCE as a matter of right, in accordance with existing and applicable laws and Company Rules and regulations.",
       "MAPFRE INFORMATION USAGE SECURITY NOTICE"
     );
 

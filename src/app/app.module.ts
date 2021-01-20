@@ -13,12 +13,6 @@ import {
 } from "@angular/common/http";
 
 import {
-  NgxFileDropModule
-} from 'ngx-file-drop';
-import {
-  NgxFileUploadCoreModule
-} from "@ngx-file-upload/core";
-import {
   NgxDropzoneModule
 } from "ngx-dropzone";
 import {
@@ -279,9 +273,7 @@ const routes: Routes = [{
     HttpClientModule,
     ServiceModule,
     NgSelectModule,
-    NgxFileDropModule,
     NgxDropzoneModule,
-    NgxFileUploadCoreModule,
     TranslateModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
