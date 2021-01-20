@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Inject
 } from '@angular/core';
 import {
   FormBuilder,
@@ -120,11 +119,11 @@ export class RequestCreateComponent implements OnInit {
     this.requestForm.get('type').valueChanges.subscribe(type => {
       if (type !== undefined) {
 
-        this.showPolicyDetails = type == "P";
-        this.showDetails = type !== "P";
+        this.showPolicyDetails = type == 'P';
+        this.showDetails = type !== 'P';
 
-        this.showEndorsementRT = type == "E";
-        this.showRenewalRT = type == "R";
+        this.showEndorsementRT = type == 'E';
+        this.showRenewalRT = type == 'R';
         this.showUnderwritingRT = type == 'U';
 
         Utility.updateValidator(this.requestForm.get('type1'), this.showPolicyDetails ? [Validators.required] : null);
@@ -146,13 +145,14 @@ export class RequestCreateComponent implements OnInit {
 
         Utility.updateValidator(this.requestForm.get('issueType'), this.showUnderwritingRT ? [Validators.required] : null);
 
-        if (type == "E") { //endorsement
-          this.requestDetails.requestType = "1";
-        } else if (type == "R") { //renewal
-          this.requestDetails.requestType = "5";
-        } else if (type == "U") { //underwriting
-          this.requestDetails.requestType = "S";
-          this.requestDetails.issueType = "P";
+        // set default request type and issue type
+        if (type == 'E') { //endorsement
+          this.requestDetails.requestType = '1';
+        } else if (type == 'R') { //renewal
+          this.requestDetails.requestType = '5';
+        } else if (type == 'U') { //underwriting
+          this.requestDetails.requestType = 'S';
+          this.requestDetails.issueType = 'P';
         }
       }
 
