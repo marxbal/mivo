@@ -18,11 +18,14 @@
               <div class="row">
                 <div class="form-group col-md-6">
                   <div class="row">
-                    <label for="inputEmail3" class="col-md-12 col-lg-4 col-form-label">Request Type</label>
+                    <label for="requestType" class="col-md-12 col-lg-4 col-form-label">Request Type</label>
                     <div class="col-md-12 col-lg-8">
-                      <select class="custom-select mr-sm-2 required" id="requestType">
-                        <option selected></option>
-                        <option value="1">One</option>
+                      <select class="custom-select mr-sm-2" formControlName="requestType" id="requestType">
+                        <option></option>
+                        <option value="APPROVAL">APPROVAL</option>
+                        <option value="CANCELLATION">CANCELLATION</option>
+                        <option value="RENEWAL">RENEWAL</option>
+                        <option value="GENERAL">GENERAL</option>
                       </select>
                     </div>
                   </div>
@@ -30,7 +33,7 @@
     
                 <div class="form-group col-md-6">
                   <div class="row">
-                    <label for="inputEmail3" class="col-md-12 col-lg-4 col-form-label">Request ID</label>
+                    <label for="requestId" class="col-md-12 col-lg-4 col-form-label">Request ID</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="requestId" id="requestId">
                     </div>
@@ -39,7 +42,7 @@
     
                 <div class="form-group col-md-6">
                   <div class="row">
-                    <label for="inputEmail3" class="col-md-12 col-lg-4 col-form-label">Policy Number</label>
+                    <label for="policyNumber" class="col-md-12 col-lg-4 col-form-label">Policy Number</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="policyNumber" id="policyNumber">
                     </div>
@@ -48,11 +51,13 @@
     
                 <div class="form-group col-md-6">
                   <div class="row">
-                    <label for="inputEmail3" class="col-md-12 col-lg-4 col-form-label">Status</label>
+                    <label for="status" class="col-md-12 col-lg-4 col-form-label">Status</label>
                     <div class="col-md-12 col-lg-8">
-                      <select class="custom-select mr-sm-2 required" id="status">
-                        <option selected></option>
-                        <option value="1">One</option>
+                      <select class="custom-select mr-sm-2" formControlName="status" id="status">
+                        <option></option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="STOPPED">STOPPED</option>
+                        <option value="OPEN">OPEN</option>
                       </select>
                     </div>
                   </div>
@@ -60,7 +65,7 @@
     
                 <div class="form-group col-md-6">
                   <div class="row">
-                    <label for="inputEmail3" class="col-md-12 col-lg-4 col-form-label">Request Handler</label>
+                    <label for="requestHandler" class="col-md-12 col-lg-4 col-form-label">Request Handler</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="requestHandler" id="requestHandler">
                     </div>
@@ -69,9 +74,9 @@
     
                 <div class="form-group col-md-6">
                   <div class="row">
-                    <label for="inputEmail3" class="col-md-12 col-lg-4 col-form-label">User</label>
+                    <label for="user" class="col-md-12 col-lg-4 col-form-label">User</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" class="form-control" formControlName="user" id="user">
+                      <input type="text" class="form-control" formControlName="user" id="user" oninput="this.value = this.value.toUpperCase()">
                     </div>
                   </div>
                 </div>
@@ -82,7 +87,7 @@
             <div class="col-lg-12">
               <div class="btn-group">
                 <button class="btn btn-primary" (click)="apply()">Apply</button>
-                <button class="btn btn-info">Reset</button>
+                <button class="btn btn-info" (click)="reset()">Reset</button>
               </div>
             </div>
 

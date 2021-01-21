@@ -35,7 +35,7 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-request-list',
@@ -159,17 +159,41 @@ export class RequestListComponent implements OnInit {
   }
 
   apply(){
+    const requestType = this.filterForm.get('requestType').value;
+    this.requestType = requestType != null ? requestType : '';
+
     const requestId = this.filterForm.get('requestId').value;
     this.requestId = requestId != null ? requestId : '';
 
     const policyNumber = this.filterForm.get('policyNumber').value;
     this.policyNumber = policyNumber != null ? policyNumber : '';
 
+    const status = this.filterForm.get('status').value;
+    this.status = status != null ? status : '';
+
     const requestHandler = this.filterForm.get('requestHandler').value;
     this.requestHandler = requestHandler != null ? requestHandler : '';
 
     const user = this.filterForm.get('user').value;
     this.user = user != null ? user : '';
+
+    this.getList();
+  }
+
+  reset() {
+    this.filterForm.get('requestType').setValue('');
+    this.filterForm.get('requestId').setValue('');
+    this.filterForm.get('policyNumber').setValue('');
+    this.filterForm.get('status').setValue('');
+    this.filterForm.get('requestHandler').setValue('');
+    this.filterForm.get('user').setValue('');
+
+    this.requestType = '';
+    this.requestId = '';
+    this.policyNumber = '';
+    this.status = '';
+    this.requestHandler = '';
+    this.user = '';
 
     this.getList();
   }
