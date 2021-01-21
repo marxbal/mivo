@@ -10,6 +10,9 @@ import {
 import {
   RequestDetails
 } from '../objects/RequestDetails';
+import {
+  PageFilter
+} from '../objects/PageFilter';
 
 @Injectable()
 export class RequestService {
@@ -42,5 +45,13 @@ export class RequestService {
     }
 
     return this.app.post(formData, '/request/policy').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
+  async getList(pageFilter: PageFilter): Promise < ReturnDTO > {
+    return this.app.post(pageFilter, '/request/list').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
+  async reply(requestDetails: RequestDetails): Promise < ReturnDTO > {
+    return this.app.post(requestDetails, '/request/reply').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }

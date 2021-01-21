@@ -188,6 +188,9 @@ import {
 import {
   RequestListComponent
 } from './components/request-list/request-list.component';
+import {
+  RequestDetailsModalComponent
+} from './components/request-details-modal/request-details-modal.component';
 
 const routes: Routes = [{
     path: "login",
@@ -256,6 +259,7 @@ const routes: Routes = [{
     FixedCoveragesComponent,
     RequestCreateComponent,
     RequestListComponent,
+    RequestDetailsModalComponent,
   ],
   entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent],
   imports: [
