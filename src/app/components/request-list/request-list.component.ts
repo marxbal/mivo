@@ -60,7 +60,7 @@ const ELEMENT_DATA: RequestDetailsList[] = [{
 export class RequestListComponent implements OnInit {
 
   displayedColumns: string[] = ['requestType', 'requestId', 'policyNumber', 'status', 'requestHandler', 'user'];
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   pageFilter: PageFilter = new PageFilter();
 
@@ -113,22 +113,7 @@ export class RequestListComponent implements OnInit {
   handlePage(e: any) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
-
-    const data: RequestDetailsList[] = [];
-
-    for (var i = 0; i < this.pageSize; i++) {
-      var obj = {
-        requestType: "APPROVAL",
-        requestId: "QTMV2001800000004-004",
-        policyNumber: "2001800000004",
-        status: '',
-        requestHandler: "Shekinah P. Esponilla",
-        user: "MAPFRE INSULAR INSURANCE CORPORATION",
-      };
-      data.push(obj);
-    }
-
-    this.dataSource = new MatTableDataSource(data);
+    this.getList();
   }
 
   sortChange(e: any) {
