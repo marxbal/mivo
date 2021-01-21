@@ -188,6 +188,7 @@ form .card-header.optional {
 
 .product-comparison table .amount {
   text-align: right !important;
+  padding-right: 10px;
 }
 
 .product-comparison table h6 {
@@ -213,6 +214,11 @@ form .card-header.optional {
 
 .product-comparison .fa-times-circle {
   color: indianred !important;
+}
+
+/* table */
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  padding-right: 10px !important;
 }
 
 /* alert note */
