@@ -36,22 +36,6 @@ import {
   Utility
 } from 'src/app/utils/utility';
 
-const ELEMENT_DATA: RequestDetailsList[] = [{
-  requestType: "APPROVAL",
-  requestId: "QTMV2001800000004-004",
-  policyNumber: "2001800000004",
-  status: '',
-  requestHandler: "Shekinah P. Esponilla",
-  user: "MAPFRE INSULAR INSURANCE CORPORATION",
-}, {
-  requestType: "RENEWAL",
-  requestId: "QTMV2001800000004-003",
-  policyNumber: "2001800000003",
-  status: '',
-  requestHandler: "Patrick A. Manaois",
-  user: "MAPFRE INSULAR INSURANCE CORPORATION",
-}];
-
 @Component({
   selector: 'app-request-list',
   templateUrl: './request-list.component.html',
@@ -60,7 +44,7 @@ const ELEMENT_DATA: RequestDetailsList[] = [{
 export class RequestListComponent implements OnInit {
 
   displayedColumns: string[] = ['requestType', 'requestId', 'policyNumber', 'status', 'requestHandler', 'user'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource();
 
   pageFilter: PageFilter = new PageFilter();
 
@@ -89,7 +73,7 @@ export class RequestListComponent implements OnInit {
     this.getList();
   }
 
-  setFilters() {
+  setPageFilters() {
     this.pageFilter.currentPage = this.currentPage;
     this.pageFilter.pageSize = this.pageSize;
     this.pageFilter.sortBy = this.sortBy;
@@ -97,7 +81,7 @@ export class RequestListComponent implements OnInit {
   }
 
   getList() {
-    this.setFilters();
+    this.setPageFilters();
     this.rs.getList(this.pageFilter).then((res) => {
       if (res.status) {
         let data: RequestDetailsList[] = [];
@@ -110,7 +94,7 @@ export class RequestListComponent implements OnInit {
     });
   }
 
-  handlePage(e: any) {
+  pageChange(e: any) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
     this.getList();
@@ -129,10 +113,10 @@ export class RequestListComponent implements OnInit {
     this.getList();
   }
 
-  getDetails(row) {
-    let details = new RequestDetailsList();
-    details = row;
-    this.openDetailsModal(details);
+  getDetails(row: RequestDetailsList) {
+    // let details = new RequestDetailsList();
+    // details = row;
+    this.openDetailsModal(row);
   }
 
   openDetailsModal(details: RequestDetailsList) {
@@ -141,5 +125,4 @@ export class RequestListComponent implements OnInit {
       data: details
     });
   }
-
 }

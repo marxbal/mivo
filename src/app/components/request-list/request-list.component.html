@@ -132,7 +132,7 @@
             </table>
           </div>
           <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="totalItem" [pageIndex]="currentPage"
-            [pageSize]="pageSize" showFirstLastButtons (page)="handlePage($event)"></mat-paginator>
+            [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
 
         </div>
         <!-- .card-body -->
