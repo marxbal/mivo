@@ -131,7 +131,7 @@
 
             </table>
           </div>
-          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="100" [pageIndex]="currentPage"
+          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="totalItem" [pageIndex]="currentPage"
             [pageSize]="pageSize" showFirstLastButtons (page)="handlePage($event)"></mat-paginator>
 
         </div>
