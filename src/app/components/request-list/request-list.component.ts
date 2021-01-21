@@ -117,8 +117,16 @@ export class RequestListComponent implements OnInit {
   }
 
   sortChange(e: any) {
-    this.sortBy = e.active;
-    this.sortOrder = e.direction;
+    this.currentPage = 0;
+    if (e.direction != '') {
+      this.sortBy = e.active;
+      this.sortOrder = e.direction;
+    } else {
+      // sort to default
+      this.sortBy = 'requestType';
+      this.sortOrder = 'asc';
+    }
+    this.getList();
   }
 
   getDetails(row) {
