@@ -2,7 +2,7 @@ export class RequestDetailsList {
   requestType: String;
   requestId: String;
   policyNumber: String;
-  status: number;
+  status: String;
   requestHandler: String;
   user: String;
   

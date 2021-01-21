@@ -40,14 +40,14 @@ const ELEMENT_DATA: RequestDetailsList[] = [{
   requestType: "APPROVAL",
   requestId: "QTMV2001800000004-004",
   policyNumber: "2001800000004",
-  status: 1,
+  status: '',
   requestHandler: "Shekinah P. Esponilla",
   user: "MAPFRE INSULAR INSURANCE CORPORATION",
 }, {
   requestType: "RENEWAL",
   requestId: "QTMV2001800000004-003",
   policyNumber: "2001800000003",
-  status: 1,
+  status: '',
   requestHandler: "Patrick A. Manaois",
   user: "MAPFRE INSULAR INSURANCE CORPORATION",
 }];
@@ -121,7 +121,7 @@ export class RequestListComponent implements OnInit {
         requestType: "APPROVAL",
         requestId: "QTMV2001800000004-004",
         policyNumber: "2001800000004",
-        status: 1,
+        status: '',
         requestHandler: "Shekinah P. Esponilla",
         user: "MAPFRE INSULAR INSURANCE CORPORATION",
       };
