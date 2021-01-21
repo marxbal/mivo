@@ -261,7 +261,7 @@ const routes: Routes = [{
     RequestListComponent,
     RequestDetailsModalComponent,
   ],
-  entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent],
+  entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent, RequestDetailsModalComponent],
   imports: [
     AppRoutingModule,
     RouterModule.forRoot(routes),
