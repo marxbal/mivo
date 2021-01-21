@@ -49,13 +49,17 @@ export class RequestListComponent implements OnInit {
 
   pageFilter: PageFilter = new PageFilter();
 
-  currentPage = 0;
-  pageSize = 10;
-  sortBy = 'requestType';
-  sortOrder = 'asc';
+  currentPage : number = 0;
+  pageSize : number = 10;
+  sortBy : String = 'requestType';
+  sortOrder : String = 'asc';
 
-  policyNumber = '';
-
+  requestType: String = '';
+  requestId: String = '';
+  policyNumber: String = '';
+  status: String = '';
+  requestHandler: String = '';
+  user: String = '';
 
   totalItem = 0;
   pageSizeOptions = [10, 20, 50, 100];
@@ -83,9 +87,16 @@ export class RequestListComponent implements OnInit {
     this.createForm();
   }
 
+
+
   createForm() {
     this.filterForm = this.fb.group({
+      requestType: [null],
+      requestId: [null],
       policyNumber: [null],
+      status: [null],
+      requestHandler: [null],
+      user: [null],
     });
   }
 
@@ -95,7 +106,12 @@ export class RequestListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
+    this.pageFilter.requestType = this.requestType;
+    this.pageFilter.requestId = this.requestId;
     this.pageFilter.policyNumber = this.policyNumber;
+    this.pageFilter.status = this.status;
+    this.pageFilter.requestHandler = this.requestHandler;
+    this.pageFilter.user = this.user;
   }
 
   getList() {
@@ -132,8 +148,6 @@ export class RequestListComponent implements OnInit {
   }
 
   getDetails(row: RequestDetailsList) {
-    // let details = new RequestDetailsList();
-    // details = row;
     this.openDetailsModal(row);
   }
 
@@ -145,8 +159,18 @@ export class RequestListComponent implements OnInit {
   }
 
   apply(){
+    const requestId = this.filterForm.get('requestId').value;
+    this.requestId = requestId != null ? requestId : '';
+
     const policyNumber = this.filterForm.get('policyNumber').value;
     this.policyNumber = policyNumber != null ? policyNumber : '';
+
+    const requestHandler = this.filterForm.get('requestHandler').value;
+    this.requestHandler = requestHandler != null ? requestHandler : '';
+
+    const user = this.filterForm.get('user').value;
+    this.user = user != null ? user : '';
+
     this.getList();
   }
 }
