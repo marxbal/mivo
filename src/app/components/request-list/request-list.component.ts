@@ -66,7 +66,7 @@ export class RequestListComponent implements OnInit {
 
   pageSize = 10;
   currentPage = 0;
-  sortBy = 'requestId';
+  sortBy = 'requestType';
   sortOrder = 'asc';
   totalItem = 0;
   pageSizeOptions = [10, 20, 50, 100];
