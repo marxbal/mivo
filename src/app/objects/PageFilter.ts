@@ -4,6 +4,8 @@ export class PageFilter {
   sortBy: String;
   sortOrder: String;
 
+  policyNumber: String;
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }

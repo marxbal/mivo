@@ -35,6 +35,7 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-request-list',
@@ -48,10 +49,14 @@ export class RequestListComponent implements OnInit {
 
   pageFilter: PageFilter = new PageFilter();
 
-  pageSize = 10;
   currentPage = 0;
+  pageSize = 10;
   sortBy = 'requestType';
   sortOrder = 'asc';
+
+  policyNumber = '';
+
+
   totalItem = 0;
   pageSizeOptions = [10, 20, 50, 100];
 
@@ -65,12 +70,23 @@ export class RequestListComponent implements OnInit {
   //modal reference
   modalRef: BsModalRef;
 
+  filterForm: FormGroup;
+
   constructor(public dialog: MatDialog,
     private rs: RequestService,
-    private bms: BsModalService) {}
+    private bms: BsModalService,
+    private fb: FormBuilder
+    ) {}
 
   ngOnInit() {
     this.getList();
+    this.createForm();
+  }
+
+  createForm() {
+    this.filterForm = this.fb.group({
+      policyNumber: [null],
+    });
   }
 
   setPageFilters() {
@@ -78,6 +94,8 @@ export class RequestListComponent implements OnInit {
     this.pageFilter.pageSize = this.pageSize;
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
+
+    this.pageFilter.policyNumber = this.policyNumber;
   }
 
   getList() {
@@ -124,5 +142,11 @@ export class RequestListComponent implements OnInit {
       width: '1000px',
       data: details
     });
+  }
+
+  apply(){
+    const policyNumber = this.filterForm.get('policyNumber').value;
+    this.policyNumber = policyNumber != null ? policyNumber : '';
+    this.getList();
   }
 }

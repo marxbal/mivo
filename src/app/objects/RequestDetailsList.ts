@@ -5,6 +5,7 @@ export class RequestDetailsList {
   status: String;
   requestHandler: String;
   user: String;
+  message: String;
   
   constructor(init?: Partial<RequestDetailsList>) {
     Object.assign(this, init);
