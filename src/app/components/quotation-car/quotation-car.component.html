@@ -1138,6 +1138,19 @@
 
           <!-- button controls for issuance -->
           <div *ngIf="isIssuance">
+            <div *ngIf="(showSaveBtn && withTechControl) || (showPostBtn && withTechControl)">
+              <div class="alert alert-warning note">
+                <p>
+                  <strong>Quotation has tech control!</strong> Unable to issue policy.
+                </p>
+              </div>
+              <!-- .note -->
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary" (click)="newQuote()">New Quote</button>
+                <button type="button" class="btn btn-primary" (click)="newPolicy()">New Policy</button>
+              </div>
+            </div>
+
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <!-- <button type="button" class="btn btn-primary"
                 (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
@@ -1152,7 +1165,7 @@
                 (click)="proceed(1)">Generate</button>
             </div>
 
-            <div *ngIf="showSaveBtn" class="btn-group" role="group">
+            <div *ngIf="showSaveBtn && !withTechControl" class="btn-group" role="group">
               <button *ngIf="!editMode"
                 type="button" class="btn btn-primary"
                 (click)="manageBtn(1)">Edit Details</button>
@@ -1167,7 +1180,7 @@
                 (click)="proceed(3)">Save</button>
             </div>
 
-            <div *ngIf="showPostBtn" class="btn-group" role="group">
+            <div *ngIf="showPostBtn && !withTechControl" class="btn-group" role="group">
               <button *ngIf="!editMode"
                 type="button" class="btn btn-primary"
                 (click)="editMode = !editMode">Edit Details</button>

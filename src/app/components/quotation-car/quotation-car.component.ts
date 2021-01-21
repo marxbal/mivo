@@ -1651,7 +1651,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const receipt = res1.obj["receipt"];
             this.populatePaymentBreakdown(breakdown, receipt);
 
-            if (errorCode == "S") {
+            this.withTechControl = errorCode == 'S';
+            if (this.withTechControl) {
               //if quotation has a warning
               if (this.carDetails.affecting) {
                 items = ["Updated quotation number is: " + policyNumber].concat(items);
