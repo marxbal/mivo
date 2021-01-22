@@ -80,6 +80,10 @@ body,
   color: #7a7a7a;
 }
 
+.expand-column {
+  width: 160px;
+}
+
 .btn-group-table {
   bottom: 20px;
 }
