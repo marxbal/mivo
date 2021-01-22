@@ -68,6 +68,7 @@ export class ClientPolicyActiveListComponent implements OnInit {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   documentTypeItems: any[] = [];
+  sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
   pageFilter: PageFilter = new PageFilter();
 
