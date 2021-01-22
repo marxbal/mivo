@@ -169,6 +169,7 @@ export class ClientDetailsListComponent implements OnInit {
   }
 
   getDetails(row: ListClientDetails) {
+    row.type = "CLIENTDETAILS";
     this.openDetailsModal(row);
   }
 

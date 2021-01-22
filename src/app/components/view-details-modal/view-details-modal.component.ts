@@ -22,6 +22,7 @@ import {
 export class ViewDetailsModalComponent implements OnInit {
 
   listClientDetails = new ListClientDetails();
+  type: String;
 
   //modal reference
   modalRef: BsModalRef;
@@ -30,7 +31,17 @@ export class ViewDetailsModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
-    this.listClientDetails = this.data;
+    this.type = this.data.type;
+    switch (this.type) {
+      case "CLIENTDETAILS": {
+        this.listClientDetails = this.data;
+        break;
+      }
+
+      default: {
+        // do nothing
+      }
+    }
   }
 
   close(): void {

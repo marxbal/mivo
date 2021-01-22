@@ -7,6 +7,7 @@ export class ListClientDetails {
   businessTelNumber: String;
   mobileNumber: String;
   email: String;
+  type: String;
   
   constructor(init?: Partial<ListClientDetails>) {
     Object.assign(this, init);
