@@ -20,12 +20,9 @@
                   <div class="row">
                     <label for="requestType" class="col-md-12 col-lg-4 col-form-label">Request Type</label>
                     <div class="col-md-12 col-lg-8">
-                      <select class="custom-select mr-sm-2" formControlName="requestType" id="requestType">
+                      <select class="custom-select mr-sm-2" formControlName="requestType" id="requestType" [(ngModel)]="pageFilter.requestType">
                         <option></option>
-                        <option value="APPROVAL">APPROVAL</option>
-                        <option value="CANCELLATION">CANCELLATION</option>
-                        <option value="RENEWAL">RENEWAL</option>
-                        <option value="GENERAL">GENERAL</option>
+                        <option *ngFor="let item of requestTypeItems" [ngValue]="item">{{ item }}</option>
                       </select>
                     </div>
                   </div>
@@ -35,7 +32,7 @@
                   <div class="row">
                     <label for="requestId" class="col-md-12 col-lg-4 col-form-label">Request ID</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" class="form-control" formControlName="requestId" id="requestId">
+                      <input type="text" class="form-control" formControlName="requestId" id="requestId" [(ngModel)]="pageFilter.requestId">
                     </div>
                   </div>
                 </div>
@@ -44,7 +41,7 @@
                   <div class="row">
                     <label for="policyNumber" class="col-md-12 col-lg-4 col-form-label">Policy Number</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" class="form-control" formControlName="policyNumber" id="policyNumber">
+                      <input type="text" class="form-control" formControlName="policyNumber" id="policyNumber" [(ngModel)]="pageFilter.policyNumber">
                     </div>
                   </div>
                 </div>
@@ -53,11 +50,9 @@
                   <div class="row">
                     <label for="status" class="col-md-12 col-lg-4 col-form-label">Status</label>
                     <div class="col-md-12 col-lg-8">
-                      <select class="custom-select mr-sm-2" formControlName="status" id="status">
+                      <select class="custom-select mr-sm-2" formControlName="status" id="status" [(ngModel)]="pageFilter.status">
                         <option></option>
-                        <option value="COMPLETED">COMPLETED</option>
-                        <option value="STOPPED">STOPPED</option>
-                        <option value="OPEN">OPEN</option>
+                        <option *ngFor="let item of statusItems" [ngValue]="item">{{ item }}</option>
                       </select>
                     </div>
                   </div>
@@ -67,7 +62,7 @@
                   <div class="row">
                     <label for="requestHandler" class="col-md-12 col-lg-4 col-form-label">Request Handler</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" class="form-control" formControlName="requestHandler" id="requestHandler">
+                      <input type="text" class="form-control" formControlName="requestHandler" id="requestHandler" [(ngModel)]="pageFilter.requestHandler">
                     </div>
                   </div>
                 </div>
@@ -76,7 +71,7 @@
                   <div class="row">
                     <label for="user" class="col-md-12 col-lg-4 col-form-label">User</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" class="form-control" formControlName="user" id="user" oninput="this.value = this.value.toUpperCase()">
+                      <input type="text" class="form-control" formControlName="user" id="user" oninput="this.value = this.value.toUpperCase()" [(ngModel)]="pageFilter.user">
                     </div>
                   </div>
                 </div>
