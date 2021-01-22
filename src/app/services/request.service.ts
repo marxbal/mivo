@@ -13,6 +13,9 @@ import {
 import {
   PageFilter
 } from '../objects/PageFilter';
+import {
+  ReplyDetails
+} from '../objects/ReplyDetails';
 
 @Injectable()
 export class RequestService {
@@ -52,10 +55,12 @@ export class RequestService {
   }
 
   async getMessageList(requestId: String): Promise < ReturnDTO > {
-    return this.app.post({requestId}, '/request/messageList').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post({
+      requestId
+    }, '/request/messageList').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async reply(requestDetails: RequestDetails): Promise < ReturnDTO > {
-    return this.app.post(requestDetails, '/request/reply').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  async reply(replyDetails: ReplyDetails): Promise < ReturnDTO > {
+    return this.app.post(replyDetails, '/request/reply').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }

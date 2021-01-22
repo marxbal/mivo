@@ -11,7 +11,7 @@
           <div class="form-group">
             <label for="requestId">Request ID</label>
             <input type="text" formControlName="requestId" class="form-control required"
-              [(ngModel)]="requestDetailsList.requestId" [attr.disabled]="true">
+              [(ngModel)]="requestDetailsList.requestId" [readOnly]="true">
           </div>
         </div>
 
@@ -100,13 +100,13 @@
         <div class="form-divider"></div>
 
         <div class="col-lg-12">
-          <div class="form-group" [ngClass]="{'input-error': requestForm.controls['reply'].invalid 
-              && (requestForm.controls['reply'].dirty 
-              || requestForm.controls['reply'].touched)}">
+          <div class="form-group" [ngClass]="{'input-error': requestForm.controls['replyMessage'].invalid 
+              && (requestForm.controls['replyMessage'].dirty 
+              || requestForm.controls['replyMessage'].touched)}">
             <label for="address">Reply</label>
-            <textarea type="text" formControlName="reply" class="form-control required"
-              [(ngModel)]="requestDetails.reason"></textarea>
-            <p class="form-error" *ngIf="requestForm.controls['reply'].errors?.required">
+            <textarea type="text" formControlName="replyMessage" class="form-control required"
+              [(ngModel)]="replyDetails.message"></textarea>
+            <p class="form-error" *ngIf="requestForm.controls['replyMessage'].errors?.required">
               * reply is required
             </p>
           </div>
@@ -118,7 +118,7 @@
               || requestForm.controls['agentEmail'].touched)}">
             <label for="agentEmail">Agent's Email</label>
             <input type="text" formControlName="agentEmail" class="form-control required"
-              [(ngModel)]="requestDetails.agentEmail">
+              [(ngModel)]="replyDetails.agentEmail">
             <p class="form-error" *ngIf="requestForm.controls['agentEmail'].errors?.required">
               * agent's email is required
             </p>
@@ -134,7 +134,7 @@
               || requestForm.controls['name'].touched)}">
             <label for="name">Name</label>
             <input type="text" formControlName="name" class="form-control required"
-              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="requestDetails.name">
+              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="replyDetails.name">
             <p class="form-error" *ngIf="requestForm.controls['name'].errors?.required">
               * name is required
             </p>

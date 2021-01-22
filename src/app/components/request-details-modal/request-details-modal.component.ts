@@ -18,6 +18,9 @@ import {
   BsModalService
 } from 'ngx-bootstrap/modal';
 import {
+  ReplyDetails
+} from 'src/app/objects/ReplyDetails';
+import {
   RequestDetails
 } from 'src/app/objects/RequestDetails';
 import {
@@ -45,6 +48,7 @@ export class RequestDetailsModalComponent implements OnInit {
   requestForm: FormGroup;
   requestDetailsList: RequestDetailsList = new RequestDetailsList();
   requestDetails: RequestDetails = new RequestDetails();
+  replyDetails = new ReplyDetails();
 
   //modal reference
   modalRef: BsModalRef;
@@ -59,7 +63,7 @@ export class RequestDetailsModalComponent implements OnInit {
   ngOnInit(): void {
     this.requestDetailsList = this.data;
     this.createForm();
-    this.getList();
+    // this.getList();
   }
 
   createForm() {
@@ -70,7 +74,7 @@ export class RequestDetailsModalComponent implements OnInit {
       policyNumber: [null],
       status: [null],
       message: [null],
-      reply: ['', Validators.required],
+      replyMessage: ['', Validators.required],
       agentEmail: ['', [Validators.email, Validators.required]],
       name: ['', Validators.required],
     });
@@ -89,11 +93,14 @@ export class RequestDetailsModalComponent implements OnInit {
   }
 
   reply(): void {
-    this.rs.reply(this.requestDetails).then((res) => {
+    this.replyDetails.requestId = this.requestDetailsList.requestId;
+    this.replyDetails.requestType = this.requestDetailsList.requestType;
+
+    this.rs.reply(this.replyDetails).then((res) => {
       if (res.status) {
-        this.modalRef = Utility.showInfo(this.bms, "Successfully replied to request.");
+        this.modalRef = Utility.showInfo(this.bms, res.message);
       } else {
-        this.modalRef = Utility.showError(this.bms, "Unable to reply to request.");
+        this.modalRef = Utility.showError(this.bms, res.message);
       }
       this.dialogRef.close();
     });
