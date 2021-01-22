@@ -17,6 +17,9 @@ import {
   ListPolicyActive
 } from 'src/app/objects/ListPolicyActive';
 import {
+  ListPolicyCancelled
+} from 'src/app/objects/ListPolicyCancelled';
+import {
   page
 } from '../../constants/page';
 
@@ -29,6 +32,7 @@ export class ViewDetailsModalComponent implements OnInit {
 
   listClientDetails = new ListClientDetails();
   listPolicyActive = new ListPolicyActive();
+  listPolicyCancelled = new ListPolicyCancelled();
   type: String;
 
   //modal reference
@@ -46,6 +50,10 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.CLI.ACT: {
         this.listPolicyActive = this.data;
+        break;
+      }
+      case page.CLI.CAN: {
+        this.listPolicyCancelled = this.data;
         break;
       }
       default: {

@@ -36,38 +36,31 @@ import {
   ViewDetailsModalComponent
 } from '../view-details-modal/view-details-modal.component';
 import {
-  ThirdPartyLOVServices
-} from 'src/app/services/lov/third-party-lov-service';
-import {
-  ListPolicyActive
-} from 'src/app/objects/ListPolicyActive';
+  ListPolicyCancelled
+} from 'src/app/objects/ListPolicyCancelled';
 import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListPolicyActive[] = [{
+const ELEMENT_DATA: ListPolicyCancelled[] = [{
   policyNumber: "0129328302323",
   policyEffectivityDate: "11/11/11",
-  policyDueDate: "11/11/12",
   line: "PC",
   policyHolder: "LEBRON JAMES",
-  documentType: "PAS",
-  documentCode: "PASS20202",
   source: "MIVO",
   type: "POLICYACTIVE"
 }];
 
 @Component({
-  selector: 'app-client-policy-active-list',
-  templateUrl: './client-policy-active-list.component.html',
-  styleUrls: ['./client-policy-active-list.component.css']
+  selector: 'app-client-policy-cancelled-list',
+  templateUrl: './client-policy-cancelled-list.component.html',
+  styleUrls: ['./client-policy-cancelled-list.component.css']
 })
-export class ClientPolicyActiveListComponent implements OnInit {
+export class ClientPolicyCancelledListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyDueDate', 'line', 'policyHolder', 'documentType', 'documentCode', 'source'];
+  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'line', 'policyHolder', 'source'];
   dataSource = new MatTableDataSource();
 
-  documentTypeItems: any[] = [];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
   pageFilter: PageFilter = new PageFilter();
@@ -98,28 +91,19 @@ export class ClientPolicyActiveListComponent implements OnInit {
     private cs: ClientService,
     private bms: BsModalService,
     private fb: FormBuilder,
-    private tpls: ThirdPartyLOVServices,
   ) {}
 
   ngOnInit() {
     this.getList();
     this.createForm();
-
-    var _this = this;
-    this.tpls.getDocumentType().then(res => {
-      _this.documentTypeItems = res;
-    });
   }
 
   createForm() {
     this.filterForm = this.fb.group({
       policyNumber: [null],
       effectivityDate: [null],
-      dueDate: [null],
       line: [null],
       policyHolder: [null],
-      documentType: [null],
-      documentCode: [null],
       source: [null]
     });
   }
@@ -130,15 +114,14 @@ export class ClientPolicyActiveListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.paEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.paEffectivityDate);
-    this.pageFilter.paDueDate = Utility.convertDatePickerDate(this.pageFilter.paDueDate);
+    this.pageFilter.pcEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.pcEffectivityDate);
   }
 
   getList() {
     this.setPageFilters();
-    this.cs.getPolicyActiveList(this.pageFilter).then((res) => {
+    this.cs.getPolicyCancelledList(this.pageFilter).then((res) => {
       if (res.status) {
-        let data: ListPolicyActive[] = [];
+        let data: ListPolicyCancelled[] = [];
         data = res.obj['list'];
         this.dataSource = new MatTableDataSource(data);
         this.totalItem = res.obj['totalItem'];
@@ -167,12 +150,12 @@ export class ClientPolicyActiveListComponent implements OnInit {
     this.getList();
   }
 
-  getDetails(row: ListPolicyActive) {
-    row.type = page.CLI.ACT;
+  getDetails(row: ListPolicyCancelled) {
+    row.type = page.CLI.CAN;
     this.openDetailsModal(row);
   }
 
-  openDetailsModal(details: ListPolicyActive) {
+  openDetailsModal(details: ListPolicyCancelled) {
     this.dialog.open(ViewDetailsModalComponent, {
       width: '1000px',
       data: details
@@ -186,11 +169,8 @@ export class ClientPolicyActiveListComponent implements OnInit {
   reset() {
     this.filterForm.get('policyNumber').setValue('');
     this.filterForm.get('effectivityDate').setValue('');
-    this.filterForm.get('dueDate').setValue('');
     this.filterForm.get('line').setValue('');
     this.filterForm.get('policyHolder').setValue('');
-    this.filterForm.get('documentType').setValue('');
-    this.filterForm.get('documentCode').setValue('');
     this.filterForm.get('source').setValue('');
 
     this.getList();

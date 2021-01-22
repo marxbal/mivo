@@ -32,6 +32,13 @@ export class PageFilter {
   paDocumentCode: String = "";
   paSource: String = "";
 
+  // for policy cancelled list
+  pcPolicyNumber: String = "";
+  pcEffectivityDate: String = "";
+  pcLine: String = "";
+  pcPolicyHolder: String = "";
+  pcSource: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }

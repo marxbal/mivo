@@ -200,6 +200,9 @@ import {
 import {
   ClientPolicyActiveListComponent
 } from './components/client-policy-active-list/client-policy-active-list.component';
+import {
+  ClientPolicyCancelledListComponent
+} from './components/client-policy-cancelled-list/client-policy-cancelled-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -272,6 +275,7 @@ const routes: Routes = [{
     ClientDetailsListComponent,
     ViewDetailsModalComponent,
     ClientPolicyActiveListComponent,
+    ClientPolicyCancelledListComponent,
   ],
   entryComponents: [
     ModalComponent,

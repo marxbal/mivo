@@ -53,7 +53,8 @@
         <h6 class="collapse-header">Policies:</h6>
         <a *ngIf="menu.active" class="collapse-item" [ngClass]="{'active': page==p.CLI.ACT}"
           (click)="setPage(p.CLI.ACT)"><i class="fas fa-fw fa-user-check"></i> Active</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-times"></i> Cancelled</a>
+        <a *ngIf="menu.active" class="collapse-item" [ngClass]="{'active': page==p.CLI.CAN}"
+          (click)="setPage(p.CLI.CAN)"><i class="fas fa-fw fa-user-times"></i> Cancelled</a>
         <a class="collapse-item"><i class="fas fa-fw fa-sync"></i> Renewed</a>
         <a class="collapse-item"><i class="fas fa-fw fa-user-slash"></i> Not Renewed</a>
         <a class="collapse-item"><i class="fas fa-fw fa-exclamation-triangle"></i> Expiring</a>

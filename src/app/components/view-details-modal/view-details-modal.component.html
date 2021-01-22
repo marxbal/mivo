@@ -132,6 +132,49 @@
       <div class="clearfix"></div>
     </div>
 
+    <div *ngIf="type == 'client-cancelled'" class="row">
+      <div class="col-md-12">
+        <h5>Cancelled Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
   </div>
   <!-- .container -->
 </div>
