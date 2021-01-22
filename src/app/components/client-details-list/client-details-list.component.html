@@ -21,7 +21,7 @@
                     <label for="name" class="col-md-12 col-lg-4 col-form-label">Name</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="name" id="name"
-                        [(ngModel)]="pageFilter.name">
+                        [(ngModel)]="pageFilter.cdName">
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                     <label for="documentType" class="col-md-12 col-lg-4 col-form-label">Document Type</label>
                     <div class="col-md-12 col-lg-8">
                       <select class="custom-select mr-sm-2" formControlName="documentType" id="documentType"
-                        [(ngModel)]="pageFilter.documentType">
+                        [(ngModel)]="pageFilter.cdDocumentType">
                         <option></option>
                         <option *ngFor="let item of documentTypeItems" [ngValue]="item">{{ item }}</option>
                       </select>
@@ -44,7 +44,7 @@
                     <label for="documentCode" class="col-md-12 col-lg-4 col-form-label">Document Code</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="documentCode" id="documentCode"
-                        [(ngModel)]="pageFilter.documentCode">
+                        [(ngModel)]="pageFilter.cdDocumentCode">
                     </div>
                   </div>
                 </div>
@@ -54,7 +54,7 @@
                     <label for="address" class="col-md-12 col-lg-4 col-form-label">Address</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="address" id="address"
-                        [(ngModel)]="pageFilter.address">
+                        [(ngModel)]="pageFilter.cdAddress">
                     </div>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
                     <label for="homeTelNumber" class="col-md-12 col-lg-4 col-form-label">Home Tel. No.</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="homeTelNumber" id="homeTelNumber"
-                        [(ngModel)]="pageFilter.homeTelNumber">
+                        [(ngModel)]="pageFilter.cdHomeTelNumber">
                     </div>
                   </div>
                 </div>
@@ -74,7 +74,7 @@
                     <label for="businessTelNumber" class="col-md-12 col-lg-4 col-form-label">Business Tel. No.</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="businessTelNumber" id="businessTelNumber"
-                        [(ngModel)]="pageFilter.businessTelNumber">
+                        [(ngModel)]="pageFilter.cdBusinessTelNumber">
                     </div>
                   </div>
                 </div>
@@ -84,7 +84,7 @@
                     <label for="mobileNumber" class="col-md-12 col-lg-4 col-form-label">Mobile No.</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="mobileNumber" id="mobileNumber"
-                        [(ngModel)]="pageFilter.mobileNumber">
+                        [(ngModel)]="pageFilter.cdMobileNumber">
                     </div>
                   </div>
                 </div>
@@ -94,7 +94,7 @@
                     <label for="email" class="col-md-12 col-lg-4 col-form-label">Email</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="email" id="email"
-                        [(ngModel)]="pageFilter.email">
+                        [(ngModel)]="pageFilter.cdEmail">
                     </div>
                   </div>
                 </div>

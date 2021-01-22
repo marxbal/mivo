@@ -12,6 +12,16 @@ export class PageFilter {
   requestHandler: String = "";
   user: String = "";
 
+  // for client details list
+  cdName: String = "";
+  cdDocumentType: String = "";
+  cdDocumentCode: String = "";
+  cdAddress: String = "";
+  cdHomeTelNumber: String = "";
+  cdBusinessTelNumber: String = "";
+  cdMobileNumber: String = "";
+  cdEmail: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }
