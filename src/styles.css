@@ -124,6 +124,10 @@ form .form-divider {
   float: right;
 }
 
+.divider {
+  border-top: 1px solid #ececec;
+}
+
 form .form-error {
   margin-top: 5px;
   margin-bottom: 0;
