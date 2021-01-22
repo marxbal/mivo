@@ -120,12 +120,12 @@
             <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
               class="mat-elevation-z8">
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-180"> Name </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-220"> Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="documentType">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Document Type </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Document Type </th>
                 <td mat-cell *matCellDef="let element"> {{element.documentType}} </td>
               </ng-container>
 
@@ -135,17 +135,17 @@
               </ng-container>
 
               <ng-container matColumnDef="address">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-200">  Address </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-250">  Address </th>
                 <td mat-cell *matCellDef="let element"> {{element.address}} </td>
               </ng-container>
 
               <ng-container matColumnDef="homeTelNumber">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Home Tel. No. </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Home Tel. No. </th>
                 <td mat-cell *matCellDef="let element"> {{element.homeTelNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="businessTelNumber">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Business Tel. No. </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Business Tel. No. </th>
                 <td mat-cell *matCellDef="let element"> {{element.businessTelNumber}} </td>
               </ng-container>
 
