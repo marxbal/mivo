@@ -4,6 +4,7 @@ export class PageFilter {
   sortBy: String;
   sortOrder: String;
 
+  // for request list
   requestType: String = "";
   requestId: String = "";
   policyNumber: String = "";
