@@ -130,8 +130,8 @@ export class Utility {
   }
 
   static convertDatePickerDate(val: String) {
-    const date = val.toString();
-    if (date != null && date != undefined && date !== '' ) {
+    if (val != null && val != undefined && val !== '' ) {
+      const date = val.toString();
       var d = new Date(date);
       return moment(d).format("MM/DD/YYYY");
     }
