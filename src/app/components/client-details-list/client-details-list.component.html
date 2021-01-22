@@ -120,7 +120,7 @@
             <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
               class="mat-elevation-z8">
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-180"> Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
               </ng-container>
 
@@ -130,12 +130,12 @@
               </ng-container>
 
               <ng-container matColumnDef="documentCode">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column"> Document Code </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Document Code </th>
                 <td mat-cell *matCellDef="let element"> {{element.documentCode}} </td>
               </ng-container>
 
               <ng-container matColumnDef="address">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-200">  Address </th>
                 <td mat-cell *matCellDef="let element"> {{element.address}} </td>
               </ng-container>
 
