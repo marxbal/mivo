@@ -48,7 +48,8 @@
     <div id="myClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Clients:</h6>
-        <a class="collapse-item"><i class="fas fa-fw fa-info-circle"></i> Details</a>
+        <a *ngIf="menu.clientDetails" class="collapse-item" [ngClass]="{'active': page==p.CLI.CLI}"
+          (click)="setPage(p.CLI.CLI)"><i class="fas fa-fw fa-info-circle"></i> Details</a>
         <h6 class="collapse-header">Policies:</h6>
         <a class="collapse-item"><i class="fas fa-fw fa-user-check"></i> Active</a>
         <a class="collapse-item"><i class="fas fa-fw fa-user-times"></i> Cancelled</a>

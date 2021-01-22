@@ -98,7 +98,6 @@ export class AuthenticationService {
   getPages() {
     // removing pages for user
     const unavailablePages = [
-      "client",
       "query",
       "changePassword",
       "news",

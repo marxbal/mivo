@@ -60,6 +60,9 @@ import {
 import {
   RequestService
 } from './request.service';
+import {
+  ClientService
+} from './client.service';
 
 /* LOV Services */
 import {
@@ -109,6 +112,7 @@ import {
     ThirdPartyService, //tps
     LTOService, //ltos
     RequestService, //rs
+    ClientService, //cs
 
     LovService, //ls
     GroupPolicyLOVServices, //gpls

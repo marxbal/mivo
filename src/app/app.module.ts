@@ -191,6 +191,9 @@ import {
 import {
   RequestDetailsModalComponent
 } from './components/request-details-modal/request-details-modal.component';
+import {
+  ClientDetailsListComponent
+} from './components/client-details-list/client-details-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -260,6 +263,7 @@ const routes: Routes = [{
     RequestCreateComponent,
     RequestListComponent,
     RequestDetailsModalComponent,
+    ClientDetailsListComponent,
   ],
   entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent, RequestDetailsModalComponent],
   imports: [

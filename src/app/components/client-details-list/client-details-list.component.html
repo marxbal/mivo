@@ -1,0 +1,180 @@
+<div class="row" id="requestList">
+  <div class="col-xl-12">
+    <div class="page-header">
+      <h4>Request List</h4>
+    </div>
+    <!-- .page-header -->
+  </div>
+  <!-- .col-xl-12 -->
+
+  <div class="col-xl-12">
+    <div class="card shadow">
+      <div class="card-body">
+
+        <div class="col-lg-12">
+
+          <div class="card-body">
+            <form [formGroup]="filterForm">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="name" class="col-md-12 col-lg-4 col-form-label">Name</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="name" id="name"
+                        [(ngModel)]="pageFilter.name">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="documentType" class="col-md-12 col-lg-4 col-form-label">Document Type</label>
+                    <div class="col-md-12 col-lg-8">
+                      <select class="custom-select mr-sm-2" formControlName="documentType" id="documentType"
+                        [(ngModel)]="pageFilter.documentType">
+                        <option></option>
+                        <option *ngFor="let item of documentTypeItems" [ngValue]="item">{{ item }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="documentCode" class="col-md-12 col-lg-4 col-form-label">Document Code</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="documentCode" id="documentCode"
+                        [(ngModel)]="pageFilter.documentCode">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="address" class="col-md-12 col-lg-4 col-form-label">Address</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="address" id="address"
+                        [(ngModel)]="pageFilter.address">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="homeTelNumber" class="col-md-12 col-lg-4 col-form-label">Home Tel. No.</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="homeTelNumber" id="homeTelNumber"
+                        [(ngModel)]="pageFilter.homeTelNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="businessTelNumber" class="col-md-12 col-lg-4 col-form-label">Business Tel. No.</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="businessTelNumber" id="businessTelNumber"
+                        [(ngModel)]="pageFilter.businessTelNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="mobileNumber" class="col-md-12 col-lg-4 col-form-label">Mobile No.</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="mobileNumber" id="mobileNumber"
+                        [(ngModel)]="pageFilter.mobileNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="email" class="col-md-12 col-lg-4 col-form-label">Email</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="email" id="email"
+                        [(ngModel)]="pageFilter.email">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="btn-group">
+                    <button class="btn btn-primary" (click)="apply()">Apply</button>
+                    <button class="btn btn-info" (click)="reset()">Reset</button>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+
+
+          </div>
+
+          <div class="clearfix"></div>
+          <div class="divider"></div>
+
+          <div class="flexitable">
+
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+              class="mat-elevation-z8">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="documentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Document Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.documentType}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="documentCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Document Code </th>
+                <td mat-cell *matCellDef="let element"> {{element.documentCode}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+                <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="homeTelNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Home Tel. No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.homeTelNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="businessTelNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Business Tel. No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.businessTelNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mobileNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.mobileNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getDetails(row)"></tr>
+
+            </table>
+          </div>
+
+          <div *ngIf="dataSource.filteredData.length === 0" class="no-data-found">No Data Found</div>
+
+          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="totalItem" [pageIndex]="currentPage"
+            [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
+
+        </div>
+        <!-- .card-body -->
+      </div>
+      <!-- .card.shadow -->
+    </div>
+    <!-- .col-xl-12 -->
+  </div>
+  <!-- #requestList -->
