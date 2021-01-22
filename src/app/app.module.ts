@@ -194,6 +194,9 @@ import {
 import {
   ClientDetailsListComponent
 } from './components/client-details-list/client-details-list.component';
+import {
+  ViewDetailsModalComponent
+} from './components/view-details-modal/view-details-modal.component';
 
 const routes: Routes = [{
     path: "login",
@@ -264,8 +267,14 @@ const routes: Routes = [{
     RequestListComponent,
     RequestDetailsModalComponent,
     ClientDetailsListComponent,
+    ViewDetailsModalComponent,
   ],
-  entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent, RequestDetailsModalComponent],
+  entryComponents: [
+    ModalComponent,
+    PaymentBreakdownModalComponent,
+    CreateThirdPartyComponent,
+    RequestDetailsModalComponent,
+    ViewDetailsModalComponent],
   imports: [
     AppRoutingModule,
     RouterModule.forRoot(routes),

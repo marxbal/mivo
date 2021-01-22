@@ -35,6 +35,7 @@ import {
 import {
   ClientService
 } from 'src/app/services/client.service';
+import { ViewDetailsModalComponent } from '../view-details-modal/view-details-modal.component';
 
 export interface OutstandingBillsDTO {
   name: string;
@@ -161,10 +162,10 @@ export class ClientDetailsListComponent implements OnInit {
   }
 
   openDetailsModal(details: ListClientDetails) {
-    // this.dialog.open(RequestDetailsModalComponent, {
-    //   width: '1000px',
-    //   data: details
-    // });
+    this.dialog.open(ViewDetailsModalComponent, {
+      width: '1000px',
+      data: details
+    });
   }
 
   apply() {

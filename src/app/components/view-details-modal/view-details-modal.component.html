@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>View Details</h2>
+<div mat-dialog-content>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="requestId">Name</label>
+          <input type="text" formControlName="requestId" class="form-control required" [readOnly]="true" value={{listClientDetails.name}}>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <div class="clearfix"></div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary" (click)="close()">
+      Close
+    </button>
+  </div>
+</div>
