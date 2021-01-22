@@ -30,8 +30,8 @@
                     <div class="row">
                       <label for="effectivityDate" class="col-md-12 col-lg-4 col-form-label">Effectivity Date</label>
                       <div class="col-md-12 col-lg-8">
-                        <input type="text" class="form-control" formControlName="effectivityDate" id="effectivityDate"
-                          [(ngModel)]="pageFilter.paEffectivityDate">
+                          <input type="text" placeholder="Datepicker" class="form-control" [maxDate]="today"
+                          formControlName="effectivityDate" [(ngModel)]="pageFilter.paEffectivityDate" bsDatepicker>
                       </div>
                     </div>
                   </div>
@@ -40,8 +40,8 @@
                     <div class="row">
                       <label for="dueDate" class="col-md-12 col-lg-4 col-form-label">Due Date</label>
                       <div class="col-md-12 col-lg-8">
-                        <input type="text" class="form-control" formControlName="dueDate" id="dueDate"
-                          [(ngModel)]="pageFilter.paDueDate">
+                        <input type="text" placeholder="Datepicker" class="form-control"
+                          formControlName="dueDate" [(ngModel)]="pageFilter.paDueDate" bsDatepicker>
                       </div>
                     </div>
                   </div>

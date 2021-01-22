@@ -80,6 +80,8 @@ export class ClientPolicyActiveListComponent implements OnInit {
   totalItem = 0;
   pageSizeOptions = [10, 20, 50, 100];
 
+  today: Date = new Date();
+
   @ViewChild(MatSort, {
     static: true
   }) sort: MatSort;
