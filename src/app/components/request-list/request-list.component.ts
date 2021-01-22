@@ -35,7 +35,10 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup
+} from '@angular/forms';
 
 @Component({
   selector: 'app-request-list',
@@ -52,10 +55,10 @@ export class RequestListComponent implements OnInit {
 
   pageFilter: PageFilter = new PageFilter();
 
-  currentPage : number = 0;
-  pageSize : number = 10;
-  sortBy : String = 'requestType';
-  sortOrder : String = 'asc';
+  currentPage: number = 0;
+  pageSize: number = 10;
+  sortBy: String = 'requestType';
+  sortOrder: String = 'asc';
 
   totalItem = 0;
   pageSizeOptions = [10, 20, 50, 100];
@@ -76,7 +79,7 @@ export class RequestListComponent implements OnInit {
     private rs: RequestService,
     private bms: BsModalService,
     private fb: FormBuilder
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.getList();
@@ -145,7 +148,7 @@ export class RequestListComponent implements OnInit {
     });
   }
 
-  apply(){
+  apply() {
     this.getList();
   }
 

@@ -52,7 +52,7 @@ export class RequestService {
   }
 
   async getMessageList(requestId: String): Promise < ReturnDTO > {
-    return this.app.post(requestId, '/request/messageList').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post({requestId}, '/request/messageList').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async reply(requestDetails: RequestDetails): Promise < ReturnDTO > {
