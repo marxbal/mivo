@@ -35,7 +35,12 @@ import {
 import {
   ClientService
 } from 'src/app/services/client.service';
-import { ViewDetailsModalComponent } from '../view-details-modal/view-details-modal.component';
+import {
+  ViewDetailsModalComponent
+} from '../view-details-modal/view-details-modal.component';
+import {
+  ThirdPartyLOVServices
+} from 'src/app/services/lov/third-party-lov-service';
 
 export interface OutstandingBillsDTO {
   name: string;
@@ -69,7 +74,7 @@ export class ClientDetailsListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'documentType', 'documentCode', 'address', 'homeTelNumber', 'businessTelNumber', 'mobileNumber', 'email'];
   dataSource = new MatTableDataSource();
 
-  requestTypeItems = ["APPROVAL", "CANCELLATION", "RENEWAL", "GENERAL"];
+  documentTypeItems : any[] = [];
 
   pageFilter: PageFilter = new PageFilter();
 
@@ -96,12 +101,18 @@ export class ClientDetailsListComponent implements OnInit {
   constructor(public dialog: MatDialog,
     private cs: ClientService,
     private bms: BsModalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private tpls: ThirdPartyLOVServices,
   ) {}
 
   ngOnInit() {
     this.getList();
     this.createForm();
+
+    var _this = this;
+    this.tpls.getDocumentType().then(res => {
+      _this.documentTypeItems = res;
+    });
   }
 
   createForm() {
