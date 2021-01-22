@@ -33,7 +33,7 @@
                       <select class="custom-select mr-sm-2" formControlName="documentType" id="documentType"
                         [(ngModel)]="pageFilter.cdDocumentType">
                         <option></option>
-                        <option *ngFor="let item of documentTypeItems" [ngValue]="item.COD_DOCUM">{{ item.NOM_DOCUM }}</option>
+                        <option *ngFor="let item of documentTypeItems" [ngValue]="item.TIP_DOCUM">{{ item.NOM_DOCUM }}</option>
                       </select>
                     </div>
                   </div>
