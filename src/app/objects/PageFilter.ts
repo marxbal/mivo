@@ -22,6 +22,16 @@ export class PageFilter {
   cdMobileNumber: String = "";
   cdEmail: String = "";
 
+  // for policy active list
+  paPolicyNumber: String = "";
+  paEffectivityDate: String = "";
+  paDueDate: String = "";
+  paLine: String = "";
+  paPolicyHolder: String = "";
+  paDocumentType: String = "";
+  paDocumentCode: String = "";
+  paSource: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }

@@ -13,6 +13,12 @@ import {
 import {
   ListClientDetails
 } from 'src/app/objects/ListClientDetails';
+import {
+  ListPolicyActive
+} from 'src/app/objects/ListPolicyActive';
+import {
+  page
+} from '../../constants/page';
 
 @Component({
   selector: 'app-view-details-modal',
@@ -22,6 +28,7 @@ import {
 export class ViewDetailsModalComponent implements OnInit {
 
   listClientDetails = new ListClientDetails();
+  listPolicyActive = new ListPolicyActive();
   type: String;
 
   //modal reference
@@ -33,11 +40,14 @@ export class ViewDetailsModalComponent implements OnInit {
   ngOnInit(): void {
     this.type = this.data.type;
     switch (this.type) {
-      case "CLIENTDETAILS": {
+      case page.CLI.CLI: {
         this.listClientDetails = this.data;
         break;
       }
-
+      case page.CLI.ACT: {
+        this.listPolicyActive = this.data;
+        break;
+      }
       default: {
         // do nothing
       }

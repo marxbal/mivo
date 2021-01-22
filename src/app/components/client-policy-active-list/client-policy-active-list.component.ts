@@ -27,9 +27,6 @@ import {
   MatDialog
 } from '@angular/material';
 import {
-  ListClientDetails
-} from 'src/app/objects/ListClientDetails';
-import {
   Utility
 } from 'src/app/utils/utility';
 import {
@@ -42,32 +39,35 @@ import {
   ThirdPartyLOVServices
 } from 'src/app/services/lov/third-party-lov-service';
 import {
+  ListPolicyActive
+} from 'src/app/objects/ListPolicyActive';
+import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListClientDetails[] = [{
-  name: "LEBRON JAMES",
+const ELEMENT_DATA: ListPolicyActive[] = [{
+  policyNumber: "0129328302323",
+  policyEffectivityDate: "11/11/11",
+  policyDueDate: "11/11/12",
+  line: "PC",
+  policyHolder: "LEBRON JAMES",
   documentType: "PAS",
-  documentCode: "PASS23",
-  address: "LOS ANGELES",
-  homeTelNumber: "230948324",
-  businessTelNumber: "230948324",
-  mobileNumber: "230948324",
-  email: "lebron@james.com",
-  type: "test"
+  documentCode: "PASS20202",
+  source: "MIVO",
+  type: "POLICYACTIVE"
 }];
 
 @Component({
-  selector: 'app-client-details-list',
-  templateUrl: './client-details-list.component.html',
-  styleUrls: ['./client-details-list.component.css']
+  selector: 'app-client-policy-active-list',
+  templateUrl: './client-policy-active-list.component.html',
+  styleUrls: ['./client-policy-active-list.component.css']
 })
-export class ClientDetailsListComponent implements OnInit {
+export class ClientPolicyActiveListComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'documentType', 'documentCode', 'address', 'homeTelNumber', 'businessTelNumber', 'mobileNumber', 'email'];
-  dataSource = new MatTableDataSource();
+  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyDueDate', 'line', 'policyHolder', 'documentType', 'documentCode', 'source'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  documentTypeItems : any[] = [];
+  documentTypeItems: any[] = [];
 
   pageFilter: PageFilter = new PageFilter();
 
@@ -110,14 +110,14 @@ export class ClientDetailsListComponent implements OnInit {
 
   createForm() {
     this.filterForm = this.fb.group({
-      name: [null],
+      policyNumber: [null],
+      effectivityDate: [null],
+      dueDate: [null],
+      line: [null],
+      policyHolder: [null],
       documentType: [null],
       documentCode: [null],
-      address: [null],
-      homeTelNumber: [null],
-      businessTelNumber: [null],
-      mobileNumber: [null],
-      email: [null]
+      source: [null]
     });
   }
 
@@ -130,9 +130,9 @@ export class ClientDetailsListComponent implements OnInit {
 
   getList() {
     this.setPageFilters();
-    this.cs.getClientDetailsList(this.pageFilter).then((res) => {
+    this.cs.getPolicyActiveList(this.pageFilter).then((res) => {
       if (res.status) {
-        let data: ListClientDetails[] = [];
+        let data: ListPolicyActive[] = [];
         data = res.obj['list'];
         this.dataSource = new MatTableDataSource(data);
         this.totalItem = res.obj['totalItem'];
@@ -161,12 +161,12 @@ export class ClientDetailsListComponent implements OnInit {
     this.getList();
   }
 
-  getDetails(row: ListClientDetails) {
-    row.type = page.CLI.CLI;
+  getDetails(row: ListPolicyActive) {
+    row.type = page.CLI.ACT;
     this.openDetailsModal(row);
   }
 
-  openDetailsModal(details: ListClientDetails) {
+  openDetailsModal(details: ListPolicyActive) {
     this.dialog.open(ViewDetailsModalComponent, {
       width: '1000px',
       data: details

@@ -197,6 +197,9 @@ import {
 import {
   ViewDetailsModalComponent
 } from './components/view-details-modal/view-details-modal.component';
+import {
+  ClientPolicyActiveListComponent
+} from './components/client-policy-active-list/client-policy-active-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -268,6 +271,7 @@ const routes: Routes = [{
     RequestDetailsModalComponent,
     ClientDetailsListComponent,
     ViewDetailsModalComponent,
+    ClientPolicyActiveListComponent,
   ],
   entryComponents: [
     ModalComponent,

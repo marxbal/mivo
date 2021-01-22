@@ -1,7 +1,8 @@
 <h2 mat-dialog-title>View Details</h2>
 <div mat-dialog-content>
   <div class="container">
-    <div *ngIf="type == 'CLIENTDETAILS'" class="row">
+
+    <div *ngIf="type == 'client-details'" class="row">
       <div class="col-md-12">
         <h5>Client Details</h5>
       </div>
@@ -64,10 +65,77 @@
       </div>
 
       <div class="clearfix"></div>
-
     </div>
+
+    <div *ngIf="type == 'client-active'" class="row">
+      <div class="col-md-12">
+        <h5>Active Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentType">Document Type</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.documentType}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentCode">Document Code</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyActive.documentCode}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
   </div>
+  <!-- .container -->
 </div>
+<!-- mat-dialog-content -->
 
 <div mat-dialog-actions align="end">
   <div class="btn-group" role="group">

@@ -19,4 +19,8 @@ export class ClientService {
   async getClientDetailsList(pageFilter: PageFilter): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/client/clientDetails').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getPolicyActiveList(pageFilter: PageFilter): Promise < ReturnDTO > {
+    return this.app.post(pageFilter, '/client/policy/active').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }
