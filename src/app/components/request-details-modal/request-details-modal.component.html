@@ -60,7 +60,7 @@
         <div class="form-divider"></div>
         
         <div class="col-lg-12">
-          <div *ngIf="dataSource.length !== 0" class="flexitable">
+          <div class="flexitable">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
               <ng-container matColumnDef="requestHandler">
@@ -93,9 +93,9 @@
   
             </table>
           </div>
-  
-          <div *ngIf="dataSource.length === 0">No message thread found</div>
         </div>
+
+        <div *ngIf="dataSource.filteredData.length === 0" class="no-data-found">No Data Found</div>
         
         <div class="form-divider"></div>
 

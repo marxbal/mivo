@@ -72,6 +72,14 @@ body,
   overflow-x: auto;
 }
 
+.no-data-found {
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  background: #f5f5f5;
+  color: #7a7a7a;
+}
+
 .btn-group-table {
   bottom: 20px;
 }
