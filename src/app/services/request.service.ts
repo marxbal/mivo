@@ -51,6 +51,10 @@ export class RequestService {
     return this.app.post(pageFilter, '/request/list').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
+  async getMessageList(requestId: String): Promise < ReturnDTO > {
+    return this.app.post(requestId, '/request/messageList').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
   async reply(requestDetails: RequestDetails): Promise < ReturnDTO > {
     return this.app.post(requestDetails, '/request/reply').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }

@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import {
   MatDialogRef,
+  MatTableDataSource,
   MAT_DIALOG_DATA
 } from '@angular/material';
 import {
@@ -19,9 +20,18 @@ import {
 import {
   RequestDetails
 } from 'src/app/objects/RequestDetails';
-import { RequestDetailsList } from 'src/app/objects/RequestDetailsList';
-import { RequestService } from 'src/app/services/request.service';
-import { Utility } from 'src/app/utils/utility';
+import {
+  RequestDetailsList
+} from 'src/app/objects/RequestDetailsList';
+import {
+  RequestDetailsMessageList
+} from 'src/app/objects/RequestDetailsMessageList';
+import {
+  RequestService
+} from 'src/app/services/request.service';
+import {
+  Utility
+} from 'src/app/utils/utility';
 
 @Component({
   selector: 'app-request-details-modal',
@@ -29,6 +39,9 @@ import { Utility } from 'src/app/utils/utility';
   styleUrls: ['./request-details-modal.component.css']
 })
 export class RequestDetailsModalComponent implements OnInit {
+  displayedColumns: string[] = ['requestHandler', 'message', 'user', 'source', 'postDate'];
+  dataSource = new MatTableDataSource();
+
   requestForm: FormGroup;
   requestDetailsList: RequestDetailsList = new RequestDetailsList();
   requestDetails: RequestDetails = new RequestDetails();
@@ -46,6 +59,7 @@ export class RequestDetailsModalComponent implements OnInit {
   ngOnInit(): void {
     this.requestDetailsList = this.data;
     this.createForm();
+    this.getList();
   }
 
   createForm() {
@@ -59,6 +73,18 @@ export class RequestDetailsModalComponent implements OnInit {
       reply: ['', Validators.required],
       agentEmail: ['', [Validators.email, Validators.required]],
       name: ['', Validators.required],
+    });
+  }
+
+  getList() {
+    this.rs.getMessageList(this.requestDetailsList.requestId).then((res) => {
+      if (res.status) {
+        let data: RequestDetailsMessageList[] = [];
+        data = res.obj['list'];
+        this.dataSource = new MatTableDataSource(data);
+      } else {
+        this.modalRef = Utility.showError(this.bms, res.message);
+      }
     });
   }
 
