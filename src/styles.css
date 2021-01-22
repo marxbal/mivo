@@ -80,6 +80,11 @@ body,
   color: #7a7a7a;
 }
 
+.mat-row:hover{
+  background: azure;
+  cursor: pointer;
+}
+
 .expand-column-150 .mat-sort-header-button {
   width: 150px;
 }
