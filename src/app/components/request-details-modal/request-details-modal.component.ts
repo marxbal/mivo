@@ -63,7 +63,7 @@ export class RequestDetailsModalComponent implements OnInit {
   ngOnInit(): void {
     this.requestDetailsList = this.data;
     this.createForm();
-    // this.getList();
+    this.getList();
   }
 
   createForm() {
