@@ -44,6 +44,7 @@ import {
 import {
   page
 } from '../../constants/page';
+import * as moment from 'moment';
 
 const ELEMENT_DATA: ListPolicyActive[] = [{
   policyNumber: "0129328302323",
@@ -65,7 +66,7 @@ const ELEMENT_DATA: ListPolicyActive[] = [{
 export class ClientPolicyActiveListComponent implements OnInit {
 
   displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyDueDate', 'line', 'policyHolder', 'documentType', 'documentCode', 'source'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource();
 
   documentTypeItems: any[] = [];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
@@ -129,6 +130,9 @@ export class ClientPolicyActiveListComponent implements OnInit {
     this.pageFilter.pageSize = this.pageSize;
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
+
+    this.pageFilter.paEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.paEffectivityDate);
+    this.pageFilter.paDueDate = Utility.convertDatePickerDate(this.pageFilter.paDueDate);
   }
 
   getList() {
@@ -181,14 +185,14 @@ export class ClientPolicyActiveListComponent implements OnInit {
   }
 
   reset() {
-    this.filterForm.get('name').setValue('');
+    this.filterForm.get('policyNumber').setValue('');
+    this.filterForm.get('effectivityDate').setValue('');
+    this.filterForm.get('dueDate').setValue('');
+    this.filterForm.get('line').setValue('');
+    this.filterForm.get('policyHolder').setValue('');
     this.filterForm.get('documentType').setValue('');
     this.filterForm.get('documentCode').setValue('');
-    this.filterForm.get('address').setValue('');
-    this.filterForm.get('homeTelNumber').setValue('');
-    this.filterForm.get('businessTelNumber').setValue('');
-    this.filterForm.get('mobileNumber').setValue('');
-    this.filterForm.get('email').setValue('');
+    this.filterForm.get('source').setValue('');
 
     this.getList();
   }

@@ -128,4 +128,13 @@ export class Utility {
     }
     return invalid;
   }
+
+  static convertDatePickerDate(val: String) {
+    const date = val.toString();
+    if (date != null && date != undefined && date !== '' ) {
+      var d = new Date(date);
+      return moment(d).format("MM/DD/YYYY");
+    }
+    return "";
+  }
 }
