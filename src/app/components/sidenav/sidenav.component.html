@@ -69,7 +69,8 @@
         <a *ngIf="menu.provisionalQuotation" class="collapse-item" [ngClass]="{'active': page==p.CLI.PROQ}"
           (click)="setPage(p.CLI.PROQ)"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
         <h6 class="collapse-header">Claims:</h6>
-        <a class="collapse-item"><i class="fas fa-fw fa-info-circle"></i> Details</a>
+        <a *ngIf="menu.claims" class="collapse-item" [ngClass]="{'active': page==p.CLI.CLA}"
+          (click)="setPage(p.CLI.CLA)"><i class="fas fa-fw fa-info-circle"></i> Details</a>
       </div>
     </div>
   </li>

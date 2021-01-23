@@ -51,4 +51,8 @@ export class ClientService {
   async getQuotationProvisionalList(pageFilter: PageFilter): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/client/quotation/provisional').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getClaimsList(pageFilter: PageFilter): Promise < ReturnDTO > {
+    return this.app.post(pageFilter, '/client/claims').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }

@@ -87,6 +87,14 @@ export class PageFilter {
   qpPolicyHolder: String = "";
   qpSource: String = "";
 
+  // for claims list
+  clClaimNumber: String = "";
+  clFileNumber: String = "";
+  clFileName: String = "";
+  clLossDate: String = "";
+  clNotificationDate: String = "";
+  clSource: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }

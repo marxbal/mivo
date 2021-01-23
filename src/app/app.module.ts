@@ -221,6 +221,9 @@ import {
 import {
   ClientQuotationProvisionalListComponent
 } from './components/client-quotation-provisional-list/client-quotation-provisional-list.component';
+import {
+  ClientClaimsListComponent
+} from './components/client-claims-list/client-claims-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -300,6 +303,7 @@ const routes: Routes = [{
     ClientPolicyProvisionalListComponent,
     ClientQuotationActiveListComponent,
     ClientQuotationProvisionalListComponent,
+    ClientClaimsListComponent,
   ],
   entryComponents: [
     ModalComponent,

@@ -11,6 +11,9 @@ import {
   BsModalRef
 } from 'ngx-bootstrap/modal';
 import {
+  ListClaimDetails
+} from 'src/app/objects/ListClaimDetails';
+import {
   ListClientDetails
 } from 'src/app/objects/ListClientDetails';
 import {
@@ -57,6 +60,7 @@ export class ViewDetailsModalComponent implements OnInit {
   listPolicyProvisional = new ListPolicyProvisional();
   listQuotationActive = new ListQuotationActive();
   listQuotationProvisional = new ListQuotationProvisional();
+  listClaimDetails = new ListClaimDetails();
   type: String;
 
   //modal reference
@@ -102,6 +106,10 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.CLI.PROQ: {
         this.listQuotationProvisional = this.data;
+        break;
+      }
+      case page.CLI.CLA: {
+        this.listClaimDetails = this.data;
         break;
       }
 

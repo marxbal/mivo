@@ -36,30 +36,31 @@ import {
   ViewDetailsModalComponent
 } from '../view-details-modal/view-details-modal.component';
 import {
-  ListQuotationActive
-} from 'src/app/objects/ListQuotationActive';
+  ListClaimDetails
+} from 'src/app/objects/ListClaimDetails';
 import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListQuotationActive[] = [{
-  quotationNumber: "0129328302323",
-  policyEffectivityDate: "11/11/11",
-  policyDueDate: "11/11/12",
-  line: "PAS",
-  policyHolder: "LEBRON JAMES",
-  source: "PASS20202",
+const ELEMENT_DATA: ListClaimDetails[] = [{
+  claimNumber: "0129328302323",
+  fileNumber: "11/11/11",
+  fileName: "11/11/12",
+  lossDate: "PAS",
+  notificationDate: "LEBRON JAMES",
+  reserveAmount: "PASS20202",
+  source: "sss",
   type: "POLICYACTIVE"
 }];
 
 @Component({
-  selector: 'app-client-quotation-active-list',
-  templateUrl: './client-quotation-active-list.component.html',
-  styleUrls: ['./client-quotation-active-list.component.css']
+  selector: 'app-client-claims-list',
+  templateUrl: './client-claims-list.component.html',
+  styleUrls: ['./client-claims-list.component.css']
 })
-export class ClientQuotationActiveListComponent implements OnInit {
+export class ClientClaimsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['quotationNumber', 'policyEffectivityDate', 'policyDueDate', 'line', 'policyHolder', 'source'];
+  displayedColumns: string[] = ['claimNumber', 'fileNumber', 'fileName', 'lossDate', 'notificationDate', 'reserveAmount', 'source'];
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
@@ -68,7 +69,7 @@ export class ClientQuotationActiveListComponent implements OnInit {
 
   currentPage: number = 0;
   pageSize: number = 10;
-  sortBy: String = 'quotationNumber';
+  sortBy: String = 'claimNumber';
   sortOrder: String = 'asc';
 
   totalItem = 0;
@@ -101,11 +102,11 @@ export class ClientQuotationActiveListComponent implements OnInit {
 
   createForm() {
     this.filterForm = this.fb.group({
-      quotationNumber: [null],
-      effectivityDate: [null],
-      dueDate: [null],
-      line: [null],
-      policyHolder: [null],
+      claimNumber: [null],
+      fileNumber: [null],
+      fileName: [null],
+      lossDate: [null],
+      notificationDate: [null],
       source: [null],
     });
   }
@@ -116,15 +117,15 @@ export class ClientQuotationActiveListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.qaEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.qaEffectivityDate);
-    this.pageFilter.qaDueDate = Utility.convertDatePickerDate(this.pageFilter.qaDueDate);
+    this.pageFilter.clLossDate = Utility.convertDatePickerDate(this.pageFilter.clLossDate);
+    this.pageFilter.clNotificationDate = Utility.convertDatePickerDate(this.pageFilter.clNotificationDate);
   }
 
   getList() {
     this.setPageFilters();
-    this.cs.getQuotationActiveList(this.pageFilter).then((res) => {
+    this.cs.getClaimsList(this.pageFilter).then((res) => {
       if (res.status) {
-        let data: ListQuotationActive[] = [];
+        let data: ListClaimDetails[] = [];
         data = res.obj['list'];
         this.dataSource = new MatTableDataSource(data);
         this.totalItem = res.obj['totalItem'];
@@ -147,18 +148,18 @@ export class ClientQuotationActiveListComponent implements OnInit {
       this.sortOrder = e.direction;
     } else {
       // sort to default
-      this.sortBy = 'quotationNumber';
+      this.sortBy = 'claimNumber';
       this.sortOrder = 'asc';
     }
     this.getList();
   }
 
-  getDetails(row: ListQuotationActive) {
-    row.type = page.CLI.ACTQ;
+  getDetails(row: ListClaimDetails) {
+    row.type = page.CLI.CLA;
     this.openDetailsModal(row);
   }
 
-  openDetailsModal(details: ListQuotationActive) {
+  openDetailsModal(details: ListClaimDetails) {
     this.dialog.open(ViewDetailsModalComponent, {
       width: '1000px',
       data: details
@@ -170,11 +171,11 @@ export class ClientQuotationActiveListComponent implements OnInit {
   }
 
   reset() {
-    this.filterForm.get('quotationNumber').setValue('');
-    this.filterForm.get('effectivityDate').setValue('');
-    this.filterForm.get('dueDate').setValue('');
-    this.filterForm.get('line').setValue('');
-    this.filterForm.get('policyHolder').setValue('');
+    this.filterForm.get('claimNumber').setValue('');
+    this.filterForm.get('fileNumber').setValue('');
+    this.filterForm.get('fileName').setValue('');
+    this.filterForm.get('lossDate').setValue('');
+    this.filterForm.get('notificationDate').setValue('');
     this.filterForm.get('source').setValue('');
 
     this.getList();
