@@ -63,7 +63,7 @@ const ELEMENT_DATA: ListPolicyRenewed[] = [{
 export class ClientPolicyRenewedListComponent implements OnInit {
 
   displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyDueDate', 'policyHolder', 'documentType', 'documentCode'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource();
 
   documentTypeItems: any[] = [];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
@@ -132,7 +132,7 @@ export class ClientPolicyRenewedListComponent implements OnInit {
 
   getList() {
     this.setPageFilters();
-    this.cs.getPolicyActiveList(this.pageFilter).then((res) => {
+    this.cs.getPolicyRenewedList(this.pageFilter).then((res) => {
       if (res.status) {
         let data: ListPolicyRenewed[] = [];
         data = res.obj['list'];
