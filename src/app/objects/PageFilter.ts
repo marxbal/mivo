@@ -63,6 +63,14 @@ export class PageFilter {
   peEmail: String = "";
   peTelephoneNumber: String = "";
 
+  // for policy provisional list
+  ppPolicyNumber: String = "";
+  ppEffectivityDate: String = "";
+  ppDueDate: String = "";
+  ppLine: String = "";
+  ppPolicyHolder: String = "";
+  ppSource: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }

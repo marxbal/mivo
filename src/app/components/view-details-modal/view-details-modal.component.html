@@ -335,6 +335,60 @@
       <div class="clearfix"></div>
     </div>
 
+    <div *ngIf="type == 'client-provisional'" class="row">
+      <div class="col-md-12">
+        <h5>Provisional Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentType">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyProvisional.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentCode">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyProvisional.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
   </div>
   <!-- .container -->
 </div>

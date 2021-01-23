@@ -26,6 +26,9 @@ import {
   ListPolicyNotRenewed
 } from 'src/app/objects/ListPolicyNotRenewed';
 import {
+  ListPolicyProvisional
+} from 'src/app/objects/ListPolicyProvisional';
+import {
   ListPolicyRenewed
 } from 'src/app/objects/ListPolicyRenewed';
 import {
@@ -45,6 +48,7 @@ export class ViewDetailsModalComponent implements OnInit {
   listPolicyRenewed = new ListPolicyRenewed();
   listPolicyNotRenewed = new ListPolicyNotRenewed();
   listPolicyExpiring = new ListPolicyExpiring();
+  listPolicyProvisional = new ListPolicyProvisional();
   type: String;
 
   //modal reference
@@ -80,6 +84,11 @@ export class ViewDetailsModalComponent implements OnInit {
         this.listPolicyExpiring = this.data;
         break;
       }
+      case page.CLI.PRO: {
+        this.listPolicyProvisional = this.data;
+        break;
+      }
+
       default: {
         // do nothing
       }

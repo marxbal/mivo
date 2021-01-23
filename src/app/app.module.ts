@@ -212,6 +212,9 @@ import {
 import {
   ClientPolicyExpiringListComponent
 } from './components/client-policy-expiring-list/client-policy-expiring-list.component';
+import {
+  ClientPolicyProvisionalListComponent
+} from './components/client-policy-provisional-list/client-policy-provisional-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -288,6 +291,7 @@ const routes: Routes = [{
     ClientPolicyRenewedListComponent,
     ClientPolicyNotRenewedListComponent,
     ClientPolicyExpiringListComponent,
+    ClientPolicyProvisionalListComponent,
   ],
   entryComponents: [
     ModalComponent,
