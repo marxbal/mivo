@@ -39,6 +39,14 @@ export class PageFilter {
   pcPolicyHolder: String = "";
   pcSource: String = "";
 
+  // for policy renewed list
+  prPolicyNumber: String = "";
+  prEffectivityDate: String = "";
+  prDueDate: String = "";
+  prPolicyHolder: String = "";
+  prDocumentType: String = "";
+  prDocumentCode: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }
