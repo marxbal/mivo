@@ -35,6 +35,9 @@ import {
   ListQuotationActive
 } from 'src/app/objects/ListQuotationActive';
 import {
+  ListQuotationProvisional
+} from 'src/app/objects/ListQuotationProvisional';
+import {
   page
 } from '../../constants/page';
 
@@ -53,6 +56,7 @@ export class ViewDetailsModalComponent implements OnInit {
   listPolicyExpiring = new ListPolicyExpiring();
   listPolicyProvisional = new ListPolicyProvisional();
   listQuotationActive = new ListQuotationActive();
+  listQuotationProvisional = new ListQuotationProvisional();
   type: String;
 
   //modal reference
@@ -94,6 +98,10 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.CLI.ACTQ: {
         this.listQuotationActive = this.data;
+        break;
+      }
+      case page.CLI.PROQ: {
+        this.listQuotationProvisional = this.data;
         break;
       }
 

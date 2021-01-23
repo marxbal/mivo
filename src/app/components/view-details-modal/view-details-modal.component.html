@@ -443,6 +443,60 @@
       <div class="clearfix"></div>
     </div>
 
+    <div *ngIf="type == 'client-provisional-quotation'" class="row">
+      <div class="col-md-12">
+        <h5>Provisional Quotation Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="quotationNumber">Quotation Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.quotationNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationProvisional.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationProvisional.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
   </div>
   <!-- .container -->
 </div>

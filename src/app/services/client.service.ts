@@ -47,4 +47,8 @@ export class ClientService {
   async getQuotationActiveList(pageFilter: PageFilter): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/client/quotation/active').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getQuotationProvisionalList(pageFilter: PageFilter): Promise < ReturnDTO > {
+    return this.app.post(pageFilter, '/client/quotation/provisional').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }

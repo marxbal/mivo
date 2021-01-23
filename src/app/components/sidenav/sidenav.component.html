@@ -66,7 +66,8 @@
         <h6 class="collapse-header">Quotations:</h6>
         <a *ngIf="menu.activeQuotation" class="collapse-item" [ngClass]="{'active': page==p.CLI.ACTQ}"
           (click)="setPage(p.CLI.ACTQ)"><i class="fas fa-fw fa-user-check"></i> Active</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
+        <a *ngIf="menu.provisionalQuotation" class="collapse-item" [ngClass]="{'active': page==p.CLI.PROQ}"
+          (click)="setPage(p.CLI.PROQ)"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
         <h6 class="collapse-header">Claims:</h6>
         <a class="collapse-item"><i class="fas fa-fw fa-info-circle"></i> Details</a>
       </div>
