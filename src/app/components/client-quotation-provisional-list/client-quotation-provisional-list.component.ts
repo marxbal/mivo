@@ -60,7 +60,7 @@ const ELEMENT_DATA: ListQuotationProvisional[] = [{
 export class ClientQuotationProvisionalListComponent implements OnInit {
 
   displayedColumns: string[] = ['quotationNumber', 'policyEffectivityDate', 'policyDueDate', 'line', 'policyHolder', 'source'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
