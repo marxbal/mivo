@@ -59,8 +59,8 @@ const ELEMENT_DATA: ListPolicyNotRenewed[] = [{
 })
 export class ClientPolicyNotRenewedListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'line', 'policyDueDate', 'policyHolder', 'source'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyDueDate', 'line', 'policyHolder', 'source'];
+  dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
