@@ -55,6 +55,14 @@ export class PageFilter {
   pnPolicyHolder: String = "";
   pnSource: String = "";
 
+  // for policy expiring list
+  pePolicyNumber: String = "";
+  peEffectivityDate: String = "";
+  peExpiryDate: String = "";
+  pePolicyHolder: String = "";
+  peEmail: String = "";
+  peTelephoneNumber: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }

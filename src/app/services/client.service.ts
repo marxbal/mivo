@@ -35,4 +35,8 @@ export class ClientService {
   async getPolicyNotRenewedList(pageFilter: PageFilter): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/client/policy/notRenewed').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getPolicyExpiringList(pageFilter: PageFilter): Promise < ReturnDTO > {
+    return this.app.post(pageFilter, '/client/policy/expiring').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }

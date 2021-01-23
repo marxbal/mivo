@@ -57,9 +57,10 @@
           (click)="setPage(p.CLI.CAN)"><i class="fas fa-fw fa-user-times"></i> Cancelled</a>
         <a *ngIf="menu.renewed" class="collapse-item" [ngClass]="{'active': page==p.CLI.REN}"
           (click)="setPage(p.CLI.REN)"><i class="fas fa-fw fa-sync"></i> Renewed</a>
-          <a *ngIf="menu.notRenewed" class="collapse-item" [ngClass]="{'active': page==p.CLI.NOT}"
+        <a *ngIf="menu.notRenewed" class="collapse-item" [ngClass]="{'active': page==p.CLI.NOT}"
           (click)="setPage(p.CLI.NOT)"><i class="fas fa-fw fa-user-slash"></i> Not Renewed</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-exclamation-triangle"></i> Expiring</a>
+        <a *ngIf="menu.expiring" class="collapse-item" [ngClass]="{'active': page==p.CLI.EXP}"
+          (click)="setPage(p.CLI.EXP)"><i class="fas fa-fw fa-exclamation-triangle"></i> Expiring</a>
         <a class="collapse-item"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
         <h6 class="collapse-header">Quotations:</h6>
         <a class="collapse-item"><i class="fas fa-fw fa-user-check"></i> Active</a>
