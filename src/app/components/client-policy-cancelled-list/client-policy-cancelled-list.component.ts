@@ -42,15 +42,6 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListPolicyCancelled[] = [{
-  policyNumber: "0129328302323",
-  policyEffectivityDate: "11/11/11",
-  line: "PC",
-  policyHolder: "LEBRON JAMES",
-  source: "MIVO",
-  type: "POLICYACTIVE"
-}];
-
 @Component({
   selector: 'app-client-policy-cancelled-list',
   templateUrl: './client-policy-cancelled-list.component.html',

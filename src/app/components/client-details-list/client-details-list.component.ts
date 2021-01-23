@@ -45,18 +45,6 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListClientDetails[] = [{
-  name: "LEBRON JAMES",
-  documentType: "PAS",
-  documentCode: "PASS23",
-  address: "LOS ANGELES",
-  homeTelNumber: "230948324",
-  businessTelNumber: "230948324",
-  mobileNumber: "230948324",
-  email: "lebron@james.com",
-  type: "test"
-}];
-
 @Component({
   selector: 'app-client-details-list',
   templateUrl: './client-details-list.component.html',

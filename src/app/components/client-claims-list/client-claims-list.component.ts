@@ -42,16 +42,16 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListClaimDetails[] = [{
-  claimNumber: "0129328302323",
-  fileNumber: "11/11/11",
-  fileName: "11/11/12",
-  lossDate: "PAS",
-  notificationDate: "LEBRON JAMES",
-  reserveAmount: "PASS20202",
-  source: "sss",
-  type: "POLICYACTIVE"
-}];
+// const ELEMENT_DATA: ListClaimDetails[] = [{
+//   claimNumber: "0129328302323",
+//   fileNumber: "11/11/11",
+//   fileName: "11/11/12",
+//   lossDate: "PAS",
+//   notificationDate: "LEBRON JAMES",
+//   reserveAmount: "2000",
+//   source: "sss",
+//   type: "POLICYACTIVE"
+// }];
 
 @Component({
   selector: 'app-client-claims-list',

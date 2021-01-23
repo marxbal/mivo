@@ -125,7 +125,7 @@
 
               <ng-container matColumnDef="reserveAmount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Reserve Amount </th>
-                <td mat-cell *matCellDef="let element"> {{element.reserveAmount}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.reserveAmount | currency:'PHP': 'symbol-narrow'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="source">

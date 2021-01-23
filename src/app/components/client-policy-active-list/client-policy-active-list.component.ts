@@ -45,18 +45,6 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListPolicyActive[] = [{
-  policyNumber: "0129328302323",
-  policyEffectivityDate: "11/11/11",
-  policyDueDate: "11/11/12",
-  line: "PC",
-  policyHolder: "LEBRON JAMES",
-  documentType: "PAS",
-  documentCode: "PASS20202",
-  source: "MIVO",
-  type: "POLICYACTIVE"
-}];
-
 @Component({
   selector: 'app-client-policy-active-list',
   templateUrl: './client-policy-active-list.component.html',

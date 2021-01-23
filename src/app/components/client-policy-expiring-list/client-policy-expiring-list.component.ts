@@ -42,16 +42,6 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListPolicyExpiring[] = [{
-  policyNumber: "0129328302323",
-  policyEffectivityDate: "11/11/11",
-  policyExpiryDate: "11/11/12",
-  policyHolder: "LEBRON JAMES",
-  email: "PASS20202",
-  telephoneNumber: "PAS",
-  type: "POLICYACTIVE"
-}];
-
 @Component({
   selector: 'app-client-policy-expiring-list',
   templateUrl: './client-policy-expiring-list.component.html',

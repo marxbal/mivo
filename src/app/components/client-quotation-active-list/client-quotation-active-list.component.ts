@@ -42,16 +42,6 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListQuotationActive[] = [{
-  quotationNumber: "0129328302323",
-  policyEffectivityDate: "11/11/11",
-  policyDueDate: "11/11/12",
-  line: "PAS",
-  policyHolder: "LEBRON JAMES",
-  source: "PASS20202",
-  type: "POLICYACTIVE"
-}];
-
 @Component({
   selector: 'app-client-quotation-active-list',
   templateUrl: './client-quotation-active-list.component.html',

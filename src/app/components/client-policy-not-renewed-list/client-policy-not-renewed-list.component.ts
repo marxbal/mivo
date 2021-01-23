@@ -42,16 +42,6 @@ import {
   page
 } from '../../constants/page';
 
-const ELEMENT_DATA: ListPolicyNotRenewed[] = [{
-  policyNumber: "0129328302323",
-  policyEffectivityDate: "11/11/11",
-  policyDueDate: "11/11/12",
-  line: "PAS",
-  policyHolder: "LEBRON JAMES",
-  source: "PASS20202",
-  type: "POLICYACTIVE"
-}];
-
 @Component({
   selector: 'app-client-policy-not-renewed-list',
   templateUrl: './client-policy-not-renewed-list.component.html',
