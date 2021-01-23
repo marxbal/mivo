@@ -126,8 +126,8 @@ export class ClientPolicyRenewedListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.paEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.paEffectivityDate);
-    this.pageFilter.paDueDate = Utility.convertDatePickerDate(this.pageFilter.paDueDate);
+    this.pageFilter.prEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.prEffectivityDate);
+    this.pageFilter.prDueDate = Utility.convertDatePickerDate(this.pageFilter.prDueDate);
   }
 
   getList() {
