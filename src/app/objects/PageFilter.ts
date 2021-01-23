@@ -47,6 +47,14 @@ export class PageFilter {
   prDocumentType: String = "";
   prDocumentCode: String = "";
 
+  // for policy not renewed list
+  pnPolicyNumber: String = "";
+  pnEffectivityDate: String = "";
+  pnDueDate: String = "";
+  pnLine: String = "";
+  pnPolicyHolder: String = "";
+  pnSource: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }
