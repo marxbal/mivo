@@ -258,7 +258,7 @@
 
       <div class="col-md-4">
         <div class="form-group">
-          <label for="documentType">Line</label>
+          <label for="line">Line</label>
           <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyNotRenewed.line}}>
         </div>
       </div>
@@ -273,7 +273,7 @@
 
       <div class="col-md-4">
         <div class="form-group">
-          <label for="documentCode">Source</label>
+          <label for="source">Source</label>
           <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyNotRenewed.source}}>
         </div>
       </div>
@@ -366,7 +366,7 @@
 
       <div class="col-md-4">
         <div class="form-group">
-          <label for="documentType">Line</label>
+          <label for="line">Line</label>
           <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyProvisional.line}}>
         </div>
       </div>
@@ -381,8 +381,62 @@
 
       <div class="col-md-4">
         <div class="form-group">
-          <label for="documentCode">Source</label>
+          <label for="source">Source</label>
           <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyProvisional.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div *ngIf="type == 'client-active-quotation'" class="row">
+      <div class="col-md-12">
+        <h5>Active Quotation Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="quotationNumber">Quotation Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.quotationNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationActive.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationActive.source}}>
         </div>
       </div>
 

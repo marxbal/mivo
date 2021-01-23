@@ -32,6 +32,9 @@ import {
   ListPolicyRenewed
 } from 'src/app/objects/ListPolicyRenewed';
 import {
+  ListQuotationActive
+} from 'src/app/objects/ListQuotationActive';
+import {
   page
 } from '../../constants/page';
 
@@ -49,6 +52,7 @@ export class ViewDetailsModalComponent implements OnInit {
   listPolicyNotRenewed = new ListPolicyNotRenewed();
   listPolicyExpiring = new ListPolicyExpiring();
   listPolicyProvisional = new ListPolicyProvisional();
+  listQuotationActive = new ListQuotationActive();
   type: String;
 
   //modal reference
@@ -86,6 +90,10 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.CLI.PRO: {
         this.listPolicyProvisional = this.data;
+        break;
+      }
+      case page.CLI.ACTQ: {
+        this.listQuotationActive = this.data;
         break;
       }
 

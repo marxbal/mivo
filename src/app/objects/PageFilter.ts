@@ -71,6 +71,14 @@ export class PageFilter {
   ppPolicyHolder: String = "";
   ppSource: String = "";
 
+  // for quotation active list
+  qaQuotationNumber: String = "";
+  qaEffectivityDate: String = "";
+  qaDueDate: String = "";
+  qaLine: String = "";
+  qaPolicyHolder: String = "";
+  qaSource: String = "";
+
   constructor(init ? : Partial < PageFilter > ) {
     Object.assign(this, init);
   }
