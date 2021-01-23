@@ -27,4 +27,8 @@ export class ClientService {
   async getPolicyCancelledList(pageFilter: PageFilter): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/client/policy/cancelled').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getPolicyRenewedList(pageFilter: PageFilter): Promise < ReturnDTO > {
+    return this.app.post(pageFilter, '/client/policy/renewed').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }
