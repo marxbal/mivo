@@ -13,6 +13,7 @@ export class ListAccountPremiumCollection {
   tax: String;
   interest: String;
   source: String;
+  type: String;
 
   constructor(init ? : Partial < ListAccountPremiumCollection > ) {
     Object.assign(this, init);

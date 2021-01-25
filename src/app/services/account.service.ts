@@ -8,27 +8,27 @@ import {
   ReturnDTO
 } from '../objects/ReturnDTO';
 import {
-  PageFilter
-} from '../objects/PageFilter';
+  PageFilterAccount
+} from '../objects/PageFilterAccount';
 
 @Injectable()
 export class AccountService {
 
   constructor(private app: AppService) {}
 
-  async getCOutstandingBillsList(pageFilter: PageFilter): Promise < ReturnDTO > {
+  async getOutstandingBillsList(pageFilter: PageFilterAccount): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/account/outstandingBills').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async getCommissionsPaidList(pageFilter: PageFilter): Promise < ReturnDTO > {
+  async getCommissionsPaidList(pageFilter: PageFilterAccount): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/account/commissionsPaid').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async getEstimatedCommissionsList(pageFilter: PageFilter): Promise < ReturnDTO > {
+  async getEstimatedCommissionsList(pageFilter: PageFilterAccount): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/account/estimatedCommissions').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
-  async getPremiumCollectionList(pageFilter: PageFilter): Promise < ReturnDTO > {
+  async getPremiumCollectionList(pageFilter: PageFilterAccount): Promise < ReturnDTO > {
     return this.app.post(pageFilter, '/account/premiumCollection').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }

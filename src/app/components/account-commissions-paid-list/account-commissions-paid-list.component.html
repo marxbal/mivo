@@ -1,1 +1,176 @@
-<p>account-commissions-paid-list works!</p>
+<div class="row" id="commissionsPaidList">
+  <div class="col-xl-12">
+    <div class="page-header">
+      <h4>Commissions Paid List</h4>
+    </div>
+    <!-- .page-header -->
+  </div>
+  <!-- .col-xl-12 -->
+
+  <div class="col-xl-12">
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="col-lg-12">
+          <div class="card-body">
+            <form [formGroup]="filterForm">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="policyNumber" class="col-md-12 col-lg-4 col-form-label">Policy Number</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="policyNumber" id="policyNumber"
+                        [(ngModel)]="pageFilter.policyNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="policyHolder" class="col-md-12 col-lg-4 col-form-label">Policy Holder</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="policyHolder" id="policyHolder"
+                        [(ngModel)]="pageFilter.policyHolder">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="currency" class="col-md-12 col-lg-4 col-form-label">Currency</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="currency" id="currency"
+                        [(ngModel)]="pageFilter.currency">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="invoiceNumber" class="col-md-12 col-lg-4 col-form-label">Invoice Number</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="invoiceNumber" id="invoiceNumber"
+                        [(ngModel)]="pageFilter.invoiceNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="receiptAmount" class="col-md-12 col-lg-4 col-form-label">Receipt Amount</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="receiptAmount" id="receiptAmount"
+                        [(ngModel)]="pageFilter.receiptAmount">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="commissionAmount" class="col-md-12 col-lg-4 col-form-label">Commission Amount</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="commissionAmount" id="commissionAmount"
+                        [(ngModel)]="pageFilter.commissionAmount">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="withholdingTaxAmount" class="col-md-12 col-lg-4 col-form-label">Withholding Tax Amount</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="withholdingTaxAmount" id="withholdingTaxAmount"
+                        [(ngModel)]="pageFilter.withholdingTaxAmount">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="source" class="col-md-12 col-lg-4 col-form-label">Source</label>
+                    <div class="col-md-12 col-lg-8">
+                      <select class="custom-select mr-sm-2" formControlName="source" id="source"
+                        [(ngModel)]="pageFilter.source">
+                        <option></option>
+                        <option *ngFor="let item of sourceItems" [ngValue]="item">{{ item }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="btn-group">
+                    <button class="btn btn-primary" (click)="apply()">Apply</button>
+                    <button class="btn btn-info" (click)="reset()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- .card-body -->
+
+          <div class="clearfix"></div>
+          <div class="divider"></div>
+
+          <div class="flexitable">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+              class="mat-elevation-z8">
+              <ng-container matColumnDef="policyNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-220"> Policy Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.policyNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="policyHolder">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Policy Holder </th>
+                <td mat-cell *matCellDef="let element"> {{element.policyHolder}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="currency">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Currency </th>
+                <td mat-cell *matCellDef="let element"> {{element.currency}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="invoiceNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-250"> Invoice Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="receiptAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Receipt Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.receiptAmount}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="commissionAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Commission Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.commissionAmount}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="withholdingTaxAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Withholding Tax Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.withholdingTaxAmount}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="source">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Source </th>
+                <td mat-cell *matCellDef="let element"> {{element.source}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getDetails(row)"></tr>
+            </table>
+          </div>
+
+          <div *ngIf="dataSource.filteredData.length === 0" class="no-data-found">No Data Found</div>
+
+          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="totalItem" [pageIndex]="currentPage"
+            [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
+
+        </div>
+        <!-- .col-lg-12 -->
+      </div>
+      <!-- .card-body -->
+    </div>
+    <!-- .card.shadow -->
+  </div>
+  <!-- .col-xl-12 -->
+</div>
+<!-- #commissionsPaidList -->

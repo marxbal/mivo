@@ -7,6 +7,7 @@ export class ListAccountCommissionsPaid {
   commissionAmount: String;
   withholdingTaxAmount: String;
   source: String;
+  type: String;
 
   constructor(init ? : Partial < ListAccountCommissionsPaid > ) {
     Object.assign(this, init);

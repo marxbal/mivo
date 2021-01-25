@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.divider {
+  border-top: 1px solid #e0e0e0;
+}
+
+.col-form-label {
+  font-size: 90%;
+}

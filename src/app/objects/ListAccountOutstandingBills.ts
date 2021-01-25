@@ -12,6 +12,7 @@ export class ListAccountOutstandingBills {
   paymentStatus: String;
   source: String;
   subline: String;
+  type: String;
 
   constructor(init ? : Partial < ListAccountOutstandingBills > ) {
     Object.assign(this, init);
