@@ -224,6 +224,18 @@ import {
 import {
   ClientClaimsListComponent
 } from './components/client-claims-list/client-claims-list.component';
+import {
+  AccountOutstandingBillsListComponent
+} from './components/account-outstanding-bills-list/account-outstanding-bills-list.component';
+import {
+  AccountCommissionsPaidListComponent
+} from './components/account-commissions-paid-list/account-commissions-paid-list.component';
+import {
+  AccountEstimatedCommissionsListComponent
+} from './components/account-estimated-commissions-list/account-estimated-commissions-list.component';
+import {
+  AccountPremiumCollectionListComponent
+} from './components/account-premium-collection-list/account-premium-collection-list.component';
 
 const routes: Routes = [{
     path: "login",
@@ -304,6 +316,10 @@ const routes: Routes = [{
     ClientQuotationActiveListComponent,
     ClientQuotationProvisionalListComponent,
     ClientClaimsListComponent,
+    AccountOutstandingBillsListComponent,
+    AccountCommissionsPaidListComponent,
+    AccountEstimatedCommissionsListComponent,
+    AccountPremiumCollectionListComponent,
   ],
   entryComponents: [
     ModalComponent,

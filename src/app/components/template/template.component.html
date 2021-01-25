@@ -19,7 +19,10 @@
 
           <app-profile *ngIf="page === p.UTI.CHA"></app-profile>
 
-          <app-outstanding-bills *ngIf="page === p.ACC.OUT"></app-outstanding-bills>
+          <app-account-outstanding-bills-list *ngIf="page === p.ACC.OUT"></app-account-outstanding-bills-list>
+          <app-account-commissions-paid-list *ngIf="page === p.ACC.COM"></app-account-commissions-paid-list>
+          <app-account-estimated-commissions-list *ngIf="page === p.ACC.EST"></app-account-estimated-commissions-list>
+          <app-account-premium-collection-list *ngIf="page === p.ACC.PRE"></app-account-premium-collection-list>
 
           <app-client-details-list *ngIf="page === p.CLI.CLI"></app-client-details-list>
           <app-client-policy-active-list *ngIf="page === p.CLI.ACT"></app-client-policy-active-list>

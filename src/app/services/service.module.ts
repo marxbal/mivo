@@ -63,6 +63,9 @@ import {
 import {
   ClientService
 } from './client.service';
+import {
+  AccountService
+} from './account.service';
 
 /* LOV Services */
 import {
@@ -113,6 +116,7 @@ import {
     LTOService, //ltos
     RequestService, //rs
     ClientService, //cs
+    AccountService, //accs
 
     LovService, //ls
     GroupPolicyLOVServices, //gpls

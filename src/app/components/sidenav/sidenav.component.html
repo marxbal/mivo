@@ -29,12 +29,12 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <a *ngIf="menu.outstanding" class="collapse-item" [ngClass]="{'active': page==p.ACC.OUT}"
           (click)="setPage(p.ACC.OUT)"><i class="fas fa-fw fa-star"></i> Outstanding Bills</a>
-        <a *ngIf="menu.commissionsPaid" class="collapse-item"><i class="fas fa-fw fa-money-bill-wave"></i> Commissions
-          Paid</a>
-        <a *ngIf="menu.estimatedCommissions" class="collapse-item"><i class="fas fa-fw fa-calculator"></i> Estimated
-          Commissions</a>
-        <a *ngIf="menu.premiumCollection" class="collapse-item"><i class="fas fa-fw fa-award"></i> Premium
-          Collection</a>
+        <a *ngIf="menu.commissionsPaid" class="collapse-item" [ngClass]="{'active': page==p.ACC.COM}"
+          (click)="setPage(p.ACC.COM)"><i class="fas fa-fw fa-money-bill-wave"></i> Commissions Paid</a>
+        <a *ngIf="menu.estimatedCommissions" class="collapse-item" [ngClass]="{'active': page==p.ACC.EST}"
+          (click)="setPage(p.ACC.EST)"><i class="fas fa-fw fa-calculator"></i> Estimated Commissions</a>
+        <a *ngIf="menu.premiumCollection" class="collapse-item" [ngClass]="{'active': page==p.ACC.PRE}"
+          (click)="setPage(p.ACC.PRE)"><i class="fas fa-fw fa-award"></i> Premium Collection</a>
       </div>
     </div>
   </li>
