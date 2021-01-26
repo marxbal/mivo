@@ -67,6 +67,7 @@ export class AccountOutstandingBillsListComponent implements OnInit {
 
   dataSource = new MatTableDataSource();
 
+  paymentStatusItems: any[] = ['Processing'];
   currencyItems: any[] = ['PHP', 'EUR', 'USD'];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
