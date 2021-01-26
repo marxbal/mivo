@@ -13,8 +13,8 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {
-  PageFilter
-} from 'src/app/objects/PageFilter';
+  PageFilterClient
+} from 'src/app/objects/PageFilterClient';
 import {
   BsModalRef,
   BsModalService
@@ -52,13 +52,21 @@ import {
 })
 export class ClientPolicyRenewedListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyDueDate', 'policyHolder', 'documentType', 'documentCode'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'policyEffectivityDate',
+    'policyDueDate',
+    'policyHolder',
+    'documentType',
+    'documentCode'
+  ];
+
   dataSource = new MatTableDataSource();
 
   documentTypeItems: any[] = [];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
-  pageFilter: PageFilter = new PageFilter();
+  pageFilter: PageFilterClient = new PageFilterClient();
 
   currentPage: number = 0;
   pageSize: number = 10;
@@ -116,8 +124,8 @@ export class ClientPolicyRenewedListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.prEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.prEffectivityDate);
-    this.pageFilter.prDueDate = Utility.convertDatePickerDate(this.pageFilter.prDueDate);
+    this.pageFilter.effectivityDate = Utility.convertDatePickerDate(this.pageFilter.effectivityDate);
+    this.pageFilter.dueDate = Utility.convertDatePickerDate(this.pageFilter.dueDate);
   }
 
   getList() {

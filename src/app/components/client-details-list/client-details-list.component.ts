@@ -13,8 +13,8 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {
-  PageFilter
-} from 'src/app/objects/PageFilter';
+  PageFilterClient
+} from 'src/app/objects/PageFilterClient';
 import {
   BsModalRef,
   BsModalService
@@ -52,12 +52,22 @@ import {
 })
 export class ClientDetailsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'documentType', 'documentCode', 'address', 'homeTelNumber', 'businessTelNumber', 'mobileNumber', 'email'];
+  displayedColumns: string[] = [
+    'name',
+    'documentType',
+    'documentCode',
+    'address',
+    'homeTelNumber',
+    'businessTelNumber',
+    'mobileNumber',
+    'email'
+  ];
+
   dataSource = new MatTableDataSource();
 
-  documentTypeItems : any[] = [];
+  documentTypeItems: any[] = [];
 
-  pageFilter: PageFilter = new PageFilter();
+  pageFilter: PageFilterClient = new PageFilterClient();
 
   currentPage: number = 0;
   pageSize: number = 10;

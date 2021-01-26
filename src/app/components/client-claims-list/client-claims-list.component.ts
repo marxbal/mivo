@@ -13,8 +13,8 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {
-  PageFilter
-} from 'src/app/objects/PageFilter';
+  PageFilterClient
+} from 'src/app/objects/PageFilterClient';
 import {
   BsModalRef,
   BsModalService
@@ -42,17 +42,6 @@ import {
   page
 } from '../../constants/page';
 
-// const ELEMENT_DATA: ListClaimDetails[] = [{
-//   claimNumber: "0129328302323",
-//   fileNumber: "11/11/11",
-//   fileName: "11/11/12",
-//   lossDate: "PAS",
-//   notificationDate: "LEBRON JAMES",
-//   reserveAmount: "2000",
-//   source: "sss",
-//   type: "POLICYACTIVE"
-// }];
-
 @Component({
   selector: 'app-client-claims-list',
   templateUrl: './client-claims-list.component.html',
@@ -60,12 +49,21 @@ import {
 })
 export class ClientClaimsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['claimNumber', 'fileNumber', 'fileName', 'lossDate', 'notificationDate', 'reserveAmount', 'source'];
+  displayedColumns: string[] = [
+    'claimNumber',
+    'fileNumber',
+    'fileName',
+    'lossDate',
+    'notificationDate',
+    'reserveAmount',
+    'source'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
-  pageFilter: PageFilter = new PageFilter();
+  pageFilter: PageFilterClient = new PageFilterClient();
 
   currentPage: number = 0;
   pageSize: number = 10;
@@ -117,8 +115,8 @@ export class ClientClaimsListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.clLossDate = Utility.convertDatePickerDate(this.pageFilter.clLossDate);
-    this.pageFilter.clNotificationDate = Utility.convertDatePickerDate(this.pageFilter.clNotificationDate);
+    this.pageFilter.lossDate = Utility.convertDatePickerDate(this.pageFilter.lossDate);
+    this.pageFilter.notificationDate = Utility.convertDatePickerDate(this.pageFilter.notificationDate);
   }
 
   getList() {

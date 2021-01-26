@@ -13,8 +13,8 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {
-  PageFilter
-} from 'src/app/objects/PageFilter';
+  PageFilterClient
+} from 'src/app/objects/PageFilterClient';
 import {
   BsModalRef,
   BsModalService
@@ -49,12 +49,20 @@ import {
 })
 export class ClientPolicyExpiringListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'policyExpiryDate', 'policyHolder', 'email', 'telephoneNumber'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'policyEffectivityDate',
+    'policyExpiryDate',
+    'policyHolder',
+    'email',
+    'telephoneNumber'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
-  pageFilter: PageFilter = new PageFilter();
+  pageFilter: PageFilterClient = new PageFilterClient();
 
   currentPage: number = 0;
   pageSize: number = 10;
@@ -104,8 +112,8 @@ export class ClientPolicyExpiringListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.peEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.peEffectivityDate);
-    this.pageFilter.peExpiryDate = Utility.convertDatePickerDate(this.pageFilter.peExpiryDate);
+    this.pageFilter.effectivityDate = Utility.convertDatePickerDate(this.pageFilter.effectivityDate);
+    this.pageFilter.expiryDate = Utility.convertDatePickerDate(this.pageFilter.expiryDate);
   }
 
   getList() {

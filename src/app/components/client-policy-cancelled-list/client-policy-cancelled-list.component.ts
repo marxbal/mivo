@@ -13,8 +13,8 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {
-  PageFilter
-} from 'src/app/objects/PageFilter';
+  PageFilterClient
+} from 'src/app/objects/PageFilterClient';
 import {
   BsModalRef,
   BsModalService
@@ -49,12 +49,19 @@ import {
 })
 export class ClientPolicyCancelledListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyEffectivityDate', 'line', 'policyHolder', 'source'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'policyEffectivityDate',
+    'line',
+    'policyHolder',
+    'source'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
-  pageFilter: PageFilter = new PageFilter();
+  pageFilter: PageFilterClient = new PageFilterClient();
 
   currentPage: number = 0;
   pageSize: number = 10;
@@ -105,7 +112,7 @@ export class ClientPolicyCancelledListComponent implements OnInit {
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
 
-    this.pageFilter.pcEffectivityDate = Utility.convertDatePickerDate(this.pageFilter.pcEffectivityDate);
+    this.pageFilter.effectivityDate = Utility.convertDatePickerDate(this.pageFilter.effectivityDate);
   }
 
   getList() {

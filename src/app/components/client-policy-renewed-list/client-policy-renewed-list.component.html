@@ -21,7 +21,7 @@
                     <label for="policyNumber" class="col-md-12 col-lg-4 col-form-label">Policy Number</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="policyNumber" id="policyNumber"
-                        [(ngModel)]="pageFilter.prPolicyNumber">
+                        [(ngModel)]="pageFilter.policyNumber">
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                     <label for="effectivityDate" class="col-md-12 col-lg-4 col-form-label">Effectivity Date</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" placeholder="Datepicker" class="form-control" [maxDate]="today"
-                        formControlName="effectivityDate" [(ngModel)]="pageFilter.prEffectivityDate" bsDatepicker>
+                        formControlName="effectivityDate" [(ngModel)]="pageFilter.effectivityDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
                     <label for="dueDate" class="col-md-12 col-lg-4 col-form-label">Due Date</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" placeholder="Datepicker" class="form-control" formControlName="dueDate"
-                        [(ngModel)]="pageFilter.prDueDate" bsDatepicker>
+                        [(ngModel)]="pageFilter.dueDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                     <label for="policyHolder" class="col-md-12 col-lg-4 col-form-label">Policy Holder</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="policyHolder" id="policyHolder"
-                        [(ngModel)]="pageFilter.prPolicyHolder">
+                        [(ngModel)]="pageFilter.policyHolder">
                     </div>
                   </div>
                 </div>
@@ -61,7 +61,7 @@
                     <label for="documentType" class="col-md-12 col-lg-4 col-form-label">Document Type</label>
                     <div class="col-md-12 col-lg-8">
                       <select class="custom-select mr-sm-2" formControlName="documentType" id="documentType"
-                        [(ngModel)]="pageFilter.prDocumentType">
+                        [(ngModel)]="pageFilter.documentType">
                         <option></option>
                         <option *ngFor="let item of documentTypeItems" [ngValue]="item.TIP_DOCUM">{{ item.NOM_DOCUM }}
                         </option>
@@ -75,7 +75,7 @@
                     <label for="documentCode" class="col-md-12 col-lg-4 col-form-label">Document Code</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="documentCode" id="documentCode"
-                        [(ngModel)]="pageFilter.prDocumentCode">
+                        [(ngModel)]="pageFilter.documentCode">
                     </div>
                   </div>
                 </div>
@@ -142,10 +142,12 @@
             [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
 
         </div>
-        <!-- .card-body -->
+        <!-- .col-lg-12 -->
       </div>
-      <!-- .card.shadow -->
+      <!-- .card-body -->
     </div>
-    <!-- .col-xl-12 -->
+    <!-- .card.shadow -->
   </div>
-  <!-- #policyRenewed -->
+  <!-- .col-xl-12 -->
+</div>
+<!-- #policyRenewed -->

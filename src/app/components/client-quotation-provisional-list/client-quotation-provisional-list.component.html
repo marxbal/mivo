@@ -21,7 +21,7 @@
                     <label for="quotationNumber" class="col-md-12 col-lg-4 col-form-label">Quotation Number</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="quotationNumber" id="quotationNumber"
-                        [(ngModel)]="pageFilter.qpQuotationNumber">
+                        [(ngModel)]="pageFilter.quotationNumber">
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                     <label for="effectivityDate" class="col-md-12 col-lg-4 col-form-label">Effectivity Date</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" placeholder="Datepicker" class="form-control" [maxDate]="today"
-                        formControlName="effectivityDate" [(ngModel)]="pageFilter.qpEffectivityDate" bsDatepicker>
+                        formControlName="effectivityDate" [(ngModel)]="pageFilter.effectivityDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
                     <label for="dueDate" class="col-md-12 col-lg-4 col-form-label">Due Date</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" placeholder="Datepicker" class="form-control" formControlName="dueDate"
-                        [(ngModel)]="pageFilter.qpDueDate" bsDatepicker>
+                        [(ngModel)]="pageFilter.dueDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                     <label for="line" class="col-md-12 col-lg-4 col-form-label">Line</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="line" id="line"
-                        [(ngModel)]="pageFilter.qpLine">
+                        [(ngModel)]="pageFilter.line">
                     </div>
                   </div>
                 </div>
@@ -61,7 +61,7 @@
                     <label for="policyHolder" class="col-md-12 col-lg-4 col-form-label">Policy Holder</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="policyHolder" id="policyHolder"
-                        [(ngModel)]="pageFilter.qpPolicyHolder">
+                        [(ngModel)]="pageFilter.policyHolder">
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                     <label for="source" class="col-md-12 col-lg-4 col-form-label">Source</label>
                     <div class="col-md-12 col-lg-8">
                       <select class="custom-select mr-sm-2" formControlName="source" id="source"
-                        [(ngModel)]="pageFilter.qpSource">
+                        [(ngModel)]="pageFilter.source">
                         <option></option>
                         <option *ngFor="let item of sourceItems" [ngValue]="item">{{ item }}</option>
                       </select>
@@ -140,10 +140,12 @@
             [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
 
         </div>
-        <!-- .card-body -->
+        <!-- .col-lg-12 -->
       </div>
-      <!-- .card.shadow -->
+      <!-- .card-body -->
     </div>
-    <!-- .col-xl-12 -->
+    <!-- .card.shadow -->
   </div>
-  <!-- #quotationProvisional -->
+  <!-- .col-xl-12 -->
+</div>
+<!-- #quotationProvisional -->

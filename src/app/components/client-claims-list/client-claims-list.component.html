@@ -21,37 +21,37 @@
                     <label for="claimNumber" class="col-md-12 col-lg-4 col-form-label">Claim Number</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="claimNumber" id="claimNumber"
-                        [(ngModel)]="pageFilter.clClaimNumber">
+                        [(ngModel)]="pageFilter.claimNumber">
                     </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <div class="row">
-                      <label for="fileNumber" class="col-md-12 col-lg-4 col-form-label">File Number</label>
-                      <div class="col-md-12 col-lg-8">
-                        <input type="text" class="form-control" formControlName="fileNumber" id="fileNumber"
-                          [(ngModel)]="pageFilter.clFileNumber">
-                      </div>
+                  <div class="row">
+                    <label for="fileNumber" class="col-md-12 col-lg-4 col-form-label">File Number</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="fileNumber" id="fileNumber"
+                        [(ngModel)]="pageFilter.fileNumber">
                     </div>
                   </div>
-  
-                  <div class="form-group col-md-6">
-                    <div class="row">
-                      <label for="fileName" class="col-md-12 col-lg-4 col-form-label">File Name</label>
-                      <div class="col-md-12 col-lg-8">
-                        <input type="text" class="form-control" formControlName="fileName" id="fileName"
-                          [(ngModel)]="pageFilter.clFileName">
-                      </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="fileName" class="col-md-12 col-lg-4 col-form-label">File Name</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="fileName" id="fileName"
+                        [(ngModel)]="pageFilter.fileName">
                     </div>
                   </div>
+                </div>
 
                 <div class="form-group col-md-6">
                   <div class="row">
                     <label for="lossDate" class="col-md-12 col-lg-4 col-form-label">Loss Date</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" placeholder="Datepicker" class="form-control"
-                        formControlName="lossDate" [(ngModel)]="pageFilter.clLossDate" bsDatepicker>
+                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="lossDate"
+                        [(ngModel)]="pageFilter.lossDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -60,8 +60,8 @@
                   <div class="row">
                     <label for="notificationDate" class="col-md-12 col-lg-4 col-form-label">Notification Date</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="notificationDate"
-                        [(ngModel)]="pageFilter.clNotificationDate" bsDatepicker>
+                      <input type="text" placeholder="Datepicker" class="form-control"
+                        formControlName="notificationDate" [(ngModel)]="pageFilter.notificationDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                     <label for="source" class="col-md-12 col-lg-4 col-form-label">Source</label>
                     <div class="col-md-12 col-lg-8">
                       <select class="custom-select mr-sm-2" formControlName="source" id="source"
-                        [(ngModel)]="pageFilter.clSource">
+                        [(ngModel)]="pageFilter.source">
                         <option></option>
                         <option *ngFor="let item of sourceItems" [ngValue]="item">{{ item }}</option>
                       </select>
@@ -125,7 +125,8 @@
 
               <ng-container matColumnDef="reserveAmount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-120"> Reserve Amount </th>
-                <td mat-cell *matCellDef="let element"> {{element.reserveAmount | currency:'PHP': 'symbol-narrow'}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.reserveAmount | currency:'PHP': 'symbol-narrow'}}
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="source">
@@ -145,10 +146,12 @@
             [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
 
         </div>
-        <!-- .card-body -->
+        <!-- .col-lg-12 -->
       </div>
-      <!-- .card.shadow -->
+      <!-- .card-body -->
     </div>
-    <!-- .col-xl-12 -->
+    <!-- .card.shadow -->
   </div>
-  <!-- #claimsList -->
+  <!-- .col-xl-12 -->
+</div>
+<!-- #claimsList -->
