@@ -58,8 +58,8 @@
                   <div class="row">
                     <label for="effectivityDate" class="col-md-12 col-lg-4 col-form-label">Effectivity Date</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" placeholder="Datepicker" class="form-control"
-                        formControlName="effectivityDate" [(ngModel)]="pageFilter.effectivityDate" bsDatepicker>
+                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="effectivityDate"
+                        [(ngModel)]="pageFilter.effectivityDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -68,8 +68,8 @@
                   <div class="row">
                     <label for="expiryDate" class="col-md-12 col-lg-4 col-form-label">Expiry Date</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" placeholder="Datepicker" class="form-control"
-                        formControlName="expiryDate" [(ngModel)]="pageFilter.expiryDate" bsDatepicker>
+                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="expiryDate"
+                        [(ngModel)]="pageFilter.expiryDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -78,8 +78,8 @@
                   <div class="row">
                     <label for="collectedDate" class="col-md-12 col-lg-4 col-form-label">Collected Date</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" placeholder="Datepicker" class="form-control"
-                        formControlName="collectedDate" [(ngModel)]="pageFilter.collectedDate" bsDatepicker>
+                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="collectedDate"
+                        [(ngModel)]="pageFilter.collectedDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -175,68 +175,69 @@
             <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
               class="mat-elevation-z8">
               <ng-container matColumnDef="policyNumber">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-220"> Policy Number </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Policy Number </th>
                 <td mat-cell *matCellDef="let element"> {{element.policyNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="currency">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Currency </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
                 <td mat-cell *matCellDef="let element"> {{element.currency}} </td>
               </ng-container>
 
               <ng-container matColumnDef="subline">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Subline </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Subline </th>
                 <td mat-cell *matCellDef="let element"> {{element.subline}} </td>
               </ng-container>
 
               <ng-container matColumnDef="invoiceNumber">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-250"> Invoice Number </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Invoice Number </th>
                 <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
               </ng-container>
 
               <ng-container matColumnDef="effectivityDate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Effectivity Date </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Effectivity Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.effectivityDate}} </td>
               </ng-container>
 
               <ng-container matColumnDef="expiryDate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Expiry Date </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Expiry Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.expiryDate}} </td>
               </ng-container>
 
               <ng-container matColumnDef="collectedDate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Collected Date </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Collected Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.collectedDate}} </td>
               </ng-container>
 
               <ng-container matColumnDef="collectionType">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Collection Type </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Collection Type </th>
                 <td mat-cell *matCellDef="let element"> {{element.collectionType}} </td>
               </ng-container>
 
               <ng-container matColumnDef="receiptAmount">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Receipt Amount </th>
-                <td mat-cell *matCellDef="let element"> {{element.receiptAmount}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-120"> Receipt Amount </th>
+                <td mat-cell *matCellDef="let element" class="amount"> {{element.receiptAmount | currency:'PHP': 'symbol-narrow'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="netPremium">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-250"> Net Premium </th>
-                <td mat-cell *matCellDef="let element"> {{element.netPremium}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-120"> Net Premium </th>
+                <td mat-cell *matCellDef="let element" class="amount"> {{element.netPremium | currency:'PHP': 'symbol-narrow'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="surcharge">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Surcharge </th>
-                <td mat-cell *matCellDef="let element"> {{element.surcharge}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Surcharge </th>
+                <td mat-cell *matCellDef="let element" class="amount"> {{element.surcharge | currency:'PHP': 'symbol-narrow'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="tax">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-150"> Tax </th>
-                <td mat-cell *matCellDef="let element"> {{element.tax}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Tax </th>
+                <td mat-cell *matCellDef="let element" class="amount"> {{element.tax | currency:'PHP': 'symbol-narrow'}}
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="interest">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Interest </th>
-                <td mat-cell *matCellDef="let element"> {{element.interest}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Interest </th>
+                <td mat-cell *matCellDef="let element" class="amount"> {{element.interest | currency:'PHP': 'symbol-narrow'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="source">

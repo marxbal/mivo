@@ -11,6 +11,18 @@ import {
   BsModalRef
 } from 'ngx-bootstrap/modal';
 import {
+  ListAccountCommissionsPaid
+} from 'src/app/objects/ListAccountCommissionsPaid';
+import {
+  ListAccountEstimatedCommissions
+} from 'src/app/objects/ListAccountEstimatedCommissions';
+import {
+  ListAccountOutstandingBills
+} from 'src/app/objects/ListAccountOutstandingBills';
+import {
+  ListAccountPremiumCollection
+} from 'src/app/objects/ListAccountPremiumCollection';
+import {
   ListClaimDetails
 } from 'src/app/objects/ListClaimDetails';
 import {
@@ -61,6 +73,10 @@ export class ViewDetailsModalComponent implements OnInit {
   listQuotationActive = new ListQuotationActive();
   listQuotationProvisional = new ListQuotationProvisional();
   listClaimDetails = new ListClaimDetails();
+  listAccountOutstandingBills = new ListAccountOutstandingBills();
+  listAccountCommissionsPaid = new ListAccountCommissionsPaid();
+  listAccountEstimatedCommissions = new ListAccountEstimatedCommissions();
+  listAccountPremiumCollection = new ListAccountPremiumCollection();
   type: String;
 
   //modal reference
@@ -110,6 +126,22 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.CLI.CLA: {
         this.listClaimDetails = this.data;
+        break;
+      }
+      case page.ACC.OUT: {
+        this.listAccountOutstandingBills = this.data;
+        break;
+      }
+      case page.ACC.COM: {
+        this.listAccountCommissionsPaid = this.data;
+        break;
+      }
+      case page.ACC.EST: {
+        this.listAccountEstimatedCommissions = this.data;
+        break;
+      }
+      case page.ACC.PRE: {
+        this.listAccountPremiumCollection = this.data;
         break;
       }
 

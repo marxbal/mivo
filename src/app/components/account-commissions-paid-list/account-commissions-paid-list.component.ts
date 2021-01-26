@@ -49,7 +49,17 @@ import {
 })
 export class AccountCommissionsPaidListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyHolder', 'currency', 'invoiceNumber', 'receiptAmount', 'commissionAmount', 'withholdingTaxAmount', 'source'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'policyHolder',
+    'currency',
+    'invoiceNumber',
+    'receiptAmount',
+    'commissionAmount',
+    'withholdingTaxAmount',
+    'source'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];

@@ -5,7 +5,7 @@ export const page = {
   ACC: {
     N: 'account',
     OUT: 'account-outstanding-bills',
-    COM: 'account-commisions-paid',
+    COM: 'account-commissions-paid',
     EST: 'account-estimated-commissions',
     PRE: 'account-premium-collection'
   },
@@ -61,54 +61,3 @@ export const page = {
     N: 'faq'
   }
 }
-
-// export const main = {
-//   dash: 'dashboard',
-//   account: 'my-account',
-//   client: 'my-client',
-//   quick: 'quick-quotation',
-//   quotation: 'quotation',
-//   issuance: 'policy-issuance',
-//   requests: 'requests',
-//   utilities: 'utilities',
-//   news: 'news',
-//   faq: 'faq'
-// }
-
-// export const sub = {
-//   //account
-//   outstanding: 'account-outstanding-bills',
-//   commissionsPaid: 'account-commisions-paid',
-//   estimatedCommissions: 'account-estimated-commissions',
-//   premiumCollection: 'account-premium-collection',
-//   //client
-//   clientDetails: 'client-details',
-//   active: 'client-active',
-//   cancelled: 'client-cancelled',
-//   renewed: 'client-renewed',
-//   notRenewed: 'client-not-renewed',
-//   expiring: 'client-expiring',
-//   provisional: 'client-provisional',
-//   activeQuotation: 'client-active-quotation',
-//   provisionalQuotation: 'client-provisional-quotation',
-//   claims: 'client-claims',
-//   //quick-quotation
-//   quickCar: 'quick-quotation-car',
-//   quickHome: 'quick-quotation-home',
-//   quickTravel: 'quick-quotation-travel',
-//   quickAccident: 'quick-quotation-accident',
-//   //quotation
-//   quotationCar: 'quotation-car',
-//   quotationHome: 'quotation-home',
-//   quotationTravel: 'quotation-travel',
-//   quotationAccident: 'quotation-accident',
-//   //issuance
-//   issuanceCar: 'issuance-car',
-//   issuanceHome: 'issuance-home',
-//   issuanceTravel: 'issuance-travel',
-//   issuanceAccident: 'issuance-accident',
-//   //utilities
-//   query: 'utilities-query',
-//   documentPrinting: 'utilities-document-printing',
-//   changePassword: 'utilities-change-password'
-// }

@@ -49,7 +49,22 @@ import {
 })
 export class AccountOutstandingBillsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyHolder', 'prn', 'invoiceNumber', 'currency', 'effectivityDate', 'expiryDate', 'paymentDateExpiry', 'age', 'amount', 'paymentStatus', 'source', 'subline'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'policyHolder',
+    'prn',
+    'invoiceNumber',
+    'currency',
+    'effectivityDate',
+    'expiryDate',
+    'paymentDateExpiry',
+    'age',
+    'amount',
+    'paymentStatus',
+    'source',
+    'subline'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];

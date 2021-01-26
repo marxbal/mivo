@@ -49,7 +49,23 @@ import {
 })
 export class AccountPremiumCollectionListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'currency', 'subline', 'invoiceNumber', 'effectivityDate', 'expiryDate', 'collectedDate', 'collectionType', 'receiptAmount', 'netPremium', 'surcharge', 'tax', 'interest', 'source'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'currency',
+    'subline',
+    'invoiceNumber',
+    'effectivityDate',
+    'expiryDate',
+    'collectedDate',
+    'collectionType',
+    'receiptAmount',
+    'netPremium',
+    'surcharge',
+    'tax',
+    'interest',
+    'source'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];

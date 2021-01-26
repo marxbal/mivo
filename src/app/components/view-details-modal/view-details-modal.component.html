@@ -1,7 +1,8 @@
 <h2 mat-dialog-title>View Details</h2>
 <div mat-dialog-content>
   <div class="container">
-
+    <!-- MY CLIENT lists -->
+    <!-- CLIENT DETAILS -->
     <div *ngIf="type == 'client-details'" class="row">
       <div class="col-md-12">
         <h5>Client Details</h5>
@@ -67,6 +68,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- ACTIVE POLICY -->
     <div *ngIf="type == 'client-active'" class="row">
       <div class="col-md-12">
         <h5>Active Policy Details</h5>
@@ -132,6 +134,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- CANCELLED POLICY -->
     <div *ngIf="type == 'client-cancelled'" class="row">
       <div class="col-md-12">
         <h5>Cancelled Policy Details</h5>
@@ -176,6 +179,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- RENEWED POLICY -->
     <div *ngIf="type == 'client-renewed'" class="row">
       <div class="col-md-12">
         <h5>Renewed Policy Details</h5>
@@ -227,6 +231,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- NOT RENEWED POLICY -->
     <div *ngIf="type == 'client-not-renewed'" class="row">
       <div class="col-md-12">
         <h5>Not Renewed Policy Details</h5>
@@ -281,6 +286,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- EXPIRING POLICY -->
     <div *ngIf="type == 'client-expiring'" class="row">
       <div class="col-md-12">
         <h5>Expiring Policy Details</h5>
@@ -334,6 +340,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- PROVISIONAL POLICY -->
     <div *ngIf="type == 'client-provisional'" class="row">
       <div class="col-md-12">
         <h5>Provisional Policy Details</h5>
@@ -388,6 +395,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- ACTIVE QUOTATION -->
     <div *ngIf="type == 'client-active-quotation'" class="row">
       <div class="col-md-12">
         <h5>Active Quotation Details</h5>
@@ -441,6 +449,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- PROVISIONAL QUOTATION -->
     <div *ngIf="type == 'client-provisional-quotation'" class="row">
       <div class="col-md-12">
         <h5>Provisional Quotation Details</h5>
@@ -495,6 +504,7 @@
       <div class="clearfix"></div>
     </div>
 
+    <!-- CLAIM DETAILS -->
     <div *ngIf="type == 'client-claims'" class="row">
       <div class="col-md-12">
         <h5>Claim Details</h5>
@@ -547,6 +557,385 @@
         <div class="form-group">
           <label for="source">Source</label>
           <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- MY ACCOUNT lists -->
+    <!-- OUTSTANDING BILLS -->
+    <div *ngIf="type == 'account-outstanding-bills'" class="row">
+      <div class="col-md-12">
+        <h5>Outstanding Bills Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="claimNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="prn">PRN</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listAccountOutstandingBills.prn}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="effectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.effectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.expiryDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="paymentDateExpiry">Payment Date Expiry</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.paymentDateExpiry}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listAccountOutstandingBills.age}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.amount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="paymentStatus">Payment Status</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.paymentStatus}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.source}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="subline">Subline</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.subline}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- COMMISSIONS PAID -->
+    <div *ngIf="type == 'account-commissions-paid'" class="row">
+      <div class="col-md-12">
+        <h5>Commissions Paid Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="receiptAmount">Receipt Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.receiptAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="commissionAmount">Commission Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.commissionAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="withholdingTaxAmount">Withholding Tax Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.withholdingTaxAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- ESTIMATED COMMISSIONS -->
+    <div *ngIf="type == 'account-estimated-commissions'" class="row">
+      <div class="col-md-12">
+        <h5>Estimated Commissions Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="movementDate">Movement Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.movementDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="receiptAmount">Receipt Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.receiptAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="estimatedCommission">Estimated Commission</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.estimatedCommission}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- PREMIUM COLLECTION -->
+    <div *ngIf="type == 'account-premium-collection'" class="row">
+      <div class="col-md-12">
+        <h5>Premium Collection Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="subline">Subline</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.subline}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="effectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.effectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.expiryDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="collectedDate">Collected Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.collectedDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="collectionType">Collection Type</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.collectionType}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="receiptAmount">Receipt Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.receiptAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="netPremium">Net Premium</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.netPremium}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="surcharge">Surcharge</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.surcharge}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="tax">Tax</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.tax}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="interest">Interest</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.interest}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.source}}>
         </div>
       </div>
 

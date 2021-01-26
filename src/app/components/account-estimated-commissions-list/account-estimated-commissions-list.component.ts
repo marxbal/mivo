@@ -49,7 +49,17 @@ import {
 })
 export class AccountEstimatedCommissionsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['policyNumber', 'policyHolder', 'currency', 'invoiceNumber', 'movementDate', 'receiptAmount', 'estimatedCommission', 'source'];
+  displayedColumns: string[] = [
+    'policyNumber',
+    'policyHolder',
+    'currency',
+    'invoiceNumber',
+    'movementDate',
+    'receiptAmount',
+    'estimatedCommission',
+    'source'
+  ];
+
   dataSource = new MatTableDataSource();
 
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
