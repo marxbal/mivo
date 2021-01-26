@@ -17,7 +17,6 @@ export class PageFilterAccount {
 
   // for outstanding bills list
   prn: String = "";
-  incomeVoice: String = "";
   paymentDateExpiry: String = "";
   age: String = "";
   amount: String = "";
