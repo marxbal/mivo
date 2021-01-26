@@ -62,6 +62,7 @@ export class AccountCommissionsPaidListComponent implements OnInit {
 
   dataSource = new MatTableDataSource();
 
+  currencyItems: any[] = ['PHP', 'EUR', 'USD'];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
   pageFilter: PageFilterAccount = new PageFilterAccount();

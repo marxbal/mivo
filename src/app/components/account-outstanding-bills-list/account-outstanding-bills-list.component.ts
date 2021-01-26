@@ -67,6 +67,7 @@ export class AccountOutstandingBillsListComponent implements OnInit {
 
   dataSource = new MatTableDataSource();
 
+  currencyItems: any[] = ['PHP', 'EUR', 'USD'];
   sourceItems: any[] = ['MIVO', 'TRONWEB'];
 
   pageFilter: PageFilterAccount = new PageFilterAccount();
@@ -112,7 +113,6 @@ export class AccountOutstandingBillsListComponent implements OnInit {
       effectivityDate: [null],
       expiryDate: [null],
       paymentDateExpiry: [null],
-      age: [null],
       amount: [null],
       paymentStatus: [null],
       source: [null],
@@ -189,7 +189,6 @@ export class AccountOutstandingBillsListComponent implements OnInit {
     this.filterForm.get('effectivityDate').setValue('');
     this.filterForm.get('expiryDate').setValue('');
     this.filterForm.get('paymentDateExpiry').setValue('');
-    this.filterForm.get('age').setValue('');
     this.filterForm.get('amount').setValue('');
     this.filterForm.get('paymentStatus').setValue('');
     this.filterForm.get('source').setValue('');

@@ -38,8 +38,11 @@
                   <div class="row">
                     <label for="currency" class="col-md-12 col-lg-4 col-form-label">Currency</label>
                     <div class="col-md-12 col-lg-8">
-                      <input type="text" class="form-control" formControlName="currency" id="currency"
+                      <select class="custom-select mr-sm-2" formControlName="currency" id="currency"
                         [(ngModel)]="pageFilter.currency">
+                        <option></option>
+                        <option *ngFor="let item of currencyItems" [ngValue]="item">{{ item }}</option>
+                      </select>
                     </div>
                   </div>
                 </div>
