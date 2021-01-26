@@ -131,7 +131,7 @@ export class AccountPremiumCollectionListComponent implements OnInit {
 
     this.pageFilter.effectivityDate = Utility.convertDatePickerDate(this.pageFilter.effectivityDate);
     this.pageFilter.expiryDate = Utility.convertDatePickerDate(this.pageFilter.expiryDate);
-    this.pageFilter.paymentDateExpiry = Utility.convertDatePickerDate(this.pageFilter.paymentDateExpiry);
+    this.pageFilter.collectedDate = Utility.convertDatePickerDate(this.pageFilter.collectedDate);
   }
 
   getList() {
