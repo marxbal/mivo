@@ -125,6 +125,10 @@ export class AccountOutstandingBillsListComponent implements OnInit {
     this.pageFilter.pageSize = this.pageSize;
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
+
+    this.pageFilter.effectivityDate = Utility.convertDatePickerDate(this.pageFilter.effectivityDate);
+    this.pageFilter.expiryDate = Utility.convertDatePickerDate(this.pageFilter.expiryDate);
+    this.pageFilter.paymentDateExpiry = Utility.convertDatePickerDate(this.pageFilter.paymentDateExpiry);
   }
 
   getList() {

@@ -115,6 +115,8 @@ export class AccountEstimatedCommissionsListComponent implements OnInit {
     this.pageFilter.pageSize = this.pageSize;
     this.pageFilter.sortBy = this.sortBy;
     this.pageFilter.sortOrder = this.sortOrder;
+
+    this.pageFilter.movementDate = Utility.convertDatePickerDate(this.pageFilter.movementDate);
   }
 
   getList() {
