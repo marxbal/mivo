@@ -949,6 +949,9 @@
 
 <div mat-dialog-actions align="end">
   <div class="btn-group" role="group">
+    <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="pay(listAccountOutstandingBills)">
+      Pay
+    </button>
     <button type="button" class="btn btn-primary" (click)="close()">
       Close
     </button>

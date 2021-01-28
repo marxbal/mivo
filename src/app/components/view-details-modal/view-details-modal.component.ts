@@ -151,6 +151,10 @@ export class ViewDetailsModalComponent implements OnInit {
     }
   }
 
+  pay(data : ListAccountOutstandingBills) {
+    console.log(data);
+  }
+
   close(): void {
     this.dialogRef.close();
   }
