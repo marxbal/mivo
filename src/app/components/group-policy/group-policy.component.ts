@@ -60,13 +60,13 @@ export class GroupPolicyComponent {
     }
     if (!Utility.isUndefined(this.groupPolicy.contract)) {
       this.gpForm.get('contract').markAsDirty();
-      this.gpls.getContract(this._subline, this.groupPolicy).then(res => {
+      this.gpls.getContract(this._subline, this.groupPolicy, this.user.companyCode, this.user.agentCode).then(res => {
         this.GPLOV.contractLOV = res;
       });
     }
     if (!Utility.isUndefined(this.groupPolicy.subContract)) {
       this.gpForm.get('subContract').markAsDirty();
-      this.gpls.getSubContract(this._subline, this.groupPolicy).then(res => {
+      this.gpls.getSubContract(this._subline, this.groupPolicy, this.user.companyCode, this.user.agentCode).then(res => {
         this.GPLOV.subContractLOV = res;
       });
     }
@@ -97,7 +97,7 @@ export class GroupPolicyComponent {
       }
 
       const _this = this;
-      this.gpls.getCommercialStructure().then(res => {
+      this.gpls.getCommercialStructure(this.user.companyCode, this.user.agentCode).then(res => {
         _this.GPLOV.commercialStructureLOV = res;
       });
 
@@ -107,7 +107,7 @@ export class GroupPolicyComponent {
 
   getGroupPolicyLOV() {
     const _this = this;
-    this.gpls.getGroupPolicy(this._subline).then(res => {
+    this.gpls.getGroupPolicy(this._subline, this.user.companyCode, this.user.agentCode).then(res => {
       _this.GPLOV.groupPolicyLOV = res;
     });
   }
@@ -131,7 +131,7 @@ export class GroupPolicyComponent {
   groupPolicyOnChange() {
     const _this = this;
     _this.GPLOV.contractLOV = []
-    this.gpls.getContract(this._subline, this.groupPolicy).then(res => {
+    this.gpls.getContract(this._subline, this.groupPolicy, this.user.companyCode, this.user.agentCode).then(res => {
       _this.GPLOV.contractLOV = res;
     });
     if (this.groupPolicy.groupPolicy == undefined || this.groupPolicy.groupPolicy == 0) {
@@ -144,7 +144,7 @@ export class GroupPolicyComponent {
   contractOnChange() {
     const _this = this;
     _this.GPLOV.subContractLOV = []
-    this.gpls.getSubContract(this._subline, this.groupPolicy).then(res => {
+    this.gpls.getSubContract(this._subline, this.groupPolicy, this.user.companyCode, this.user.agentCode).then(res => {
       _this.GPLOV.subContractLOV = res;
     });
   }
