@@ -13,10 +13,17 @@ import {
 import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
+import {
+  AuthenticationService
+} from '../authentication.service';
 
 @Injectable()
 export class ThirdPartyLOVServices {
-  constructor(private lov: LovService) {}
+  constructor(
+    private lov: LovService,
+    private auths: AuthenticationService) {}
+
+  user = this.auths.currentUserValue;
 
   async getDocumentType(): Promise < any[] > {
     const dto = new LOV(
@@ -107,8 +114,8 @@ export class ThirdPartyLOVServices {
     const dto = new LOV(
       'G2990022',
       '2',
-      'COD_CIA~1' +
-      '|COD_AGT~1101');
+      'COD_CIA~' + this.user.companyCode +
+      '|COD_AGT~' + this.user.agentCode);
     return this.lov.getIntLOV(dto, 'NUM_SUBCONTRATO').then(lovs => lovs as any[]);
   }
 
@@ -116,8 +123,8 @@ export class ThirdPartyLOVServices {
     const dto = new LOV(
       'G2990022',
       '2',
-      'COD_CIA~1' +
-      '|COD_AGT~1101');
+      'COD_CIA~' + this.user.companyCode +
+      '|COD_AGT~' + this.user.agentCode);
     return this.lov.getIntLOV(dto, 'NUM_SUBCONTRATO').then(lovs => lovs as any[]);
   }
 
