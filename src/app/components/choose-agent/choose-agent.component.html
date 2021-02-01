@@ -16,6 +16,7 @@
                   <label for="commercialStructure">Commercial Structure</label>
                   <select class="custom-select mr-sm-2 required" formControlName="commercialStructure"
                     (change)="comStructureChange()">
+                    <option selected></option>
                     <option *ngFor="let commerialStructure of commercialStructureLOV"
                       [ngValue]="commerialStructure.codNivel3">{{ commerialStructure.nomNivel3 }}</option>
                   </select>
@@ -29,6 +30,7 @@
                 || chooseAgentForm.controls['agent'].touched)}">
                   <label for="agent">Agent</label>
                   <select class="custom-select mr-sm-2 required" formControlName="agent">
+                    <option selected></option>
                     <option *ngFor="let agentDetail of agentLOV" [ngValue]="agentDetail.codAgt">
                       {{ agentDetail.nomCompleto }}</option>
                   </select>

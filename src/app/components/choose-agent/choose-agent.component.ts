@@ -97,7 +97,7 @@ export class ChooseAgentComponent implements OnInit {
 
     const param = {
       agentCode: agentCode,
-      userCode: agentCode
+      userCode: currentUser.userName
     };
 
     this.as.getProductionAgentProfile(JSON.stringify(param)).then(res => {
