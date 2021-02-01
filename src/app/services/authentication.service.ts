@@ -69,7 +69,6 @@ export class AuthenticationService {
       if (res["status"]) {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
         const user = new User(res["user"]);
-        user.role = 1;
         // user.userId = 1101;
         // user.role = 1;
         // user.userName = username as string;
