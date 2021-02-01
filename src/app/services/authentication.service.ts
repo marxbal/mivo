@@ -68,15 +68,16 @@ export class AuthenticationService {
     return this.http.post(API_URL + '/auth/login', { username, password }).pipe(map((res) => {
       if (res["status"]) {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-        const user = new User();
-        user.userId = 1101;
+        const user = new User(res["user"]);
         user.role = 1;
-        user.userName = username as string;
-        user.firstName = "MAPFRE";
-        user.lastName = "INSULAR";
-        user.fullName = "MAPFRE INSULAR";
-        user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
-        user.expiryDay = 4;
+        // user.userId = 1101;
+        // user.role = 1;
+        // user.userName = username as string;
+        // user.firstName = "MAPFRE";
+        // user.lastName = "INSULAR";
+        // user.fullName = "MAPFRE INSULAR";
+        // user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
+        // user.expiryDay = 4;
         const token = res["token"];
         user.token = this.createAuthToken(token);
 
