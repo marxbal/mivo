@@ -29,6 +29,8 @@ export class JwtInterceptor implements HttpInterceptor {
           AgentCode: `${currentUser.agentCode}`,
           Username: `${currentUser.userName}`,
           CompanyCode: `${currentUser.companyCode}`,
+          FullName: `${currentUser.fullName}`,
+          CommercialStructure: `${currentUser.commercialStructure}`,
         }
       });
     }

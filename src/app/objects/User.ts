@@ -10,7 +10,7 @@ export class User {
   fullName: string;
   address: string;
   expiryDay: number;
-  commStructure: number;
+  commercialStructure: number;
   selectedAgent: SelectedAgent;
 
   token: string;

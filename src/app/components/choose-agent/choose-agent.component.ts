@@ -112,6 +112,7 @@ export class ChooseAgentComponent implements OnInit {
         sa.agentAddress = res.obj["dirAgente"];
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
         currentUser.selectedAgent = sa;
+        currentUser.commercialStructure = sa.commStructure;
         //adds chosen agent to current user detail
         localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
       }
