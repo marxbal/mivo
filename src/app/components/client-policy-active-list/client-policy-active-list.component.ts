@@ -44,6 +44,9 @@ import {
 import {
   page
 } from '../../constants/page';
+import {
+  AuthenticationService
+} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-client-policy-active-list',
@@ -51,6 +54,7 @@ import {
   styleUrls: ['./client-policy-active-list.component.css']
 })
 export class ClientPolicyActiveListComponent implements OnInit {
+  user = this.auths.currentUserValue;
 
   displayedColumns: string[] = [
     'policyNumber',
@@ -97,6 +101,7 @@ export class ClientPolicyActiveListComponent implements OnInit {
     private bms: BsModalService,
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices,
+    private auths: AuthenticationService
   ) {}
 
   ngOnInit() {
@@ -104,7 +109,7 @@ export class ClientPolicyActiveListComponent implements OnInit {
     this.createForm();
 
     var _this = this;
-    this.tpls.getDocumentType().then(res => {
+    this.tpls.getDocumentType(this.user.companyCode).then(res => {
       _this.documentTypeItems = res;
     });
   }

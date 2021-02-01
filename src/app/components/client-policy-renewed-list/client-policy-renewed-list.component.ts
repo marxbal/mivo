@@ -44,6 +44,9 @@ import {
 import {
   page
 } from '../../constants/page';
+import {
+  AuthenticationService
+} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-client-policy-renewed-list',
@@ -51,6 +54,7 @@ import {
   styleUrls: ['./client-policy-renewed-list.component.css']
 })
 export class ClientPolicyRenewedListComponent implements OnInit {
+  user = this.auths.currentUserValue;
 
   displayedColumns: string[] = [
     'policyNumber',
@@ -95,6 +99,7 @@ export class ClientPolicyRenewedListComponent implements OnInit {
     private bms: BsModalService,
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices,
+    private auths: AuthenticationService
   ) {}
 
   ngOnInit() {
@@ -102,7 +107,7 @@ export class ClientPolicyRenewedListComponent implements OnInit {
     this.createForm();
 
     var _this = this;
-    this.tpls.getDocumentType().then(res => {
+    this.tpls.getDocumentType(this.user.companyCode).then(res => {
       _this.documentTypeItems = res;
     });
   }

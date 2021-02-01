@@ -43,13 +43,12 @@ export class AuthenticationService {
   }
 
   public get currentUserValue(): User {
-    debugger
-    const storedDetails = localStorage.getItem(CURRENT_USER);
+    // const storedDetails = localStorage.getItem(CURRENT_USER);
 
-    if (storedDetails != null) {
-      const user = JSON.parse(storedDetails);
-      this.currentUserSubject.next(user);
-    }
+    // if (storedDetails != null) {
+    //   const user = JSON.parse(storedDetails);
+    //   this.currentUserSubject.next(user);
+    // }
     
     return this.currentUserSubject.value;
   }

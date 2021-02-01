@@ -13,23 +13,16 @@ import {
 import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
-import {
-  AuthenticationService
-} from '../authentication.service';
 
 @Injectable()
 export class ThirdPartyLOVServices {
-  constructor(
-    private lov: LovService,
-    private auths: AuthenticationService) {}
+  constructor(private lov: LovService) {}
 
-  user = this.auths.currentUserValue;
-
-  async getDocumentType(): Promise < any[] > {
+  async getDocumentType(companyCode: number): Promise < any[] > {
     const dto = new LOV(
       'A1002300',
       '3',
-      '|COD_CIA~1');
+      '|COD_CIA~' + companyCode);
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
@@ -110,21 +103,21 @@ export class ThirdPartyLOVServices {
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
-  async getPost(): Promise < any[] > {
+  async getPost(companyCode: number, agentCode: number): Promise < any[] > {
     const dto = new LOV(
       'G2990022',
       '2',
-      'COD_CIA~' + this.user.companyCode +
-      '|COD_AGT~' + this.user.agentCode);
+      'COD_CIA~' + companyCode +
+      '|COD_AGT~' + agentCode);
     return this.lov.getIntLOV(dto, 'NUM_SUBCONTRATO').then(lovs => lovs as any[]);
   }
 
-  async getTypeOfBusiness(): Promise < any[] > {
+  async getTypeOfBusiness(companyCode: number, agentCode: number): Promise < any[] > {
     const dto = new LOV(
       'G2990022',
       '2',
-      'COD_CIA~' + this.user.companyCode +
-      '|COD_AGT~' + this.user.agentCode);
+      'COD_CIA~' + companyCode +
+      '|COD_AGT~' + agentCode);
     return this.lov.getIntLOV(dto, 'NUM_SUBCONTRATO').then(lovs => lovs as any[]);
   }
 
