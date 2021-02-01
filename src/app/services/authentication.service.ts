@@ -43,6 +43,7 @@ export class AuthenticationService {
   }
 
   public get currentUserValue(): User {
+    console.log("this.currentUserSubject.value: " + this.currentUserSubject.value);
     return this.currentUserSubject.value;
   }
 
@@ -81,6 +82,7 @@ export class AuthenticationService {
         user.token = this.createAuthToken(token);
 
         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+        console.log("user " + user);
         this.currentUserSubject.next(user);
 
         this.getPages();
