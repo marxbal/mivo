@@ -147,10 +147,10 @@ export class Utility {
 
     let u = new User();
 
-    if (storedDetails != null) {
-      const user = JSON.parse(storedDetails);
-      u = new User(user);
-    }
+    // if (storedDetails != null) {
+    //   const user = JSON.parse(storedDetails);
+    //   u = new User(user);
+    // }
     
     return u;
   }
