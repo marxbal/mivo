@@ -65,34 +65,34 @@ export class AuthenticationService {
   // }
 
   login(username: String, password: String) {
-    return this.http.get(API_URL + '/auth', {
-      headers: {
-        authorization: this.createBasicAuthToken(username, password)
-      }
-    }).pipe(map((res) => {
+    return this.http.post(API_URL + '/auth/login', { username, password }).pipe(map((res) => {
+      if (res["status"]) {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-      const user = new User();
-      user.userId = 1101;
-      user.role = 1;
-      user.userName = username as string;
-      user.firstName = "MAPFRE";
-      user.lastName = "INSULAR";
-      user.fullName = "MAPFRE INSULAR";
-      user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
-      user.expiryDay = 4;
-      user.token = this.createBasicAuthToken(username, password);
+        const user = new User();
+        user.userId = 1101;
+        user.role = 1;
+        user.userName = username as string;
+        user.firstName = "MAPFRE";
+        user.lastName = "INSULAR";
+        user.fullName = "MAPFRE INSULAR";
+        user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
+        user.expiryDay = 4;
+        const token = res["token"];
+        user.token = this.createAuthToken(token);
 
-      localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-      this.currentUserSubject.next(user);
+        localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+        this.currentUserSubject.next(user);
 
-      this.getPages();
-
-      return user;
+        this.getPages();
+        return user;
+      } else {
+        return null;
+      }
     }));
   }
 
-  createBasicAuthToken(username: String, password: String) {
-    return 'Basic ' + window.btoa(username + ":" + password)
+  createAuthToken(token: String) {
+    return 'Bearer ' + token;
   }
 
   getPages() {
