@@ -43,13 +43,6 @@ export class AuthenticationService {
   }
 
   public get currentUserValue(): User {
-    // const storedDetails = localStorage.getItem(CURRENT_USER);
-
-    // if (storedDetails != null) {
-    //   const user = JSON.parse(storedDetails);
-    //   this.currentUserSubject.next(user);
-    // }
-    
     return this.currentUserSubject.value;
   }
 
@@ -76,14 +69,6 @@ export class AuthenticationService {
       if (res["status"]) {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
         const user = new User(res["user"]);
-        // user.userId = 1101;
-        // user.role = 1;
-        // user.userName = username as string;
-        // user.firstName = "MAPFRE";
-        // user.lastName = "INSULAR";
-        // user.fullName = "MAPFRE INSULAR";
-        // user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
-        // user.expiryDay = 4;
         const token = res["token"];
         user.token = this.createAuthToken(token);
 

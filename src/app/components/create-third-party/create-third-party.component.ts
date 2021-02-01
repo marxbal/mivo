@@ -31,9 +31,6 @@ import {
   BsModalService,
   BsModalRef
 } from 'ngx-bootstrap/modal';
-import {
-  AuthenticationService
-} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-create-third-party',
@@ -41,8 +38,6 @@ import {
   styleUrls: ['./create-third-party.component.css']
 })
 export class CreateThirdPartyComponent implements OnInit {
-  user = this.auths.currentUserValue;
-
   tpForm: FormGroup;
   title: String = this.data.title;
   thirdParty: PolicyHolder = new PolicyHolder();
@@ -68,8 +63,7 @@ export class CreateThirdPartyComponent implements OnInit {
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices,
     private tps: ThirdPartyService,
-    private bms: BsModalService,
-    private auths: AuthenticationService) {}
+    private bms: BsModalService) {}
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
@@ -156,7 +150,7 @@ export class CreateThirdPartyComponent implements OnInit {
 
   getLOVs() {
     const _this = this;
-    this.tpls.getDocumentType(this.user.companyCode).then(res => {
+    this.tpls.getDocumentType().then(res => {
       _this.TPLOV.documentTypeLOV = res;
     });
     this.tpls.getPrefix().then(res => {
@@ -174,10 +168,10 @@ export class CreateThirdPartyComponent implements OnInit {
     this.tpls.getNationality().then(res => {
       _this.TPLOV.nationalityLOV = res;
     });
-    this.tpls.getPost(this.user.companyCode, this.user.agentCode).then(res => {
+    this.tpls.getPost().then(res => {
       _this.TPLOV.orgPostLOV = res;
     });
-    this.tpls.getTypeOfBusiness(this.user.companyCode, this.user.agentCode).then(res => {
+    this.tpls.getTypeOfBusiness().then(res => {
       _this.TPLOV.orgTypeOfBusinessLOV = res;
     });
     this.tpls.getMaritalStatus().then(res => {
