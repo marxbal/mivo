@@ -1,7 +1,7 @@
 ﻿import { SelectedAgent } from './SelectedAgent';
 
 export class User {
-  userId: number;
+  companyCode: number;
   role: number;
   agentCode: number;
   userName: string;

@@ -91,7 +91,7 @@ export class GroupPolicyComponent {
     this.createForm();
     setTimeout(() => {
       const hasSelectedAgent = this.user.selectedAgent != null;
-      this.groupPolicy.agentCode = hasSelectedAgent ? this.user.agentCode : this.user.userId; //TODO
+      this.groupPolicy.agentCode = this.user.agentCode;
 
       this.groupPolicy.commercialStructure = this.user.selectedAgent != null ?
         this.user.selectedAgent.commStructure :
