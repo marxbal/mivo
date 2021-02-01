@@ -96,8 +96,7 @@ export class ChooseAgentComponent implements OnInit {
     localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
 
     const param = {
-      agentCode: agentCode,
-      userCode: currentUser.userName
+      agentCode: agentCode
     };
 
     this.as.getProductionAgentProfile(JSON.stringify(param)).then(res => {
