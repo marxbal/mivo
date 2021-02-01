@@ -43,6 +43,7 @@ export class AuthenticationService {
   }
 
   public get currentUserValue(): User {
+    debugger
     const storedDetails = localStorage.getItem(CURRENT_USER);
 
     if (storedDetails != null) {
