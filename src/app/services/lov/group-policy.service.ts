@@ -14,15 +14,19 @@ import {
 import {
   AuthenticationService
 } from '../authentication.service';
+import {
+  User
+} from 'src/app/objects/User';
 
 @Injectable()
 export class GroupPolicyLOVServices {
+  user = new User();
 
   constructor(
     private lov: LovService,
-    private auths: AuthenticationService) {}
-
-  user = this.auths.currentUserValue;
+    private auths: AuthenticationService) {
+    this.user = this.auths.currentUserValue;
+  }
 
   async getCommercialStructure(): Promise < any[] > {
     const dto = new LOV(
