@@ -5,7 +5,11 @@ import {
 import {
   ModalComponent
 } from '../components/modal/modal.component';
+import {
+  CURRENT_USER
+} from "../constants/local.storage";
 import * as moment from 'moment';
+import { User } from '../objects/User';
 
 export class Utility {
 
@@ -136,5 +140,18 @@ export class Utility {
       return moment(d).format("MM/DD/YYYY");
     }
     return "";
+  }
+
+  static getStoredDetails() {
+    const storedDetails = localStorage.getItem(CURRENT_USER);
+
+    let u = new User();
+
+    if (storedDetails != null) {
+      const user = JSON.parse(storedDetails);
+      u = new User(user);
+    }
+    
+    return u;
   }
 }

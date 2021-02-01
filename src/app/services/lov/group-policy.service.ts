@@ -11,6 +11,7 @@ import {
 import {
   GroupPolicy
 } from '../../objects/GroupPolicy';
+import { Utility } from 'src/app/utils/utility';
 
 @Injectable()
 export class GroupPolicyLOVServices {
@@ -21,8 +22,8 @@ export class GroupPolicyLOVServices {
     const dto = new LOV(
       'A1000710',
       '2',
-      'COD_CIA~' + companyCode +
-      '|COD_AGT~' + agentCode);
+      'COD_CIA~' + Utility.getStoredDetails().companyCode +
+      '|COD_AGT~' + Utility.getStoredDetails().agentCode);
     return this.lov.getIntLOV(dto, 'COD_NIVEL3').then(lovs => lovs as any[]);
   }
 
