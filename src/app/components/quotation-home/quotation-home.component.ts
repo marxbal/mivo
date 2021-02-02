@@ -101,6 +101,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   invalidForms: any[] = [];
 
   withTechControl = false;
+  withError = false;
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
@@ -1147,6 +1148,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     } else {
       this.his.postPolicy(this.homeDetails).then(res => {
+        this.editMode = false;
         if (res.status) {
           //clear affecting fields
           this.changedValues = [];
@@ -1157,7 +1159,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           const status = res.obj["status"];
           const policyNumber = res.obj["policyNumber"];
           if (status && !Utility.isUndefined(policyNumber)) {
-            this.editMode = false;
             this.homeDetails.policyNumber = policyNumber;
 
             const breakdown = res.obj["breakdown"];
@@ -1166,9 +1167,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
             this.openPaymentBreakdownModal(receipt, breakdown, true);
             this.manageBtn(4);
           } else {
+            this.withError = true;
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
         } else {
+          this.withError = true;
           this.modalRef = Utility.showError(this.bms, res.message);
         }
       });
