@@ -599,6 +599,19 @@
               </div>
             </div>
 
+            <div *ngIf="showNewPolicyBtn">
+              <div class="alert alert-error note">
+                <p>
+                  <strong>Quotation has error</strong> Unable to issue policy.
+                </p>
+              </div>
+              <!-- .note -->
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary" (click)="newQuote()">New Quote</button>
+                <button type="button" class="btn btn-primary" (click)="newPolicy()">New Policy</button>
+              </div>
+            </div>
+
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
               <button
                 *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
