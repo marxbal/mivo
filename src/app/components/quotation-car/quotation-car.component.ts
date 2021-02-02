@@ -171,6 +171,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showPostBtn: boolean = false;
   //flag to show print btn
   showPrintBtn: boolean = false;
+  //flag to show new quote and new policy btn
+  showNewPolicyBtn: boolean = false;
 
   //disable load button
   disableLoadBtn: boolean = true;
@@ -1385,6 +1387,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.showSaveBtn = (opt == 2);
       this.showPostBtn = (opt == 3);
       this.showPrintBtn = (opt == 4);
+      this.showNewPolicyBtn = (opt == 5);
     } else {
       this.showGenerateBtnGrp = (opt == 1);
       this.showIssueQuoteBtnGrp = (opt == 2);
@@ -1706,9 +1709,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.openPaymentBreakdownModal(receipt, breakdown, true);
             this.manageBtn(4);
           } else {
+            this.manageBtn(5);
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
         } else {
+          this.manageBtn(5);
           this.modalRef = Utility.showError(this.bms, res1.message);
         }
       });

@@ -101,7 +101,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   invalidForms: any[] = [];
 
   withTechControl = false;
-  withError = false;
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
@@ -156,6 +155,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   showPostBtn: boolean = false;
   //flag to show print btn
   showPrintBtn: boolean = false;
+  //flag to show new quote and new policy btn
+  showNewPolicyBtn: boolean = false;
   //flag to show rate percentage panel
   showRatePercentage: boolean = false;
 
@@ -818,6 +819,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       this.showSaveBtn = (opt == 2);
       this.showPostBtn = (opt == 3);
       this.showPrintBtn = (opt == 4);
+      this.showNewPolicyBtn = (opt == 5);
     } else {
       this.showGenerateBtn = (opt == 1);
       this.showIssueQuoteBtn = (opt == 2);
@@ -1167,11 +1169,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
             this.openPaymentBreakdownModal(receipt, breakdown, true);
             this.manageBtn(4);
           } else {
-            this.withError = true;
+            this.manageBtn(5);
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
         } else {
-          this.withError = true;
+          this.manageBtn(5);
           this.modalRef = Utility.showError(this.bms, res.message);
         }
       });
