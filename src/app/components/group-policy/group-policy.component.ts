@@ -90,12 +90,8 @@ export class GroupPolicyComponent {
   ngOnInit(): void {
     this.createForm();
     setTimeout(() => {
-      const hasSelectedAgent = this.user.selectedAgent != null;
-      this.groupPolicy.agentCode = hasSelectedAgent ? this.user.agentCode : this.user.userId; //TODO
-
-      this.groupPolicy.commercialStructure = this.user.selectedAgent != null ?
-        this.user.selectedAgent.commStructure :
-        this.user.commStructure;
+      this.groupPolicy.agentCode = this.user.agentCode;
+      this.groupPolicy.commercialStructure = this.user.commercialStructure;
       if (!Utility.isUndefined(this.groupPolicy.commercialStructure)) {
         this.gpForm.get('commercialStructure').markAsDirty();
       }

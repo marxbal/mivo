@@ -96,8 +96,7 @@ export class ChooseAgentComponent implements OnInit {
     localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
 
     const param = {
-      agentCode: agentCode,
-      userCode: agentCode
+      agentCode: agentCode
     };
 
     this.as.getProductionAgentProfile(JSON.stringify(param)).then(res => {
@@ -113,6 +112,7 @@ export class ChooseAgentComponent implements OnInit {
         sa.agentAddress = res.obj["dirAgente"];
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
         currentUser.selectedAgent = sa;
+        currentUser.commercialStructure = sa.commStructure;
         //adds chosen agent to current user detail
         localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
       }

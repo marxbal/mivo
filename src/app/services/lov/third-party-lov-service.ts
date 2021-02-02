@@ -13,6 +13,9 @@ import {
 import {
   PolicyHolder
 } from 'src/app/objects/PolicyHolder';
+import {
+  Utility
+} from 'src/app/utils/utility';
 
 @Injectable()
 export class ThirdPartyLOVServices {
@@ -22,7 +25,7 @@ export class ThirdPartyLOVServices {
     const dto = new LOV(
       'A1002300',
       '3',
-      '|COD_CIA~1');
+      '|COD_CIA~' + Utility.getStoredDetails().companyCode);
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
@@ -107,8 +110,8 @@ export class ThirdPartyLOVServices {
     const dto = new LOV(
       'G2990022',
       '2',
-      'COD_CIA~1' +
-      '|COD_AGT~1101');
+      'COD_CIA~' + Utility.getStoredDetails().companyCode +
+      '|COD_AGT~' + Utility.getStoredDetails().agentCode);
     return this.lov.getIntLOV(dto, 'NUM_SUBCONTRATO').then(lovs => lovs as any[]);
   }
 
@@ -116,8 +119,8 @@ export class ThirdPartyLOVServices {
     const dto = new LOV(
       'G2990022',
       '2',
-      'COD_CIA~1' +
-      '|COD_AGT~1101');
+      'COD_CIA~' + Utility.getStoredDetails().companyCode +
+      '|COD_AGT~' + Utility.getStoredDetails().agentCode);
     return this.lov.getIntLOV(dto, 'NUM_SUBCONTRATO').then(lovs => lovs as any[]);
   }
 

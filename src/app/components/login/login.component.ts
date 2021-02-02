@@ -113,17 +113,23 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          Globals.setPage(page.DAS.N);
-          if (data.role === 1) {
-            this.router.navigate([this.returnUrl]);
+          if (data != null) {
+            Globals.setPage(page.DAS.N);
+            if (data.role === 1) {
+              this.router.navigate([this.returnUrl]);
+            } else {
+              this.router.navigate(["/agent"]);
+            }
           } else {
-            this.router.navigate(["/agent"]);
+            this.loading = false;
+            this.alert = true;
+            this.message = "Incorrect useraname or password.";
           }
         },
         (err) => {
           this.loading = false;
-          this.alert = true;
-          this.message = err.message;
+            this.alert = true;
+            this.message = "Incorrect useraname or password.";
         }
       );
   }

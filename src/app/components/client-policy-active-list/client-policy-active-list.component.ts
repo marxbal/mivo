@@ -51,7 +51,6 @@ import {
   styleUrls: ['./client-policy-active-list.component.css']
 })
 export class ClientPolicyActiveListComponent implements OnInit {
-
   displayedColumns: string[] = [
     'policyNumber',
     'policyEffectivityDate',
@@ -96,7 +95,7 @@ export class ClientPolicyActiveListComponent implements OnInit {
     private cs: ClientService,
     private bms: BsModalService,
     private fb: FormBuilder,
-    private tpls: ThirdPartyLOVServices,
+    private tpls: ThirdPartyLOVServices
   ) {}
 
   ngOnInit() {

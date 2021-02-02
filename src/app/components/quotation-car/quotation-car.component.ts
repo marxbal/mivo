@@ -710,9 +710,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         const deepClone = JSON.parse(JSON.stringify(this.carDetails));
         this.prevCarDetails = deepClone;
 
+        //prevent to post policy if quotation has technical control
         const technicalControl = res.obj["technicalControl"];
         if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
           this.withTechControl = true;
+          this.editMode = false;
           this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
         }
       } else {

@@ -100,6 +100,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   invalidForms: any[] = [];
 
+  withTechControl = false;
+  withError = false;
+
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   secondaryPolicyHolder = new PolicyHolder();
@@ -477,6 +480,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         //cloning details from load quotation
         const deepClone = JSON.parse(JSON.stringify(this.homeDetails));
         this.prevHomeDetails = deepClone;
+
+        //prevent to post policy if quotation has technical control
+        const technicalControl = res.obj["technicalControl"];
+        if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.withTechControl = true;
+          this.editMode = false;
+          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+        }
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
         this.homeDetails.quotationNumber = "";
@@ -913,6 +924,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   //getting error or warning items
   getErrorItems(res: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    this.withTechControl = false;
     const resErrorCode = res.obj["errorCode"];
     const resError = res.obj["error"];
 
@@ -937,6 +949,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
             //has error - can't proceed
             items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
           } else {
+            this.withTechControl = true;
             // has warning - can proceed
             if (isIssuance) {
               items = ["Quotation has technical control due to following reason/s:"].concat(arr);
@@ -1105,7 +1118,8 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           const receipt = res.obj["receipt"];
           this.populatePaymentBreakdown(breakdown, receipt);
 
-          if (errorCode == "S") {
+          this.withTechControl = errorCode == 'S';
+          if (this.withTechControl) {
             //if quotation has a warning
             if (this.homeDetails.affecting) {
               items = ["Updated quotation number is: " + policyNumber].concat(items);
@@ -1130,31 +1144,37 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   postPolicy() {
     this.assembleData("N");
 
-    this.his.postPolicy(this.homeDetails).then(res => {
-      if (res.status) {
-        //clear affecting fields
-        this.changedValues = [];
-        this.hasRSChanges = false;
-        this.hasRCChanges = false;
+    if (this.withTechControl) {
+      this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+    } else {
+      this.his.postPolicy(this.homeDetails).then(res => {
+        this.editMode = false;
+        if (res.status) {
+          //clear affecting fields
+          this.changedValues = [];
+          this.hasRSChanges = false;
+          this.hasRCChanges = false;
 
-        var items = this.getErrorItems(res, this.homeDetails.mcaTmpPptoMph, true);
-        const status = res.obj["status"];
-        const policyNumber = res.obj["policyNumber"];
-        if (status && !Utility.isUndefined(policyNumber)) {
-          this.editMode = false;
-          this.homeDetails.policyNumber = policyNumber;
+          var items = this.getErrorItems(res, this.homeDetails.mcaTmpPptoMph, true);
+          const status = res.obj["status"];
+          const policyNumber = res.obj["policyNumber"];
+          if (status && !Utility.isUndefined(policyNumber)) {
+            this.homeDetails.policyNumber = policyNumber;
 
-          const breakdown = res.obj["breakdown"];
-          const receipt = res.obj["receipt"];
-          this.populatePaymentBreakdown(breakdown, receipt);
-          this.openPaymentBreakdownModal(receipt, breakdown, true);
-          this.manageBtn(4);
+            const breakdown = res.obj["breakdown"];
+            const receipt = res.obj["receipt"];
+            this.populatePaymentBreakdown(breakdown, receipt);
+            this.openPaymentBreakdownModal(receipt, breakdown, true);
+            this.manageBtn(4);
+          } else {
+            this.withError = true;
+            this.modalRef = Utility.showHTMLError(this.bms, items);
+          }
         } else {
-          this.modalRef = Utility.showHTMLError(this.bms, items);
+          this.withError = true;
+          this.modalRef = Utility.showError(this.bms, res.message);
         }
-      } else {
-        this.modalRef = Utility.showError(this.bms, res.message);
-      }
-    });
+      });
+    }
   }
 }

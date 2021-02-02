@@ -93,7 +93,7 @@ export class ClientDetailsListComponent implements OnInit {
     private cs: ClientService,
     private bms: BsModalService,
     private fb: FormBuilder,
-    private tpls: ThirdPartyLOVServices,
+    private tpls: ThirdPartyLOVServices
   ) {}
 
   ngOnInit() {

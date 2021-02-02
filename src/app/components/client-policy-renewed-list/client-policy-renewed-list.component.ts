@@ -51,7 +51,6 @@ import {
   styleUrls: ['./client-policy-renewed-list.component.css']
 })
 export class ClientPolicyRenewedListComponent implements OnInit {
-
   displayedColumns: string[] = [
     'policyNumber',
     'policyEffectivityDate',
@@ -94,7 +93,7 @@ export class ClientPolicyRenewedListComponent implements OnInit {
     private cs: ClientService,
     private bms: BsModalService,
     private fb: FormBuilder,
-    private tpls: ThirdPartyLOVServices,
+    private tpls: ThirdPartyLOVServices
   ) {}
 
   ngOnInit() {
