@@ -32,9 +32,6 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject < User > ;
   public currentUser: Observable < User > ;
 
-  username: String;
-  password: String;
-
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject < User > (
       JSON.parse(localStorage.getItem(CURRENT_USER))
@@ -67,11 +64,11 @@ export class AuthenticationService {
   login(username: String, password: String) {
     return this.http.post(API_URL + '/auth/login', { username, password }).pipe(map((res) => {
       if (res["status"]) {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
         const user = new User(res["user"]);
         const pages = res["pages"];
         const token = res["token"];
-        user.token = this.createAuthToken(token);
+        user.token = 'Bearer ' + token;
 
         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
         this.currentUserSubject.next(user);
@@ -84,18 +81,10 @@ export class AuthenticationService {
     }));
   }
 
-  createAuthToken(token: String) {
-    return 'Bearer ' + token;
-  }
-
   getPages(pages: any[]) {
-    // removing pages for user
-    // const unavailablePages = [
-    //   "changePassword",
-    //   "news",
-    // ];
     const page = new Page();
     for (let p in page) {
+      //includes all available pages for user
       if (pages.includes(p)) {
         page[p] = true;
       }
