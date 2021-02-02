@@ -48,5 +48,5 @@
 
   news: boolean= false;
 
-  faq: boolean= false;
+  faq: boolean= true;
 };
