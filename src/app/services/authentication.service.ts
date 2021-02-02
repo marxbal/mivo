@@ -90,7 +90,6 @@ export class AuthenticationService {
   getPages() {
     // removing pages for user
     const unavailablePages = [
-      "query",
       "changePassword",
       "news",
     ];
