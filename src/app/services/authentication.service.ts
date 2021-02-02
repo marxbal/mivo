@@ -69,13 +69,14 @@ export class AuthenticationService {
       if (res["status"]) {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
         const user = new User(res["user"]);
+        const pages = res["pages"];
         const token = res["token"];
         user.token = this.createAuthToken(token);
 
         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
         this.currentUserSubject.next(user);
 
-        this.getPages();
+        this.getPages(pages);
         return user;
       } else {
         return null;
@@ -87,16 +88,16 @@ export class AuthenticationService {
     return 'Bearer ' + token;
   }
 
-  getPages() {
+  getPages(pages: any[]) {
     // removing pages for user
-    const unavailablePages = [
-      "changePassword",
-      "news",
-    ];
+    // const unavailablePages = [
+    //   "changePassword",
+    //   "news",
+    // ];
     const page = new Page();
     for (let p in page) {
-      if (unavailablePages.includes(p)) {
-        page[p] = false;
+      if (pages.includes(p)) {
+        page[p] = true;
       }
     }
     localStorage.setItem(MENU, JSON.stringify(page));
