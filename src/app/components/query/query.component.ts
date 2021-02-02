@@ -27,18 +27,24 @@ export class QueryComponent implements OnInit {
     if (this.inputVal.nativeElement.value === '') {
       this.modalRef = Utility.showError(this.bms, 'Search value is empty.');
     } else {
-      this.filter.userName = localStorage.getItem('username')
-      this.filter.param = this.inputVal.nativeElement.value;
-      this.filter.inquiryType = this.selectedOption === 'policy' ? 'GETPOLICYDETAILS' : 'GETCLAIMDETAILS';
-      this.filter.paramName = this.selectedOption;
+      const userName = JSON.parse(localStorage.getItem('MIVO_login')).username
 
-      this.utilityQueryService.getSearchResult(this.filter).then((res) => {
-          if (res) {
-            const jsonData = JSON.parse(JSON.stringify(res));
-            window.open(jsonData.obj, '_blank');
+      if (userName != null) {
+        this.filter.userName = userName
+        this.filter.param = this.inputVal.nativeElement.value;
+        this.filter.inquiryType = this.selectedOption === 'policy' ? 'GETPOLICYDETAILS' : 'GETCLAIMDETAILS';
+        this.filter.paramName = this.selectedOption;
+
+        this.utilityQueryService.getSearchResult(this.filter).then((res) => {
+            if (res) {
+              const jsonData = JSON.parse(JSON.stringify(res));
+              window.open(jsonData.obj, '_blank');
+            }
           }
-        }
-      );
+        );
+      } else {
+        this.modalRef = Utility.showError(this.bms, 'No login credentials found!');
+      }
     }
   }
 
