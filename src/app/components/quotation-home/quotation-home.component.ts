@@ -468,6 +468,14 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
           });
         });
 
+         // includes related structure to home details DTO
+        var rs = this.quoteForm.get('relatedStructure').value;
+        this.homeDetails.relatedStructureDetails = rs.length ? rs : [];
+
+        // includes related content to home details DTO
+        var rc = this.quoteForm.get('relatedContent').value;
+        this.homeDetails.relatedContentDetails = rc.length ? rc : []; 
+
         this.loadLOVs();
   
         const coverageList = res.obj["coverageList"];
