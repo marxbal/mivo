@@ -562,6 +562,14 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         //cloning details from load quotation
         const deepClone = JSON.parse(JSON.stringify(this.travelDetails));
         this.prevTravelDetails = deepClone;
+
+        //prevent to post policy if quotation has technical control
+        const technicalControl = res.obj["technicalControl"];
+        if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.withTechControl = true;
+          this.editMode = false;
+          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+        }
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
         this.travelDetails.quotationNumber = "";
@@ -1082,8 +1090,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     return items;
   }
 
-  //generate and issue quote button
-  issueQuote(mcaTmpPptoMph: string) {
+  assembleData(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
     this.travelDetails.mcaTmpPptoMph = mcaTmpPptoMph;
 
@@ -1102,6 +1109,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     // to trigger changes when regenerating quotation
     this.showPaymentBreakdown = false;
     this.showCoverage = false;
+  }
+
+  //generate and issue quote button
+  issueQuote(mcaTmpPptoMph: string) {
+    this.assembleData(mcaTmpPptoMph);
 
     this.tis.issueQuote(this.travelDetails).then(res => {
       if (res.status) {
@@ -1152,30 +1164,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  assembleIssuePolicyData() {
-    // always N for issue policy
-    this.travelDetails.mcaTmpPptoMph = "N";
-
-    // includes group policy to travel details DTO
-    this.travelDetails.groupPolicy = this.groupPolicy;
-    // includes policy holder to travel details DTO
-    this.travelDetails.policyHolder = this.policyHolder;
-
-    // includes travelers to travel details DTO
-    var travelers = this.quoteForm.get('travelers').value;
-    this.travelDetails.travelers = travelers.length ? travelers : [];
-
-    // get product code
-    this.getProductCode();
-  }
-
   //save policy button
   savePolicy() {
-    this.assembleIssuePolicyData();
-
-    // to trigger changes when regenerating quotation
-    this.showCoverage = false;
-    this.showPaymentBreakdown = false;
+    this.assembleData("N");
 
     this.tis.savePolicy(this.travelDetails).then(res => {
       if (res.status) {
@@ -1202,7 +1193,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           const receipt = res.obj["receipt"];
           this.populatePaymentBreakdown(breakdown, receipt);
 
-          if (errorCode == "S") {
+          this.withTechControl = errorCode == 'S';
+          if (this.withTechControl) {
             //if quotation has a warning
             if (this.travelDetails.affecting) {
               items = ["Updated quotation number is: " + policyNumber].concat(items);
@@ -1225,11 +1217,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   //post policy button
   postPolicy() {
-    this.assembleIssuePolicyData();
-
-    // hides coverage and payment breakdown
-    this.showCoverage = false;
-    this.showPaymentBreakdown = false;
+    this.assembleData("N");
 
     if (this.withTechControl) {
       this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");

@@ -1154,10 +1154,6 @@
             </div>
 
             <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
-              <!-- <button type="button" class="btn btn-primary"
-                (click)="test(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">test</button> -->
-                <!-- <button type="button" class="btn btn-primary"
-                (click)="editMode = !editMode">test</button> -->
               <button 
                 [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid ||
                 (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
