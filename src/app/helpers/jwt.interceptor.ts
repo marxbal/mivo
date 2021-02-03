@@ -10,7 +10,6 @@ import {
 import {
   Observable
 } from 'rxjs';
-
 import {
   AuthenticationService
 } from '../services/authentication.service';
@@ -25,12 +24,7 @@ export class JwtInterceptor implements HttpInterceptor {
     if (currentUser && currentUser.token) {
       request = request.clone({
         setHeaders: {
-          Authorization: `${currentUser.token}`,
-          AgentCode: `${currentUser.agentCode}`,
-          Username: `${currentUser.userName}`,
-          CompanyCode: `${currentUser.companyCode}`,
-          FullName: `${currentUser.fullName}`,
-          CommercialStructure: `${currentUser.commercialStructure}`,
+          Authorization: `${currentUser.token}`
         }
       });
     }
