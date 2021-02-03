@@ -952,6 +952,9 @@
     <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="pay(listAccountOutstandingBills)">
       Pay
     </button>
+    <button *ngIf="type == 'client-active' || type == 'client-claims'" type="button" class="btn btn-danger" (click)="inquire()">
+      Inquire
+    </button>
     <button type="button" class="btn btn-primary" (click)="close()">
       Close
     </button>
