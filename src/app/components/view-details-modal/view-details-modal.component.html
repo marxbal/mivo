@@ -1070,6 +1070,9 @@
     <button *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" type="button" class="btn btn-success" (click)="redirectToPayment(listAccountOutstandingBills)">
       I agree
     </button>
+    <button *ngIf="type == 'client-active' || type == 'client-claims'" type="button" class="btn btn-danger" (click)="inquire()">
+      Inquire
+    </button>
     <button type="button" class="btn btn-primary" (click)="close()">
       Close
     </button>

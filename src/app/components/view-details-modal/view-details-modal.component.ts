@@ -3,13 +3,13 @@ import {
   Inject,
   OnInit
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material';
 import {
-  BsModalRef
+  BsModalRef, BsModalService
 } from 'ngx-bootstrap/modal';
 import {
   ListAccountCommissionsPaid
@@ -58,6 +58,9 @@ import { PaymentService } from 'src/app/services/payment.service';
 import {
   page
 } from '../../constants/page';
+import { UtilitiesQueryFilter } from '../../objects/UtilitiesQueryFilter';
+import { UtilityQueryService } from '../../services/utility-query.service';
+import { Utility  } from 'src/app/utils/utility';
 
 @Component({
   selector: 'app-view-details-modal',
@@ -90,11 +93,15 @@ export class ViewDetailsModalComponent implements OnInit {
 
   //modal reference
   modalRef: BsModalRef;
+  filter: UtilitiesQueryFilter = new UtilitiesQueryFilter();
 
-  constructor(public dialogRef: MatDialogRef < ViewDetailsModalComponent > ,
+  constructor(
+    public dialogRef: MatDialogRef < ViewDetailsModalComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private utilityQueryService: UtilityQueryService,
+    private bms: BsModalService,
     private formBuilder: FormBuilder,
-    private paymentService: PaymentService) {}
+    private paymentService: PaymentService,) {}
 
   ngOnInit(): void {
     this.initPaymentForm();
@@ -220,6 +227,27 @@ export class ViewDetailsModalComponent implements OnInit {
  
   close(): void {
     this.dialogRef.close();
+  }
+
+  inquire(): void {
+    const userName = JSON.parse(localStorage.getItem('MIVO_login')).username
+
+    if (userName != null) {
+      this.filter.userName = userName
+      this.filter.param = this.type === 'client-active' ? this.data.policyNumber : this.data.claimNumber;
+      this.filter.inquiryType = this.type === 'client-active' ? 'GETPOLICYDETAILS' : 'GETCLAIMDETAILS';
+      this.filter.paramName = this.type === 'client-active' ? 'policyNo' : 'claimNo';
+
+      this.utilityQueryService.getSearchResult(this.filter).then((res) => {
+          if (res) {
+            const jsonData = JSON.parse(JSON.stringify(res));
+            window.open(jsonData.obj, '_blank');
+          }
+        }
+      );
+    } else {
+      this.modalRef = Utility.showError(this.bms, 'No login credentials found!');
+    }
   }
 
 }
