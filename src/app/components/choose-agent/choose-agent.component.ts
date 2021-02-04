@@ -117,7 +117,7 @@ export class ChooseAgentComponent implements OnInit {
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
         currentUser.selectedAgent = sa;
         currentUser.commercialStructure = sa.commStructure;
-        currentUser.token = res.obj["token"];
+        currentUser.token = "Bearer " + res.obj["token"];
 
         //adds chosen agent to current user detail
         localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
