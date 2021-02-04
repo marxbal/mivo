@@ -50,7 +50,8 @@ body,
 }
 
 .bg-gradient-primary,
-#chooseAgent {
+#chooseAgent,
+#termsAndCondition {
   background: #c31f09;
   background-image: url('./assets/images/bg_red.jpg');
   background-size: cover;

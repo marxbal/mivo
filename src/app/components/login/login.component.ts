@@ -115,10 +115,10 @@ export class LoginComponent implements OnInit {
         (data) => {
           if (data != null) {
             Globals.setPage(page.DAS.N);
-            if (data.role === 1) {
-              this.router.navigate([this.returnUrl]);
-            } else {
+            if (data.role === 2) { // if employee
               this.router.navigate(["/agent"]);
+            } else {
+              this.router.navigate([this.returnUrl]);
             }
           } else {
             this.loading = false;
@@ -129,7 +129,7 @@ export class LoginComponent implements OnInit {
         (err) => {
           this.loading = false;
             this.alert = true;
-            this.message = "Incorrect useraname or password.";
+            this.message = "Application Error! " + err.message;
         }
       );
   }

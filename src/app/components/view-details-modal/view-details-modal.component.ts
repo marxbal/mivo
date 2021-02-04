@@ -3,13 +3,18 @@ import {
   Inject,
   OnInit
 } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material';
 import {
-  BsModalRef, BsModalService
+  BsModalRef,
+  BsModalService
 } from 'ngx-bootstrap/modal';
 import {
   ListAccountCommissionsPaid
@@ -53,14 +58,27 @@ import {
 import {
   ListQuotationProvisional
 } from 'src/app/objects/ListQuotationProvisional';
-import { PaymentRequest } from 'src/app/objects/PaymentRequest';
-import { PaymentService } from 'src/app/services/payment.service';
+import {
+  PaymentRequest
+} from 'src/app/objects/PaymentRequest';
+import {
+  PaymentService
+} from 'src/app/services/payment.service';
 import {
   page
 } from '../../constants/page';
-import { UtilitiesQueryFilter } from '../../objects/UtilitiesQueryFilter';
-import { UtilityQueryService } from '../../services/utility-query.service';
-import { Utility  } from 'src/app/utils/utility';
+import {
+  UtilitiesQueryFilter
+} from '../../objects/UtilitiesQueryFilter';
+import {
+  UtilityQueryService
+} from '../../services/utility-query.service';
+import {
+  Utility
+} from 'src/app/utils/utility';
+import {
+  MIVO_LOGIN
+} from "../../constants/local.storage";
 
 @Component({
   selector: 'app-view-details-modal',
@@ -101,7 +119,7 @@ export class ViewDetailsModalComponent implements OnInit {
     private utilityQueryService: UtilityQueryService,
     private bms: BsModalService,
     private formBuilder: FormBuilder,
-    private paymentService: PaymentService,) {}
+    private paymentService: PaymentService, ) {}
 
   ngOnInit(): void {
     this.initPaymentForm();
@@ -176,7 +194,7 @@ export class ViewDetailsModalComponent implements OnInit {
       address2: [''],
       city: ['', Validators.required],
       province: ['', Validators.required],
-      zip:  [''],
+      zip: [''],
       email: ['', Validators.required],
       phone: [''],
       mobile: [''],
@@ -188,7 +206,7 @@ export class ViewDetailsModalComponent implements OnInit {
     this.title = 'Payment';
   }
 
-  redirectToPayment(data : ListAccountOutstandingBills) {
+  redirectToPayment(data: ListAccountOutstandingBills) {
     const splitName = data.policyHolder.split(',');
     const splitNameFirstMiddle = splitName[1].split(' ');
     const middleName = splitNameFirstMiddle.length > 1 ? splitNameFirstMiddle[splitNameFirstMiddle.length - 1] : '';
@@ -224,13 +242,9 @@ export class ViewDetailsModalComponent implements OnInit {
     });
 
   }
- 
-  close(): void {
-    this.dialogRef.close();
-  }
 
   inquire(): void {
-    const userName = JSON.parse(localStorage.getItem('MIVO_login')).username
+    const userName = JSON.parse(localStorage.getItem(MIVO_LOGIN)).username
 
     if (userName != null) {
       this.filter.userName = userName
@@ -239,15 +253,17 @@ export class ViewDetailsModalComponent implements OnInit {
       this.filter.paramName = this.type === 'client-active' ? 'policyNo' : 'claimNo';
 
       this.utilityQueryService.getSearchResult(this.filter).then((res) => {
-          if (res) {
-            const jsonData = JSON.parse(JSON.stringify(res));
-            window.open(jsonData.obj, '_blank');
-          }
+        if (res) {
+          const jsonData = JSON.parse(JSON.stringify(res));
+          window.open(jsonData.obj, '_blank');
         }
-      );
+      });
     } else {
       this.modalRef = Utility.showError(this.bms, 'No login credentials found!');
     }
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
 }
