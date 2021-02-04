@@ -3,6 +3,7 @@ import {
   Inject,
   OnInit
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA
@@ -52,6 +53,8 @@ import {
 import {
   ListQuotationProvisional
 } from 'src/app/objects/ListQuotationProvisional';
+import { PaymentRequest } from 'src/app/objects/PaymentRequest';
+import { PaymentService } from 'src/app/services/payment.service';
 import {
   page
 } from '../../constants/page';
@@ -62,6 +65,12 @@ import {
   styleUrls: ['./view-details-modal.component.css']
 })
 export class ViewDetailsModalComponent implements OnInit {
+
+  p = page;
+
+  isProceedToPayment = false;
+  title: string;
+  paymentForm: FormGroup;
 
   listClientDetails = new ListClientDetails();
   listPolicyActive = new ListPolicyActive();
@@ -83,9 +92,12 @@ export class ViewDetailsModalComponent implements OnInit {
   modalRef: BsModalRef;
 
   constructor(public dialogRef: MatDialogRef < ViewDetailsModalComponent > ,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+    private paymentService: PaymentService) {}
 
   ngOnInit(): void {
+    this.initPaymentForm();
     this.type = this.data.type;
     switch (this.type) {
       case page.CLI.CLI: {
@@ -151,10 +163,61 @@ export class ViewDetailsModalComponent implements OnInit {
     }
   }
 
-  pay(data : ListAccountOutstandingBills) {
-    console.log(data);
+  initPaymentForm() {
+    this.paymentForm = this.formBuilder.group({
+      address1: ['', Validators.required],
+      address2: [''],
+      city: ['', Validators.required],
+      province: ['', Validators.required],
+      zip:  [''],
+      email: ['', Validators.required],
+      phone: [''],
+      mobile: [''],
+    });
   }
 
+  pay() {
+    this.isProceedToPayment = true;
+    this.title = 'Payment';
+  }
+
+  redirectToPayment(data : ListAccountOutstandingBills) {
+    const splitName = data.policyHolder.split(',');
+    const splitNameFirstMiddle = splitName[1].split(' ');
+    const middleName = splitNameFirstMiddle.length > 1 ? splitNameFirstMiddle[splitNameFirstMiddle.length - 1] : '';
+    const paymentRequest: PaymentRequest = {
+      firstName: splitName[1].replace(middleName, ''),
+      middleName,
+      lastName: splitName[0],
+      address1: this.paymentForm.value.address1,
+      address2: this.paymentForm.value.address2,
+      city: this.paymentForm.value.city,
+      province: this.paymentForm.value.province,
+      zip: this.paymentForm.value.zip,
+      policyNumber: data.policyNumber,
+      invoiceNumber: data.invoiceNumber,
+      amount: data.amount,
+      email: this.paymentForm.value.email,
+      phone: this.paymentForm.value.phone,
+      mobile: this.paymentForm.value.mobile,
+    };
+
+    this.paymentService.getPaymentUrl(paymentRequest).then((response) => {
+      var mapForm = document.createElement("form");
+      mapForm.target = "_blank";
+      mapForm.method = "POST"; // or "post" if appropriate
+      mapForm.action = response.url;
+      var mapInput = document.createElement("input");
+      mapInput.type = "hidden";
+      mapInput.name = "paymentRequest";
+      mapInput.setAttribute("value", response.value);
+      mapForm.appendChild(mapInput);
+      document.body.appendChild(mapForm);
+      mapForm.submit();
+    });
+
+  }
+ 
   close(): void {
     this.dialogRef.close();
   }

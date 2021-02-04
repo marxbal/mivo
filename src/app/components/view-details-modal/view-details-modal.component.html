@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>View Details</h2>
+<h2 mat-dialog-title>{{ title || 'View Details'}}</h2>
 <div mat-dialog-content>
   <div class="container">
     <!-- MY CLIENT lists -->
@@ -565,7 +565,7 @@
 
     <!-- MY ACCOUNT lists -->
     <!-- OUTSTANDING BILLS -->
-    <div *ngIf="type == 'account-outstanding-bills'" class="row">
+    <div *ngIf="type == 'account-outstanding-bills' && !isProceedToPayment" class="row">
       <div class="col-md-12">
         <h5>Outstanding Bills Details</h5>
       </div>
@@ -672,6 +672,118 @@
         </div>
       </div>
 
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- OUTSTANDING BILLS PROCEED TO PAYMENT -->
+    <form [formGroup]="paymentForm">
+      <div *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" class="row">
+        <div class="col-md-12">
+          <h5>Additional Information for Payment</h5>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="claimNumber"><span class="required-indicator">*</span>Email</label>
+            <input type="text" class="form-control required" formControlName="email">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="claimNumber">Phone</label>
+            <input type="text" class="form-control" formControlName="phone">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="claimNumber">Mobile</label>
+            <input type="text" class="form-control" formControlName="mobile">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="claimNumber"><span class="required-indicator">*</span>Address 1</label>
+            <input type="text" class="form-control required" formControlName="address1">
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="policyHolder">Address 2</label>
+            <input type="text" class="form-control" formControlName="address2">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="prn"><span class="required-indicator">*</span>City/Town</label>
+            <input type="text" class="form-control required"  formControlName="city">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="invoiceNumber"><span class="required-indicator">*</span>Province/State</label>
+            <input type="text" class="form-control required" formControlName="province">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="currency">Zip</label>
+            <input type="text" class="form-control" formControlName="zip">
+          </div>
+        </div>
+        <hr class="w-100" />
+        <div class="col-md-12">
+          <h5>TERMS AND CONDITION</h5>
+        </div>
+        <div class="col-md-12">
+          <h6>CANCELLATION AND REFUND</h6>
+        </div>
+        <div class="col-md-12">
+          <p>For policy cancellation and refund, Terms and Conditions of Mapfre Insurance Corporation shall apply.</p>
+        </div>
+        <div class="col-md-12">
+          <h6>SECURITY CAPABILITIES & POLICY FOR TRANSMISSION OF PAYMENT</h6>
+        </div>
+        <div class="col-md-12">
+          <ul>1. What information do we collect and how do we use it? When you make credit card transaction through this website, we need your personal information such as (e.g. name, e-mail, phone number, address, and etc). This allows us to process and fulfill your transaction successfully. It also helps us in maintaining your account.</ul>
+          <ul>2. How does MAPFRE Insurance protect customer information? When you make transaction, we use a secure server. The secure server software (SSL) encrypts all information you input before it is sent to us. Furthermore, all of the sensitive customer data we collect is protected by several layers of encryption and several layers of security to prevent unauthorized access.</ul>
+          <ul>3. Credit Card Details All credit card payments are processed securely through Paynamics. MAPFRE Insular does not store any credit card information on our servers.</ul>
+        </div>
+        <div class="col-md-12">
+          <h6>COPYRIGHT</h6>
+        </div>
+        <div class="col-md-12">
+          <p>All contents included in this site, such as text, graphics, logos, button icons, images, audio clips and software are property of mapfre.com.ph or its content suppliers and protected by Philippine and International copyright laws. The compilation of all contents on this site is the exclusive property of mapfre.com.ph and protected by Philippine and International copyright laws. The reproduction, distribution, transmission, republication or display of the content in this website without consent from mapfre.com.ph is strictly prohibited.</p>
+        </div>
+        <div class="col-md-12">
+          <h6>DISCLAIMER</h6>
+        </div>
+        <div class="col-md-12">
+          <p>This website and the information, services, products and materials available through it are provided "as is" basis, without warranty of any kind, either express or implied, to the extent permitted under any applicable law, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights, Further Mapfre.com.ph does not warrant or make any representations concerning the accuracy, likely results or reliability of the use of the materials on its Internet web or otherwise relating to such materials or on any sites linked to this site.</p>  
+        </div>
+        <div class="col-md-12">
+          <h6>JURISDICTION</h6>
+        </div>
+        <div class="col-md-12">
+          <p>For products and services only available for purchase in the Philippines, these terms and conditions shall be governed by and construed in accordance with Philippine Law. Disputes arising between you and Mapfre.com.ph shall be subject to the exclusive jurisdiction of the courts of the Philippines.</p>  
+        </div>
+        <div class="col-md-12">
+          <span>By clicking 'I agree', you are accepting to the Mapfre's Payment terms and condition.</span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </form>
+
+    <!-- OUTSTANDING BILLS PAYMENT SUCCESSFUL -->
+    <div *ngIf="type == p.ACC.SUC" class="row">
+      <div class="col-md-12">
+        <h5>Payment Successful</h5>
+      </div>
+      <div class="col-md-12">
+        <p>Your payment was  successful.</p>
+      </div>
       <div class="clearfix"></div>
     </div>
 
@@ -949,8 +1061,14 @@
 
 <div mat-dialog-actions align="end">
   <div class="btn-group" role="group">
-    <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="pay(listAccountOutstandingBills)">
-      Pay
+    <button *ngIf="type == 'account-outstanding-bills' && !isProceedToPayment" type="button" class="btn btn-success" (click)="pay()">
+      Proceed to Payment
+    </button>
+    <button *ngIf="type == p.ACC.SUC"  type="button" class="btn btn-success">
+      Print Policy
+    </button>
+    <button *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" type="button" class="btn btn-success" (click)="redirectToPayment(listAccountOutstandingBills)">
+      I agree
     </button>
     <button type="button" class="btn btn-primary" (click)="close()">
       Close

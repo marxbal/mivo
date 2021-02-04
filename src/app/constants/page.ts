@@ -7,7 +7,8 @@ export const page = {
     OUT: 'account-outstanding-bills',
     COM: 'account-commissions-paid',
     EST: 'account-estimated-commissions',
-    PRE: 'account-premium-collection'
+    PRE: 'account-premium-collection',
+    SUC: 'account-outstanding-bills-success',
   },
   CLI: {
     N: 'client',
