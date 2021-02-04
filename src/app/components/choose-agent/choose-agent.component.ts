@@ -104,7 +104,6 @@ export class ChooseAgentComponent implements OnInit {
         var sa = new SelectedAgent();
 
         const agentInfo = res.obj["agentInfo"];
-        console.log("agent code: " + agentInfo["codAgente"])
 
         sa.agentCode = parseInt(agentInfo["codAgente"]);
         sa.agentName = agentInfo["nomAgente"];
