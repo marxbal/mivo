@@ -236,6 +236,9 @@ import {
 import {
   AccountPremiumCollectionListComponent
 } from './components/account-premium-collection-list/account-premium-collection-list.component';
+import {
+  TermsAndConditionComponent
+} from './components/terms-and-condition/terms-and-condition.component';
 
 const routes: Routes = [{
     path: "login",
@@ -255,6 +258,10 @@ const routes: Routes = [{
     path: "reload",
     component: ReloadComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: "terms-and-condition",
+    component: TermsAndConditionComponent,
   },
   {
     path: "404",
@@ -320,6 +327,7 @@ const routes: Routes = [{
     AccountCommissionsPaidListComponent,
     AccountEstimatedCommissionsListComponent,
     AccountPremiumCollectionListComponent,
+    TermsAndConditionComponent,
   ],
   entryComponents: [
     ModalComponent,
