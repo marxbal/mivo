@@ -102,17 +102,23 @@ export class ChooseAgentComponent implements OnInit {
     this.as.getProductionAgentProfile(JSON.stringify(param)).then(res => {
       if (res.status) {
         var sa = new SelectedAgent();
-        sa.agentCode = parseInt(res.obj["codAgente"]);
-        sa.agentName = res.obj["nomAgente"];
-        sa.documentCode = res.obj["codDocumento"];
-        sa.documentType = res.obj["tipoDocumento"];
-        sa.documentName = res.obj["nomTipoDocumento"];
-        sa.agentType = res.obj["tipoAgente"];
-        sa.agentTypeName = res.obj["nomTipoAgente"];
-        sa.agentAddress = res.obj["dirAgente"];
+
+        const agentInfo = res.obj["agentInfo"];
+        console.log("agent code: " + agentInfo["codAgente"])
+
+        sa.agentCode = parseInt(agentInfo["codAgente"]);
+        sa.agentName = agentInfo["nomAgente"];
+        sa.documentCode = agentInfo["codDocumento"];
+        sa.documentType = agentInfo["tipoDocumento"];
+        sa.documentName = agentInfo["nomTipoDocumento"];
+        sa.agentType = agentInfo["tipoAgente"];
+        sa.agentTypeName = agentInfo["nomTipoAgente"];
+        sa.agentAddress = agentInfo["dirAgente"];
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
         currentUser.selectedAgent = sa;
         currentUser.commercialStructure = sa.commStructure;
+        currentUser.token = res.obj["token"];
+
         //adds chosen agent to current user detail
         localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
       }
