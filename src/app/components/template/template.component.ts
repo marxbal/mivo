@@ -8,10 +8,12 @@ import {
 import {
   page
 } from '../../constants/page';
-import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
-import { ViewDetailsModalComponent } from '../view-details-modal/view-details-modal.component';
+import {
+  ActivatedRoute
+} from '@angular/router';
+import {
+  filter
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-template',
@@ -21,24 +23,15 @@ import { ViewDetailsModalComponent } from '../view-details-modal/view-details-mo
 export class TemplateComponent implements OnInit {
   p = page; //constant pages
 
-  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.queryParams
-      .pipe(
-        filter(params => params.successPage)
-      )
+      .pipe(filter(params => params.successPage))
       .subscribe(params => {
-        if (params.successPage)  {
+        if (params.successPage) {
           Globals.setPage(this.p.ACC.OUT);
-          this.dialog.open(ViewDetailsModalComponent, {
-            width: '1000px',
-            data: {
-              type: this.p.ACC.SUC,
-            },
-          });
         }
-        console.log(params);
       });
   }
 

@@ -245,3 +245,50 @@
   <!-- .col-xl-12 -->
 </div>
 <!-- #outstandingBillsList -->
+<ng-template #paymentResult let-data>
+  <div class="mat-dialog-header border-bottom">
+    <div class="header row">
+      <div class="col-lg-6">
+        <img src="./assets/images/mivo-logo/mi_logo.png" alt="brand-logo" />
+      </div>
+      <div class="col-lg-6">
+        <img src="./assets/images/payment/paynamics-logo.png" alt="brand-logo" class="paynamics-logo" />
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content class="payment-result-content">
+    <br>
+
+    <div *ngIf="data.status">
+      <span class="fa-stack fa-md payment-icon success">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+      </span>
+      <br>
+      <br>
+      <h3>Successful Payment</h3>
+      <h6>Your payment has been completed succefully.</h6>
+    </div>
+
+    <div *ngIf="!data.status">
+      <span class="fa-stack fa-md payment-icon failed">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+      </span>
+      <br>
+      <br>
+      <h3>Unsuccessful Payment</h3>
+      <h6>{{data.errorMessage}}</h6>
+    </div>
+
+    <button type="button" class="btn btn-primary" matDialogClose>
+      Okay
+    </button>
+
+  </mat-dialog-content>
+  <div mat-dialog-actions class="footer">
+    <div class="col-lg-12">
+      <p> <i class="fa fa-lock"></i> Payment transaction secured by <strong>Paynamics</strong></p>
+    </div>
+  </div>
+</ng-template>

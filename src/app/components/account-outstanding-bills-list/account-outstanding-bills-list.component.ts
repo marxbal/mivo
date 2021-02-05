@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  TemplateRef,
   ViewChild
 } from '@angular/core';
 import {
@@ -21,7 +22,9 @@ import {
   FormGroup
 } from '@angular/forms';
 import {
-  MatDialog
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef
 } from '@angular/material';
 import {
   ListAccountOutstandingBills
@@ -41,6 +44,12 @@ import {
 import {
   PageFilterAccount
 } from 'src/app/objects/PageFilterAccount';
+import {
+  ActivatedRoute
+} from '@angular/router';
+import {
+  filter
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-outstanding-bills-list',
@@ -48,7 +57,6 @@ import {
   styleUrls: ['./account-outstanding-bills-list.component.css']
 })
 export class AccountOutstandingBillsListComponent implements OnInit {
-
   displayedColumns: string[] = [
     'policyNumber',
     'policyHolder',
@@ -87,9 +95,11 @@ export class AccountOutstandingBillsListComponent implements OnInit {
   @ViewChild(MatPaginator, {
     static: true
   }) paginator: MatPaginator;
+  @ViewChild('paymentResult') paymentResultModal: TemplateRef < any > ;
 
   //modal reference
   modalRef: BsModalRef;
+  dialogRef: MatDialogRef < TemplateRef < any >> ;
 
   filterForm: FormGroup;
 
@@ -97,9 +107,20 @@ export class AccountOutstandingBillsListComponent implements OnInit {
     private as: AccountService,
     private bms: BsModalService,
     private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    var _this = this;
+    //opening modal for success/failed payment
+    this.route.queryParams
+      .pipe(filter(params => params.successPage) )
+      .subscribe(params => {
+        setTimeout(function(){
+          _this.openPaymentResultModal(params.successPage == 'true', "");
+        }, 500);
+      });
+
     this.getList();
     this.createForm();
   }
@@ -175,6 +196,17 @@ export class AccountOutstandingBillsListComponent implements OnInit {
       width: '1000px',
       data: details
     });
+  }
+
+  openPaymentResultModal(status: boolean, error: String): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '600px';
+    dialogConfig.data = {status : status, errorMessage: error};
+
+    this.dialogRef = this.dialog.open(this.paymentResultModal, dialogConfig);
   }
 
   apply() {

@@ -17,3 +17,53 @@ th.mat-sort-header-sorted {
 .col-form-label {
   font-size: 90%;
 }
+
+/* modal css */
+.mat-dialog-container {
+  padding: 0px !important;
+}
+
+.header {
+  padding-bottom: 20px;
+}
+
+.header img {
+  height: 30px;
+}
+
+.footer {
+  text-align: center;
+}
+
+.footer p {
+  color: #979797;
+  font-size: 12px;
+  text-shadow: 0 0 black;
+}
+
+.paynamics-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.payment-icon {
+  font-size: 45px;
+}
+
+.payment-icon.success {
+  color: #4caf50;
+}
+
+.payment-icon.failed {
+  color: #c31f09;
+}
+
+.payment-result-content {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.fa-times {
+  color: #fff !important;
+}
