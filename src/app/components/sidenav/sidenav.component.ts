@@ -31,12 +31,15 @@ export class SidenavComponent implements OnInit {
   hasSelectedAgent = !Utility.isUndefined(this.currentUser.selectedAgent);
   p = page; //constant pages
   menu = JSON.parse(localStorage.getItem(MENU));
+  logo = "mivo-logo/mivo-logo-light";
 
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.logo = "partners/aap";
+  }
 
   setPage(val: String) {
     Globals.setPage(val);

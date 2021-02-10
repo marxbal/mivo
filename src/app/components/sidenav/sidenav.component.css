@@ -1,5 +1,6 @@
 .sidebar-brand img {
-  width: 90%;
+  max-width: 90%;
+  max-height: 55px;
 }
 
 #sticky #accordionSidebar {

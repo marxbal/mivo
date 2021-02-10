@@ -117,7 +117,8 @@ export class AccountOutstandingBillsListComponent implements OnInit {
       .pipe(filter(params => params.successPage) )
       .subscribe(params => {
         setTimeout(function(){
-          _this.openPaymentResultModal(params.successPage == 'true', "");
+          params.message
+          _this.openPaymentResultModal(params.successPage == 'true', params.message);
         }, 500);
       });
 

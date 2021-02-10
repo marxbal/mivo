@@ -22,6 +22,7 @@ import {
 })
 export class TemplateComponent implements OnInit {
   p = page; //constant pages
+  sideNavClass = "";
 
   constructor(private route: ActivatedRoute) {}
 
