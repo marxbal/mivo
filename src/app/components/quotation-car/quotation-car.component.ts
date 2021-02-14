@@ -1472,6 +1472,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           this.carDetails.displacement = value;
           break;
         }
+        case "TIP_VEHI_PESO": {
+          this.carDetails.classification = valueInt;
+          break;
+        }
 
         default: {
           // do nothing
