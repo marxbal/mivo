@@ -23,6 +23,7 @@ import { PaymentService } from 'src/app/services/payment.service';
 })
 export class TemplateComponent implements OnInit {
   p = page; //constant pages
+  sideNavClass = "";
 
   constructor(private route: ActivatedRoute, private paymentService: PaymentService) {}
 

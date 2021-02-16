@@ -55,7 +55,7 @@ export class AuthenticationService {
   //         delete user.password;
   //         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
   //         this.currentUserSubject.next(user);
-  //         this.getPages();
+  //         this.getPages(['account', 'outstanding']);
   //         return user;
   //       })
   //     );

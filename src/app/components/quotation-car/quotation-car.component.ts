@@ -1447,6 +1447,43 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.cqs.proceedToIssuance(this.carDetails.quotationNumber);
   }
 
+  populateAdditionalInfo(variableData: any[]) {
+    variableData.forEach(v => {
+      const code = v.codCampo;
+      const value: string = v.valCampo;
+      let valueInt: number = undefined;
+
+      try {
+        valueInt = parseInt(value);
+      } catch (e) {
+        // do nothing
+      }
+
+      switch (code) {
+        case "NUM_PLAZAS": {
+          this.carDetails.seatingCapacity = valueInt;
+          break;
+        }
+        case "VAL_PESO": {
+          this.carDetails.weight = value;
+          break;
+        }
+        case "VAL_CC": {
+          this.carDetails.displacement = value;
+          break;
+        }
+        case "TIP_VEHI_PESO": {
+          this.carDetails.classification = valueInt;
+          break;
+        }
+
+        default: {
+          // do nothing
+        }
+      }
+    });
+  }
+
   //generate and issue quote button
   issueQuote(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
@@ -1512,13 +1549,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               const amountList = res.obj["amountList"];
               const premiumAmount = res1.obj["premiumAmount"];
               const coverageVariable = res1.obj["coverageVariable"];
+              const variableData = res1.obj['variableData'];
 
               this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-              // if (this.isModifiedCoverage) {
-              //   this.showCoverage = true;
-              // } else {
-              //   this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
-              // }
+              this.populateAdditionalInfo(variableData);
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
