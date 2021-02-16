@@ -20,4 +20,16 @@ export class PaymentService {
       responseUrl: 'http://localhost:4200?successPage=true'
     }, '/payment/getPaymentRequest').then(response => response);
   }
+
+  getPaymentUrlViaGlobalPay(invoiceNo: String) {
+    return this.app.post({
+      invoiceNo,
+      responseUrl: 'https://localhost:4200?successPage=true',
+      againUrl: 'https://localhost:4200?successPage=true',
+    }, '/payment/getPaymentRequest/globalpay').then(response => response);
+  }
+
+  processPaymentViaGlobalPay(params: any) {
+    return this.app.post(params, '/payment/paymentNotification/globalpay').then(response => response);
+  }
 }

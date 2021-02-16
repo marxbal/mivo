@@ -681,59 +681,79 @@
         <div class="col-md-12">
           <h5>Additional Information for Payment</h5>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="claimNumber"><span class="required-indicator">*</span>Email</label>
-            <input type="text" class="form-control required" formControlName="email">
-          </div>
+        <div class="col-md-12">
+          <h6>Pay via:</h6>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="claimNumber">Phone</label>
-            <input type="text" class="form-control" formControlName="phone">
+        <div class="col-md-12">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="paynamics" formControlName="paymentMethod" id="radioPaynamics" (change)="changePaymentMethod($event)">
+            <label class="form-check-label" for="radioPaynamics">
+              Paynamics
+            </label>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="claimNumber">Mobile</label>
-            <input type="text" class="form-control" formControlName="mobile">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="claimNumber"><span class="required-indicator">*</span>Address 1</label>
-            <input type="text" class="form-control required" formControlName="address1">
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="policyHolder">Address 2</label>
-            <input type="text" class="form-control" formControlName="address2">
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="prn"><span class="required-indicator">*</span>City/Town</label>
-            <input type="text" class="form-control required"  formControlName="city">
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="invoiceNumber"><span class="required-indicator">*</span>Province/State</label>
-            <input type="text" class="form-control required" formControlName="province">
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="currency">Zip</label>
-            <input type="text" class="form-control" formControlName="zip">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="globalpay" formControlName="paymentMethod" id="radioGlobalPay" (change)="changePaymentMethod($event)">
+            <label class="form-check-label" for="radioGlobalPay">
+              Global Pay
+            </label>
           </div>
         </div>
         <hr class="w-100" />
+        <ng-container *ngIf="paymentMethod === 'paynamics'">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="claimNumber"><span class="required-indicator">*</span>Email</label>
+              <input type="text" class="form-control required" formControlName="email">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="claimNumber">Phone</label>
+              <input type="text" class="form-control" formControlName="phone">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="claimNumber">Mobile</label>
+              <input type="text" class="form-control" formControlName="mobile">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="claimNumber"><span class="required-indicator">*</span>Address 1</label>
+              <input type="text" class="form-control required" formControlName="address1">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="policyHolder">Address 2</label>
+              <input type="text" class="form-control" formControlName="address2">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="prn"><span class="required-indicator">*</span>City/Town</label>
+              <input type="text" class="form-control required"  formControlName="city">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="invoiceNumber"><span class="required-indicator">*</span>Province/State</label>
+              <input type="text" class="form-control required" formControlName="province">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="currency">Zip</label>
+              <input type="text" class="form-control" formControlName="zip">
+            </div>
+          </div>
+          <hr class="w-100" />
+        </ng-container>
         <div class="col-md-12">
           <h5>TERMS AND CONDITION</h5>
         </div>
