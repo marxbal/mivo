@@ -14,6 +14,7 @@ import {
 import {
   filter
 } from 'rxjs/operators';
+import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
   selector: 'app-template',
@@ -24,9 +25,15 @@ export class TemplateComponent implements OnInit {
   p = page; //constant pages
   sideNavClass = "";
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private paymentService: PaymentService) {}
 
   ngOnInit() {
+    this.route.queryParams
+      .subscribe(params => {
+        if (params.invoiceNo) {
+          this.processPayment(params);
+        }
+      });
     this.route.queryParams
       .pipe(filter(params => params.successPage))
       .subscribe(params => {
@@ -38,5 +45,11 @@ export class TemplateComponent implements OnInit {
 
   get page() {
     return Globals.page;
+  }
+
+  processPayment(params: any) {
+    this.paymentService.processPaymentViaGlobalPay(params).then(response => {
+      console.log('response: ', response);
+    });
   }
 }

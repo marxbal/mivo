@@ -92,6 +92,7 @@ export class ViewDetailsModalComponent implements OnInit {
   isProceedToPayment = false;
   title: string;
   paymentForm: FormGroup;
+  paymentMethod: string = 'paynamics';
 
   listClientDetails = new ListClientDetails();
   listPolicyActive = new ListPolicyActive();
@@ -119,7 +120,8 @@ export class ViewDetailsModalComponent implements OnInit {
     private utilityQueryService: UtilityQueryService,
     private bms: BsModalService,
     private formBuilder: FormBuilder,
-    private paymentService: PaymentService, ) {}
+    private paymentService: PaymentService,
+    ) {}
 
   ngOnInit(): void {
     this.initPaymentForm();
@@ -181,6 +183,10 @@ export class ViewDetailsModalComponent implements OnInit {
         this.listAccountPremiumCollection = this.data;
         break;
       }
+      case page.ACC.SUC: {
+        this.title = 'Payment Transaction Result';
+        break;
+      }
 
       default: {
         // do nothing
@@ -198,6 +204,7 @@ export class ViewDetailsModalComponent implements OnInit {
       email: ['', Validators.required],
       phone: [''],
       mobile: [''],
+      paymentMethod: ['paynamics'],
     });
   }
 
@@ -207,39 +214,44 @@ export class ViewDetailsModalComponent implements OnInit {
   }
 
   redirectToPayment(data: ListAccountOutstandingBills) {
-    const splitName = data.policyHolder.split(',');
-    const splitNameFirstMiddle = splitName[1].split(' ');
-    const middleName = splitNameFirstMiddle.length > 1 ? splitNameFirstMiddle[splitNameFirstMiddle.length - 1] : '';
-    const paymentRequest: PaymentRequest = {
-      firstName: splitName[1].replace(middleName, ''),
-      middleName,
-      lastName: splitName[0],
-      address1: this.paymentForm.value.address1,
-      address2: this.paymentForm.value.address2,
-      city: this.paymentForm.value.city,
-      province: this.paymentForm.value.province,
-      zip: this.paymentForm.value.zip,
-      policyNumber: data.policyNumber,
-      invoiceNumber: data.invoiceNumber,
-      amount: data.amount,
-      email: this.paymentForm.value.email,
-      phone: this.paymentForm.value.phone,
-      mobile: this.paymentForm.value.mobile,
-    };
+    if (this.paymentMethod ===  'paynamics') {
+      const splitName = data.policyHolder.split(',');
+      const splitNameFirstMiddle = splitName[1].split(' ');
+      const middleName = splitNameFirstMiddle.length > 1 ? splitNameFirstMiddle[splitNameFirstMiddle.length - 1] : '';
+      const paymentRequest: PaymentRequest = {
+        firstName: splitName[1].replace(middleName, ''),
+        middleName,
+        lastName: splitName[0],
+        address1: this.paymentForm.value.address1,
+        address2: this.paymentForm.value.address2,
+        city: this.paymentForm.value.city,
+        province: this.paymentForm.value.province,
+        zip: this.paymentForm.value.zip,
+        policyNumber: data.policyNumber,
+        invoiceNumber: data.invoiceNumber,
+        amount: Math.trunc(Number(data.amount)).toString() + '.00',
+        email: this.paymentForm.value.email,
+        phone: this.paymentForm.value.phone,
+        mobile: this.paymentForm.value.mobile,
+      };
 
-    this.paymentService.getPaymentUrl(paymentRequest).then((response) => {
-      var mapForm = document.createElement("form");
-      mapForm.target = "_blank";
-      mapForm.method = "POST"; // or "post" if appropriate
-      mapForm.action = response.url;
-      var mapInput = document.createElement("input");
-      mapInput.type = "hidden";
-      mapInput.name = "paymentRequest";
-      mapInput.setAttribute("value", response.value);
-      mapForm.appendChild(mapInput);
-      document.body.appendChild(mapForm);
-      mapForm.submit();
-    });
+      this.paymentService.getPaymentUrl(paymentRequest).then((response) => {
+        var mapForm = document.createElement("form");
+        mapForm.method = "POST"; // or "post" if appropriate
+        mapForm.action = response.url;
+        var mapInput = document.createElement("input");
+        mapInput.type = "hidden";
+        mapInput.name = "paymentRequest";
+        mapInput.setAttribute("value", response.value);
+        mapForm.appendChild(mapInput);
+        document.body.appendChild(mapForm);
+        mapForm.submit();
+      });
+    } else {
+      this.paymentService.getPaymentUrlViaGlobalPay(data.invoiceNumber).then((response) => {
+        window.location.href = response.url;
+      });
+    }
 
   }
 
@@ -265,5 +277,12 @@ export class ViewDetailsModalComponent implements OnInit {
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  changePaymentMethod(event) { 
+    if (this.paymentMethod === event.target.value) {
+      return;
+    }
+    this.paymentMethod = event.target.value;
   }
 }
