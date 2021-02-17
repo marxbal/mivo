@@ -30,7 +30,10 @@ export class DashboardComponent implements OnInit {
 
     this.ds.getDashboardInfo().then((res) => {
       if (res.status) {
-        console.log(res);
+        const details = res.obj;
+        console.log(details["jan"]);
+        console.log(details["total"]);
+        console.log(details["active"]);
       }
     });
 
