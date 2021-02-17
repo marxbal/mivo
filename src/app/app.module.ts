@@ -46,6 +46,9 @@ import {
   MatTooltipModule,
   MatDialogModule,
 } from "@angular/material";
+import {
+  ChartsModule
+} from 'ng2-charts';
 
 import {
   RouterModule,
@@ -356,6 +359,7 @@ const routes: Routes = [{
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     NgHttpLoaderModule.forRoot(),
+    ChartsModule
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

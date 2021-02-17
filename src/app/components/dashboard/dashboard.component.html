@@ -42,7 +42,7 @@
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Collected Premium
             </div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">{{dashboardInfo.total}}</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{dashboardInfo.total | currency:'PHP': 'symbol-narrow'}}</div>
           </div>
           <div class="col-auto">
             <i class="fas fa-coins fa-2x text-gray-300"></i>
@@ -70,18 +70,19 @@
     <div class="card shadow mb-4">
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Agent Production</h6>
-        <div class="dropdown no-arrow">
-          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-          </a>
-        </div>
       </div>
       <div class="card-body">
-        <div class="chart-area">
-          <canvas id="myBarChart"></canvas>
+        <div style="display: block;">
+          <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels" 
+            [options]="chartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="chartLegend"
+            [chartType]="barChartType"
+            [colors]="barChartColors">
+          </canvas>
         </div>
       </div>
     </div>
-  </div>
 </div>
