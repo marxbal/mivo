@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
 
   dashboardInfo : any = {};
 
+  chartLegend = true;
   barChartLabels: Label[] = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
   barChartType: ChartType = 'bar';
   barChartPlugins = [];
