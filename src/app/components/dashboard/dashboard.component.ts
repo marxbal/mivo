@@ -34,7 +34,13 @@ export class DashboardComponent implements OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
+          callback: function (value) {
+            return value.toLocaleString("en-US", {
+              style: "currency",
+              currency: "PHP"
+            });
+          }
         }
       }],
       xAxes: [{
@@ -42,6 +48,15 @@ export class DashboardComponent implements OnInit {
           beginAtZero: true
         }
       }]
+    },
+    tooltips: {
+      mode: 'label',
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var value = Number(data.datasets[0].data[tooltipItem.index]).toFixed(2);
+          return ' PHP ' + value;
+        },
+      },
     }
   };
   chartLegend = true;
@@ -52,7 +67,7 @@ export class DashboardComponent implements OnInit {
     backgroundColor: "#212529"
   }];
   barChartData: ChartDataSets[] = [{
-    data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    data: [],
     label: 'Monthly Production'
   }, ];
 
