@@ -17,7 +17,8 @@ import {
   AgentService
 } from '../../services/agent.service';
 import {
-  CURRENT_USER
+  CURRENT_USER,
+  DASH_INFO
 } from '../../constants/local.storage';
 import {
   SelectedAgent
@@ -42,8 +43,7 @@ export class ChooseAgentComponent implements OnInit {
   constructor(private router: Router,
     private auths: AuthenticationService,
     private as: AgentService,
-    private fb: FormBuilder) {
-  }
+    private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -120,6 +120,7 @@ export class ChooseAgentComponent implements OnInit {
 
         //adds chosen agent to current user detail
         localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
+        localStorage.removeItem(DASH_INFO);
       }
       this.router.navigate(['']);
     });

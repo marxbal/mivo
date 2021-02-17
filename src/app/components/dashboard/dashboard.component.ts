@@ -91,7 +91,8 @@ export class DashboardComponent implements OnInit {
     if (dashInfo != null) {
       this.dashboardInfo = JSON.parse(dashInfo);
       this.barChartData = [{
-        data: this.dashboardInfo["month"]
+        data: this.dashboardInfo["month"],
+        label: 'Monthly Production'
       }];
     } else {
       this.ds.getDashboardInfo().then((res) => {
@@ -99,7 +100,8 @@ export class DashboardComponent implements OnInit {
           localStorage.setItem(DASH_INFO, JSON.stringify(res.obj));
           _this.dashboardInfo = res.obj;
           _this.barChartData = [{
-            data: res.obj["month"]
+            data: res.obj["month"],
+            label: 'Monthly Production'
           }];
         }
       });
