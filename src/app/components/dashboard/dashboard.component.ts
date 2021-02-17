@@ -70,10 +70,10 @@ export class DashboardComponent implements OnInit {
     this.ds.getDashboardInfo().then((res) => {
       if (res.status) {
         _this.dashboardInfo = res.obj;
-        // _this.barChartData = [{
-        //   // data: res.obj["month"],
-        //   label: 'Monthly Production'
-        // }];
+        _this.barChartData = [{
+          data: res.obj["month"],
+          label: 'Monthly Production'
+        }];
       }
     });
 
