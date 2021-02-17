@@ -27,8 +27,23 @@ export class DashboardComponent implements OnInit {
     euro: 0.0
   }
 
-  dashboardInfo : any = {};
+  dashboardInfo: any = {};
 
+  chartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  };
   chartLegend = true;
   barChartLabels: Label[] = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
   barChartType: ChartType = 'bar';
@@ -37,7 +52,7 @@ export class DashboardComponent implements OnInit {
     backgroundColor: "#212529"
   }];
   barChartData: ChartDataSets[] = [{
-    data: [1,2,3,4,5,6,7,8,9,10,11,12],
+    data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     label: 'Monthly Production'
   }, ];
 
