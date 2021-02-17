@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit {
     euro: 0.0
   }
 
+  dashboardInfo : any = {};
+
   constructor(private ds: DashboardService) {}
 
   ngOnInit() {
@@ -30,10 +32,7 @@ export class DashboardComponent implements OnInit {
 
     this.ds.getDashboardInfo().then((res) => {
       if (res.status) {
-        const details = res.obj;
-        console.log(details["jan"]);
-        console.log(details["total"]);
-        console.log(details["active"]);
+        _this.dashboardInfo = res.obj;
       }
     });
 
