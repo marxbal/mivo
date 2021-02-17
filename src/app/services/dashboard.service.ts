@@ -15,4 +15,9 @@ export class DashboardService {
   async getForeignExchange(): Promise < ReturnDTO > {
     return this.app.get('/dashboard/getForeignExchange').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async getDashboardInfo(): Promise < ReturnDTO > {
+    return this.app.get('/dashboard/getDashboardInfo').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
 }

@@ -13,20 +13,27 @@ import {
 })
 export class DashboardComponent implements OnInit {
   forex = {
-    dollar : 0.0,
-    euro : 0.0
+    dollar: 0.0,
+    euro: 0.0
   }
 
   constructor(private ds: DashboardService) {}
 
   ngOnInit() {
     const _this = this;
-    this.ds.getForeignExchange().then((res)=>{
+    this.ds.getForeignExchange().then((res) => {
       if (res.status) {
         _this.forex.dollar = res.obj["dollar"];
         _this.forex.euro = res.obj["euro"];
       }
     });
+
+    this.ds.getDashboardInfo().then((res) => {
+      if (res.status) {
+        console.log(res);
+      }
+    });
+
     this.loadScripts();
   }
 
