@@ -54,7 +54,8 @@ export class DashboardComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           var value = Number(data.datasets[0].data[tooltipItem.index]).toFixed(2);
-          return ' PHP ' + value;
+          
+          return ' PHP ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
       },
     }
