@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
     backgroundColor: "#212529"
   }];
   barChartData: ChartDataSets[] = [{
-    data: [],
+    data: [1,2,3,4,5,6,7,8,9,10,11,12],
     label: 'Monthly Production'
   }, ];
 
@@ -54,10 +54,10 @@ export class DashboardComponent implements OnInit {
     this.ds.getDashboardInfo().then((res) => {
       if (res.status) {
         _this.dashboardInfo = res.obj;
-        _this.barChartData = [{
-          // data: res.obj["month"],
-          label: 'Monthly Production'
-        }];
+        // _this.barChartData = [{
+        //   // data: res.obj["month"],
+        //   label: 'Monthly Production'
+        // }];
       }
     });
 
