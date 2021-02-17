@@ -8,13 +8,15 @@ import {
 import {
   ChartOptions,
   ChartType,
-  ChartDataSets,
-  TickOptions
+  ChartDataSets
 } from 'chart.js';
 import {
   Label,
   Color
 } from 'ng2-charts';
+import {
+  DASH_INFO
+} from "../../constants/local.storage";
 
 @Component({
   selector: 'app-dashboard',
@@ -83,15 +85,26 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.ds.getDashboardInfo().then((res) => {
-      if (res.status) {
-        _this.dashboardInfo = res.obj;
-        _this.barChartData = [{
-          data: res.obj["month"],
-          label: 'Monthly Production'
-        }];
-      }
-    });
+
+    const dashInfo = localStorage.getItem(DASH_INFO);
+
+    if (dashInfo != null) {
+      this.dashboardInfo = JSON.parse(dashInfo);
+      this.barChartData = [{
+        data: this.dashboardInfo["month"]
+      }];
+    } else {
+      this.ds.getDashboardInfo().then((res) => {
+        if (res.status) {
+          localStorage.setItem(DASH_INFO, JSON.stringify(res.obj));
+          _this.dashboardInfo = res.obj;
+          _this.barChartData = [{
+            data: res.obj["month"]
+          }];
+        }
+      });
+    }
+
 
     // this.loadScripts();
   }

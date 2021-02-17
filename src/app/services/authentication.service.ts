@@ -16,7 +16,9 @@ import {
 } from "../objects/User";
 import {
   CURRENT_USER,
-  MENU
+  MENU, 
+  MIVO_AUTH,
+  DASH_INFO
 } from "../constants/local.storage";
 import {
   Page
@@ -96,6 +98,8 @@ export class AuthenticationService {
     // remove user from local storage and set current user to null
     localStorage.removeItem(CURRENT_USER);
     localStorage.removeItem(MENU);
+    localStorage.removeItem(MIVO_AUTH);
+    localStorage.removeItem(DASH_INFO);
     this.currentUserSubject.next(null);
   }
 }
