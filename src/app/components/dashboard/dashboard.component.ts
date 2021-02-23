@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
   }
 
   dashboardInfo: any = {};
+  showData: boolean = false;
 
   chartOptions: ChartOptions = {
     responsive: true,
@@ -85,7 +86,6 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-
     const dashInfo = localStorage.getItem(DASH_INFO);
 
     if (dashInfo != null) {
@@ -94,6 +94,7 @@ export class DashboardComponent implements OnInit {
         data: this.dashboardInfo["month"],
         label: 'Monthly Production'
       }];
+      this.showData = true;
     } else {
       this.ds.getDashboardInfo().then((res) => {
         if (res.status) {
@@ -103,6 +104,7 @@ export class DashboardComponent implements OnInit {
             data: res.obj["month"],
             label: 'Monthly Production'
           }];
+          this.showData = true;
         }
       });
     }
