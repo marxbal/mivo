@@ -219,6 +219,8 @@ form .form-group.input-error .multiselect-dropdown {
 .form-control:disabled,
 .form-control[readonly] {
   border-left: 1px solid #ced4da !important;
+  background-color: #eff2f4 !important;
+  color: #999fa4 !important;
 }
 
 form .card-header {
