@@ -95,6 +95,7 @@ import {
 export class QuotationCarComponent implements OnInit, AfterViewChecked {
   @ViewChild(CoveragesComponent) appCoverage: CoveragesComponent;
   @ViewChild('proceedModal') proceedModal: TemplateRef < any > ;
+  @ViewChild('validationModal') validationModal: TemplateRef < any > ;
 
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
@@ -110,6 +111,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   changedAccessoryValues: any[] = [];
 
   hasRoadAssist = false;
+
+  invalidForms: any[] = [];
   withTechControl = false;
 
   groupPolicy = new GroupPolicy();
@@ -1332,6 +1335,51 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     };
 
     this.dialogRef = this.dialog.open(this.proceedModal, dialogConfig);
+  }
+
+  openValidationModal(q: FormGroup, g: FormGroup, c: FormGroup): void {
+    //clear arrays
+    let invalid = [];
+    this.invalidForms = [];
+
+    //list of incorrect label names
+    var formLabels = [{
+        cbOneTripOnly: 'oneTripOnly'
+      },
+      {
+        name: "client'sName"
+      }
+    ]
+
+    var quoteArr = Utility.findInvalidControls(q);
+    invalid.push(...quoteArr);
+
+    var groupPolicyArr = Utility.findInvalidControls(g);
+    invalid.push(...groupPolicyArr);
+
+    var policyHolderArr = Utility.findInvalidControls(c);
+    invalid.push(...policyHolderArr);
+
+    invalid.forEach((i) => {
+      formLabels.forEach(f => {
+        var correctLabel = f[i];
+        if (!Utility.isUndefined(correctLabel)) {
+          //replace label
+          i = correctLabel;
+        }
+      });
+
+      let label: string = i.replace(/([A-Z])/g, ' $1').trim();
+      this.invalidForms.push(label.toLowerCase());
+    });
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.restoreFocus = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.role = 'dialog';
+    dialogConfig.width = '500px';
+
+    this.dialogRef = this.dialog.open(this.validationModal, dialogConfig);
   }
 
   openPaymentBreakdownModal(receipt: any, breakdown: any, isPostPolicy: boolean) {
