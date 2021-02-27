@@ -382,6 +382,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
+    this.isLoadQuotation = true;
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       if (res.status) {
         this.manageBtn(2);
@@ -612,10 +613,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.groupPolicy.commercialStructure = generalInfo.codNivel3;
         this.carDetails.groupPolicy = this.groupPolicy;
   
-        this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.quoteForm.get('effectivityDate').markAsDirty();
-        this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        this.quoteForm.get('expiryDate').markAsDirty();
+        // this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza));
+        // this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza));
   
         const docType = generalInfo.tipDocum;
         const docCode = generalInfo.codDocum;
