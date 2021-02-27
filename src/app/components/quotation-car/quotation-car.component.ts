@@ -613,9 +613,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.carDetails.groupPolicy = this.groupPolicy;
   
         this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        // this.quoteForm.get('effectivityDate').markAsDirty();
+        this.quoteForm.get('effectivityDate').markAsDirty();
         this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        // this.quoteForm.get('expiryDate').markAsDirty();
+        this.quoteForm.get('expiryDate').markAsDirty();
   
         const docType = generalInfo.tipDocum;
         const docCode = generalInfo.codDocum;
@@ -1105,8 +1105,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   effectivityDateOnChange() {
     setTimeout(() => {
-      this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.carDetails.expiryDate;
+      // this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
+      // this.expiryDateMinDate = this.carDetails.expiryDate;
     }, 500);
   }
 
