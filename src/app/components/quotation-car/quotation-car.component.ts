@@ -100,7 +100,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
-  // loadExpiryDate = false;
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
@@ -383,7 +382,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    // this.loadExpiryDate = true;
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       if (res.status) {
         this.manageBtn(2);
@@ -1103,23 +1101,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     this.cus.getPreAdditionalInfo(this.carDetails).then(res => {
       if (res.status) {
-        // _this.carDetails.seatingCapacity = res.obj["seatingCapacity"];
         _this.carDetails.weight = res.obj["weight"];
         _this.carDetails.displacement = res.obj["displacement"];
         _this.carDetails.customRiskName = res.obj["customRiskName"];
       }
     });
-  }
-
-  effectivityDateOnChange() {
-    setTimeout(() => {
-      // if (this.loadExpiryDate) {
-      //   this.loadExpiryDate = false;
-      // } else {
-        // this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-        // this.expiryDateMinDate = this.carDetails.expiryDate;
-      // }
-    }, 500);
   }
 
   accessoryOnchange(event: any, index: number) {
