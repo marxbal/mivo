@@ -100,7 +100,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
-  loadExpiryDate = false;
+  // loadExpiryDate = false;
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
@@ -383,7 +383,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    this.loadExpiryDate = true;
+    // this.loadExpiryDate = true;
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       if (res.status) {
         this.manageBtn(2);
@@ -615,9 +615,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.carDetails.groupPolicy = this.groupPolicy;
   
         // this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza));
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza), {emitEvent:false});
         // this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza));
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza), {emitEvent:false});
   
         const docType = generalInfo.tipDocum;
         const docCode = generalInfo.codDocum;
@@ -1107,12 +1107,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   effectivityDateOnChange() {
     setTimeout(() => {
-      if (this.loadExpiryDate) {
-        this.loadExpiryDate = false;
-      } else {
+      // if (this.loadExpiryDate) {
+      //   this.loadExpiryDate = false;
+      // } else {
         this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
         this.expiryDateMinDate = this.carDetails.expiryDate;
-      }
+      // }
     }, 500);
   }
 
