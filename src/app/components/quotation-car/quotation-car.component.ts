@@ -100,6 +100,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   currentUser = this.auths.currentUserValue;
   isIssuance: boolean = Globals.getAppType() == "I";
   isLoadQuotation: boolean = Globals.isLoadQuotation;
+  loadExpiryDate = false;
   pageLabel: String = 'Quotation';
   triggerCounter: number = 0;
   triggerCoverage: number = 0;
@@ -382,7 +383,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   loadQuotation() {
-    this.isLoadQuotation = true;
+    this.loadExpiryDate = true;
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       if (res.status) {
         this.manageBtn(2);
@@ -807,7 +808,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   setValidations() {
     var conductionNumber = this.quoteForm.get('conductionNumber');
     var plateNumber = this.quoteForm.get('plateNumber');
-    var effectivityDate = this.quoteForm.get('effectivityDate');
     var vehicleType = this.quoteForm.get('vehicleType');
     var quotationNumber = this.quoteForm.get('quotationNumber');
     var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
@@ -829,15 +829,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     plateNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(number => {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
     });
-
-    // effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
-    //   if (this.isLoadQuotation) {
-    //     this.isLoadQuotation = false;
-    //   } else {
-    //     this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
-    //     this.expiryDateMinDate = this.carDetails.expiryDate;
-    //   }
-    // });
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
@@ -1116,8 +1107,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   effectivityDateOnChange() {
     setTimeout(() => {
-      this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.carDetails.expiryDate;
+      if (this.loadExpiryDate) {
+        this.loadExpiryDate = false;
+      } else {
+        this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
+        this.expiryDateMinDate = this.carDetails.expiryDate;
+      }
     }, 500);
   }
 
