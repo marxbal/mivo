@@ -55,6 +55,8 @@ export class QuickQuotationCarComponent implements OnInit, AfterViewChecked {
   LOV = new CarListObject();
   quickQuoteForm: FormGroup;
 
+  showAutoSelect = true;
+
   displayedColumns: string[] = [
     'label',
     'compre',
@@ -532,6 +534,17 @@ export class QuickQuotationCarComponent implements OnInit, AfterViewChecked {
     this.qqs.quickQuoteCar(carDetails).then(res => {
       if (!Utility.isUndefined(res)) {
         if (res.status) {
+
+          const currentYear = new Date().getFullYear();
+          let modelYear = 0;
+          try {
+            modelYear = parseInt(carDetails.modelYear);
+          } catch {
+            //do nothing
+          }
+
+          this.showAutoSelect = currentYear - modelYear < 10;
+
           var quickQuoteDetails = res.obj["quickQuoteDetails"];
           var productList = res.obj["productList"];
           var products = res.obj["products"];
