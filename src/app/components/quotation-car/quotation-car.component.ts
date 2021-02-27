@@ -830,8 +830,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
-      this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.carDetails.expiryDate;
+      if (this.isLoadQuotation) {
+        this.isLoadQuotation = false;
+      } else {
+        this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
+        this.expiryDateMinDate = this.carDetails.expiryDate;
+      }
     });
 
     quotationNumber.valueChanges.subscribe(number => {
