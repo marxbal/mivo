@@ -889,7 +889,7 @@
           <div *ngIf="isIssuance && showCTPL" class="card shadow mb-3" id="CTPLAuth">
             <!-- <div *ngIf="isIssuance" class="card shadow mb-3" id="CTPLAuth"> -->
             <div class="card-header">
-              <strong>CTPL Authenctication (for products with CTPL)</strong>
+              <strong>CTPL Authentication (for products with CTPL)</strong>
             </div>
 
             <div class="card-body">
@@ -968,7 +968,7 @@
                       </label>
                     </div>
                     <label class="form-check-label" for="cbIsNotRequiredAuthNumber">
-                      Authenctication Number (ISAP Authentication)
+                      Authentication Number (ISAP Authentication)
                     </label>
                     <div class="input-group mb-3">
                       <input type="text" formControlName="authNumber"
@@ -1071,7 +1071,7 @@
 
           <div class="alert alert-info note">
             <p>
-              <strong>Important Reminder:</strong> Please make sure to fill out all required fields to enable the button bellow.
+              <strong>Important Reminder:</strong> Please make sure to fill out all required fields to enable the button below.
             </p>
           </div>
           <!-- .note -->
@@ -1119,7 +1119,7 @@
               <button
                 [disabled]="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
                 type="button" class="btn btn-primary"
-                (click)="proceed(2)">Issue Qoute</button>
+                (click)="proceed(2)">Issue Quote</button>
             </div>
   
             <div *ngIf="showProceedToIssuanceBtnGrp" class="text-right">
@@ -1127,7 +1127,7 @@
             </div>
             <div *ngIf="showProceedToIssuanceBtnGrp" class="btn-group" role="group">
               <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
-              <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
+              <button type="button" (click)="printQuote()" class="btn btn-primary">Print Quote</button>
               <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
             </div>
           </div>
