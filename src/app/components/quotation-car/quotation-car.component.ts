@@ -830,14 +830,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
     });
 
-    effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
-      if (this.isLoadQuotation) {
-        this.isLoadQuotation = false;
-      } else {
-        this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
-        this.expiryDateMinDate = this.carDetails.expiryDate;
-      }
-    });
+    // effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
+    //   if (this.isLoadQuotation) {
+    //     this.isLoadQuotation = false;
+    //   } else {
+    //     this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
+    //     this.expiryDateMinDate = this.carDetails.expiryDate;
+    //   }
+    // });
 
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
@@ -1116,8 +1116,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   effectivityDateOnChange() {
     setTimeout(() => {
-      // this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-      // this.expiryDateMinDate = this.carDetails.expiryDate;
+      this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.carDetails.expiryDate;
     }, 500);
   }
 
