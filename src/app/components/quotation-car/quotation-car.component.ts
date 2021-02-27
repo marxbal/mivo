@@ -808,6 +808,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   setValidations() {
     var conductionNumber = this.quoteForm.get('conductionNumber');
     var plateNumber = this.quoteForm.get('plateNumber');
+    var effectivityDate = this.quoteForm.get('effectivityDate');
     var vehicleType = this.quoteForm.get('vehicleType');
     var quotationNumber = this.quoteForm.get('quotationNumber');
     var cbVehicleMortgaged = this.quoteForm.get('cbVehicleMortgaged');
@@ -828,6 +829,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     //if has plate number, conduction number is not required
     plateNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(number => {
       Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
+    });
+
+    effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
+      this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.carDetails.expiryDate;
     });
 
     quotationNumber.valueChanges.subscribe(number => {
@@ -1110,8 +1116,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       // if (this.loadExpiryDate) {
       //   this.loadExpiryDate = false;
       // } else {
-        this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
-        this.expiryDateMinDate = this.carDetails.expiryDate;
+        // this.carDetails.expiryDate = moment(this.carDetails.effectivityDate).add(1, 'years').toDate();
+        // this.expiryDateMinDate = this.carDetails.expiryDate;
       // }
     }, 500);
   }
