@@ -1171,7 +1171,7 @@
                   quoteForm.invalid ||
                   appGroupPolicy.gpForm.invalid ||
                   appPolicyHolder.phForm.invalid ||
-                  (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined) ||
+                  (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                   (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
                 type="button"
@@ -1184,7 +1184,7 @@
                   !quoteForm.invalid &&
                   !appGroupPolicy.gpForm.invalid &&
                   !appPolicyHolder.phForm.invalid &&
-                  !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined) &&
+                  !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
                 type="button"
@@ -1205,7 +1205,7 @@
                   quoteForm.invalid ||
                   appGroupPolicy.gpForm.invalid ||
                   appPolicyHolder.phForm.invalid ||
-                  (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined) ||
+                  (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                   (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
                 type="button"
@@ -1218,7 +1218,7 @@
                   !quoteForm.invalid &&
                   !appGroupPolicy.gpForm.invalid &&
                   !appPolicyHolder.phForm.invalid &&
-                  !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined) &&
+                  !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
                 type="button"
@@ -1237,7 +1237,7 @@
                   quoteForm.invalid ||
                   appGroupPolicy.gpForm.invalid ||
                   appPolicyHolder.phForm.invalid ||
-                  (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined) ||
+                  (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                   (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
                 type="button"
@@ -1250,7 +1250,7 @@
                   !quoteForm.invalid &&
                   !appGroupPolicy.gpForm.invalid &&
                   !appPolicyHolder.phForm.invalid &&
-                  !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined) &&
+                  !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
                 type="button"
@@ -1334,9 +1334,15 @@
       <li *ngFor="let item of invalidForms">
         {{item}}
       </li>
-      <li *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator != undefined"></li>
-      <li *ngIf="carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')"></li>
-      <li *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')"></li>
+      <li *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined">
+        Alternative Policy holder Separator
+      </li>
+      <li *ngIf="carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')">
+        Assignee
+      </li>
+      <li *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')">
+        Mortgagee
+      </li>
     </ul>
   </mat-dialog-content>
   <div mat-dialog-actions align="end">
