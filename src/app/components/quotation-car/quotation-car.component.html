@@ -431,7 +431,7 @@
                     || quoteForm.controls['effectivityDate'].touched)}">
                     <label for="effectivityDate">Effectivity Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required"
-                      (bsValueChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
+                      (ngModelChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
                       formControlName="effectivityDate"
                       [(ngModel)]="carDetails.effectivityDate"
                       [attr.disabled]="editMode ? null : true"
