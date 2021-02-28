@@ -14,6 +14,9 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 import {
+  distinctUntilChanged
+} from 'rxjs/operators';
+import {
   Accident
 } from '../../objects/Accident';
 import {
@@ -235,8 +238,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   
         const generalInfo = res.obj["generalInfo"];
         this.accidentDetails.subline = generalInfo.codRamo;
-        this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        // this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza), {emitEvent:false});
+        // this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza), {emitEvent:false});
   
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
@@ -447,8 +452,15 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   setValidations() {
     var quotationNumber = this.quoteForm.get('quotationNumber');
+    var effectivityDate = this.quoteForm.get('effectivityDate');
+
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
+    });
+
+    effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
+      this.accidentDetails.expiryDate = moment(date).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.accidentDetails.expiryDate;
     });
   }
 
@@ -685,13 +697,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         insured.controls['occupationLabel'].setValue(o.NOM_VALOR);
       }
     });
-  }
-
-  effectivityDateOnChange() {
-    setTimeout(() => {
-      this.accidentDetails.expiryDate = moment(this.accidentDetails.effectivityDate).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.accidentDetails.expiryDate;
-    }, 500);
   }
 
   populateCoverage(coverageList: any[]) {

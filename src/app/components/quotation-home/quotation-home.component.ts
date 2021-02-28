@@ -13,6 +13,9 @@ import {
   FormArray
 } from '@angular/forms';
 import {
+  distinctUntilChanged
+} from 'rxjs/operators';
+import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef
@@ -377,8 +380,11 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   
         const generalInfo = res.obj["generalInfo"];
         this.homeDetails.subline = generalInfo.codRamo;
-        this.homeDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.homeDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+
+        // this.homeDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza), {emitEvent:false});
+        // this.homeDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza), {emitEvent:false});
         this.homeDetails.paymentMethod = generalInfo.codFraccPago;
   
         this.groupPolicy = new GroupPolicy;
@@ -531,8 +537,15 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   setValidations() {
     var quotationNumber = this.quoteForm.get('quotationNumber');
+    var effectivityDate = this.quoteForm.get('effectivityDate');
+
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
+    });
+
+    effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
+      this.homeDetails.expiryDate = moment(date).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.homeDetails.expiryDate;
     });
   }
 
@@ -666,13 +679,6 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       _this.LOV.zipCodeLOV = res;
       this.homeDetails.zipCode = null;
     });
-  }
-
-  effectivityDateOnChange() {
-    setTimeout(() => {
-      this.homeDetails.expiryDate = moment(this.homeDetails.effectivityDate).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.homeDetails.expiryDate;
-    }, 500);
   }
 
   populateCoverage(coverageList: any[]) {
