@@ -813,14 +813,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       }
     });
 
-    //if has conduction number, plate number is not required
+    //if has conduction number, plate number is not required / if subline is motorcycle
     conductionNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(number => {
-      Utility.updateValidator(plateNumber, !Utility.isUndefined(number) ? null : vehicleType.value == 30 ? null : Validators.required);
+      Utility.updateValidator(plateNumber, !Utility.isUndefined(number) ? null : vehicleType.value == 30 ? null : this.carDetails.subline === 120 ? null : Validators.required);
     });
 
-    //if has plate number, conduction number is not required
+    //if has plate number, conduction number is not required / if subline is motorcycle
     plateNumber.valueChanges.pipe(distinctUntilChanged()).subscribe(number => {
-      Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : Validators.required);
+      Utility.updateValidator(conductionNumber, !Utility.isUndefined(number) ? null : this.carDetails.subline === 120 ? null : Validators.required);
     });
 
     effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
