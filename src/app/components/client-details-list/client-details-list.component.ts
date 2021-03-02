@@ -102,7 +102,13 @@ export class ClientDetailsListComponent implements OnInit {
 
     var _this = this;
     this.tpls.getDocumentType().then(res => {
-      _this.documentTypeItems = res;
+      var types = [];
+      res.forEach(r => {
+        if (r.TIP_DOCUM != 'OTH') {
+          types.push(r);
+        }
+      });
+      _this.documentTypeItems = types;
     });
   }
 
