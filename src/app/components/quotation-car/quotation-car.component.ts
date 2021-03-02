@@ -1101,6 +1101,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         _this.carDetails.customRiskName = res.obj["customRiskName"];
       }
     });
+
+    // plate number and conduction number not required if subline is motorcycle(120)
+    Utility.updateValidator(this.quoteForm.get('plateNumber'), this.carDetails.subline === 120 ? null : Validators.required);
+    Utility.updateValidator(this.quoteForm.get('conductionNumber'), this.carDetails.subline === 120 ? null : Validators.required);
   }
 
   accessoryOnchange(event: any, index: number) {
