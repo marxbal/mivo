@@ -253,7 +253,8 @@
                     <input type="text" formControlName="conductionNumber" class="form-control" 
                       [ngClass]="{'required' : carDetails.plateNumber === undefined
                       || carDetails.plateNumber === null
-                      || carDetails.plateNumber === ''}"
+                      || carDetails.plateNumber === ''
+                      || carDetails.subline !== 120}"
                       [(ngModel)]="carDetails.conductionNumber"
                       (change)="affecting('conductionNumber', 'Conduction Number')"
                       oninput="this.value = this.value.toUpperCase()"
@@ -276,7 +277,9 @@
                     <input type="text" formControlName="plateNumber" class="form-control"
                       [ngClass]="{'required' : carDetails.conductionNumber === undefined
                       || carDetails.conductionNumber === null
-                      || carDetails.conductionNumber === ''}" [(ngModel)]="carDetails.plateNumber"
+                      || carDetails.conductionNumber === ''
+                      || carDetails.subline !== 120}" 
+                      [(ngModel)]="carDetails.plateNumber"
                       (change)="affecting('plateNumber', 'Plate Number')"
                       oninput="this.value = this.value.toUpperCase()"
                       [attr.disabled]="editMode && (LOV.sublineLOV?.length && LOV.modelYearLOV?.length) ? null : true">

@@ -1049,6 +1049,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   sublineOnchange(event: any) {
+    alert(this.carDetails.subline);
     var options = event.target.options;
     if (options.length) {
       //effectivity date is based on selected subline
