@@ -1064,7 +1064,7 @@
                     <label for="product">Product List</label>
                     <select class="custom-select mr-sm-2 required" formControlName="product"
                       [(ngModel)]="carDetails.productList"
-                      (change)="productOnChange(); affecting('productList', 'Product List')"
+                      (change)="affecting('productList', 'Product List')"
                       [attr.disabled]="editMode && LOV.productListLOV?.length ? null : true">
                       <option selected></option>
                       <option *ngFor="let product of LOV.productListLOV" [ngValue]="product.COD_MODALIDAD">

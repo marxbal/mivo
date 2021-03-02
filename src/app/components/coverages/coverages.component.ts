@@ -236,7 +236,7 @@ export class CoveragesComponent implements OnInit {
         // opens CTPL panel if code is 1001 or COMP. THIRD PAR. LIAB.
         this.showCTPL = included;
         this.showCTPLChange.emit(this.showCTPL);
-        this.cqs.activateCTPL(this.quoteForm, this.carDetails, this.showCTPL);
+        // this.cqs.activateCTPL(this.quoteForm, this.carDetails, this.showCTPL);
       }
 
       if (type == 4) {
