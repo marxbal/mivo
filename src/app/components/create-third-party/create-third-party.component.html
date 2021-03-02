@@ -140,7 +140,8 @@
             || tpForm.controls['mobileNumber'].touched)}">
             <label for="suffix">Mobile Number</label>
             <input type="text" formControlName="mobileNumber" class="form-control required"
-              [(ngModel)]="thirdParty.mobileNumber">
+              [(ngModel)]="thirdParty.mobileNumber"
+              maxlength="12">
             <p class="form-error" *ngIf="tpForm.controls['mobileNumber'].errors?.required">
               * mobile number is required
             </p>
@@ -174,6 +175,7 @@
             <label for="gender">Country</label>
             <select class="custom-select mr-sm-2" formControlName="country" [(ngModel)]="thirdParty.country"
                 (change)="getState()">
+              <option selected></option>
               <option *ngFor="let country of TPLOV.countryLOV" [ngValue]="country.COD_PAIS">{{ country.NOM_PAIS }}
               </option>
             </select>
@@ -185,6 +187,7 @@
             <label for="gender">State</label>
             <select class="custom-select mr-sm-2" formControlName="state" [(ngModel)]="thirdParty.state"
                 (change)="getProvince()">
+              <option selected></option>
               <option *ngFor="let state of TPLOV.stateLOV" [ngValue]="state.COD_ESTADO">{{ state.NOM_ESTADO }}
               </option>
             </select>
@@ -196,6 +199,7 @@
             <label for="province">Province</label>
             <select class="custom-select mr-sm-2" formControlName="province" [(ngModel)]="thirdParty.province"
                 (change)="getCity()">
+              <option selected></option>
               <option *ngFor="let province of TPLOV.provinceLOV" [ngValue]="province.COD_PROV">
                 {{ province.NOM_PROV }}
               </option>
@@ -208,6 +212,7 @@
             <label for="gender">Town/City</label>
             <select class="custom-select mr-sm-2" formControlName="city" [(ngModel)]="thirdParty.city"
                 (change)="getZipCode()">
+              <option selected></option>
               <option *ngFor="let city of TPLOV.cityLOV" [ngValue]="city.COD_LOCALIDAD">
                 {{ city.NOM_LOCALIDAD }}
               </option>
@@ -221,6 +226,7 @@
             || tpForm.controls['address'].touched)}">
             <label for="address">Address</label>
             <textarea type="text" formControlName="address" class="form-control required"
+              oninput="this.value = this.value.toUpperCase()" 
               [(ngModel)]="thirdParty.address"></textarea>
             <p class="form-error" *ngIf="tpForm.controls['address'].errors?.required">
               * address required
