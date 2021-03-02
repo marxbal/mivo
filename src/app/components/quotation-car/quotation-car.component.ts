@@ -297,7 +297,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       plateNumber: ['', Validators.required, this.validatePlateNumber.bind(this)],
       serialNumber: ['', Validators.required],
       engineNumber: ['', Validators.required],
-      mvFileNumber: this.isIssuance ? ['', Validators.required] : [null],
+      // mvFileNumber: this.isIssuance ? ['', Validators.required] : [null],
+      mvFileNumber: [null],
       purchaseDate: [null],
       receivedBy: ['', Validators.required],
       receivedDate: ['', Validators.required],
@@ -1519,6 +1520,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         }
         case "TIP_VEHI_PESO": {
           this.carDetails.classification = valueInt;
+          break;
+        }
+        case "NUM_COC": {
+          this.carDetails.cocNumber = value;
           break;
         }
 

@@ -322,7 +322,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <!-- <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="form-group" [ngClass]="{'input-error': quoteForm.controls['mvFileNumber'].invalid 
                     && (quoteForm.controls['mvFileNumber'].dirty 
                     || quoteForm.controls['mvFileNumber'].touched)}">
@@ -334,6 +334,15 @@
                       <p class="form-error" *ngIf="quoteForm.controls['mvFileNumber'].errors?.required">
                         * MV File Number is required
                       </p>
+                  </div>
+                </div> -->
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                  <div class="form-group">
+                    <label for="mvFileNumber">MV File Number</label>
+                    <input type="text" formControlName="mvFileNumber" class="form-control"
+                      [(ngModel)]="carDetails.mvFileNumber"
+                      oninput="this.value = this.value.toUpperCase()"
+                      [attr.disabled]="editMode ? null : true">
                   </div>
                 </div>
 
