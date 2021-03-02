@@ -333,14 +333,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       existingDamages: [null],
       inspectionAssessment: [null],
       //additional policy information for issuance
-      cbPolicyOnlyDriver: {
-        value: null,
-        disabled: true
-      },
-      cbPolicyOwner: {
-        value: null,
-        disabled: true
-      },
+      cbPolicyOnlyDriver: [null],
+      cbPolicyOwner:  [null],
       cbHasAssignee: [null],
       cbVehicleMortgaged: [null],
       mortgageClause: [null],

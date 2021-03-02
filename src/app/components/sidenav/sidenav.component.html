@@ -135,13 +135,6 @@
     </div>
   </li>
 
-  <!-- <li *ngIf="menu.requests" class="nav-item">
-    <a class="nav-link">
-      <i class="fas fa-fw fa-bell"></i>
-      <span>Requests</span>
-    </a>
-  </li> -->
-
   <li *ngIf="menu.requests" class="nav-item">
     <a class="nav-link collapsed" data-toggle="collapse" data-target="#requests" aria-expanded="true"
       aria-controls="requests">
@@ -170,8 +163,8 @@
           (click)="setPage(p.UTI.QUE)"><i class="fas fa-fw fa-clipboard-list"></i> Query</a>
         <a *ngIf="menu.documentPrinting" class="collapse-item" [ngClass]="{'active': page==p.UTI.DOC}"
           (click)="setPage(p.UTI.DOC)"><i class="fas fa-fw fa-print"></i> Document Printing</a>
-        <a *ngIf="menu.changePassword" class="collapse-item" [ngClass]="{'active': page==p.UTI.CHA}"
-          (click)="setPage(p.UTI.CHA)"><i class="fas fa-fw fa-key"></i> Change Password</a>
+        <!-- <a *ngIf="menu.changePassword" class="collapse-item" [ngClass]="{'active': page==p.UTI.CHA}"
+          (click)="setPage(p.UTI.CHA)"><i class="fas fa-fw fa-key"></i> Change Password</a> -->
       </div>
     </div>
   </li>
@@ -199,18 +192,18 @@
   </div>
 
   <!-- Nav Item - Charts -->
-  <li class="nav-item">
+  <li *ngIf="currentUser.address" class="nav-item">
     <div class="nav-link">
       <i class="fas fa-fw fa-map-marked-alt"></i>
       <span>{{currentUser.address}}</span></div>
   </li>
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <div class="nav-link">
       <i class="fas fa-fw fa-key"></i>
       <span>Your password will expire in <strong>{{currentUser.expiryDay}}
           {{currentUser.expiryDay <= 1 ? 'day' : 'days' }}</strong></span></div>
-  </li>
+  </li> -->
 
   <div *ngIf="hasSelectedAgent">
     <!-- Divider -->
@@ -229,7 +222,7 @@
         <span>{{currentUser.selectedAgent.agentName}}</span></div>
     </li>
 
-    <li class="nav-item">
+    <li *ngIf="currentUser.selectedAgent.agentAddress" class="nav-item">
       <div class="nav-link">
         <i class="fas fa-fw fa-map-marked-alt"></i>
         <span>{{currentUser.selectedAgent.agentAddress}}</span></div>
