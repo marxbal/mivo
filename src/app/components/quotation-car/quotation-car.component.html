@@ -698,7 +698,8 @@
                       <div class="form-group">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbPolicyOnlyDriver"
-                            [(ngModel)]="carDetails.cbPolicyOnlyDriver" formControlName="cbPolicyOnlyDriver">
+                            [(ngModel)]="carDetails.cbPolicyOnlyDriver" formControlName="cbPolicyOnlyDriver"
+                            [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbPolicyOnlyDriver">
                             Is the Policy Holder the only Driver?
                           </label>
@@ -710,7 +711,8 @@
                       <div class="form-group">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbPolicyOwner"
-                            [(ngModel)]="carDetails.cbPolicyOwner" formControlName="cbPolicyOwner">
+                            [(ngModel)]="carDetails.cbPolicyOwner" formControlName="cbPolicyOwner"
+                            [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbPolicyOwner">
                             Is the Policy Holder the Owner?
                           </label>
@@ -912,8 +914,7 @@
                     || quoteForm.controls['automaticAuth'].touched)}">
                     <label for="automaticAuth">Automatic Authentication</label>
                     <select class="custom-select mr-sm-2 required" formControlName="automaticAuth"
-                      [(ngModel)]="carDetails.automaticAuth"
-                      [attr.disabled]="editMode ? null : true">
+                      [(ngModel)]="carDetails.automaticAuth">
                       <option value="S">YES</option>
                       <option value="N">NO</option>
                     </select>
@@ -929,8 +930,7 @@
                     || quoteForm.controls['registrationType'].touched)}">
                     <label for="registrationType">Registration Type</label>
                     <select class="custom-select mr-sm-2 required" formControlName="registrationType"
-                      [(ngModel)]="carDetails.registrationType"
-                      [attr.disabled]="editMode ? null : true">
+                      [(ngModel)]="carDetails.registrationType">
                       <option selected></option>
                       <option *ngFor="let rType of LOV.registrationTypeLOV" [ngValue]="rType.COD_VALOR">
                         {{ rType.NOM_VALOR }}</option>
@@ -944,8 +944,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="form-group">
                     <label for="mvType">MV Type (leave blank to set default value)</label>
-                    <select class="custom-select mr-sm-2" formControlName="mvType" [(ngModel)]="carDetails.mvType"
-                    [attr.disabled]="editMode ? null : true">
+                    <select class="custom-select mr-sm-2" formControlName="mvType" [(ngModel)]="carDetails.mvType">
                       <option selected></option>
                       <option *ngFor="let mv of LOV.mvTypeLOV" [ngValue]="mv.COD_VALOR">{{ mv.NOM_VALOR }}</option>
                     </select>

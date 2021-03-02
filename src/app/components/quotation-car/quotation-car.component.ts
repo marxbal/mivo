@@ -1604,10 +1604,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
               this.populateAdditionalInfo(variableData);
 
-              if (this.isIssuance) {
-                this.showCTPL = this.carDetails.productList == 10002;
-                this.cqs.activateCTPL(this.quoteForm, this.carDetails);
-              }
+              // if (this.isIssuance) {
+              //   this.showCTPL = this.carDetails.productList == 10002;
+              //   this.cqs.activateCTPL(this.quoteForm, this.carDetails);
+              // }
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
