@@ -191,7 +191,12 @@
     User Information
   </div>
 
-  <!-- Nav Item - Charts -->
+  <li class="nav-item">
+    <div class="nav-link">
+      <i class="fas fa-fw fa-map-marked-alt"></i>
+      <span>{{currentUser.userName}}</span></div>
+  </li>
+
   <li *ngIf="currentUser.address" class="nav-item">
     <div class="nav-link">
       <i class="fas fa-fw fa-map-marked-alt"></i>
@@ -213,8 +218,6 @@
     <div class="sidebar-heading">
       Agent Information
     </div>
-
-    <!-- Nav Item - Charts -->
 
     <li class="nav-item">
       <div class="nav-link">
