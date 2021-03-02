@@ -1050,7 +1050,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   sublineOnchange(event: any) {
-    alert(this.carDetails.subline);
     var options = event.target.options;
     if (options.length) {
       //effectivity date is based on selected subline
@@ -1120,16 +1119,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.accessory().at(index).get('price').setValue(price);
     }
   }
-
-  // productOnChange() {
-  //   if (this.isIssuance) {
-  //     this.showCTPL = this.carDetails.productList == 10002;
-  //     this.cqs.activateCTPL(this.quoteForm, this.carDetails);
-  //     if (this.showCTPL) {
-  //       Utility.scroll('CTPLAuth');
-  //     }
-  //   }
-  // }
 
   cbIsNotRequiredAuthNumberChange() {
     var authNumber = this.quoteForm.get('authNumber');
@@ -1603,11 +1592,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
               this.populateCoverage(coverageList, amountList, premiumAmount, coverageAmount, coverageVariable);
               this.populateAdditionalInfo(variableData);
-
-              // if (this.isIssuance) {
-              //   this.showCTPL = this.carDetails.productList == 10002;
-              //   this.cqs.activateCTPL(this.quoteForm, this.carDetails);
-              // }
 
               this.isModifiedCoverage = false;
               this.populatePaymentBreakdown(breakdown, receipt);
