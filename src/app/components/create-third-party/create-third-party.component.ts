@@ -151,7 +151,13 @@ export class CreateThirdPartyComponent implements OnInit {
   getLOVs() {
     const _this = this;
     this.tpls.getDocumentType().then(res => {
-      _this.TPLOV.documentTypeLOV = res;
+      var types = [];
+      res.forEach(r => {
+        if (r.TIP_DOCUM != 'OTH') {
+          types.push(r);
+        }
+      });
+      _this.TPLOV.documentTypeLOV = types;
     });
     this.tpls.getPrefix().then(res => {
       _this.TPLOV.prefixLOV = res;
