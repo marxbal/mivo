@@ -13,6 +13,7 @@ import {
 import {
   Utility
 } from '../utils/utility';
+import { ReturnDTO } from '../objects/ReturnDTO';
 
 @Injectable()
 export class LovService {
@@ -34,7 +35,7 @@ export class LovService {
     return Utility.parseIntArray(await this.app.post(dto, '/getOptionList').then(objArr => objArr as any[]), param);
   }
 
-  async getConfigList(): Promise < any[] > {
-    return this.app.get('/getConfigList').then(objArr => objArr as any[]);
+  async getConfigList(): Promise < ReturnDTO > {
+    return this.app.get('/getConfigList').then(objArr => objArr as ReturnDTO);
   }
 }
