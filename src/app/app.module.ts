@@ -242,6 +242,9 @@ import {
 import {
   TermsAndConditionComponent
 } from './components/terms-and-condition/terms-and-condition.component';
+import {
+  HealthCheckComponent
+} from './components/health-check/health-check.component';
 
 const routes: Routes = [{
     path: "login",
@@ -265,6 +268,10 @@ const routes: Routes = [{
   {
     path: "terms-and-condition",
     component: TermsAndConditionComponent,
+  },
+  {
+    path: "health-check",
+    component: HealthCheckComponent,
   },
   {
     path: "404",
@@ -331,6 +338,7 @@ const routes: Routes = [{
     AccountEstimatedCommissionsListComponent,
     AccountPremiumCollectionListComponent,
     TermsAndConditionComponent,
+    HealthCheckComponent,
   ],
   entryComponents: [
     ModalComponent,

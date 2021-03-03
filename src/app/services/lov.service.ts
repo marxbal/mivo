@@ -33,4 +33,8 @@ export class LovService {
   async getIntOptionList(dto: OptionList, param: string): Promise < any[] > {
     return Utility.parseIntArray(await this.app.post(dto, '/getOptionList').then(objArr => objArr as any[]), param);
   }
+
+  async getConfigList(): Promise < any[] > {
+    return this.app.get('/getConfigList').then(objArr => objArr as any[]);
+  }
 }
