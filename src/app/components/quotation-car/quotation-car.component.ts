@@ -975,6 +975,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.make = _carDetails.make;
     this.carDetails.model = _carDetails.model;
 
+    // engine number is optional for truck and trailer
+    Utility.updateValidator(this.quoteForm.get('engineNumber'),
+      this.carDetails.vehicleType === 30 || this.carDetails.vehicleType === 6 ?
+      null :
+      Validators.required);
+
     if (this.carDetails.vehicleType > 0) {
       var _this = this;
       this.cls.getModelYearList(this.carDetails).then(res => {
@@ -1027,12 +1033,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   getVehicleValue() {
     const _this = this;
-    // var qqDetails = new QQCar;
-    // qqDetails.make = this.carDetails.make;
-    // qqDetails.model = this.carDetails.model;
-    // qqDetails.subModel = this.carDetails.subModel;
-    // qqDetails.modelYear = this.carDetails.modelYear;
-    // this.cus.getFMV(qqDetails).then(res => {
       this.cus.getFMV(this.carDetails).then(res => {
       _this.carDetails.vehicleValue = res.obj["fmv"];
     });
@@ -1040,10 +1040,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   getSubline() {
     const _this = this;
-    // var qqDetails = new QQCar;
-    // qqDetails.vehicleType = this.carDetails.vehicleType;
-    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    // this.cus.getSubline(qqDetails).then(res => {
     this.cus.getSubline(this.carDetails).then(res => {
       _this.LOV.sublineLOV = res.obj["list"];
     });
