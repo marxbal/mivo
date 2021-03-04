@@ -226,7 +226,7 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="{{element.paymentStatus}}" (click)="getDetails(row)"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="{{row.paymentStatus}}" (click)="getDetails(row)"></tr>
             </table>
           </div>
 
