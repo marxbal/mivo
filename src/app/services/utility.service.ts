@@ -41,7 +41,7 @@ export class UtilityService {
 
   downloadRenewalPolicy(print: RenewalPrinting) {
     return this.http.post(
-      API_URL + '/utility/downloadFile',
+      API_URL + '/utility/downloadRenewalPolicy',
       print, {
         responseType: 'blob'
       }).map((res: Blob) => {
