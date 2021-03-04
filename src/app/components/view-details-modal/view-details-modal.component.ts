@@ -306,11 +306,12 @@ export class ViewDetailsModalComponent implements OnInit {
 
   requestRenewal(): void {
     const requestDetails = new RequestDetails();
-    requestDetails.policyNumber = this.listPolicyExpiring.policyHolder;
+    requestDetails.policyNumber = this.listPolicyExpiring.policyNumber;
     requestDetails.type = "R";
     requestDetails.requestType = "5";
 
     localStorage.setItem(MIVO_REQUEST_DETAILS, JSON.stringify(requestDetails));
+    this.dialogRef.close();
     Globals.setPage(page.REQ.CRE);
   }
 
