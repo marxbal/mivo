@@ -105,7 +105,7 @@ export class ViewDetailsModalComponent implements OnInit {
   isProceedToPayment = false;
   title: string;
   paymentForm: FormGroup;
-  paymentMethod: string = 'paynamics';
+  paymentMethod: string = 'globalpay';
 
   listClientDetails = new ListClientDetails();
   listPolicyActive = new ListPolicyActive();

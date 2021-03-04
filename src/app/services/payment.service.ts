@@ -8,24 +8,28 @@ import {
 import {
   AppService
 } from './app.service'
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PaymentService {
+
+  private baseUrl = environment.baseUrl;
+
   constructor(
     private app: AppService) {}
 
   getPaymentUrl(paymentRequest: PaymentRequest) {
     return this.app.post({
       ...paymentRequest,
-      responseUrl: 'http://localhost:4200?successPage=true'
+      responseUrl: this.baseUrl + '?successPage=true'
     }, '/payment/getPaymentRequest').then(response => response);
   }
 
   getPaymentUrlViaGlobalPay(invoiceNo: String) {
     return this.app.post({
       invoiceNo,
-      responseUrl: 'https://localhost:4200?successPage=true',
-      againUrl: 'https://localhost:4200?successPage=true',
+      responseUrl: this.baseUrl + '?successPage=true',
+      againUrl: this.baseUrl + '?successPage=true',
     }, '/payment/getPaymentRequest/globalpay').then(response => response);
   }
 
