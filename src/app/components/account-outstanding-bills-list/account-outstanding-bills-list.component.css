@@ -67,3 +67,8 @@ th.mat-sort-header-sorted {
 .fa-times {
   color: #fff !important;
 }
+
+.processing {
+  background: #bfecbf;
+  font-weight: 700;
+}
