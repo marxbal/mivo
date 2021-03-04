@@ -1096,23 +1096,31 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     this.cus.getPreAdditionalInfo(this.carDetails).then(res => {
       if (res.status) {
-        _this.carDetails.weight = res.obj["weight"];
-        _this.carDetails.displacement = res.obj["displacement"];
+        _this.carDetails.weight = null;
+        _this.carDetails.displacement = null;
+        _this.carDetails.classification = null;
+        _this.carDetails.seatingCapacity = null;
         _this.carDetails.customRiskName = res.obj["customRiskName"];
       }
     });
 
     // plate number and conduction number not required if subline is motorcycle(120)
-    Utility.updateValidator(this.quoteForm.get('plateNumber'), 
-      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.conductionNumber)
-      ? null
-      : Validators.required);
-      
+    Utility.updateValidator(this.quoteForm.get('plateNumber'),
+      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.conductionNumber) ?
+      null :
+      Validators.required);
+
+      alert(!Utility.isUndefined(this.carDetails.conductionNumber));
+      alert(this.carDetails.conductionNumber);
+      alert(this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.conductionNumber) ?
+      'edi' :
+      'wow');
+
     Utility.updateValidator(this.quoteForm.get('conductionNumber'),
-      this.carDetails.subline === 120 || Utility.isUndefined(this.carDetails.plateNumber) != null
-      ? null
-      : Validators.required);
-  }
+      this.carDetails.subline === 120 || Utility.isUndefined(this.carDetails.plateNumber) != null ?
+      null :
+      Validators.required);
+    }
 
   accessoryOnchange(event: any, index: number) {
     this.disableAccessory();
