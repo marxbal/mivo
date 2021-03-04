@@ -23,16 +23,27 @@ export class HealthCheckComponent implements OnInit {
   imgUrl = environment.imgUrl;
   production = environment.production;
   version = VER;
-  backendConfigList : any[] = [];
+  backendConfigList: any = {
+    version: 'n/a',
+    dbUrl: 'n/a',
+    cocafRegisterUrl: 'n/a',
+    cocafVerifyUrl: 'n/a',
+    policyCentralUrl: 'n/a',
+    techControlUrl: 'n/a'
+  };
 
   constructor(private ls: LovService) {}
 
   ngOnInit(): void {
     this.ls.getConfigList().then(res => {
       if (res.status) {
-        this.backendConfigList = res.obj as any[];
+        this.backendConfigList = res.obj;
       }
     });
+  }
+
+  redirect() {
+    window.location.href = "/";
   }
 
 }
