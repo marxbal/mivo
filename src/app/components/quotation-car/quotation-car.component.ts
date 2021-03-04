@@ -1110,14 +1110,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       null :
       Validators.required);
 
-      alert(!Utility.isUndefined(this.carDetails.conductionNumber));
-      alert(this.carDetails.conductionNumber);
-      alert(this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.conductionNumber) ?
-      'edi' :
-      'wow');
-
     Utility.updateValidator(this.quoteForm.get('conductionNumber'),
-      this.carDetails.subline === 120 || Utility.isUndefined(this.carDetails.plateNumber) != null ?
+      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.plateNumber) != null ?
       null :
       Validators.required);
     }
