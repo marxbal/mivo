@@ -1111,7 +1111,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       Validators.required);
 
     Utility.updateValidator(this.quoteForm.get('conductionNumber'),
-      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.plateNumber) != null ?
+      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.plateNumber) ?
       null :
       Validators.required);
     }
