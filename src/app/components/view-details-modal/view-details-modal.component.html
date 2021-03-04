@@ -1079,8 +1079,11 @@
     <button *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" type="button" class="btn btn-success" (click)="redirectToPayment(listAccountOutstandingBills)">
       I agree
     </button>
-    <button *ngIf="type == 'client-active' || type == 'client-claims'" type="button" class="btn btn-danger" (click)="inquire()">
+    <button *ngIf="type == 'client-active' || type == 'client-claims'" type="button" class="btn btn-success" (click)="inquire()">
       Inquire
+    </button>
+    <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="downloadRenewalPolicy()">
+      Print Renewal Notice
     </button>
     <button type="button" class="btn btn-primary" (click)="close()">
       Close

@@ -79,6 +79,12 @@ import {
 import {
   MIVO_LOGIN
 } from "../../constants/local.storage";
+import {
+  UtilityService
+} from 'src/app/services/utility.service';
+import {
+  RenewalPrinting
+} from 'src/app/objects/RenewalPrinting';
 
 @Component({
   selector: 'app-view-details-modal',
@@ -121,6 +127,7 @@ export class ViewDetailsModalComponent implements OnInit {
     private bms: BsModalService,
     private formBuilder: FormBuilder,
     private paymentService: PaymentService,
+    private us: UtilityService,
     ) {}
 
   ngOnInit(): void {
@@ -273,6 +280,21 @@ export class ViewDetailsModalComponent implements OnInit {
     } else {
       this.modalRef = Utility.showError(this.bms, 'No login credentials found!');
     }
+  }
+
+  downloadRenewalPolicy(): void {
+    const eDate = this.listPolicyExpiring.policyExpiryDate.split("/");
+    const renewal = new RenewalPrinting();
+
+    renewal.month = parseInt(eDate[0]);
+    renewal.year = parseInt(eDate[2]);
+    renewal.policyNumber = this.listPolicyExpiring.policyNumber;
+
+    this.us.downloadRenewalPolicy(renewal).subscribe(data => {
+      if (data != null) {
+        window.open(URL.createObjectURL(data));
+      }
+    });
   }
 
   close(): void {

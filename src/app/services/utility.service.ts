@@ -17,6 +17,9 @@ import {
 import {
   ReturnDTO
 } from '../objects/ReturnDTO';
+import {
+  RenewalPrinting
+} from '../objects/RenewalPrinting';
 
 @Injectable()
 export class UtilityService {
@@ -28,6 +31,18 @@ export class UtilityService {
     return this.http.post(
       API_URL + '/utility/downloadFile',
       extension, {
+        responseType: 'blob'
+      }).map((res: Blob) => {
+      return new Blob([res], {
+        type: 'application/pdf'
+      });
+    });
+  }
+
+  downloadRenewalPolicy(print: RenewalPrinting) {
+    return this.http.post(
+      API_URL + '/utility/downloadFile',
+      print, {
         responseType: 'blob'
       }).map((res: Blob) => {
       return new Blob([res], {
