@@ -515,7 +515,7 @@
                     <select class="custom-select mr-sm-2 required" formControlName="coverageOption"
                       [(ngModel)]="travelDetails.coverageOption"
                       (change)="affecting('coverageOption', 'Coverage Option Pack')"
-                      [attr.disabled]="(editMode && LOV.coverageOptionLOV?.length) || travelDetails.currency !== 1 ? null : true">
+                      [attr.disabled]="(editMode && LOV.coverageOptionLOV?.length) ? travelDetails.currency !== 1 ? null : true">
                       <option></option>
                       <option *ngFor="let coverageOption of LOV.coverageOptionLOV" [ngValue]="coverageOption.COVERAGE_OPTIONS">
                         {{ coverageOption.NOM_VALOR }}</option>
