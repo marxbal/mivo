@@ -19,3 +19,7 @@ h6 {
 .required-indicator {
   color: red;
 }
+
+.mat-dialog-actions {
+  padding: 20px 0;
+}
