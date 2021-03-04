@@ -20,6 +20,9 @@ import {
 import {
   RequestService
 } from 'src/app/services/request.service';
+import {
+  MIVO_REQUEST_DETAILS
+} from 'src/app/constants/local.storage';
 
 @Component({
   selector: 'app-request-create',
@@ -48,7 +51,12 @@ export class RequestCreateComponent implements OnInit {
     this.setValidations();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const storedDetails = localStorage.getItem(MIVO_REQUEST_DETAILS);
+    if (storedDetails != null) {
+      this.requestDetails = JSON.parse(storedDetails) as RequestDetails;
+    }
+  }
 
   files: File[] = [];
 
@@ -94,26 +102,6 @@ export class RequestCreateComponent implements OnInit {
       comments: ['', Validators.required],
     });
   }
-
-  // test(q: FormGroup) {
-  //   let invalid = [];
-
-  //   invalid = this.findInvalidControls(invalid, q);
-  //   alert(invalid);
-  // }
-
-  // public findInvalidControls(invalid: any[], form: FormGroup) {
-  //   const controls = form.controls;
-  //   for (const name in controls) {
-  //     if (controls[name].invalid) {
-  //       invalid.push(name);
-  //     }
-  //     if (controls[name].pristine) {
-  //       invalid.push(name);
-  //     }
-  //   }
-  //   return invalid;
-  // }
 
   setValidations() {
     this.requestForm.get('type').valueChanges.subscribe(type => {

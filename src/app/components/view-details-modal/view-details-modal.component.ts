@@ -77,7 +77,8 @@ import {
   Utility
 } from 'src/app/utils/utility';
 import {
-  MIVO_LOGIN
+  MIVO_LOGIN,
+  MIVO_REQUEST_DETAILS
 } from "../../constants/local.storage";
 import {
   UtilityService
@@ -85,6 +86,12 @@ import {
 import {
   RenewalPrinting
 } from 'src/app/objects/RenewalPrinting';
+import {
+  RequestDetails
+} from 'src/app/objects/RequestDetails';
+import {
+  Globals
+} from '../../utils/global';
 
 @Component({
   selector: 'app-view-details-modal',
@@ -295,6 +302,16 @@ export class ViewDetailsModalComponent implements OnInit {
         window.open(URL.createObjectURL(data));
       }
     });
+  }
+
+  requestRenewal(): void {
+    const requestDetails = new RequestDetails();
+    requestDetails.policyNumber = this.listPolicyExpiring.policyHolder;
+    requestDetails.type = "R";
+    requestDetails.requestType = "5";
+
+    localStorage.setItem(MIVO_REQUEST_DETAILS, JSON.stringify(requestDetails));
+    Globals.setPage(page.REQ.CRE);
   }
 
   close(): void {

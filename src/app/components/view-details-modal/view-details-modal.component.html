@@ -1085,6 +1085,9 @@
     <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="downloadRenewalPolicy()">
       Print Renewal Notice
     </button>
+    <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="requestRenewal()">
+      Request Renewal
+    </button>
     <button type="button" class="btn btn-primary" (click)="close()">
       Close
     </button>
