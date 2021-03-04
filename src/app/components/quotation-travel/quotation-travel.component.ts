@@ -281,6 +281,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.travelDetails.travelPackage = this.travelDetails.currency === 1 ?
       "P" :
       null;
+    
+    this.travelDetails.coverageOption = this.travelDetails.currency === 1 ?
+      "CO" :
+      null;
 
     this.tls.getCountryList(this.travelDetails).then(res => {
       res.forEach(country => {

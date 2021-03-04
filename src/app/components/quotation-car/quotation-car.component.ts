@@ -1103,8 +1103,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     });
 
     // plate number and conduction number not required if subline is motorcycle(120)
-    Utility.updateValidator(this.quoteForm.get('plateNumber'), this.carDetails.subline === 120 ? null : Validators.required);
-    Utility.updateValidator(this.quoteForm.get('conductionNumber'), this.carDetails.subline === 120 ? null : Validators.required);
+    Utility.updateValidator(this.quoteForm.get('plateNumber'), 
+      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.conductionNumber)
+      ? null
+      : Validators.required);
+      
+    Utility.updateValidator(this.quoteForm.get('conductionNumber'),
+      this.carDetails.subline === 120 || Utility.isUndefined(this.carDetails.plateNumber) != null
+      ? null
+      : Validators.required);
   }
 
   accessoryOnchange(event: any, index: number) {
