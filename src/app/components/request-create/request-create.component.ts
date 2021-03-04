@@ -20,6 +20,12 @@ import {
 import {
   RequestService
 } from 'src/app/services/request.service';
+import {
+  MIVO_REQUEST_DETAILS
+} from 'src/app/constants/local.storage';
+import {
+  AuthenticationService
+} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-request-create',
@@ -27,6 +33,7 @@ import {
   styleUrls: ['./request-create.component.css']
 })
 export class RequestCreateComponent implements OnInit {
+  currentUser = this.auths.currentUserValue;
   requestDetails = new RequestDetails();
   requestForm: FormGroup;
 
@@ -43,12 +50,20 @@ export class RequestCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private rs: RequestService,
-    private bms: BsModalService) {
+    private bms: BsModalService,
+    private auths: AuthenticationService) {
     this.createForm();
     this.setValidations();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const storedDetails = localStorage.getItem(MIVO_REQUEST_DETAILS);
+    if (storedDetails != null) {
+      this.requestDetails = JSON.parse(storedDetails) as RequestDetails;
+      localStorage.removeItem(MIVO_REQUEST_DETAILS);
+    }
+    this.requestDetails.name = this.currentUser.fullName.toUpperCase();
+  }
 
   files: File[] = [];
 
@@ -94,26 +109,6 @@ export class RequestCreateComponent implements OnInit {
       comments: ['', Validators.required],
     });
   }
-
-  // test(q: FormGroup) {
-  //   let invalid = [];
-
-  //   invalid = this.findInvalidControls(invalid, q);
-  //   alert(invalid);
-  // }
-
-  // public findInvalidControls(invalid: any[], form: FormGroup) {
-  //   const controls = form.controls;
-  //   for (const name in controls) {
-  //     if (controls[name].invalid) {
-  //       invalid.push(name);
-  //     }
-  //     if (controls[name].pristine) {
-  //       invalid.push(name);
-  //     }
-  //   }
-  //   return invalid;
-  // }
 
   setValidations() {
     this.requestForm.get('type').valueChanges.subscribe(type => {
