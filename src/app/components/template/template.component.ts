@@ -48,7 +48,10 @@ export class TemplateComponent implements OnInit {
   }
 
   processPayment(params: any) {
-    this.paymentService.processPaymentViaGlobalPay(params).then(response => {
+    this.paymentService.processPaymentViaGlobalPay({
+      ...params,
+      attempt: params.attempt === '' ? 0 : params.attempt,
+    }).then(response => {
       console.log('response: ', response);
     });
   }
