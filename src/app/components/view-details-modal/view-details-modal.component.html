@@ -678,10 +678,10 @@
     <!-- OUTSTANDING BILLS PROCEED TO PAYMENT -->
     <form [formGroup]="paymentForm">
       <div *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" class="row">
-        <div class="col-md-12">
+        <div *ngIf="false" class="col-md-12">
           <h5>Additional Information for Payment</h5>
         </div>
-        <div class="col-md-12">
+        <div *ngIf="false" class="col-md-12">
           <h6>Pay via:</h6>
         </div>
         <div *ngIf="false" class="col-md-12">
@@ -698,7 +698,7 @@
             </label>
           </div>
         </div>
-        <hr class="w-100" />
+        <hr *ngIf="false" class="w-100" />
         <ng-container *ngIf="paymentMethod === 'paynamics'">
           <div class="col-md-4">
             <div class="form-group">
