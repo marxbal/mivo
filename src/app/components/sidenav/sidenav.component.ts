@@ -38,7 +38,9 @@ export class SidenavComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit() {
-    // this.logo = "partners/aap";
+    if (this.currentUser.role === 3) {
+      this.logo = "partners/aap";
+    }
   }
 
   setPage(val: String) {

@@ -64,6 +64,12 @@ th.mat-sort-header-sorted {
   padding: 30px 0;
 }
 
-.fa-times {
+.fa-times,
+.Processing td.mat-cell {
   color: #fff !important;
+}
+
+.Processing {
+  background: #28a745;
+  font-weight: 500;
 }

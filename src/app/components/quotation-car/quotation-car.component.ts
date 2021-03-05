@@ -975,6 +975,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.make = _carDetails.make;
     this.carDetails.model = _carDetails.model;
 
+    // engine number is optional for truck and trailer
+    Utility.updateValidator(this.quoteForm.get('engineNumber'),
+      this.carDetails.vehicleType === 30 || this.carDetails.vehicleType === 6 ?
+      null :
+      Validators.required);
+
     if (this.carDetails.vehicleType > 0) {
       var _this = this;
       this.cls.getModelYearList(this.carDetails).then(res => {
@@ -1027,12 +1033,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   getVehicleValue() {
     const _this = this;
-    // var qqDetails = new QQCar;
-    // qqDetails.make = this.carDetails.make;
-    // qqDetails.model = this.carDetails.model;
-    // qqDetails.subModel = this.carDetails.subModel;
-    // qqDetails.modelYear = this.carDetails.modelYear;
-    // this.cus.getFMV(qqDetails).then(res => {
       this.cus.getFMV(this.carDetails).then(res => {
       _this.carDetails.vehicleValue = res.obj["fmv"];
     });
@@ -1040,10 +1040,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   getSubline() {
     const _this = this;
-    // var qqDetails = new QQCar;
-    // qqDetails.vehicleType = this.carDetails.vehicleType;
-    // qqDetails.typeOfUse = this.carDetails.typeOfUse;
-    // this.cus.getSubline(qqDetails).then(res => {
     this.cus.getSubline(this.carDetails).then(res => {
       _this.LOV.sublineLOV = res.obj["list"];
     });
@@ -1096,16 +1092,25 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     this.cus.getPreAdditionalInfo(this.carDetails).then(res => {
       if (res.status) {
-        _this.carDetails.weight = res.obj["weight"];
-        _this.carDetails.displacement = res.obj["displacement"];
+        _this.carDetails.weight = null;
+        _this.carDetails.displacement = null;
+        _this.carDetails.classification = null;
+        _this.carDetails.seatingCapacity = null;
         _this.carDetails.customRiskName = res.obj["customRiskName"];
       }
     });
 
     // plate number and conduction number not required if subline is motorcycle(120)
-    Utility.updateValidator(this.quoteForm.get('plateNumber'), this.carDetails.subline === 120 ? null : Validators.required);
-    Utility.updateValidator(this.quoteForm.get('conductionNumber'), this.carDetails.subline === 120 ? null : Validators.required);
-  }
+    Utility.updateValidator(this.quoteForm.get('plateNumber'),
+      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.conductionNumber) ?
+      null :
+      Validators.required);
+
+    Utility.updateValidator(this.quoteForm.get('conductionNumber'),
+      this.carDetails.subline === 120 || !Utility.isUndefined(this.carDetails.plateNumber) ?
+      null :
+      Validators.required);
+    }
 
   accessoryOnchange(event: any, index: number) {
     this.disableAccessory();

@@ -312,7 +312,8 @@
                   && (quoteForm.controls['engineNumber'].dirty 
                   || quoteForm.controls['engineNumber'].touched)}">
                     <label for="engineNumber">Motor Number/Engine Number</label>
-                    <input type="text" formControlName="engineNumber" class="form-control required"
+                    <input type="text" formControlName="engineNumber" class="form-control"
+                      [ngClass]="{'required' : (carDetails.vehicleType !== 30 && carDetails.vehicleType !== 6)}" 
                       [(ngModel)]="carDetails.engineNumber"
                       oninput="this.value = this.value.toUpperCase()"
                       [attr.disabled]="editMode ? null : true">
