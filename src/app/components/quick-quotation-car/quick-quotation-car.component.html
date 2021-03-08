@@ -45,6 +45,7 @@
                 <label for="make">Make</label>
                 <select class="custom-select mr-sm-2 required" formControlName="make" (change)="makeOnchange()"
                   [(ngModel)]="carDetails.make">
+                  <option selected></option>
                   <option *ngFor="let make of LOV.makeLOV" [ngValue]="make.COD_MARCA">{{ make.NOM_MARCA }}</option>
                 </select>
                 <p class="form-error" *ngIf="quickQuoteForm.controls['make'].errors?.required">

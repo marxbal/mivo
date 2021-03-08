@@ -66,6 +66,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
   showProductComparison: boolean = false;
   //flag to display product coverage
   showProductCoverage: boolean = false;
+  //flag to show 90 day notice
+  show90DayAlert: boolean = false;
   //modal reference
   modalRef: BsModalRef;
 
@@ -96,14 +98,14 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       _this.LOV.coverageLOV = res;
     });
     this.tls.getAgeRange().then(res => {
-      var ageList = [];
-      res.forEach((age) => {
-        //removes ages 66 and above
-        if (age.AGE_RANGE < 3) {
-          ageList.push(age);
-        }
-      });
-      _this.LOV.ageRangeLOV = ageList;
+      // var ageList = [];
+      // res.forEach((age) => {
+      //   //removes ages 66 and above
+      //   if (age.AGE_RANGE < 3) {
+      //     ageList.push(age);
+      //   }
+      // });
+      _this.LOV.ageRangeLOV = res;
     });
   }
 
@@ -158,6 +160,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     this.quickQuoteForm.get('endDate').valueChanges.subscribe(date => {
       var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days') + 1;
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+      this.show90DayAlert = this.travelDetails.noOfDays > 90 && this.travelDetails.travelPackage === "P";
     });
 
     this.quickQuoteForm.get('startDate').valueChanges.subscribe(date => {
@@ -173,8 +176,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       } else {
         this.travelDetails.endDate = null;
       }
-
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+      this.show90DayAlert = this.travelDetails.noOfDays > 90 && this.travelDetails.travelPackage === "P";
     });
 
     this.quickQuoteForm.get('country').valueChanges.subscribe(countries => {

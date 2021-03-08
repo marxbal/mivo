@@ -382,9 +382,9 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
         this.homeDetails.subline = generalInfo.codRamo;
 
         // this.homeDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza), {emitEvent:false});
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza.substr(0,10)), {emitEvent:false});
         // this.homeDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza), {emitEvent:false});
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza.substr(0,10)), {emitEvent:false});
         this.homeDetails.paymentMethod = generalInfo.codFraccPago;
   
         this.groupPolicy = new GroupPolicy;

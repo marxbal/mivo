@@ -453,7 +453,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "FEC_PURCHASE": {
-              this.carDetails.purchaseDate = new Date(value);
+              this.carDetails.purchaseDate = new Date(value.substr(0,10));
               this.quoteForm.get('purchaseDate').markAsDirty();
               break;
             }
@@ -462,7 +462,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "FEC_RECEIVED": {
-              this.carDetails.receivedDate = new Date(value);
+              this.carDetails.receivedDate = new Date(value.substr(0,10));
               this.quoteForm.get('receivedDate').markAsDirty();
               break;
             }
@@ -503,7 +503,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "FEC_GLASS_ETCHING": {
-              this.carDetails.glassEtchingAvailmentDate = new Date(value);
+              this.carDetails.glassEtchingAvailmentDate = new Date(value.substr(0,10));
               break;
             }
             case "TXT_EXT_DAM_PARTS": {
@@ -608,9 +608,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         this.carDetails.groupPolicy = this.groupPolicy;
   
         // this.carDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza), {emitEvent:false});
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza.substr(0,10)), {emitEvent:false});
         // this.carDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza), {emitEvent:false});
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza.substr(0,10)), {emitEvent:false});
   
         const docType = generalInfo.tipDocum;
         const docCode = generalInfo.codDocum;
