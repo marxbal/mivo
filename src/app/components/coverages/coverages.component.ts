@@ -73,7 +73,7 @@ export class CoveragesComponent implements OnInit {
 
   cForm: FormGroup;
   displayedColumns: string[] = ['included', 'coverage', 'sumInsured', 'netPremium', 'action'];
-  source: any[];
+  source: any[] = [];
   dataSource = new MatTableDataSource < TablesDTO > (this.source);
   cvddv: CoverageVariableData;
   triggerCounter: number;
@@ -84,12 +84,6 @@ export class CoveragesComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit() {
-    // for testing purposes
-    // this.coverageList = coverageList;
-    // this.amountList = amountList;
-    // this.coverageVariable = coverageVariable;
-    // this.premiumAmount = premiumAmount;
-    // this.coverageAmount = coverageAmount2;
     this.generateCoverage();
   }
 
