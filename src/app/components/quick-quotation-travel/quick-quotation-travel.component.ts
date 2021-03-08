@@ -155,14 +155,14 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       _this.LOV.countryLOV = res;
     });
 
-    this.show90DayAlert = this.travelDetails.noOfDays > 90 && this.travelDetails.travelPackage === "P";
+    this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
   }
 
   setValidations() {
     this.quickQuoteForm.get('endDate').valueChanges.subscribe(date => {
       var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days') + 1;
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
-      this.show90DayAlert = this.travelDetails.noOfDays > 90 && this.travelDetails.travelPackage === "P";
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
     });
 
     this.quickQuoteForm.get('startDate').valueChanges.subscribe(date => {
@@ -179,7 +179,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
         this.travelDetails.endDate = null;
       }
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
-      this.show90DayAlert = this.travelDetails.noOfDays > 90 && this.travelDetails.travelPackage === "P";
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
     });
 
     this.quickQuoteForm.get('country').valueChanges.subscribe(countries => {
