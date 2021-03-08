@@ -216,9 +216,6 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       obj.assist = coverage.assistOnly;
       obj.currency = coverage.currency;
       obj.code = coverage.code;
-      if (obj.label != '2500K') {
-        this.coverageData.push(obj);
-      }
     });
     // display product coverage
     this.showProductCoverage = true;
@@ -241,7 +238,9 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
           obj.personalAssistance = details.personalAssistance;
           obj.assist = details.assistOnly;
           obj.currency = details.currency;
-          this.travelData.push(obj);
+          if (details.label != '2500K') {
+            this.travelData.push(obj);
+          }
         });
 
         // hiding product coverage
