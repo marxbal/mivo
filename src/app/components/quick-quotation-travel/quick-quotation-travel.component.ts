@@ -154,6 +154,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       });
       _this.LOV.countryLOV = res;
     });
+
+    this.show90DayAlert = this.travelDetails.noOfDays > 90 && this.travelDetails.travelPackage === "P";
   }
 
   setValidations() {
