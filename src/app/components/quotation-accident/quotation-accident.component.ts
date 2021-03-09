@@ -224,7 +224,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   
           switch (code) {
             //general information details
-            //TODO
             case "COD_MODALIDAD": {
               this.accidentDetails.product = valueInt;
               break;
@@ -239,9 +238,9 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         const generalInfo = res.obj["generalInfo"];
         this.accidentDetails.subline = generalInfo.codRamo;
         // this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza), {emitEvent:false});
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza.substr(0,10)), {emitEvent:false});
         // this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
-        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza), {emitEvent:false});
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza.substr(0,10)), {emitEvent:false});
   
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;

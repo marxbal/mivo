@@ -345,6 +345,7 @@ const routes: Routes = [{
     PaymentBreakdownModalComponent,
     CreateThirdPartyComponent,
     RequestDetailsModalComponent,
+    CoverageVariableDataComponent,
     ViewDetailsModalComponent],
   imports: [
     AppRoutingModule,

@@ -153,7 +153,7 @@ export class CreateThirdPartyComponent implements OnInit {
     this.tpls.getDocumentType().then(res => {
       var types = [];
       res.forEach(r => {
-        if (r.TIP_DOCUM != 'OTH') {
+        if (r.TIP_DOCUM != 'OTH' && r.TIP_DOCUM != 'MVO') {
           types.push(r);
         }
       });

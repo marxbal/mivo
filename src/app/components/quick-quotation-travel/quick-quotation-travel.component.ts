@@ -66,6 +66,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
   showProductComparison: boolean = false;
   //flag to display product coverage
   showProductCoverage: boolean = false;
+  //flag to show 90 day notice
+  show90DayAlert: boolean = false;
   //modal reference
   modalRef: BsModalRef;
 
@@ -96,14 +98,14 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       _this.LOV.coverageLOV = res;
     });
     this.tls.getAgeRange().then(res => {
-      var ageList = [];
-      res.forEach((age) => {
-        //removes ages 66 and above
-        if (age.AGE_RANGE < 3) {
-          ageList.push(age);
-        }
-      });
-      _this.LOV.ageRangeLOV = ageList;
+      // var ageList = [];
+      // res.forEach((age) => {
+      //   //removes ages 66 and above
+      //   if (age.AGE_RANGE < 3) {
+      //     ageList.push(age);
+      //   }
+      // });
+      _this.LOV.ageRangeLOV = res;
     });
   }
 
@@ -152,12 +154,15 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       });
       _this.LOV.countryLOV = res;
     });
+
+    this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
   }
 
   setValidations() {
     this.quickQuoteForm.get('endDate').valueChanges.subscribe(date => {
       var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days') + 1;
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
     });
 
     this.quickQuoteForm.get('startDate').valueChanges.subscribe(date => {
@@ -173,8 +178,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       } else {
         this.travelDetails.endDate = null;
       }
-
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
     });
 
     this.quickQuoteForm.get('country').valueChanges.subscribe(countries => {
@@ -211,7 +216,6 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       obj.assist = coverage.assistOnly;
       obj.currency = coverage.currency;
       obj.code = coverage.code;
-      this.coverageData.push(obj);
     });
     // display product coverage
     this.showProductCoverage = true;
@@ -234,7 +238,9 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
           obj.personalAssistance = details.personalAssistance;
           obj.assist = details.assistOnly;
           obj.currency = details.currency;
-          this.travelData.push(obj);
+          if (details.label != '2500K') {
+            this.travelData.push(obj);
+          }
         });
 
         // hiding product coverage
