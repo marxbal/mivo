@@ -376,6 +376,15 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  convertVariableDate(date: string) {
+    var d = date.substr(0, 10);
+    var month = d.substr(0, 2);
+    var day = d.substr(3, 2);
+    var year = d.substr(6, 4);
+
+    return year + '-' + month + '-' + day;
+  }
+
   loadQuotation() {
     this.cqs.loadQuotation(this.carDetails.quotationNumber).then(res => {
       if (res.status) {
@@ -453,7 +462,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "FEC_PURCHASE": {
-              this.carDetails.purchaseDate = new Date(value.substr(0,10));
+              this.carDetails.purchaseDate = new Date(this.convertVariableDate(value));
               this.quoteForm.get('purchaseDate').markAsDirty();
               break;
             }
@@ -462,7 +471,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "FEC_RECEIVED": {
-              this.carDetails.receivedDate = new Date(value.substr(0,10));
+              this.carDetails.receivedDate = new Date(this.convertVariableDate(value));
               this.quoteForm.get('receivedDate').markAsDirty();
               break;
             }
@@ -503,7 +512,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               break;
             }
             case "FEC_GLASS_ETCHING": {
-              this.carDetails.glassEtchingAvailmentDate = new Date(value.substr(0,10));
+              this.carDetails.glassEtchingAvailmentDate = new Date(this.convertVariableDate(value));
               break;
             }
             case "TXT_EXT_DAM_PARTS": {
