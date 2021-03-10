@@ -403,8 +403,7 @@
             [optional]="false"
             [loadQuotation]="triggerCounter"
             [createList]="createList"
-            [policyHolderList]="policyHolderList"
-            (clearData)="clear($event)">
+            [policyHolderList]="policyHolderList">
           </app-policy-holder>
 
           <app-policy-holder
@@ -881,7 +880,9 @@
             [isIssuance]="isIssuance"
             [editMode]="editMode"
             [type]="'mortgagee'"
-            [optional]="false">
+            [optional]="false"
+            [createList]="createList"
+            [policyHolderList]="policyHolderList">
           </app-policy-holder>
 
           <app-policy-holder

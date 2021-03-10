@@ -444,11 +444,11 @@
 
   <div mat-dialog-actions align="end">
     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary" (click)="cancel()">
-        Clear
-      </button>
       <button [disabled]="tpForm.invalid" type="submit" class="btn btn-primary" (click)="create()">
         Create
+      </button>
+      <button type="button" class="btn btn-default" (click)="cancel()">
+        Clear
       </button>
     </div>
   </div>
