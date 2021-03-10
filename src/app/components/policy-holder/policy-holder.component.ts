@@ -115,6 +115,8 @@ export class PolicyHolderComponent implements OnInit {
     public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    var str = this.policyHolder.documentType + '-' + this.policyHolder.documentCode;
+    alert(str);
     this.createForm();
     this.setValidations();
     this.showContent = !this.optional;
