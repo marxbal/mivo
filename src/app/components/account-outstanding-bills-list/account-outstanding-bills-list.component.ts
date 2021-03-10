@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild
@@ -48,7 +49,7 @@ import {
   ActivatedRoute
 } from '@angular/router';
 import {
-  filter
+  filter, takeWhile
 } from 'rxjs/operators';
 
 @Component({
@@ -56,7 +57,8 @@ import {
   templateUrl: './account-outstanding-bills-list.component.html',
   styleUrls: ['./account-outstanding-bills-list.component.css']
 })
-export class AccountOutstandingBillsListComponent implements OnInit {
+export class AccountOutstandingBillsListComponent implements OnInit, OnDestroy {
+  isAlive = true;
   displayedColumns: string[] = [
     'policyNumber',
     'policyHolder',
@@ -126,6 +128,10 @@ export class AccountOutstandingBillsListComponent implements OnInit {
     this.createForm();
   }
 
+  ngOnDestroy() {
+    this.isAlive = false;
+  }
+
   createForm() {
     this.filterForm = this.fb.group({
       policyNumber: [null],
@@ -156,6 +162,23 @@ export class AccountOutstandingBillsListComponent implements OnInit {
 
   getList() {
     this.setPageFilters();
+    this.as.shouldReloadOutstandingBills.pipe(
+      takeWhile(() => this.isAlive)
+    ).subscribe((shouldReload: boolean) =>  {
+      if (shouldReload) {
+        this.as.getOutstandingBillsList(this.pageFilter).then((res) => {
+          this.as.shouldReloadOutstandingBills.next(false);
+          if (res.status) {
+            let data: ListAccountOutstandingBills[] = [];
+            data = res.obj['list'];
+            this.dataSource = new MatTableDataSource(data);
+            this.totalItem = res.obj['totalItem'];
+          } else {
+            this.modalRef = Utility.showError(this.bms, res.message);
+          }
+        });
+      }
+    });
     this.as.getOutstandingBillsList(this.pageFilter).then((res) => {
       if (res.status) {
         let data: ListAccountOutstandingBills[] = [];

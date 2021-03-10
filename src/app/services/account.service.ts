@@ -1,6 +1,8 @@
 import {
   Injectable
 } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
 import {
   AppService
 } from './app.service';
@@ -13,6 +15,8 @@ import {
 
 @Injectable()
 export class AccountService {
+
+  public shouldReloadOutstandingBills: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private app: AppService) {}
 

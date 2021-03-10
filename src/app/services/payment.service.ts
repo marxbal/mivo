@@ -9,6 +9,7 @@ import {
   AppService
 } from './app.service'
 import { environment } from '../../environments/environment';
+import { AccountService } from './account.service';
 
 @Injectable()
 export class PaymentService {
@@ -16,7 +17,8 @@ export class PaymentService {
   private baseUrl = environment.baseUrl;
 
   constructor(
-    private app: AppService) {}
+    private app: AppService,
+    private accountService: AccountService) {}
 
   getPaymentUrl(paymentRequest: PaymentRequest) {
     return this.app.post({
@@ -34,6 +36,9 @@ export class PaymentService {
   }
 
   processPaymentViaGlobalPay(params: any) {
-    return this.app.post(params, '/payment/paymentNotification/globalpay').then(response => response);
+    return this.app.post(params, '/payment/paymentNotification/globalpay').then(response => {
+      this.accountService.shouldReloadOutstandingBills.next(true);
+      return response;
+    });
   }
 }
