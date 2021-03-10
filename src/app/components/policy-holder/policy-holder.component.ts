@@ -317,13 +317,13 @@ export class PolicyHolderComponent implements OnInit {
     //   this.clearData.emit(null);
     // }
     if (this.type === 'primary') {
-      this.policyHolderList.primary = str;
+      this.policyHolderList.primary = '';
     } else if (this.type === 'secondary') {
-      this.policyHolderList.secondary = str;
+      this.policyHolderList.secondary = '';
     } else if (this.type === 'assignee') {
-      this.policyHolderList.assignee = str;
+      this.policyHolderList.assignee = '';
     } else if (this.type === 'owner') {
-      this.policyHolderList.owner = str;
+      this.policyHolderList.owner = '';
     }
 
     this.policyHolderListChange.emit(this.policyHolderList);
