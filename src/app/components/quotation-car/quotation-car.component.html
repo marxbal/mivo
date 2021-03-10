@@ -1149,7 +1149,7 @@
           <div *ngIf="!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == '')" class="alert alert-warning note">
             <p>
               <strong>Required:</strong> You are required to add <strong>Driver</strong>. 
-              Scroll to <button class="btn btn-warning" (click)="scrollTo('driver_panel')">Owner</button>
+              Scroll to <button class="btn btn-warning" (click)="scrollTo('driver_panel')">Driver</button>
             </p>
           </div>
           <!-- .note -->
@@ -1246,7 +1246,7 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) &&
-                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) &&
                   !(!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
@@ -1284,7 +1284,7 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) &&
-                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) &&
                   !(!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
@@ -1320,7 +1320,7 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) &&
-                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) &&
                   !(!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
