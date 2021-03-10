@@ -206,7 +206,7 @@ export class PolicyHolderComponent implements OnInit {
           this.createListChange.emit(this.createList);
 
           this.modalRef = Utility.showWarning(this.bms, "You are creating a policy holder with the same document type and document code, please use a different ID.");
-          tp.documentCode = null;
+          tp.documentCode = '';
           this.setPolicyHolder(tp);
         } else {
           this.createList.push(str);
