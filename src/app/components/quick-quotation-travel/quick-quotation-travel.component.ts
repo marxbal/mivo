@@ -98,14 +98,14 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       _this.LOV.coverageLOV = res;
     });
     this.tls.getAgeRange().then(res => {
-      // var ageList = [];
-      // res.forEach((age) => {
-      //   //removes ages 66 and above
-      //   if (age.AGE_RANGE < 3) {
-      //     ageList.push(age);
-      //   }
-      // });
-      _this.LOV.ageRangeLOV = res;
+      var ageList = [];
+      res.forEach((age) => {
+        //removes ages 66 and above
+        if (age.AGE_RANGE < 3) {
+          ageList.push(age);
+        }
+      });
+      _this.LOV.ageRangeLOV = ageList;
     });
   }
 
@@ -154,15 +154,13 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       });
       _this.LOV.countryLOV = res;
     });
-
-    this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
   }
 
   setValidations() {
     this.quickQuoteForm.get('endDate').valueChanges.subscribe(date => {
       var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days') + 1;
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
-      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.ageRange === '2';
     });
 
     this.quickQuoteForm.get('startDate').valueChanges.subscribe(date => {
@@ -179,7 +177,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
         this.travelDetails.endDate = null;
       }
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
-      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.travelPackage === "P";
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.ageRange === '2';
     });
 
     this.quickQuoteForm.get('country').valueChanges.subscribe(countries => {
@@ -198,6 +196,10 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
           this.travelDetails.travelPackage = "P";
         }
       }
+    });
+
+    this.quickQuoteForm.get('ageRange').valueChanges.subscribe(age => {
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && age === '2';
     });
   }
 
