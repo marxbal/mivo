@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div *ngIf="editMode && showButtons" class="col-md-12">
+        <div *ngIf="editMode" class="col-md-12">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="browse()">Browse</button>
             <button type="button" class="btn btn-primary" (click)="create()" *ngIf="showCreateBtn">Create</button>

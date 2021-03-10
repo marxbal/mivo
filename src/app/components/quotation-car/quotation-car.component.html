@@ -720,7 +720,7 @@
                           <input class="form-check-input" type="checkbox" id="cbPolicyOwner"
                             [(ngModel)]="carDetails.cbPolicyOwner"
                             formControlName="cbPolicyOwner"
-                            (change)="showOwner = !showOwner"
+                            (change)="toggleOwner()"
                             [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbPolicyOwner">
                             Is the Policy Holder the Owner?
@@ -735,7 +735,7 @@
                           <input class="form-check-input" type="checkbox" id="cbHasAssignee"
                             [(ngModel)]="carDetails.cbHasAssignee"
                             formControlName="cbHasAssignee"
-                            (change)="showAssignee = !showAssignee"
+                            (change)="toggleAssignee()"
                             [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbHasAssignee">
                             Has Assignee?

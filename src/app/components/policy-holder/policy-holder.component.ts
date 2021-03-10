@@ -104,8 +104,6 @@ export class PolicyHolderComponent implements OnInit {
   prefixLOV: any[];
   separatorLOV: any[];
 
-  showButtons: boolean = true; //TODO
-
   //modal reference
   modalRef: BsModalRef;
 

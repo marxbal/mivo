@@ -118,7 +118,12 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   //list of new/create policy holder
   createList: any[] = [];
   //list of policy holder/beneficiary
-  policyHolderList: {} = {
+  policyHolderList: {
+    primary: string,
+    secondary: string,
+    assignee: string,
+    owner: string,
+  } = {
     primary: '',
     secondary: '',
     assignee: '',
@@ -1160,6 +1165,22 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   cbIsNotRequiredAuthNumberChange() {
     var authNumber = this.quoteForm.get('authNumber');
     Utility.updateValidator(authNumber, this.carDetails.cbIsNotRequiredAuthNumber ? null : Validators.required);
+  }
+
+  toggleAssignee() {
+    this.showAssignee = this.carDetails.cbHasAssignee;
+    if (!this.showAssignee) {
+      this.policyHolderList.assignee = '';
+      this.assigneePolicyHolder = new PolicyHolder();
+    }
+  }
+
+  toggleOwner() {
+    this.showOwner = !this.carDetails.cbPolicyOwner;
+    if (!this.showOwner) {
+      this.policyHolderList.owner = '';
+      this.ownerPolicyHolder = new PolicyHolder();
+    }
   }
 
   authCOCRegistration() {
