@@ -61,6 +61,8 @@ export class PolicyHolderComponent implements OnInit {
     }
   }
 
+  @Output() clearData: EventEmitter<any> = new EventEmitter();
+
   @Output() policyHolderChange = new EventEmitter < PolicyHolder > ();
   
   _details: any;
@@ -94,6 +96,8 @@ export class PolicyHolderComponent implements OnInit {
   prefixLOV: any[];
   separatorLOV: any[];
 
+  showButtons: boolean = true;
+
   //modal reference
   modalRef: BsModalRef;
 
@@ -121,6 +125,8 @@ export class PolicyHolderComponent implements OnInit {
         this.cls.getPHSeparator().then(res => {
           _this.separatorLOV = res;
         });
+      } else if (this.type == 'owner') {
+        this.showButtons = !Utility.isUndefined(this.compareTo.documentCode);
       }
     }
   }
@@ -195,6 +201,9 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearch = false;
     this.showSearchResult = false;
     this.setPolicyHolder(new PolicyHolder());
+    if (this.type === 'primary') {
+      this.clearData.emit(null);
+    }
   }
 
   setPolicyHolder(update: PolicyHolder) {

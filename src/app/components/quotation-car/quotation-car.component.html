@@ -401,7 +401,8 @@
             [editMode]="editMode"
             [type]="'primary'"
             [optional]="false"
-            [loadQuotation]="triggerCounter">
+            [loadQuotation]="triggerCounter"
+            (clearData)="clear($event)">
           </app-policy-holder>
 
           <app-policy-holder
@@ -699,7 +700,8 @@
                       <div class="form-group">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbPolicyOnlyDriver"
-                            [(ngModel)]="carDetails.cbPolicyOnlyDriver" formControlName="cbPolicyOnlyDriver"
+                            [(ngModel)]="carDetails.cbPolicyOnlyDriver"
+                            formControlName="cbPolicyOnlyDriver"
                             [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbPolicyOnlyDriver">
                             Is the Policy Holder the only Driver?
@@ -712,7 +714,9 @@
                       <div class="form-group">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" id="cbPolicyOwner"
-                            [(ngModel)]="carDetails.cbPolicyOwner" formControlName="cbPolicyOwner"
+                            [(ngModel)]="carDetails.cbPolicyOwner"
+                            formControlName="cbPolicyOwner"
+                            (change)="showOwner = !showOwner"
                             [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbPolicyOwner">
                             Is the Policy Holder the Owner?
@@ -789,7 +793,7 @@
                     <label class="form-check-label" for="glassEtchingAvailmentDate">
                       Glass Etching Availment Date
                     </label>
-                    <input type="text" placeholder="Datepicker" class="form-control required" [minDate]="today"
+                    <input type="text" placeholder="Datepicker" class="form-control required"
                       [attr.disabled]="editMode && carDetails.cbGlassEtchingEntitled ? null : ''"
                       formControlName="glassEtchingAvailmentDate" [(ngModel)]="carDetails.glassEtchingAvailmentDate"
                       bsDatepicker>
@@ -872,6 +876,20 @@
             [editMode]="editMode"
             [type]="'mortgagee'"
             [optional]="false">
+          </app-policy-holder>
+
+          <app-policy-holder
+            *ngIf="isIssuance && showOwner"
+            [title]="'Owner Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="carDetails"
+            [(policyHolder)]="ownerPolicyHolder"
+            [compareTo]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'owner'"
+            [optional]="false"
+          >
           </app-policy-holder>
 
           <div *ngIf='isIssuance' class="card shadow mb-3">
@@ -1104,6 +1122,14 @@
           </div>
           <!-- .note -->
 
+          <div *ngIf="!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')" class="alert alert-warning note">
+            <p>
+              <strong>Required:</strong> You are required to add <strong>Owner</strong>. 
+              Scroll to <button class="btn btn-warning" (click)="scrollTo('owner_panel')">Owner</button>
+            </p>
+          </div>
+          <!-- .note -->
+
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
@@ -1172,7 +1198,8 @@
                   appPolicyHolder.phForm.invalid ||
                   (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
-                  (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                  (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">
@@ -1185,7 +1212,8 @@
                   !appPolicyHolder.phForm.invalid &&
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
-                  !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                  !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(1)">
@@ -1206,7 +1234,8 @@
                   appPolicyHolder.phForm.invalid ||
                   (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
-                  (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                  (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">
@@ -1219,7 +1248,8 @@
                   !appPolicyHolder.phForm.invalid &&
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
-                  !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                  !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(3)">
@@ -1238,7 +1268,8 @@
                   appPolicyHolder.phForm.invalid ||
                   (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
-                  (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                  (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">
@@ -1251,7 +1282,8 @@
                   !appPolicyHolder.phForm.invalid &&
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
-                  !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == ''))"
+                  !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(4)">
@@ -1341,6 +1373,9 @@
       </li>
       <li *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')">
         Mortgagee
+      </li>
+      <li *ngIf="!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')">
+        Owner
       </li>
     </ul>
   </mat-dialog-content>

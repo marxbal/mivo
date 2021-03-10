@@ -120,6 +120,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   secondaryPolicyHolder = new PolicyHolder();
   assigneePolicyHolder = new PolicyHolder();
   mortgageePolicyHolder = new PolicyHolder();
+  ownerPolicyHolder = new PolicyHolder();
+  driverPolicyHolder = [];
   coverageVariableData = new CoverageVariableData();
 
   quoteForm: FormGroup;
@@ -139,6 +141,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showCoverage: boolean = false;
   showAssignee: boolean = false;
   showMortgagee: boolean = false;
+  showOwner: boolean = false;
 
   //for payment breakdown
   paymentBreakdown: any[];
@@ -263,6 +266,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
 
     this.setDefaultValue();
+  }
+  
+  clear() {
+    this.ownerPolicyHolder = new PolicyHolder();
+    this.driverPolicyHolder = [];
   }
 
   setDefaultValue() {
@@ -651,6 +659,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.mortgageePolicyHolder.documentCode = ben.codDocum;
               this.mortgageePolicyHolder.documentType = ben.tipDocum;
               this.mortgageePolicyHolder.isExisting = true;
+            } else if (ben.tipBenef == 4) {
+              this.showOwner = true;
+              this.ownerPolicyHolder.documentCode = ben.codDocum;
+              this.ownerPolicyHolder.documentType = ben.tipDocum;
+              this.ownerPolicyHolder.isExisting = true;
             } else if (ben.tipBenef == 20) {
               var name = "";
               subAgentList.forEach(sa => {
@@ -1640,6 +1653,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.assigneePolicyHolder = this.assigneePolicyHolder;
     // includes mortgagee policy holder to car details DTO
     this.carDetails.mortgageePolicyHolder = this.mortgageePolicyHolder;
+    // includes owner policy holder to car details DTO
+    this.carDetails.ownerPolicyHolder = this.ownerPolicyHolder;
     // includes coverage variable data to car details DTO
     this.carDetails.coverageVariableData = this.coverageVariableData;
 
