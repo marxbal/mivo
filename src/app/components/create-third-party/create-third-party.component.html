@@ -444,8 +444,8 @@
 
   <div mat-dialog-actions align="end">
     <div class="btn-group" role="group">
-      <button *ngIf="!tpForm.invalid" type="button" class="btn btn-primary" (click)="create()">
-        Cancel
+      <button type="button" class="btn btn-primary" (click)="cancel()">
+        Clear
       </button>
       <button [disabled]="tpForm.invalid" type="submit" class="btn btn-primary" (click)="create()">
         Create

@@ -198,7 +198,6 @@ export class PolicyHolderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(thirdParty => {
-      alert(thirdParty);
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
         var tp = thirdParty as PolicyHolder;
@@ -215,6 +214,8 @@ export class PolicyHolderComponent implements OnInit {
           this.createListChange.emit(this.createList);
           this.validate(str, tp);
         }
+      } else {
+        this.clear();
       }
     });
   }
