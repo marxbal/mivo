@@ -198,13 +198,16 @@ export class PolicyHolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(thirdParty => {
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
+        var tp = thirdParty as PolicyHolder;
         var str = thirdParty.documentType + '-' + thirdParty.documentCode;
         if (this.checkDuplicate(str)) {
-          this.modalRef = Utility.showWarning(this.bms, "Duplicate document type and code, please use a different ID.");
+          this.modalRef = Utility.showWarning(this.bms, "You are creating a policy holder with the same document type and document code, please use a different ID.");
+          tp.documentCode = null;
+          this.setPolicyHolder(tp);
         } else {
           this.createList.push(str);
           this.createListChange.emit(this.createList);
-          this.validate(str, thirdParty);
+          this.validate(str, tp);
 
           // if (this.type == 'primary') {
           //   if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str) {
