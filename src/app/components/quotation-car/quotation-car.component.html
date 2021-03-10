@@ -1213,7 +1213,7 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
-                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(1)">
@@ -1249,7 +1249,7 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
-                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(3)">
@@ -1283,7 +1283,7 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
-                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(4)">
