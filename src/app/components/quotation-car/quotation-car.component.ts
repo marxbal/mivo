@@ -115,6 +115,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   invalidForms: any[] = [];
   withTechControl = false;
 
+  //list of new/create policy holder
+  createList: any[] = [];
+
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   secondaryPolicyHolder = new PolicyHolder();

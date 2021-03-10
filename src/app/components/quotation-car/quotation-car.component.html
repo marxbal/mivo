@@ -402,6 +402,7 @@
             [type]="'primary'"
             [optional]="false"
             [loadQuotation]="triggerCounter"
+            [createList]="createList"
             (clearData)="clear($event)">
           </app-policy-holder>
 
@@ -414,7 +415,8 @@
             [isIssuance]="isIssuance"
             [editMode]="editMode"
             [type]="'secondary'"
-            [optional]="true">
+            [optional]="true"
+            [createList]="createList">
           </app-policy-holder>
 
           <app-group-policy
@@ -863,7 +865,8 @@
             [isIssuance]="isIssuance"
             [editMode]="editMode"
             [type]="'assignee'"
-            [optional]="false">
+            [optional]="false"
+            [createList]="createList">
           </app-policy-holder>
 
           <app-policy-holder
@@ -889,7 +892,7 @@
             [editMode]="editMode"
             [type]="'owner'"
             [optional]="false"
-          >
+            [createList]="createList">
           </app-policy-holder>
 
           <div *ngIf='isIssuance' class="card shadow mb-3">
