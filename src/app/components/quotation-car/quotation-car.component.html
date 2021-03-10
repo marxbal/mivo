@@ -1146,6 +1146,14 @@
           </div>
           <!-- .note -->
 
+          <div *ngIf="!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == '')" class="alert alert-warning note">
+            <p>
+              <strong>Required:</strong> You are required to add <strong>Driver</strong>. 
+              Scroll to <button class="btn btn-warning" (click)="scrollTo('driver_panel')">Owner</button>
+            </p>
+          </div>
+          <!-- .note -->
+
           <div *ngIf="!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')" class="alert alert-warning note">
             <p>
               <strong>Required:</strong> You are required to add <strong>Owner</strong>. 
@@ -1223,7 +1231,8 @@
                   (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                   (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
-                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">
@@ -1237,7 +1246,8 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) &&
-                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  !(!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(1)">
@@ -1259,7 +1269,8 @@
                   (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                   (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
-                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">
@@ -1273,7 +1284,8 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) &&
-                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  !(!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(3)">
@@ -1293,7 +1305,8 @@
                   (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) ||
                   (carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) ||
                   (carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) ||
-                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  (!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  (!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">
@@ -1307,7 +1320,8 @@
                   !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
                   !(carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')) &&
                   !(carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')) &&
-                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == ''))"
+                  !(!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')) ||
+                  !(!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == ''))"
                 type="button"
                 class="btn btn-primary"
                 (click)="proceed(4)">
@@ -1397,6 +1411,9 @@
       </li>
       <li *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')">
         mortgagee policy holder
+      </li>
+      <li *ngIf="!carDetails.cbPolicyOnlyDriver && (driverPolicyHolder.documentCode == undefined || driverPolicyHolder.documentCode == '')">
+        driver policy holder
       </li>
       <li *ngIf="!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')">
         owner policy holder
