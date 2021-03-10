@@ -498,6 +498,10 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.quoteForm.get('receivedDate').markAsDirty();
               break;
             }
+            case "NOM_RIESGO_CUSTOM": {
+              this.carDetails.customRiskName = value;
+              break;
+            }
             case "NUM_PLAZAS": {
               this.carDetails.seatingCapacity = valueInt;
               break;
