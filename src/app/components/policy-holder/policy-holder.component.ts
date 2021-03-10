@@ -197,6 +197,8 @@ export class PolicyHolderComponent implements OnInit {
       if (!Utility.isUndefined(thirdParty)) {
         var str = thirdParty.documentType + '-' + thirdParty.documentCode;
         if (this.checkDuplicate(str)) {
+          this.modalRef = Utility.showWarning(this.bms, "Duplicate document type and code, please use a different ID.");
+        } else {
           alert(this.createList);
           this.createList.push(str);
           this.createListChange.emit(this.createList);
@@ -215,8 +217,6 @@ export class PolicyHolderComponent implements OnInit {
           } else {
             this.setPolicyHolder(thirdParty);
           }
-        } else {
-          this.modalRef = Utility.showWarning(this.bms, "Duplicate document type and code, please use a different ID.");
         }
       }
     });

@@ -59,8 +59,8 @@
         <div *ngIf="showPersonDetails" class="col-md-4">
           <div class="form-group">
             <label for="prefix">Prefix</label>
-            <option selected></option>
             <select class="custom-select mr-sm-2" formControlName="prefix" [(ngModel)]="thirdParty.prefix">
+              <option selected></option>
               <option *ngFor="let pre of TPLOV.prefixLOV" [ngValue]="pre.TIP_PREFIJO_NOMBRE">{{ pre.NOM_VALOR }}</option>
             </select>
           </div>
