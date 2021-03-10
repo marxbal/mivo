@@ -52,6 +52,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() optional: boolean;
   @Input() editMode: boolean;
   @Input() showPrefix: boolean = true;
+  @Input() createList: any[];
   @Input()
   set loadQuotation(value: number) {
     this.triggerCounter = value;
@@ -62,8 +63,8 @@ export class PolicyHolderComponent implements OnInit {
   }
 
   @Output() clearData: EventEmitter<any> = new EventEmitter();
-
   @Output() policyHolderChange = new EventEmitter < PolicyHolder > ();
+  @Output() createListChange = new EventEmitter < any[] > ();
   
   _details: any;
   triggerCounter: number;
@@ -173,9 +174,11 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearch = false;
     this.showSearchResult = false;
 
-    var label = this.type == 'secondary' ? "Alternative " :
+    var label = 
+      this.type == 'secondary' ? "Alternative " :
       this.type == 'assignee' ? "Assignee " :
-      this.type == 'morgagee' ? "Mortagee " : '';
+      this.type == 'morgagee' ? "Mortagee " :
+      this.type == 'owner' ? "Owner " : '';
 
     let title = "Create " + label + "Policy Holder";
 
@@ -192,12 +195,49 @@ export class PolicyHolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(thirdParty => {
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
-        this.setPolicyHolder(thirdParty);
+        var str = thirdParty.documentType + '-' + thirdParty.documentCode;
+        if (this.checkDuplicate(str)) {
+          alert(this.createList);
+          this.createList.push(str);
+          this.createListChange.emit(this.createList);
+          if (!Utility.isUndefined(this.compareTo) &&
+            (this.type == 'primary' || this.type == 'assignee') &&
+            this.compareTo.documentCode == thirdParty.documentCode &&
+            this.compareTo.documentType == thirdParty.documentType) {
+            // preventing user to choose same policy holder for both primary and assignee
+            this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Assignee can not be the same, choose or create a new one.");
+          } else if (!Utility.isUndefined(this.compareTo) && 
+            this.type === 'owner' &&
+            this.compareTo.documentCode == thirdParty.documentCode  &&
+            this.compareTo.documentType == thirdParty.documentType) {
+            // preventing user to choose same policy holder for both primary and owner
+            this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Owner can not be the same, choose or create a new one.");
+          } else {
+            this.setPolicyHolder(thirdParty);
+          }
+        } else {
+          this.modalRef = Utility.showWarning(this.bms, "Duplicate document type and code, please use a different ID.");
+        }
       }
     });
   }
 
+  checkDuplicate(str : string) {
+    var isDuplicated = false;
+    this.createList.forEach((res) => {
+      if (res === str) {
+        isDuplicated = true;
+      }
+    });
+    return isDuplicated;
+  }
+
   clear() {
+    var str = this.policyHolder.documentType + '-' + this.policyHolder.documentCode;
+    this.createList.splice(this.createList.indexOf(str), 1);
+    this.createListChange.emit(this.createList);
+    alert(this.createList);
+
     this.showSearch = false;
     this.showSearchResult = false;
     this.setPolicyHolder(new PolicyHolder());
@@ -252,6 +292,12 @@ export class PolicyHolderComponent implements OnInit {
         this.compareTo.documentType == row.tipDocum) {
         // preventing user to choose same policy holder for both primary and assignee
         this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Assignee can not be the same, choose or create a new one.");
+      } else if (!Utility.isUndefined(this.compareTo) && 
+        this.type === 'owner' &&
+        this.compareTo.documentCode == row.codDocum &&
+        this.compareTo.documentType == row.tipDocum) {
+        // preventing user to choose same policy holder for both primary and owner
+        this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Owner can not be the same, choose or create a new one.");
       } else {
         this.showSearch = false;
         this.showSearchResult = false;

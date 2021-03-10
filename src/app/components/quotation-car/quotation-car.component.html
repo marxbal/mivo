@@ -1366,16 +1366,16 @@
         {{item}}
       </li>
       <li *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined">
-        Alternative Policy holder Separator
+        alternative policy holder separator
       </li>
       <li *ngIf="carDetails.cbHasAssignee && (assigneePolicyHolder.documentCode == undefined || assigneePolicyHolder.documentCode == '')">
-        Assignee
+        assignee policy holder
       </li>
       <li *ngIf="carDetails.cbVehicleMortgaged && (mortgageePolicyHolder.documentCode == undefined || mortgageePolicyHolder.documentCode == '')">
-        Mortgagee
+        mortgagee policy holder
       </li>
       <li *ngIf="!carDetails.cbPolicyOwner && (ownerPolicyHolder.documentCode == undefined || ownerPolicyHolder.documentCode == '')">
-        Owner
+        owner policy holder
       </li>
     </ul>
   </mat-dialog-content>
