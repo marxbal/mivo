@@ -68,7 +68,7 @@ export class Car {
   assigneePolicyHolder: PolicyHolder;
   mortgageePolicyHolder: PolicyHolder;
   ownerPolicyHolder: PolicyHolder;
-  driverPolicyHolder: Array <PolicyHolder> = [];
+  driverPolicyHolder: PolicyHolder;
 
   //group policy
   groupPolicy: GroupPolicy;

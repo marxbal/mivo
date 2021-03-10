@@ -123,11 +123,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     secondary: string,
     assignee: string,
     owner: string,
+    driver: string
   } = {
     primary: '',
     secondary: '',
     assignee: '',
-    owner: ''
+    owner: '',
+    driver: ''
   };
 
   groupPolicy = new GroupPolicy();
@@ -136,7 +138,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   assigneePolicyHolder = new PolicyHolder();
   mortgageePolicyHolder = new PolicyHolder();
   ownerPolicyHolder = new PolicyHolder();
-  driverPolicyHolder = [];
+  driverPolicyHolder = new PolicyHolder();
   coverageVariableData = new CoverageVariableData();
 
   quoteForm: FormGroup;
@@ -157,6 +159,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   showAssignee: boolean = false;
   showMortgagee: boolean = false;
   showOwner: boolean = false;
+  showDriver: boolean = false;
 
   //for payment breakdown
   paymentBreakdown: any[];
@@ -281,11 +284,6 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     }
 
     this.setDefaultValue();
-  }
-  
-  clear() {
-    this.ownerPolicyHolder = new PolicyHolder();
-    this.driverPolicyHolder = [];
   }
 
   setDefaultValue() {
@@ -655,6 +653,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           this.policyHolder.documentType = docType;
           this.policyHolder.documentCode = docCode;
           this.policyHolder.isExisting = true;
+          this.policyHolderList.primary = docType + '-' + docCode;
         }
   
         this.carDetails.paymentMethod = generalInfo.codFraccPago;
@@ -664,15 +663,18 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         var subAgents : any[] = [];
         if (beneficiary.length) {
           beneficiary.forEach((ben: any) => {
+            var str = ben.tipDocum + '-' + ben.codDocum;
             if (ben.tipBenef == 1) {
               this.secondaryPolicyHolder.documentCode = ben.codDocum;
               this.secondaryPolicyHolder.documentType = ben.tipDocum;
               this.secondaryPolicyHolder.isExisting = true;
+              this.policyHolderList.secondary = str;
             } else if (ben.tipBenef == 27) {
               this.showAssignee = true;
               this.assigneePolicyHolder.documentCode = ben.codDocum;
               this.assigneePolicyHolder.documentType = ben.tipDocum;
               this.assigneePolicyHolder.isExisting = true;
+              this.policyHolderList.assignee = str;
             } else if (ben.tipBenef == 8) {
               this.showMortgagee = true;
               this.mortgageePolicyHolder.documentCode = ben.codDocum;
@@ -683,6 +685,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.ownerPolicyHolder.documentCode = ben.codDocum;
               this.ownerPolicyHolder.documentType = ben.tipDocum;
               this.ownerPolicyHolder.isExisting = true;
+              this.policyHolderList.owner = str;
+            } else if (ben.tipBenef == 3) {
+              this.showDriver = true;
+              this.driverPolicyHolder.documentCode = ben.codDocum;
+              this.driverPolicyHolder.documentType = ben.tipDocum;
+              this.driverPolicyHolder.isExisting = true;
+              this.policyHolderList.driver = str;
             } else if (ben.tipBenef == 20) {
               var name = "";
               subAgentList.forEach(sa => {
@@ -1171,11 +1180,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     Utility.updateValidator(authNumber, this.carDetails.cbIsNotRequiredAuthNumber ? null : Validators.required);
   }
 
-  toggleAssignee() {
-    this.showAssignee = this.carDetails.cbHasAssignee;
-    if (!this.showAssignee) {
-      this.policyHolderList.assignee = '';
-      this.assigneePolicyHolder = new PolicyHolder();
+  toggleDriver() {
+    this.showDriver = !this.carDetails.cbPolicyOnlyDriver;
+    if (!this.showDriver) {
+      this.policyHolderList.driver = '';
+      this.driverPolicyHolder = new PolicyHolder();
     }
   }
 
@@ -1184,6 +1193,14 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     if (!this.showOwner) {
       this.policyHolderList.owner = '';
       this.ownerPolicyHolder = new PolicyHolder();
+    }
+  }
+
+  toggleAssignee() {
+    this.showAssignee = this.carDetails.cbHasAssignee;
+    if (!this.showAssignee) {
+      this.policyHolderList.assignee = '';
+      this.assigneePolicyHolder = new PolicyHolder();
     }
   }
 
@@ -1690,6 +1707,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
     this.carDetails.mortgageePolicyHolder = this.mortgageePolicyHolder;
     // includes owner policy holder to car details DTO
     this.carDetails.ownerPolicyHolder = this.ownerPolicyHolder;
+    // includes driver policy holder to car details DTO
+    this.carDetails.driverPolicyHolder = this.driverPolicyHolder;
     // includes coverage variable data to car details DTO
     this.carDetails.coverageVariableData = this.coverageVariableData;
 

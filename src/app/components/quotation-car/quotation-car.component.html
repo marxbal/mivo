@@ -705,6 +705,7 @@
                           <input class="form-check-input" type="checkbox" id="cbPolicyOnlyDriver"
                             [(ngModel)]="carDetails.cbPolicyOnlyDriver"
                             formControlName="cbPolicyOnlyDriver"
+                            (change)="toggleDriver()"
                             [attr.disabled]="editMode ? null : true">
                           <label class="form-check-label" for="cbPolicyOnlyDriver">
                             Is the Policy Holder the only Driver?
@@ -857,6 +858,36 @@
           </div>
 
           <app-policy-holder
+            *ngIf="isIssuance && showDriver"
+            [title]="'Driver Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="carDetails"
+            [(policyHolder)]="driverPolicyHolder"
+            [compareTo]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'driver'"
+            [optional]="false"
+            [createList]="createList"
+            [policyHolderList]="policyHolderList">
+          </app-policy-holder>
+
+          <app-policy-holder
+            *ngIf="isIssuance && showOwner"
+            [title]="'Owner Policy Holder Information'"
+            [showCreateBtn]="true"
+            [details]="carDetails"
+            [(policyHolder)]="ownerPolicyHolder"
+            [compareTo]="policyHolder"
+            [isIssuance]="isIssuance"
+            [editMode]="editMode"
+            [type]="'owner'"
+            [optional]="false"
+            [createList]="createList"
+            [policyHolderList]="policyHolderList">
+          </app-policy-holder>
+
+          <app-policy-holder
             *ngIf="isIssuance && showAssignee"
             [title]="'Assignee Policy Holder Information'"
             [showCreateBtn]="true"
@@ -880,21 +911,6 @@
             [isIssuance]="isIssuance"
             [editMode]="editMode"
             [type]="'mortgagee'"
-            [optional]="false"
-            [createList]="createList"
-            [policyHolderList]="policyHolderList">
-          </app-policy-holder>
-
-          <app-policy-holder
-            *ngIf="isIssuance && showOwner"
-            [title]="'Owner Policy Holder Information'"
-            [showCreateBtn]="true"
-            [details]="carDetails"
-            [(policyHolder)]="ownerPolicyHolder"
-            [compareTo]="policyHolder"
-            [isIssuance]="isIssuance"
-            [editMode]="editMode"
-            [type]="'owner'"
             [optional]="false"
             [createList]="createList"
             [policyHolderList]="policyHolderList">

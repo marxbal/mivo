@@ -58,7 +58,8 @@ export class PolicyHolderComponent implements OnInit {
     primary: string,
     secondary: string,
     assignee: string,
-    owner: string
+    owner: string,
+    driver: string
   };
   @Input()
   set loadQuotation(value: number) {
@@ -181,7 +182,8 @@ export class PolicyHolderComponent implements OnInit {
       this.type == 'secondary' ? "Alternative " :
       this.type == 'assignee' ? "Assignee " :
       this.type == 'morgagee' ? "Mortagee " :
-      this.type == 'owner' ? "Owner " : '';
+      this.type == 'owner' ? "Owner " :
+      this.type == 'driver' ? "Driver " : '';
 
     let title = "Create " + label + "Policy Holder";
 
@@ -236,8 +238,8 @@ export class PolicyHolderComponent implements OnInit {
     }
 
     if (this.type == 'primary') {
-      if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str) {
-        this.modalRef = Utility.showWarning(this.bms, "Primary Policy Holder should not be the same to Assignee or Owner, please choose or create a new one.");
+      if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str || this.policyHolderList.driver === str) {
+        this.modalRef = Utility.showWarning(this.bms, "Primary Policy Holder should not be the same to Assignee, Owner or Driver, please choose or create a new one.");
       } else {
         this.policyHolderList.primary = str;
         this.policyHolderListChange.emit(this.policyHolderList);
@@ -263,6 +265,14 @@ export class PolicyHolderComponent implements OnInit {
         this.policyHolderListChange.emit(this.policyHolderList);
         this.setPolicyHolder(tp);
       }
+    } else if (this.type == 'driver') {
+      if (this.policyHolderList.primary === str) {
+        this.modalRef = Utility.showWarning(this.bms, "Driver Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+      } else {
+        this.policyHolderList.driver = str;
+        this.policyHolderListChange.emit(this.policyHolderList);
+        this.setPolicyHolder(tp);
+      }
     } else {
       this.setPolicyHolder(tp);
     }
@@ -285,6 +295,8 @@ export class PolicyHolderComponent implements OnInit {
       this.policyHolderList.assignee = '';
     } else if (this.type === 'owner') {
       this.policyHolderList.owner = '';
+    } else if (this.type === 'driver') {
+      this.policyHolderList.driver = '';
     }
 
     this.policyHolderListChange.emit(this.policyHolderList);
