@@ -35,6 +35,7 @@ import {
 import {
   CarLOVServices
 } from 'src/app/services/lov/car.service';
+import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
 
 @Component({
   selector: 'app-policy-holder',
@@ -112,7 +113,14 @@ export class PolicyHolderComponent implements OnInit {
     private bms: BsModalService,
     private tps: ThirdPartyService,
     private cls: CarLOVServices,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private cdref: ChangeDetectorRef) {}
+
+    ngAfterContentChecked() {
+
+      this.cdref.detectChanges();
+  
+    }
 
   ngOnInit(): void {
     this.createForm();
