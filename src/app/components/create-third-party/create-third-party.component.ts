@@ -31,6 +31,7 @@ import {
   BsModalService,
   BsModalRef
 } from 'ngx-bootstrap/modal';
+import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
 
 @Component({
   selector: 'app-create-third-party',
@@ -63,7 +64,14 @@ export class CreateThirdPartyComponent implements OnInit {
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices,
     private tps: ThirdPartyService,
-    private bms: BsModalService) {}
+    private bms: BsModalService,
+    private cdref: ChangeDetectorRef) {}
+
+    ngAfterContentChecked() {
+
+      this.cdref.detectChanges();
+  
+    }
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
