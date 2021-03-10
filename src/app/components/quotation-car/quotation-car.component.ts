@@ -117,6 +117,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
   //list of new/create policy holder
   createList: any[] = [];
+  //list of policy holder/beneficiary
+  policyHolderList: {} = {
+    primary: '',
+    secondary: '',
+    assignee: '',
+    owner: ''
+  };
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
