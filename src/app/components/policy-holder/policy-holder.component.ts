@@ -193,7 +193,8 @@ export class PolicyHolderComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CreateThirdPartyComponent, {
       width: '1000px',
-      data: modalData
+      data: modalData,
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(thirdParty => {
