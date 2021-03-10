@@ -1106,6 +1106,7 @@
             </div>
           </div>
 
+          {{carDetails.secondaryPolicyHolderSeparator}}
           <div *ngIf="secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && carDetails.secondaryPolicyHolderSeparator == undefined" class="alert alert-warning note">
             <p>
               <strong>Required:</strong> You need to fill out Alternative Policy holder <strong>Separator</strong>.
