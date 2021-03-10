@@ -45,7 +45,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() title: String;
   @Input() showCreateBtn: boolean;
   @Input() policyHolder: PolicyHolder;
-  @Input() compareTo: PolicyHolder;
+  @Input() compareTo: PolicyHolder; //TODO
   @Input() details: any;
   @Input() isIssuance: boolean;
   @Input() type: String;
@@ -201,6 +201,9 @@ export class PolicyHolderComponent implements OnInit {
         var tp = thirdParty as PolicyHolder;
         var str = thirdParty.documentType + '-' + thirdParty.documentCode;
         if (this.checkDuplicate(str)) {
+          this.createList.splice(this.createList.indexOf(str), 1);
+          this.createListChange.emit(this.createList);
+
           this.modalRef = Utility.showWarning(this.bms, "You are creating a policy holder with the same document type and document code, please use a different ID.");
           tp.documentCode = null;
           this.setPolicyHolder(tp);
@@ -208,49 +211,6 @@ export class PolicyHolderComponent implements OnInit {
           this.createList.push(str);
           this.createListChange.emit(this.createList);
           this.validate(str, tp);
-
-          // if (this.type == 'primary') {
-          //   if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str) {
-          //     this.modalRef = Utility.showWarning(this.bms, "Primary Policy Holder should not be the same to Assignee or Owner, please choose or create a new one.");
-          //   } else {
-          //     this.policyHolderList.primary = str;
-          //     this.setPolicyHolder(thirdParty);
-          //   }
-          // } else if (this.type == 'secondary') {
-          //   this.policyHolderList.secondary = str;
-          //   this.setPolicyHolder(thirdParty);
-          // } else if (this.type == 'assignee') {
-          //   if (this.policyHolderList.primary === str) {
-          //     this.modalRef = Utility.showWarning(this.bms, "Assignee Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
-          //   } else {
-          //     this.policyHolderList.assignee = str;
-          //     this.setPolicyHolder(thirdParty);
-          //   }
-          // } else if (this.type == 'owner') {
-          //   if (this.policyHolderList.primary === str) {
-          //     this.modalRef = Utility.showWarning(this.bms, "Owner Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
-          //   } else {
-          //     this.policyHolderList.owner = str;
-          //     this.setPolicyHolder(thirdParty);
-          //   }
-          // } else {
-          //   this.setPolicyHolder(thirdParty);
-          // }
-          // if (!Utility.isUndefined(this.compareTo) &&
-          //   (this.type == 'primary' || this.type == 'assignee') &&
-          //   this.compareTo.documentCode == thirdParty.documentCode &&
-          //   this.compareTo.documentType == thirdParty.documentType) {
-          //   // preventing user to choose same policy holder for both primary and assignee
-          //   this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Assignee can not be the same, choose or create a new one.");
-          // } else if (!Utility.isUndefined(this.compareTo) && 
-          //   this.type === 'owner' &&
-          //   this.compareTo.documentCode == thirdParty.documentCode  &&
-          //   this.compareTo.documentType == thirdParty.documentType) {
-          //   // preventing user to choose same policy holder for both primary and owner
-          //   this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Owner can not be the same, choose or create a new one.");
-          // } else {
-          //   this.setPolicyHolder(thirdParty);
-          // }
         }
       }
     });
@@ -314,9 +274,7 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearch = false;
     this.showSearchResult = false;
     this.setPolicyHolder(new PolicyHolder());
-    // if (this.type === 'primary') {
-    //   this.clearData.emit(null);
-    // }
+
     if (this.type === 'primary') {
       this.policyHolderList.primary = '';
     } else if (this.type === 'secondary') {
@@ -328,7 +286,6 @@ export class PolicyHolderComponent implements OnInit {
     }
 
     this.policyHolderListChange.emit(this.policyHolderList);
-    console.log(this.policyHolderList);
   }
 
   setPolicyHolder(update: PolicyHolder) {
@@ -383,41 +340,11 @@ export class PolicyHolderComponent implements OnInit {
       tp.lastName = this.lastName;
 
       this.validate(str, tp, true);
-
-      // if (!Utility.isUndefined(this.compareTo) &&
-      //   (this.type == 'primary' || this.type == 'assignee') &&
-      //   this.compareTo.documentCode == row.codDocum &&
-      //   this.compareTo.documentType == row.tipDocum) {
-      //   // preventing user to choose same policy holder for both primary and assignee
-      //   this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Assignee can not be the same, choose or create a new one.");
-      // } else if (!Utility.isUndefined(this.compareTo) && 
-      //   this.type === 'owner' &&
-      //   this.compareTo.documentCode == row.codDocum &&
-      //   this.compareTo.documentType == row.tipDocum) {
-      //   // preventing user to choose same policy holder for both primary and owner
-      //   this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Owner can not be the same, choose or create a new one.");
-      // } else {
-      //   this.addTp(row)
-      // }
     } else {
       var completeName = this.policyHolderType == "P" ? this.firstName + " " + this.lastName : this.firstName;
       this.modalRef = Utility.showError(this.bms, "Incorrect document code entered for " + completeName);
     }
   }
-
-  // addTp(row: any) {
-  //   this.showSearch = false;
-  //   this.showSearchResult = false;
-
-  //   this.policyHolder.isExisting = true;
-  //   this.policyHolder.isPerson = this.policyHolderType == "P";
-  //   this.policyHolder.documentCode = row.codDocum;
-  //   this.policyHolder.documentType = row.tipDocum;
-  //   this.policyHolder.firstName = this.firstName;
-  //   this.policyHolder.lastName = this.lastName;
-
-  //   this.setPolicyHolder(this.policyHolder);
-  // }
 }
 
 // for testing
