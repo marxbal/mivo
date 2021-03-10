@@ -67,11 +67,9 @@ export class CreateThirdPartyComponent implements OnInit {
     private bms: BsModalService,
     private cdref: ChangeDetectorRef) {}
 
-    ngAfterContentChecked() {
-
-      this.cdref.detectChanges();
-  
-    }
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
