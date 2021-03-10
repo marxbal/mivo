@@ -216,6 +216,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       obj.assist = coverage.assistOnly;
       obj.currency = coverage.currency;
       obj.code = coverage.code;
+      this.coverageData.push(obj);
     });
     // display product coverage
     this.showProductCoverage = true;
