@@ -14,15 +14,6 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
-// import {
-//   CarQuoteServices
-// } from 'src/app/services/car-quote.service';
-// import {
-//   TravelIssueServices
-// } from 'src/app/services/travel-issue.service';
-// import {
-//   AccidentIssueServices
-// } from 'src/app/services/accident-issue.service';
 import {
   PrintingService
 } from 'src/app/services/printing.service';
@@ -36,7 +27,6 @@ export interface TablesDTO {
   premium: number;
   netPremium: number;
   tax: number;
-  commission: number;
 }
 
 @Component({
@@ -48,9 +38,6 @@ export interface TablesDTO {
 export class PaymentBreakdownModalComponent implements OnInit {
 
   constructor(
-    // private cqs: CarQuoteServices,
-    // private tis: TravelIssueServices,
-    // private ais: AccidentIssueServices,
     private ps: PrintingService,
     public dialogRef: MatDialogRef < PaymentBreakdownModalComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
@@ -61,6 +48,9 @@ export class PaymentBreakdownModalComponent implements OnInit {
   payment = this.data.payment;
   isPostPolicy = this.data.isPostPolicy;
   line = this.data.line;
+
+  commission: any = 0;
+  currencyCode: any = 'PHP';
 
   ngOnInit(): void {
     this.data.receipt.forEach((receipt) => {
@@ -82,17 +72,18 @@ export class PaymentBreakdownModalComponent implements OnInit {
       } else if (currency == "3") {
         currencyCode = "EUR"
       }
+      this.currencyCode = currencyCode;
 
       var efectivityDate = new Date(receipt["fecEfecRecibo"].substr(0, 10));
       var dueDate = new Date(receipt["fecVctoRecibo"].substr(0, 10));
+      this.commission = receipt['impComis'];
 
       const data: TablesDTO[] = [{
         effectivityDate: Utility.formatDate(efectivityDate),
         dueDate: Utility.formatDate(dueDate),
         premium: receipt["impRecibo"],
         netPremium: receipt["impNeta"],
-        tax: receipt["impImptos"],
-        commission: receipt["impComis"],
+        tax: receipt["impImptos"]
       }];
       var dataSource = new MatTableDataSource(data);
       const obj = {
@@ -131,13 +122,10 @@ export class PaymentBreakdownModalComponent implements OnInit {
   proceedToIssuance(line: string) {
     this.dialogRef.close(false);
     if (line == "CAR") {
-      // this.cqs.proceedToIssuance(this.data.number);
       this.ps.proceedToIssuance(this.data.number, page.ISS.CAR);
     } else if (line == "TRAVEL") {
-      // this.tis.proceedToIssuance(this.data.number);
       this.ps.proceedToIssuance(this.data.number, page.ISS.TRA);
     } else if (line == "ACCIDENT") {
-      // this.ais.proceedToIssuance(this.data.number);
       this.ps.proceedToIssuance(this.data.number, page.ISS.ACC);
     } else if (line == "HOME") {
       this.ps.proceedToIssuance(this.data.number, page.ISS.HOM);

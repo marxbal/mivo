@@ -19,42 +19,36 @@
   <div id="paymentBreakdown" *ngFor="let payment of payments; let i = index">
     <div class="flexitable">
       <table mat-table [dataSource]="payment.dataSource" matSort class="mat-elevation-z8">
-        <!-- Position Column -->
+
+        <!-- Effectivity Date -->
         <ng-container matColumnDef="effectivityDate">
           <th mat-header-cell *matHeaderCellDef> Receipt Effectivity Date </th>
           <td mat-cell *matCellDef="let element"> {{element.effectivityDate}} </td>
         </ng-container>
 
-        <!-- Name Column -->
+        <!-- Due Date -->
         <ng-container matColumnDef="dueDate">
           <th mat-header-cell *matHeaderCellDef> Receipt Due Date </th>
           <td mat-cell *matCellDef="let element"> {{element.dueDate}} </td>
         </ng-container>
 
-        <!-- Weight Column -->
+        <!-- Premium -->
         <ng-container matColumnDef="premium">
           <th mat-header-cell *matHeaderCellDef> Premium </th>
           <td mat-cell *matCellDef="let element"> {{element.premium | currency: payment.currencyCode : 'symbol-narrow'}} </td>
         </ng-container>
 
-        <!-- Symbol Column -->
+        <!-- Net Premium -->
         <ng-container matColumnDef="netPremium">
           <th mat-header-cell *matHeaderCellDef> Net Premium </th>
           <td mat-cell *matCellDef="let element"> {{element.netPremium | currency: payment.currencyCode : 'symbol-narrow'}}
           </td>
         </ng-container>
 
-        <!-- Symbol Column -->
+        <!-- Tax -->
         <ng-container matColumnDef="tax">
           <th mat-header-cell *matHeaderCellDef> Tax </th>
           <td mat-cell *matCellDef="let element"> {{element.tax | currency: payment.currencyCode : 'symbol-narrow'}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="commission">
-          <th mat-header-cell *matHeaderCellDef> Commission </th>
-          <td mat-cell *matCellDef="let element"> {{element.commission | currency: payment.currencyCode : 'symbol-narrow'}}
-          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="payment.displayedColumns"></tr>
@@ -63,15 +57,17 @@
     </div>
 
     <label class="show-more" (click)="toggle(i)">
-      {{payment.toggleLabel}} <i
-        [ngClass]="payment.animationState=='out' ? 'fa fa-angle-double-down' : 'fa fa-angle-double-up'"></i>
+      {{payment.toggleLabel}} <i [ngClass]="payment.animationState=='out' ? 'fa fa-angle-double-down' : 'fa fa-angle-double-up'"></i>
     </label>
 
     <div [@slideInOut]="payment.animationState" class="container-fluid breakdown">
 
       <div *ngIf="payment.showExchangeRate" class="alert alert-info note">
-        Exchange rate: <strong>PHP to {{payment.currencyCode}} is
-          {{payment.exchangeRate | currency: 'PHP' : 'symbol-narrow'}}</strong>
+        Exchange rate: <strong>PHP to {{payment.currencyCode}} is {{payment.exchangeRate | currency: 'PHP' : 'symbol-narrow'}}</strong>
+      </div>
+
+      <div class="alert alert-success note">
+        Your earned commission is <strong>{{commission | currency: currencyCode : 'symbol-narrow'}}</strong>
       </div>
 
       <div *ngFor="let item of payment.paymentBreakdown;" class="row justify-content-center">

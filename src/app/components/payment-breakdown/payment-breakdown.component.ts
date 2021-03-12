@@ -41,6 +41,9 @@ export class PaymentBreakdownComponent implements OnInit {
   payments: any[] = [];
   triggerCounter: number;
 
+  commission: any = 0;
+  currencyCode: any = 'PHP';
+
   constructor() {}
 
   ngOnInit(): void {
@@ -68,9 +71,11 @@ export class PaymentBreakdownComponent implements OnInit {
       } else if (currency == "3") {
         currencyCode = "EUR"
       }
+      this.currencyCode = currencyCode;
   
       var efectivityDate = new Date(receipt["fecEfecRecibo"].substr(0, 10));
       var dueDate = new Date(receipt["fecVctoRecibo"].substr(0, 10));
+      this.commission = receipt['impComis'];
   
       const data: TablesDTO[] = [{
         effectivityDate: Utility.formatDate(efectivityDate),
