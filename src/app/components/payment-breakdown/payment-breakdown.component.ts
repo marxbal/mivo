@@ -19,7 +19,6 @@ export interface TablesDTO {
   premium: number;
   netPremium: number;
   tax: number;
-  commission: number;
 }
 
 @Component({
@@ -82,8 +81,7 @@ export class PaymentBreakdownComponent implements OnInit {
         dueDate: Utility.formatDate(dueDate),
         premium: receipt["impRecibo"],
         netPremium: receipt["impNeta"],
-        tax: receipt["impImptos"],
-        commission: receipt["impComis"],
+        tax: receipt["impImptos"]
       }];
       var dataSource = new MatTableDataSource(data);
       const obj = {
