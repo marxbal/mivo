@@ -90,7 +90,7 @@ export class PaymentBreakdownComponent implements OnInit {
         paymentNumber: paymentNumber,
         currencyCode: currencyCode,
         dataSource: dataSource,
-        displayedColumns: ['effectivityDate', 'dueDate', 'premium', 'netPremium', 'tax', 'commission'],
+        displayedColumns: ['effectivityDate', 'dueDate', 'premium', 'netPremium', 'tax'],
         animationState: 'out',
         showExchangeRate: this.showExchangeRate,
         toggleLabel: 'Show Economic Values',
