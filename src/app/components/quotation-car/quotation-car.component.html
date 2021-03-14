@@ -397,7 +397,7 @@
             [details]="carDetails"
             [(policyHolder)]="policyHolder"
             [isIssuance]="isIssuance"
-            [editMode]="editMode"
+            [editMode]="editMode || isModifiedCoverage"
             [type]="'primary'"
             [optional]="false"
             [loadQuotation]="triggerCounter"
