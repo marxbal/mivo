@@ -46,7 +46,6 @@ export class PolicyHolderComponent implements OnInit {
   @Input() title: String;
   @Input() showCreateBtn: boolean;
   @Input() policyHolder: PolicyHolder;
-  @Input() compareTo: PolicyHolder; //TODO
   @Input() details: any;
   @Input() isIssuance: boolean;
   @Input() type: String;
@@ -91,6 +90,8 @@ export class PolicyHolderComponent implements OnInit {
   //for optional content
   showContent: boolean;
 
+  isDriver: boolean = false;
+
   showSearch: boolean = false;
   showSearchResult: boolean = false;
 
@@ -108,6 +109,8 @@ export class PolicyHolderComponent implements OnInit {
   //modal reference
   modalRef: BsModalRef;
 
+  driverPolicyHolder: Array < PolicyHolder > = [];
+
   constructor(
     private fb: FormBuilder,
     private bms: BsModalService,
@@ -123,6 +126,7 @@ export class PolicyHolderComponent implements OnInit {
     if (this.isIssuance) {
       //can only search company/organization if type is mortgagee
       this.policyHolderType = this.type == 'mortgagee' ? 'C' : 'P';
+      this.isDriver = this.type === 'driver';
 
       if (this.type == 'secondary') {
         var _this = this;
@@ -222,13 +226,13 @@ export class PolicyHolderComponent implements OnInit {
   }
 
   checkDuplicate(str : string) {
-    var isDuplicated = false;
+    var isDuplicate = false;
     this.createList.forEach((res) => {
       if (res === str) {
-        isDuplicated = true;
+        isDuplicate = true;
       }
     });
-    return isDuplicated;
+    return isDuplicate;
   }
 
   validate(str: string, tp: PolicyHolder, isAdd?: boolean) {

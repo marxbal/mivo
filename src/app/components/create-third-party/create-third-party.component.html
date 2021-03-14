@@ -238,8 +238,9 @@
 
         <div class="col-md-4">
           <div class="form-group">
-            <label for="gender">Zipcode</label>
+            <label for="gender">Zip Code</label>
             <select class="custom-select mr-sm-2" formControlName="zipcode" [(ngModel)]="thirdParty.zipcode">
+              <option selected></option>
               <option *ngFor="let zipcode of TPLOV.zipcodeLOV" [ngValue]="zipcode.COD_POSTAL">
                 {{ zipcode.COD_POSTAL }}
               </option>
