@@ -198,6 +198,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   //flag to show new quote and new policy btn
   showNewPolicyBtn: boolean = false;
 
+  isTemporaryQuotation: boolean = false;
+
   //disable load button
   disableLoadBtn: boolean = true;
 
@@ -1309,6 +1311,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
     const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
+    this.isTemporaryQuotation = isTemporaryQuotation;
+
     this.carDetails.affecting = !hasQuotationNumber ||
       (hasQuotationNumber && isTemporaryQuotation) ||
       (hasQuotationNumber && !isTemporaryQuotation && hasChanges);
@@ -1655,12 +1659,16 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const policyNumber = res1.obj["policyNumber"];
             this.carDetails.quotationNumber = policyNumber;
 
+            const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
+            const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
+            this.isTemporaryQuotation = isTemporaryQuotation;
+
             const breakdown = res1.obj["breakdown"];
             const receipt = res1.obj["receipt"];
 
             if ("S" == mcaTmpPptoMph) {
               //for generation of quote
-              const message = "You have successfully generated a quotation - " + policyNumber;
+              const message = "You have successfully generated a quotation";
               this.modalRef = Utility.showInfo(this.bms, message);
 
               const coverageList = res.obj["coverageList"];
