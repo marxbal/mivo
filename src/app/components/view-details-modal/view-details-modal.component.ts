@@ -77,7 +77,7 @@ import {
   Utility
 } from 'src/app/utils/utility';
 import {
-  MIVO_LOGIN,
+  CURRENT_USER,
   MIVO_REQUEST_DETAILS
 } from "../../constants/local.storage";
 import {
@@ -270,7 +270,7 @@ export class ViewDetailsModalComponent implements OnInit {
   }
 
   inquire(): void {
-    const userName = JSON.parse(localStorage.getItem(MIVO_LOGIN)).username
+    const userName = JSON.parse(localStorage.getItem(CURRENT_USER)).username
 
     if (userName != null) {
       this.filter.userName = userName

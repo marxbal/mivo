@@ -361,7 +361,8 @@
                           && (traveler.controls['passportNumber'].dirty 
                           || traveler.controls['passportNumber'].touched)}">
                             <label for="passportNumber">Passport Number</label>
-                            <input type="text" formControlName="passportNumber" class="form-control required"
+                            <input type="text" formControlName="passportNumber" class="form-control"
+                              [ngClass]="{'required' : travelDetails.currency != 1}"
                               oninput="this.value = this.value.toUpperCase()"
                               [attr.disabled]="editMode ? null : true">
                             <p class="form-error" *ngIf="traveler.controls['passportNumber'].errors?.required">

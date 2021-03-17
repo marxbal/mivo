@@ -298,6 +298,9 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getProduct(this.travelDetails).then(res => {
       _this.LOV.productListLOV = res;
     });
+
+    this.removeTravelers();
+    this.addTraveler();
   }
 
   relationshipOnChange(traveler: FormGroup) {
@@ -426,13 +429,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           const text: string = t.txtCampo;
           const occurence: number = t.numOcurrencia;
           // const index = occurence - 1;
-          let valueInt: number = undefined;
+          // let valueInt: number = undefined;
   
-          try {
-            valueInt = parseInt(value);
-          } catch (e) {
-            // do nothing
-          }
+          // try {
+          //   valueInt = parseInt(value);
+          // } catch (e) {
+          //   // do nothing
+          // }
   
           switch (code) {
             //country
@@ -464,13 +467,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             const value: string = td.valCampo;
             const text: string = td.txtCampo;
             const occurence: number = td.numOcurrencia;
-            let valueInt: number = undefined;
+            // let valueInt: number = undefined;
     
-            try {
-              valueInt = parseInt(value);
-            } catch (e) {
-              // do nothing
-            }
+            // try {
+            //   valueInt = parseInt(value);
+            // } catch (e) {
+            //   // do nothing
+            // }
 
             if (t.occurence == occurence) {
               switch (code) {
@@ -699,7 +702,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
       relationshipLabel: [onLoad ? 'PRIMARY' : ''],
-      passportNumber: ['', Validators.required],
+      passportNumber: ['', this.travelDetails.currency === 1 ? null : Validators.required],
       physicianName: [null],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
@@ -715,7 +718,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       birthDate: [birthDate, Validators.required],
       relationship: [relationship, Validators.required],
       relationshipLabel: [relationshipLabel],
-      passportNumber: [passportNumber, Validators.required],
+      passportNumber: [passportNumber, this.travelDetails.currency === 1 ? null : Validators.required],
       physicianName: [physicianName],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
