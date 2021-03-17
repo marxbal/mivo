@@ -1805,7 +1805,11 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const policyNumber = res1.obj["policyNumber"];
             this.carDetails.quotationNumber = policyNumber;
 
-            const message = "You have successfully generated a new quotation: " + policyNumber;
+            const hasQuotationNumber = !Utility.isUndefined(this.carDetails.quotationNumber);
+            const isTemporaryQuotation = hasQuotationNumber && this.carDetails.quotationNumber.startsWith('999');
+            this.isTemporaryQuotation = isTemporaryQuotation;
+
+            const message = "You have successfully generated quotation: " + policyNumber;
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
