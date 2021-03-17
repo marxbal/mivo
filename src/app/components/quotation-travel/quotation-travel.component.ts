@@ -300,7 +300,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
 
     this.removeTravelers();
-    this.newTraveler(true);
+
+    this.travelers().push(this.newTraveler(false));
+    this.travelDetails.insuranceCoverage = "I"; // individual
+    this.travelerHeadCount = 1;
   }
 
   relationshipOnChange(traveler: FormGroup) {
