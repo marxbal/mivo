@@ -300,7 +300,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
 
     this.removeTravelers();
-    this.addTraveler();
+    this.newTraveler(true);
   }
 
   relationshipOnChange(traveler: FormGroup) {
