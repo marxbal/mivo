@@ -154,12 +154,6 @@ app-sidenav {
   background-size: cover;
 }
 
-app-sidenav.partners {
-  background: #252525;
-  background-image: url('./assets/images/bg_black.jpg');
-  background-size: cover;
-}
-
 #sticky app-sidenav {
   position: fixed;
   z-index: 999;
