@@ -301,7 +301,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
     this.removeTravelers();
 
-    this.travelers().push(this.newTraveler(false));
+    this.travelers().push(this.newTraveler(true));
     this.travelDetails.insuranceCoverage = "I"; // individual
     this.travelerHeadCount = 1;
   }
