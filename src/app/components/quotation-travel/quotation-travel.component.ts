@@ -460,6 +460,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         });
 
         this.travelDetails.countries = country;
+  
+        const generalInfo = res.obj["generalInfo"];
+        this.travelDetails.subline = generalInfo.codRamo;
+        this.travelDetails.currency = generalInfo.codMon;
+        this.travelDetails.startDate = new Date(generalInfo.fecEfecPoliza.substr(0,10));
+        this.travelDetails.endDate = new Date(generalInfo.fecVctoPoliza.substr(0,10));
 
         var travelers = [];
         tempTravaler.forEach(t => {
@@ -523,12 +529,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         } else {
           this.travelDetails.travelers = [];
         }
-  
-        const generalInfo = res.obj["generalInfo"];
-        this.travelDetails.subline = generalInfo.codRamo;
-        this.travelDetails.currency = generalInfo.codMon;
-        this.travelDetails.startDate = new Date(generalInfo.fecEfecPoliza.substr(0,10));
-        this.travelDetails.endDate = new Date(generalInfo.fecVctoPoliza.substr(0,10));
   
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
