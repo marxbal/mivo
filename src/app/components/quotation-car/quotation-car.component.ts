@@ -145,7 +145,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   // cForm: FormGroup;
 
   today: Date = new Date();
-  expiryDateMinDate: Date = moment().add(1, 'years').toDate();
+  expiryDateMinDate: Date = new Date();
 
   LOV = new CarListObject();
   GPLOV = new GroupPolicyListObject();
@@ -878,7 +878,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
       this.carDetails.expiryDate = moment(date).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.carDetails.expiryDate;
+      this.expiryDateMinDate = date;
     });
 
     quotationNumber.valueChanges.subscribe(number => {
