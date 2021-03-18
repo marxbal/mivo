@@ -229,16 +229,35 @@
             <label for="address">Address</label>
             <textarea type="text" formControlName="address" class="form-control required"
               oninput="this.value = this.value.toUpperCase()" 
-              [(ngModel)]="thirdParty.address"></textarea>
+              [(ngModel)]="thirdParty.address"
+              maxlength="40"></textarea>
             <p class="form-error" *ngIf="tpForm.controls['address'].errors?.required">
               * address required
             </p>
           </div>
         </div>
 
+        <div class="col-lg-12">
+          <div class="form-group">
+            <textarea type="text" formControlName="address2" class="form-control"
+              oninput="this.value = this.value.toUpperCase()" 
+              [(ngModel)]="thirdParty.address2"
+              maxlength="40"></textarea>
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <div class="form-group">
+            <textarea type="text" formControlName="address3" class="form-control"
+              oninput="this.value = this.value.toUpperCase()" 
+              [(ngModel)]="thirdParty.address3"
+              maxlength="40"></textarea>
+          </div>
+        </div>
+
         <div class="col-md-4">
           <div class="form-group">
-            <label for="gender">Zip Code</label>
+            <label for="zipcode">Zip Code</label>
             <select class="custom-select mr-sm-2" formControlName="zipcode" [(ngModel)]="thirdParty.zipcode">
               <option selected></option>
               <option *ngFor="let zipcode of TPLOV.zipcodeLOV" [ngValue]="zipcode.COD_POSTAL">

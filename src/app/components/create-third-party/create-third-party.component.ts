@@ -97,6 +97,8 @@ export class CreateThirdPartyComponent implements OnInit {
       province: [null],
       city: [null],
       address: ['', Validators.required],
+      address2: [null],
+      address3: [null],
       zipcode: [null],
       email: ['', [Validators.required, Validators.email]],
 
