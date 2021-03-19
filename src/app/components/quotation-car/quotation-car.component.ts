@@ -265,21 +265,21 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       _this.LOV.inspectionAssessmentLOV = res;
     });
 
-    if (this.isIssuance) {
-      var list : any[] = [];
-      this.cus.getSubagents().then(res => {
-        var subAgents = res.obj["subAgents"];
-        subAgents.forEach(subAgent => {
-          var obj = {
-            name: subAgent.nomCompleto + "(" + subAgent.tipDocum + ")",
-            documentCode: subAgent.codDocum,
-            documentType: subAgent.tipDocum,
-            beneficiaryType: 20};
-          list.push(obj);
-        });
-        _this.LOV.subagentLOV = list;
+    var list : any[] = [];
+    this.cus.getSubagents().then(res => {
+      var subAgents = res.obj["subAgents"];
+      subAgents.forEach(subAgent => {
+        var obj = {
+          name: subAgent.nomCompleto + "(" + subAgent.tipDocum + ")",
+          documentCode: subAgent.codDocum,
+          documentType: subAgent.tipDocum,
+          beneficiaryType: 20};
+        list.push(obj);
       });
+      _this.LOV.subagentLOV = list;
+    });
 
+    if (this.isIssuance) {
       this.cls.getMortgageClause().then(res => {
         _this.LOV.mortgageClauseLOV = res;
       });
