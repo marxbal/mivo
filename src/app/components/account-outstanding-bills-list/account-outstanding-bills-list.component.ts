@@ -91,6 +91,8 @@ export class AccountOutstandingBillsListComponent implements OnInit, OnDestroy {
   totalItem = 0;
   pageSizeOptions = [10, 20, 50, 100];
 
+  paymentData;
+
   @ViewChild(MatSort, {
     static: true
   }) sort: MatSort;
@@ -118,9 +120,10 @@ export class AccountOutstandingBillsListComponent implements OnInit, OnDestroy {
     this.route.queryParams
       .pipe(filter(params => params.successPage) )
       .subscribe(params => {
+        this.paymentData = params;
         setTimeout(function(){
           params.message
-          _this.openPaymentResultModal(params.successPage == 'true', params.message);
+          _this.openPaymentResultModal(params.vpc_Message === 'Approved', params.message);
         }, 500);
       });
 

@@ -30,7 +30,7 @@ export class TemplateComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        if (params.invoiceNo) {
+        if (params.invoiceNo && params.vpc_Message === 'Approved') {
           this.processPayment(params);
         }
       });

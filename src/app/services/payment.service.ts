@@ -31,7 +31,7 @@ export class PaymentService {
     return this.app.post({
       invoiceNo,
       responseUrl: this.baseUrl + '?successPage=true',
-      againUrl: this.baseUrl + '?successPage=true',
+      againUrl: this.baseUrl,
     }, '/payment/getPaymentRequest/globalpay').then(response => response);
   }
 
