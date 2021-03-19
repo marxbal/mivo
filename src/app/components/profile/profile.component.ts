@@ -8,6 +8,9 @@ import {
   Validators
 } from '@angular/forms';
 import {
+  UtilityService
+} from 'src/app/services/utility.service';
+import {
   AuthenticationService
 } from '../../services/authentication.service';
 
@@ -19,8 +22,10 @@ import {
 export class ProfileComponent implements OnInit {
   currentUser = this.authenticationService.currentUserValue;
   changePasswordForm: FormGroup;
-  constructor(private fb: FormBuilder,
-    private authenticationService: AuthenticationService) {
+  constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private us: UtilityService) {
     this.createChangePasswordForm();
   }
 
@@ -34,6 +39,16 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  changePassword() {
+    this.us.changePassword(this.changePasswordForm.get("oldPassword").value, this.changePasswordForm.get("newPassword").value).then((res) => {
+      if (res.status) {
+        alert("napalitan");
+      } else {
+        alert("hindi");
+      }
+    });
   }
 
 }

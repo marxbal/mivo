@@ -163,8 +163,8 @@
           (click)="setPage(p.UTI.QUE)"><i class="fas fa-fw fa-clipboard-list"></i> Query</a>
         <a *ngIf="menu.documentPrinting" class="collapse-item" [ngClass]="{'active': page==p.UTI.DOC}"
           (click)="setPage(p.UTI.DOC)"><i class="fas fa-fw fa-print"></i> Document Printing</a>
-        <!-- <a *ngIf="menu.changePassword" class="collapse-item" [ngClass]="{'active': page==p.UTI.CHA}"
-          (click)="setPage(p.UTI.CHA)"><i class="fas fa-fw fa-key"></i> Change Password</a> -->
+        <a *ngIf="menu.changePassword" class="collapse-item" [ngClass]="{'active': page==p.UTI.CHA}"
+          (click)="setPage(p.UTI.CHA)"><i class="fas fa-fw fa-key"></i> Change Password</a>
       </div>
     </div>
   </li>

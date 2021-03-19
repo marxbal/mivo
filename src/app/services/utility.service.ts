@@ -62,4 +62,8 @@ export class UtilityService {
   async getEndorsementNumber(documentPritingDetails: DocumentPrinting): Promise < ReturnDTO > {
     return this.app.post(documentPritingDetails, '/utility/getEndorsementNumber').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
+
+  async changePassword(oldPassword: String, newPassword: String): Promise < ReturnDTO > {
+    return this.app.post({oldPassword, newPassword}, '/utility/changePassword').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
 }
