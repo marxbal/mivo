@@ -54,6 +54,7 @@ export class ProfileComponent implements OnInit {
     this.us.changePassword(this.changePasswordForm.get("oldPassword").value, this.changePasswordForm.get("newPassword").value).then((res) => {
       if (res.status) {
         this.modalRef = Utility.showInfo(this.bms, res.message);
+        this.authenticationService.logout();
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
       }
