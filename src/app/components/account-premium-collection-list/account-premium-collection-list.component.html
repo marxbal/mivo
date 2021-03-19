@@ -42,6 +42,7 @@
                     <label for="subline" class="col-md-12 col-lg-4 col-form-label">Subline</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="subline" id="subline"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.subline">
                     </div>
                   </div>
@@ -92,6 +93,7 @@
                     <label for="collectionType" class="col-md-12 col-lg-4 col-form-label">Collection Type</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="collectionType" id="collectionType"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.collectionType">
                     </div>
                   </div>

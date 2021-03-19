@@ -21,6 +21,7 @@
                     <label for="name" class="col-md-12 col-lg-4 col-form-label">Name</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="name" id="name"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.name">
                     </div>
                   </div>
@@ -45,6 +46,7 @@
                     <label for="documentCode" class="col-md-12 col-lg-4 col-form-label">Document Code</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="documentCode" id="documentCode"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.documentCode">
                     </div>
                   </div>
@@ -55,6 +57,7 @@
                     <label for="address" class="col-md-12 col-lg-4 col-form-label">Address</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="address" id="address"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.address">
                     </div>
                   </div>

@@ -29,6 +29,7 @@
                     <label for="policyHolder" class="col-md-12 col-lg-4 col-form-label">Policy Holder</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="policyHolder" id="policyHolder"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.policyHolder">
                     </div>
                   </div>
@@ -138,6 +139,7 @@
                     <label for="subline" class="col-md-12 col-lg-4 col-form-label">Subline</label>
                     <div class="col-md-12 col-lg-8">
                       <input type="text" class="form-control" formControlName="subline" id="subline"
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="pageFilter.subline">
                     </div>
                   </div>
