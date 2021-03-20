@@ -120,7 +120,9 @@ export class ChooseAgentComponent implements OnInit {
         sa.agentType = agentInfo["tipoAgente"];
         sa.agentTypeName = agentInfo["nomTipoAgente"];
         sa.agentAddress = agentInfo["dirAgente"];
-        sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
+        if (!currentUser.execAgent) {
+          sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
+        }
 
         if (currentUser.execAgent && (sa.agentCode === currentUser.execAgentCode)) {
           if (this.hasSelectedAgent) {
@@ -128,7 +130,9 @@ export class ChooseAgentComponent implements OnInit {
           }
         } else {
           currentUser.selectedAgent = sa;
-          currentUser.commercialStructure = sa.commStructure;
+          if (!currentUser.execAgent) {
+            currentUser.commercialStructure = sa.commStructure;
+          }
         }
 
         currentUser.token = "Bearer " + res.obj["token"];
