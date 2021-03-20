@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUserValue;
-    this.canChooseAgent = this.currentUser.role === 2 || this.currentUser.eAgent;
+    this.canChooseAgent = this.currentUser.role === 2 || this.currentUser.execAgent;
   }
 
   setPage(val: String) {

@@ -10,7 +10,7 @@
                 Choose Agent
               </h2>
               <form class="choose-agent-form" [formGroup]="chooseAgentForm">
-                <div *ngIf="!eAgent" class="form-group" [ngClass]="{'input-error': chooseAgentForm.controls['commercialStructure'].invalid 
+                <div *ngIf="!execAgent" class="form-group" [ngClass]="{'input-error': chooseAgentForm.controls['commercialStructure'].invalid 
                 && (chooseAgentForm.controls['commercialStructure'].dirty 
                 || chooseAgentForm.controls['commercialStructure'].touched)}">
                   <label for="commercialStructure">Commercial Structure</label>

@@ -37,7 +37,7 @@ export class ChooseAgentComponent implements OnInit {
   commercialStructureLOV: any[];
   agentLOV: any[];
   currentUser = this.auths.currentUserValue;
-  eAgent = this.auths.currentUserValue.eAgent;
+  execAgent = this.auths.currentUserValue.execAgent;
   hasSelectedAgent = !Utility.isUndefined(this.currentUser.selectedAgent);
   showCancelBtn: boolean = false;
 
@@ -51,7 +51,7 @@ export class ChooseAgentComponent implements OnInit {
     const _this = this;
     if (this.hasSelectedAgent) {
       this.showCancelBtn = true;
-      if (this.eAgent) {
+      if (this.execAgent) {
         this.as.getEAAgentList(this.currentUser.agentCode).then(res => {
           _this.agentLOV = res;
         });
@@ -74,11 +74,11 @@ export class ChooseAgentComponent implements OnInit {
     let comval = null;
     let agentval = null;
     if (this.hasSelectedAgent) {
-      comval = !this.eAgent ? this.currentUser.selectedAgent.commStructure : null;
+      comval = !this.execAgent ? this.currentUser.selectedAgent.commStructure : null;
       agentval = this.currentUser.selectedAgent.agentCode;
     }
     this.chooseAgentForm = this.fb.group({
-      commercialStructure: [comval, !this.eAgent ? Validators.required : null],
+      commercialStructure: [comval, !this.execAgent ? Validators.required : null],
       agent: [agentval, Validators.required],
     });
   }
