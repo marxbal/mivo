@@ -37,6 +37,7 @@ export class ChooseAgentComponent implements OnInit {
   commercialStructureLOV: any[];
   agentLOV: any[];
   currentUser = this.auths.currentUserValue;
+  eAgent = this.auths.currentUserValue.eAgent;
   hasSelectedAgent = !Utility.isUndefined(this.currentUser.selectedAgent);
   showCancelBtn: boolean = false;
 
@@ -50,28 +51,34 @@ export class ChooseAgentComponent implements OnInit {
     const _this = this;
     if (this.hasSelectedAgent) {
       this.showCancelBtn = true;
-      this.as.getAgentList(this.currentUser.selectedAgent.commStructure).then(res => {
-        _this.agentLOV = res;
-      });
+      if (this.eAgent) {
+        this.as.getEAAgentList(this.currentUser.agentCode).then(res => {
+          _this.agentLOV = res;
+        });
+      } else {
+        this.as.getAgentList(this.currentUser.selectedAgent.commStructure).then(res => {
+          _this.agentLOV = res;
+        });
+        this.chooseAgentForm.get('commercialStructure').markAsDirty();
 
-      this.chooseAgentForm.get('commercialStructure').markAsDirty();
+        this.as.getCommercialStructure().then(res => {
+          _this.commercialStructureLOV = res;
+        });
+      }
+
       this.chooseAgentForm.get('agent').markAsDirty();
     }
-
-    this.as.getCommercialStructure().then(res => {
-      _this.commercialStructureLOV = res;
-    });
   }
 
   createForm() {
     let comval = null;
     let agentval = null;
     if (this.hasSelectedAgent) {
-      comval = this.currentUser.selectedAgent.commStructure;
+      comval = !this.eAgent ? this.currentUser.selectedAgent.commStructure : null;
       agentval = this.currentUser.selectedAgent.agentCode;
     }
     this.chooseAgentForm = this.fb.group({
-      commercialStructure: [comval, Validators.required],
+      commercialStructure: [comval, !this.eAgent ? Validators.required : null],
       agent: [agentval, Validators.required],
     });
   }

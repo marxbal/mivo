@@ -3,6 +3,7 @@
 export class User {
   companyCode: number;
   role: number;
+  eAgent: boolean;
   agentCode: number;
   userName: string;
   firstName: string;
