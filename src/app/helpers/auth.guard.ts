@@ -30,10 +30,10 @@ export class AuthGuard implements CanActivate {
     
     if (currentUser) {
       const noAgentCode = Utility.isUndefined(currentUser.agentCode);
-      if (currentUser.role === 1 && isAgentPage) {
+      if (currentUser.role === 1 && isAgentPage && !currentUser.execAgent) {
         // user cannot choose agent
         this.router.navigate(['']);
-      } else if ((currentUser.role === 2 || currentUser.execAgent) && !isAgentPage && noAgentCode) {
+      } else if (currentUser.role === 2 && !isAgentPage && noAgentCode) {
         // user cannot navigate if no selected agent
         this.router.navigate(['/agent']);
       }
