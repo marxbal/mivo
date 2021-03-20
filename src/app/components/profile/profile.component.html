@@ -84,6 +84,9 @@
                   <p class="form-error" *ngIf="changePasswordForm.controls['newPassword'].errors?.required">
                     * new password is required
                   </p>
+                  <p class="form-error" *ngIf="changePasswordForm.controls['confirmPassword'].errors?.isMatching">
+                    * new password matches your old password
+                  </p>
                 </div>
               </div>
               <div class="form-group row" [ngClass]="{'input-error': changePasswordForm.controls['confirmPassword'].invalid 

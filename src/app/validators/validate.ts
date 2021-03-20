@@ -20,7 +20,19 @@ export function validateUrl(control: AbstractControl) {
   return null;
 }
 
-export function matchValues(matchTo: string): (AbstractControl) => ValidationErrors | null {
+export function isMatching(matchTo: string): (AbstractControl) => ValidationErrors | null {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return !!control.parent &&
+      !!control.parent.value &&
+      control.value === control.parent.controls[matchTo].value ?
+      {
+        isMatching: true
+      } :
+      null;
+  };
+}
+
+export function isNotMatching(matchTo: string): (AbstractControl) => ValidationErrors | null {
   return (control: AbstractControl): ValidationErrors | null => {
     return !!control.parent &&
       !!control.parent.value &&

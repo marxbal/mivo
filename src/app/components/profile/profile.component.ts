@@ -21,7 +21,8 @@ import {
   AuthenticationService
 } from '../../services/authentication.service';
 import {
-  matchValues
+  isMatching,
+  isNotMatching
 } from 'src/app/validators/validate';
 
 @Component({
@@ -46,8 +47,8 @@ export class ProfileComponent implements OnInit {
   createChangePasswordForm() {
     this.changePasswordForm = this.fb.group({
       oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', [Validators.required, matchValues('newPassword')]]
+      newPassword: ['', [Validators.required, isMatching('oldPassword')]],
+      confirmPassword: ['', [Validators.required, isNotMatching('newPassword')]]
     });
   }
 
