@@ -1,5 +1,6 @@
 import {
   AbstractControl,
+  ValidationErrors,
   Validators
 } from '@angular/forms';
 import * as moment from 'moment';
@@ -17,6 +18,18 @@ export function validateUrl(control: AbstractControl) {
     };
   }
   return null;
+}
+
+export function matchValues(matchTo: string): (AbstractControl) => ValidationErrors | null {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return !!control.parent &&
+      !!control.parent.value &&
+      control.value === control.parent.controls[matchTo].value ?
+      null :
+      {
+        isMatching: false
+      };
+  };
 }
 
 export function validateItinerary(control: AbstractControl) {

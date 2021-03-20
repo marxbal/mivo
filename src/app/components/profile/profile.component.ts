@@ -14,10 +14,15 @@ import {
 import {
   UtilityService
 } from 'src/app/services/utility.service';
-import { Utility } from 'src/app/utils/utility';
+import {
+  Utility
+} from 'src/app/utils/utility';
 import {
   AuthenticationService
 } from '../../services/authentication.service';
+import {
+  matchValues
+} from 'src/app/validators/validate';
 
 @Component({
   selector: 'app-profile',
@@ -42,7 +47,7 @@ export class ProfileComponent implements OnInit {
     this.changePasswordForm = this.fb.group({
       oldPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', [Validators.required, matchValues('newPassword')]]
     });
   }
 
