@@ -122,7 +122,7 @@ export class ChooseAgentComponent implements OnInit {
         sa.agentAddress = agentInfo["dirAgente"];
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
 
-        if (currentUser.execAgent && (sa.agentCode === agentCode)) {
+        if (currentUser.execAgent && (sa.agentCode === currentUser.execAgentCode)) {
           if (this.hasSelectedAgent) {
             delete currentUser.selectedAgent;
           }
