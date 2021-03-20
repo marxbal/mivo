@@ -51,7 +51,7 @@ export class ChooseAgentComponent implements OnInit {
     const _this = this;
 
     if (this.execAgent) {
-      this.as.getEAAgentList(this.currentUser.agentCode).then(res => {
+      this.as.getEAAgentList(this.currentUser.execAgentCode).then(res => {
         _this.agentLOV = res;
       });
       this.chooseAgentForm.get('agent').markAsDirty();

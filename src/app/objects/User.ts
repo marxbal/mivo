@@ -4,7 +4,7 @@ export class User {
   companyCode: number;
   role: number;
   execAgent: boolean;
-  execAgentCode: boolean;
+  execAgentCode: number;
   agentCode: number;
   userName: string;
   firstName: string;
