@@ -107,7 +107,7 @@
               <!-- <p class="text-muted"><i>* Your password will expire in <strong>{{currentUser.expiryDay}} {{currentUser.expiryDay <= 1 ? 'day' : 'days' }}</strong></i></p> -->
 
               <div class="btn-group">
-                  <button (click)="changePassword()" class="btn btn-primary">Confirm</button>
+                  <button [disabled]="changePasswordForm.invalid" type="button" (click)="changePassword()" class="btn btn-primary">Confirm</button>
               </div>
             </form>
 
