@@ -123,7 +123,9 @@ export class ChooseAgentComponent implements OnInit {
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
 
         if (currentUser.execAgent && this.hasSelectedAgent && (sa.agentCode === agentCode)) {
-          delete currentUser.selectedAgent;
+          if (this.hasSelectedAgent) {
+            delete currentUser.selectedAgent;
+          }
         } else {
           currentUser.selectedAgent = sa;
           currentUser.commercialStructure = sa.commStructure;
