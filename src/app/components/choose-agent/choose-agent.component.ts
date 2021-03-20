@@ -49,24 +49,24 @@ export class ChooseAgentComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     const _this = this;
-    if (this.hasSelectedAgent) {
-      this.showCancelBtn = true;
-      if (this.execAgent) {
-        this.as.getEAAgentList(this.currentUser.agentCode).then(res => {
-          _this.agentLOV = res;
-        });
-      } else {
+
+    if (this.execAgent) {
+      this.as.getEAAgentList(this.currentUser.agentCode).then(res => {
+        _this.agentLOV = res;
+      });
+      this.chooseAgentForm.get('agent').markAsDirty();
+    } else {
+      this.as.getCommercialStructure().then(res => {
+        _this.commercialStructureLOV = res;
+      });
+      this.chooseAgentForm.get('commercialStructure').markAsDirty();
+      if (this.hasSelectedAgent) {
+        this.showCancelBtn = true;
         this.as.getAgentList(this.currentUser.selectedAgent.commStructure).then(res => {
           _this.agentLOV = res;
         });
-        this.chooseAgentForm.get('commercialStructure').markAsDirty();
-
-        this.as.getCommercialStructure().then(res => {
-          _this.commercialStructureLOV = res;
-        });
+        this.chooseAgentForm.get('agent').markAsDirty();
       }
-
-      this.chooseAgentForm.get('agent').markAsDirty();
     }
   }
 
