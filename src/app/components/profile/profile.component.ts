@@ -55,6 +55,9 @@ export class ProfileComponent implements OnInit {
       if (res.status) {
         this.modalRef = Utility.showInfo(this.bms, res.message);
         this.authenticationService.logout();
+        setTimeout(() => {
+          location.reload(true);
+        }, 5000);
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
       }
