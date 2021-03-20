@@ -121,8 +121,14 @@ export class ChooseAgentComponent implements OnInit {
         sa.agentTypeName = agentInfo["nomTipoAgente"];
         sa.agentAddress = agentInfo["dirAgente"];
         sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
-        currentUser.selectedAgent = sa;
-        currentUser.commercialStructure = sa.commStructure;
+
+        if (currentUser.execAgent && this.hasSelectedAgent && (sa.agentCode === agentCode)) {
+          delete currentUser.selectedAgent;
+        } else {
+          currentUser.selectedAgent = sa;
+          currentUser.commercialStructure = sa.commStructure;
+        }
+
         currentUser.token = "Bearer " + res.obj["token"];
 
         //adds chosen agent to current user detail
