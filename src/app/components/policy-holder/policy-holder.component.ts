@@ -48,6 +48,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() policyHolder: PolicyHolder;
   @Input() details: any;
   @Input() isIssuance: boolean;
+  @Input() isCar: boolean = false;
   @Input() type: String;
   @Input() optional: boolean;
   @Input() editMode: boolean;
@@ -207,17 +208,21 @@ export class PolicyHolderComponent implements OnInit {
       if (!Utility.isUndefined(thirdParty)) {
         var tp = thirdParty as PolicyHolder;
         var str = thirdParty.documentType + '-' + thirdParty.documentCode;
-        if (this.checkDuplicate(str)) {
-          this.createList.splice(this.createList.indexOf(str), 1);
-          this.createListChange.emit(this.createList);
-
-          this.modalRef = Utility.showWarning(this.bms, "You are creating a policy holder with the same document type and document code, please use a different ID.");
-          tp.documentCode = '';
-          this.setPolicyHolder(tp);
+        if (this.isCar) {
+          if (this.checkDuplicate(str)) {
+            this.createList.splice(this.createList.indexOf(str), 1);
+            this.createListChange.emit(this.createList);
+  
+            this.modalRef = Utility.showWarning(this.bms, "You are creating a policy holder with the same document type and document code, please use a different ID.");
+            tp.documentCode = '';
+            this.setPolicyHolder(tp);
+          } else {
+            this.createList.push(str);
+            this.createListChange.emit(this.createList);
+            this.validate(str, tp);
+          }
         } else {
-          this.createList.push(str);
-          this.createListChange.emit(this.createList);
-          this.validate(str, tp);
+          this.setPolicyHolder(tp);
         }
       } else {
         this.clear();
