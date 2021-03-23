@@ -52,7 +52,7 @@ export class PolicyHolderComponent implements OnInit {
   @Input() optional: boolean;
   @Input() editMode: boolean;
   @Input() showPrefix: boolean = true;
-  @Input() createList: any[];
+  @Input() createList: any[] = [];
   @Input() policyHolderList: {
     primary: string,
     secondary: string,
