@@ -296,16 +296,18 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearchResult = false;
     this.setPolicyHolder(new PolicyHolder());
 
-    if (this.type === 'primary') {
-      this.policyHolderList.primary = '';
-    } else if (this.type === 'secondary') {
-      this.policyHolderList.secondary = '';
-    } else if (this.type === 'assignee') {
-      this.policyHolderList.assignee = '';
-    } else if (this.type === 'owner') {
-      this.policyHolderList.owner = '';
-    } else if (this.type === 'driver') {
-      this.policyHolderList.driver = '';
+    if (this.isCar) {
+      if (this.type === 'primary') {
+        this.policyHolderList.primary = '';
+      } else if (this.type === 'secondary') {
+        this.policyHolderList.secondary = '';
+      } else if (this.type === 'assignee') {
+        this.policyHolderList.assignee = '';
+      } else if (this.type === 'owner') {
+        this.policyHolderList.owner = '';
+      } else if (this.type === 'driver') {
+        this.policyHolderList.driver = '';
+      }
     }
 
     this.policyHolderListChange.emit(this.policyHolderList);
