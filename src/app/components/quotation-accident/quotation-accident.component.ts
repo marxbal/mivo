@@ -975,7 +975,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
           if ("S" == mcaTmpPptoMph) {
             //for generation of quote
-            const message = "You have successfully generated a quotation - " + policyNumber;
+            const message = "You have successfully generated a quotation";
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
