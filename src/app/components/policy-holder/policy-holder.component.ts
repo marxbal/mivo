@@ -246,40 +246,44 @@ export class PolicyHolderComponent implements OnInit {
       this.showSearchResult = false;
     }
 
-    if (this.type == 'primary') {
-      if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str || this.policyHolderList.driver === str) {
-        this.modalRef = Utility.showWarning(this.bms, "Primary Policy Holder should not be the same to Assignee, Owner or Driver, please choose or create a new one.");
-      } else {
-        this.policyHolderList.primary = str;
+    if (this.isCar) {
+      if (this.type == 'primary') {
+        if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str || this.policyHolderList.driver === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Primary Policy Holder should not be the same to Assignee, Owner or Driver, please choose or create a new one.");
+        } else {
+          this.policyHolderList.primary = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else if (this.type == 'secondary') {
+        this.policyHolderList.secondary = str;
         this.policyHolderListChange.emit(this.policyHolderList);
         this.setPolicyHolder(tp);
-      }
-    } else if (this.type == 'secondary') {
-      this.policyHolderList.secondary = str;
-      this.policyHolderListChange.emit(this.policyHolderList);
-      this.setPolicyHolder(tp);
-    } else if (this.type == 'assignee') {
-      if (this.policyHolderList.primary === str) {
-        this.modalRef = Utility.showWarning(this.bms, "Assignee Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+      } else if (this.type == 'assignee') {
+        if (this.policyHolderList.primary === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Assignee Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+        } else {
+          this.policyHolderList.assignee = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else if (this.type == 'owner') {
+        if (this.policyHolderList.primary === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Owner Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+        } else {
+          this.policyHolderList.owner = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else if (this.type == 'driver') {
+        if (this.policyHolderList.primary === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Driver Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+        } else {
+          this.policyHolderList.driver = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
       } else {
-        this.policyHolderList.assignee = str;
-        this.policyHolderListChange.emit(this.policyHolderList);
-        this.setPolicyHolder(tp);
-      }
-    } else if (this.type == 'owner') {
-      if (this.policyHolderList.primary === str) {
-        this.modalRef = Utility.showWarning(this.bms, "Owner Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
-      } else {
-        this.policyHolderList.owner = str;
-        this.policyHolderListChange.emit(this.policyHolderList);
-        this.setPolicyHolder(tp);
-      }
-    } else if (this.type == 'driver') {
-      if (this.policyHolderList.primary === str) {
-        this.modalRef = Utility.showWarning(this.bms, "Driver Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
-      } else {
-        this.policyHolderList.driver = str;
-        this.policyHolderListChange.emit(this.policyHolderList);
         this.setPolicyHolder(tp);
       }
     } else {
