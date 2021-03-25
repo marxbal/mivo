@@ -683,13 +683,13 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.mortgageePolicyHolder.documentType = ben.tipDocum;
               this.mortgageePolicyHolder.isExisting = true;
             } else if (ben.tipBenef == 4) {
-              this.showOwner = true;
+              this.showOwner = !this.carDetails.cbPolicyOwner;
               this.ownerPolicyHolder.documentCode = ben.codDocum;
               this.ownerPolicyHolder.documentType = ben.tipDocum;
               this.ownerPolicyHolder.isExisting = true;
               this.policyHolderList.owner = str;
             } else if (ben.tipBenef == 3) {
-              this.showDriver = true;
+              this.showDriver = !this.carDetails.cbPolicyOnlyDriver;
               this.driverPolicyHolder.documentCode = ben.codDocum;
               this.driverPolicyHolder.documentType = ben.tipDocum;
               this.driverPolicyHolder.isExisting = true;
@@ -766,8 +766,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         const technicalControl = res.obj["technicalControl"];
         if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
           this.withTechControl = true;
-          this.editMode = false;
-          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+          this.manageBtn(3);
+          this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
         }
       } else {
         this.modalRef = Utility.showError(this.bms, res.obj['message']);
