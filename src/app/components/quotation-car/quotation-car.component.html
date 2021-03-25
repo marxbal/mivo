@@ -1208,9 +1208,7 @@
               <div class="btn-group" role="group">
 
                 <button 
-                  *ngIf="
-                    isTemporaryQuotation &&
-                    (quoteForm.invalid ||
+                  *ngIf="(quoteForm.invalid ||
                     appGroupPolicy.gpForm.invalid ||
                     appPolicyHolder.phForm.invalid ||
                     (secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) ||
@@ -1224,9 +1222,7 @@
                     Save
                 </button>
                 <button 
-                  *ngIf="
-                    isTemporaryQuotation &&
-                    (!quoteForm.invalid &&
+                  *ngIf="(!quoteForm.invalid &&
                     !appGroupPolicy.gpForm.invalid &&
                     !appPolicyHolder.phForm.invalid &&
                     !(secondaryPolicyHolder.documentCode != undefined && secondaryPolicyHolder.documentCode != '' && (carDetails.secondaryPolicyHolderSeparator == undefined || carDetails.secondaryPolicyHolderSeparator == '')) &&
