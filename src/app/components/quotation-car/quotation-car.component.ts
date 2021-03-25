@@ -1826,6 +1826,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
             //prevent user to issue policy with existing tech control
             if (this.withTechControl) {
+              this.editMode = true;
               this.modalRef = Utility.showHTMLWarning(this.bms, ["Successfully saved a quotation with technical control."]);
             } else {
               var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
