@@ -1824,19 +1824,24 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             const receipt = res1.obj["receipt"];
             this.populatePaymentBreakdown(breakdown, receipt);
 
-            this.withTechControl = errorCode == 'S';
+            //prevent user to issue policy with existing tech control
             if (this.withTechControl) {
-              //if quotation has a warning
-              if (this.carDetails.affecting) {
-                items = ["Updated quotation number is: " + policyNumber].concat(items);
-              }
-              this.modalRef = Utility.showHTMLWarning(this.bms, items);
+              this.modalRef = Utility.showHTMLWarning(this.bms, ["Successfully saved a quotation with technical control."]);
             } else {
-              const message = "Policy saved successfully.";
-              this.modalRef = Utility.showInfo(this.bms, message);
+              this.withTechControl = errorCode == 'S';
+              if (this.withTechControl) {
+                //if quotation has a warning
+                if (this.carDetails.affecting) {
+                  items = ["Updated quotation number is: " + policyNumber].concat(items);
+                }
+                this.modalRef = Utility.showHTMLWarning(this.bms, items);
+              } else {
+                const message = "Policy saved successfully.";
+                this.modalRef = Utility.showInfo(this.bms, message);
+              }
+              this.editMode = false;
+              this.manageBtn(3);
             }
-            this.editMode = false;
-            this.manageBtn(3);
           } else {
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
