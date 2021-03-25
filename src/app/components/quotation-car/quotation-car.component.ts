@@ -1789,7 +1789,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
           //clear affecting fields
           this.changedValues = [];
 
-          var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
+          // var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
           const status = res1.obj["status"];
           const coverageAmount = res1.obj["coverageAmount"];
           if (status && coverageAmount.length) {
@@ -1828,6 +1828,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             if (this.withTechControl) {
               this.modalRef = Utility.showHTMLWarning(this.bms, ["Successfully saved a quotation with technical control."]);
             } else {
+              var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
               this.withTechControl = errorCode == 'S';
               if (this.withTechControl) {
                 //if quotation has a warning
@@ -1843,6 +1844,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
               this.manageBtn(3);
             }
           } else {
+            var items = this.getErrorItems(res1, this.carDetails.mcaTmpPptoMph, true);
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
         } else {
