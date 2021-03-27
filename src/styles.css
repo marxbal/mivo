@@ -49,11 +49,23 @@ body,
   background-size: cover;
 }
 
+#login.staging .left-container{
+  background: #252525;
+  background-image: url('./assets/images/main-banner-1.jpg');
+  background-size: cover;
+}
+
 .bg-gradient-primary,
-#chooseAgent,
-#termsAndCondition {
+#onePageTemplate {
   background: #c31f09;
   background-image: url('./assets/images/bg_red.jpg');
+  background-size: cover;
+}
+
+.bg-gradient-primary.staging,
+#onePageTemplate.staging {
+  background: #252525;
+  background-image: url('./assets/images/bg_black.jpg');
   background-size: cover;
 }
 
@@ -151,6 +163,12 @@ table .amount {
 app-sidenav {
   background: #c31f09;
   background-image: url('./assets/images/bg_red.jpg');
+  background-size: cover;
+}
+
+app-sidenav.staging {
+  background: #252525;
+  background-image: url('./assets/images/bg_black.jpg');
   background-size: cover;
 }
 

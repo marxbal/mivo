@@ -26,6 +26,9 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
+import {
+  environment
+} from 'src/environments/environment';
 
 @Component({
   selector: 'app-choose-agent',
@@ -40,6 +43,7 @@ export class ChooseAgentComponent implements OnInit {
   execAgent = this.auths.currentUserValue.execAgent;
   hasSelectedAgent = !Utility.isUndefined(this.currentUser.selectedAgent);
   showCancelBtn: boolean = false;
+  isStaging = !environment.production;
 
   constructor(private router: Router,
     private auths: AuthenticationService,

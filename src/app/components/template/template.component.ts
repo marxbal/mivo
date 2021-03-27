@@ -14,7 +14,12 @@ import {
 import {
   filter
 } from 'rxjs/operators';
-import { PaymentService } from 'src/app/services/payment.service';
+import {
+  PaymentService
+} from 'src/app/services/payment.service';
+import {
+  environment
+} from 'src/environments/environment';
 
 @Component({
   selector: 'app-template',
@@ -23,7 +28,7 @@ import { PaymentService } from 'src/app/services/payment.service';
 })
 export class TemplateComponent implements OnInit {
   p = page; //constant pages
-  sideNavClass = "";
+  isStaging = !environment.production;
 
   constructor(private route: ActivatedRoute, private paymentService: PaymentService) {}
 

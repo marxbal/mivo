@@ -36,6 +36,9 @@ import {
 import {
   page
 } from "../../constants/page";
+import {
+  environment
+} from 'src/environments/environment';
 
 @Component({
   selector: "app-login",
@@ -49,6 +52,7 @@ export class LoginComponent implements OnInit {
   message: any;
   alert: boolean;
   version = VER;
+  isStaging = !environment.production;
 
   //modal reference
   modalRef: BsModalRef;

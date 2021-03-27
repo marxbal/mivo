@@ -22,6 +22,7 @@ export class HealthCheckComponent implements OnInit {
   apiUrl = environment.apiUrl;
   imgUrl = environment.imgUrl;
   production = environment.production;
+  isStaging = !environment.production;
   version = VER;
   backendConfigList: any = {
     version: 'n/a',

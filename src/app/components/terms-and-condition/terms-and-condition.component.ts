@@ -5,6 +5,9 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
+import {
+  environment
+} from 'src/environments/environment';
 
 @Component({
   selector: 'app-terms-and-condition',
@@ -12,6 +15,8 @@ import {
   styleUrls: ['./terms-and-condition.component.css']
 })
 export class TermsAndConditionComponent implements OnInit {
+
+  isStaging = !environment.production;
 
   constructor() {}
 

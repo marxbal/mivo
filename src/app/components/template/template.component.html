@@ -2,7 +2,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <app-sidenav class="{{sideNavClass}}"></app-sidenav>
+    <app-sidenav [ngClass]="{'staging': isStaging}"></app-sidenav>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
