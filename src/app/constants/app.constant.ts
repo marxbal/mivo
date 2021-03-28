@@ -14,4 +14,4 @@ export const AUTH_TOKEN = environment.apiUrl + 'oauth/token';
 export const API_URL = environment.apiUrl + 'api';
 
 //deployment version
-export const VER = 'v1.20210324';
+export const VER = 'v1.20210328';
