@@ -443,6 +443,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(1)">Generate</button>
@@ -456,6 +457,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Issue Quote</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(2)">Issue Quote</button>
@@ -504,6 +506,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(1)">Generate</button>
@@ -518,6 +521,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Save</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(3)">Save</button>
@@ -532,6 +536,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Post</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(4)">Post</button>

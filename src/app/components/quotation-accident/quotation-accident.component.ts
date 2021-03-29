@@ -98,7 +98,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   invalidForms: any[] = [];
 
-  withTechControl = false;
+  withTechControl: boolean = false;
+
+  // prevent user to spam the button
+  processing: boolean = false;
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
@@ -713,6 +716,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   proceed(type: number) {
+    this.processing = true;
     //if user changes affecting values
     const hasChanges = this.changedValues.length != 0;
 
@@ -746,6 +750,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   openProceedModal(type: number): void {
+    this.processing = false;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.restoreFocus = false;
     dialogConfig.autoFocus = false;
@@ -949,6 +954,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.assembleData(mcaTmpPptoMph);
 
     this.ais.issueQuote(this.accidentDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1022,6 +1028,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.assembleData("N");
 
     this.ais.savePolicy(this.accidentDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1076,6 +1083,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     } else {
       this.ais.postPolicy(this.accidentDetails).then(res => {
+        this.processing = false;
         if (res.status) {
           //clear affecting fields
           this.changedValues = [];

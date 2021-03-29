@@ -103,7 +103,10 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
 
   invalidForms: any[] = [];
 
-  withTechControl = false;
+  withTechControl: boolean = false;
+
+  // prevent user to spam the button
+  processing: boolean = false;
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
@@ -696,6 +699,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   proceed(type: number) {
+    this.processing = true;
     //checking the affecting related details
     this.hasAffectingRelatedDetails();
     //if user changes affecting values
@@ -731,6 +735,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
   }
 
   openProceedModal(type: number): void {
+    this.processing = false;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.restoreFocus = false;
     dialogConfig.autoFocus = false;
@@ -1011,6 +1016,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.assembleData(mcaTmpPptoMph);
 
     this.his.issueQuote(this.homeDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1108,6 +1114,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
     this.assembleData("N");
 
     this.his.savePolicy(this.homeDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1164,6 +1171,7 @@ export class QuotationHomeComponent implements OnInit, AfterViewChecked {
       this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     } else {
       this.his.postPolicy(this.homeDetails).then(res => {
+        this.processing = false;
         this.editMode = false;
         if (res.status) {
           //clear affecting fields
