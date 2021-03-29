@@ -115,6 +115,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   invalidForms: any[] = [];
   withTechControl = false;
 
+  // prevent user to spam the button
+  processing: boolean = false;
+
   //list of new/create policy holder
   createList: any[] = [];
   //list of policy holder/beneficiary
@@ -1304,6 +1307,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   proceed(type: number) {
+    this.processing = true;
     //if user changes affecting values
     const hasAffectingAccessories = this.checkAffectingAccessories();
     const hasChanges = this.changedValues.length != 0 || hasAffectingAccessories;
@@ -1394,6 +1398,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   openProceedModal(type: number): void {
+    this.processing = false;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.restoreFocus = false;
     dialogConfig.autoFocus = false;
@@ -1408,6 +1413,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   }
 
   openValidationModal(q: FormGroup, g: FormGroup, c: FormGroup): void {
+
     //clear arrays
     let invalid = [];
     this.invalidForms = [];
@@ -1636,6 +1642,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.issueQuote(this.carDetails).then(res1 => {
+        this.processing = false;
         if (res1.status) {
           //clear affecting fields
           this.changedValues = [];
@@ -1786,6 +1793,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
 
     this.cqs.getCoverageByProduct(this.carDetails).then(res => {
       this.cqs.savePolicy(this.carDetails).then(res1 => {
+        this.processing = false;
         if (res1.status) {
           //clear affecting fields
           this.changedValues = [];
@@ -1868,6 +1876,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     } else {
       this.cqs.postPolicy(this.carDetails).then(res1 => {
+        this.processing = false;
         if (res1.status) {
           //clear affecting fields
           this.changedValues = [];
