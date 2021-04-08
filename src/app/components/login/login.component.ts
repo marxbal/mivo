@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
       });
     }
 
-    this.getAnnouncement();
+    // this.getAnnouncement();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
