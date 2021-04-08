@@ -18,7 +18,8 @@ import {
   CURRENT_USER,
   MENU, 
   MIVO_AUTH,
-  DASH_INFO
+  DASH_INFO,
+  SESSION_TIME
 } from "../constants/local.storage";
 import {
   Page
@@ -92,6 +93,7 @@ export class AuthenticationService {
       }
     }
     localStorage.setItem(MENU, JSON.stringify(page));
+    localStorage.setItem(SESSION_TIME, new Date().toISOString());
   }
 
   logout() {
@@ -100,6 +102,7 @@ export class AuthenticationService {
     localStorage.removeItem(MENU);
     localStorage.removeItem(MIVO_AUTH);
     localStorage.removeItem(DASH_INFO);
+    localStorage.removeItem(SESSION_TIME);
     this.currentUserSubject.next(null);
   }
 }

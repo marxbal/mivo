@@ -20,6 +20,26 @@ import {
 import {
   environment
 } from 'src/environments/environment';
+import {
+  BsModalService
+} from 'ngx-bootstrap/modal';
+import {
+  EXPIRY_NOTI_MINUTES,
+  EXPIRY_MINUTES
+} from '../../constants/app.constant';
+import {
+  SESSION_TIME
+} from 'src/app/constants/local.storage';
+import * as moment from 'moment';
+import {
+  Utility
+} from 'src/app/utils/utility';
+import {
+  AuthenticationService
+} from 'src/app/services/authentication.service';
+import {
+  Router
+} from '@angular/router';
 
 @Component({
   selector: 'app-template',
@@ -29,10 +49,37 @@ import {
 export class TemplateComponent implements OnInit {
   p = page; //constant pages
   isStaging = !environment.production;
+  id: any;
+  ctr: number = 0;
 
-  constructor(private route: ActivatedRoute, private paymentService: PaymentService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private paymentService: PaymentService,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private bms: BsModalService) {}
 
   ngOnInit() {
+    // notification for expiring session
+    this.id = setInterval(() => {
+      const loginTime = localStorage.getItem(SESSION_TIME);
+      if (!Utility.isUndefined(loginTime)) {
+        const loginDateTime = moment(new Date(loginTime));
+        const now = moment(new Date());
+        const duration = moment.duration(now.diff(loginDateTime));
+        const minute = parseInt(duration.asMinutes().toFixed());
+        if (minute >= EXPIRY_NOTI_MINUTES) {
+          if (minute >= EXPIRY_MINUTES) {
+            this.authenticationService.logout();
+            this.router.navigate(['/login']);
+          } else {
+            var remainingMinutes = EXPIRY_MINUTES - minute;
+            Utility.showInfo(this.bms, "Your session will expire in " + remainingMinutes + " minutes. Please relogin to continue using MIVO. Thank you!");
+          }
+        }
+      }
+    }, 60000);
+
     this.route.queryParams
       .subscribe(params => {
         if (params.invoiceNo && params.vpc_Message === 'Approved') {
@@ -59,5 +106,11 @@ export class TemplateComponent implements OnInit {
     }).then(response => {
       console.log('response: ', response);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
   }
 }

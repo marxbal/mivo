@@ -39,6 +39,12 @@ import {
 import {
   environment
 } from 'src/environments/environment';
+import {
+  ToastrService
+} from 'ngx-toastr';
+import {
+  DashboardService
+} from "src/app/services/dashboard.service";
 
 @Component({
   selector: "app-login",
@@ -62,10 +68,12 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: BsModalService,
-    private authenticationService: AuthenticationService
+    private auth: AuthenticationService,
+    private ds: DashboardService,
+    private toastr: ToastrService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
+    if (this.auth.currentUserValue) {
       this.router.navigate(["/"]);
     }
     this.createForm();
@@ -89,8 +97,21 @@ export class LoginComponent implements OnInit {
       });
     }
 
+    this.getAnnouncement();
+
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+  }
+
+  getAnnouncement() {
+    this.ds.getAnnouncement().then(res => {
+      if (res.status) {
+        const details = res.obj["details"] as any;
+        if (details.hasAnnouncement) {
+          Utility.toastr(this.toastr, details.message, details.title, details.type);
+        }
+      }
+    });
   }
 
   createForm() {
@@ -112,7 +133,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.rememberMe();
     this.loading = true;
-    this.authenticationService
+    this.auth
       .login(this.loginForm.value.username, this.loginForm.value.password)
       .pipe(first())
       .subscribe(

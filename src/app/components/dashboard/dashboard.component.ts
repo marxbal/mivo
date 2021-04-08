@@ -17,6 +17,12 @@ import {
 import {
   DASH_INFO
 } from "../../constants/local.storage";
+import {
+  Utility
+} from 'src/app/utils/utility';
+import {
+  ToastrService
+} from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,7 +63,7 @@ export class DashboardComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           var value = Number(data.datasets[0].data[tooltipItem.index]).toFixed(2);
-          
+
           return ' PHP ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
       },
@@ -75,17 +81,42 @@ export class DashboardComponent implements OnInit {
     label: 'Monthly Production'
   }, ];
 
-  constructor(private ds: DashboardService) {}
+  constructor(
+    private ds: DashboardService,
+    private toastr: ToastrService) {}
 
   ngOnInit() {
-    const _this = this;
-    this.ds.getForeignExchange().then((res) => {
+    this.getAnnouncement();
+    this.getForexExchange();
+    this.getDashInfo();
+  }
+
+  getForexExchange() {
+    this.ds.getAnnouncement().then(res => {
       if (res.status) {
-        _this.forex.dollar = res.obj["dollar"];
-        _this.forex.euro = res.obj["euro"];
+        this.ds.getForeignExchange().then((res) => {
+          if (res.status) {
+            this.forex.dollar = res.obj["dollar"];
+            this.forex.euro = res.obj["euro"];
+          }
+        });
       }
     });
+  }
 
+  getAnnouncement() {
+    this.ds.getAnnouncement().then(res => {
+      if (res.status) {
+        const details = res.obj["details"] as any;
+        if (details.hasAnnouncement) {
+          Utility.toastr(this.toastr, details.message, details.title, details.type);
+        }
+      }
+    });
+  }
+
+  getDashInfo() {
+    const _this = this;
     const dashInfo = localStorage.getItem(DASH_INFO);
 
     if (dashInfo != null) {
@@ -108,23 +139,5 @@ export class DashboardComponent implements OnInit {
         }
       });
     }
-
-
-    // this.loadScripts();
   }
-
-  // loadScripts() {
-  //   const dynamicScripts = [
-  //     './assets/js/chart.js'
-  //   ];
-  //   for (let i = 0; i < dynamicScripts.length; i++) {
-  //     const node = document.createElement('script');
-  //     node.src = dynamicScripts[i];
-  //     node.type = 'text/javascript';
-  //     node.async = false;
-  //     node.charset = 'utf-8';
-  //     document.getElementsByTagName('head')[0].appendChild(node);
-  //   }
-  // }
-
 }

@@ -9,7 +9,9 @@ import {
   CURRENT_USER
 } from "../constants/local.storage";
 import * as moment from 'moment';
-import { User } from '../objects/User';
+import {
+  User
+} from '../objects/User';
 
 export class Utility {
 
@@ -80,6 +82,35 @@ export class Utility {
     });
   }
 
+  static toastr(toastr: any, message: string, title: string, type: string) {
+    var settings = {
+      closeButton: true,
+      positionClass: 'toast-top-full-width',
+      timeOut: 30000,
+      tapToDismiss: false,
+      extendedTimeOut: 5000
+    }
+
+    switch (type) {
+      case "S": {
+        toastr.success(message, title, settings);
+        break;
+      }
+      case "W": {
+        toastr.warning(message, title, settings);
+        break;
+      }
+      case "E": {
+        toastr.error(message, title, settings);
+        break;
+      }
+      default: {
+        toastr.info(message, title, settings);
+        break;
+      }
+    }
+  }
+
   copyToClipboard(item: string) {
     document.addEventListener('copy', (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', (item));
@@ -134,7 +165,7 @@ export class Utility {
   }
 
   static convertDatePickerDate(val: String) {
-    if (val != null && val != undefined && val !== '' ) {
+    if (val != null && val != undefined && val !== '') {
       const date = val.toString();
       var d = new Date(date);
       return moment(d).format("MM/DD/YYYY");
@@ -151,7 +182,7 @@ export class Utility {
       const user = JSON.parse(storedDetails);
       u = new User(user);
     }
-    
+
     return u;
   }
 }

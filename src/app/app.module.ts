@@ -245,6 +245,9 @@ import {
 import {
   HealthCheckComponent
 } from './components/health-check/health-check.component';
+import {
+  ToastrModule
+} from 'ngx-toastr';
 
 const routes: Routes = [{
     path: "login",
@@ -368,7 +371,8 @@ const routes: Routes = [{
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     NgHttpLoaderModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

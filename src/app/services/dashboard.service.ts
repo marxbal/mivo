@@ -20,4 +20,8 @@ export class DashboardService {
     return this.app.get('/dashboard/getDashboardInfo').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
+  async getAnnouncement(): Promise < ReturnDTO > {
+    return this.app.get('/dashboard/getAnnouncement').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
 }
