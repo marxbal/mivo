@@ -106,7 +106,7 @@ export class LoginComponent implements OnInit {
   getAnnouncement() {
     this.ds.getAnnouncement().then(res => {
       if (res.status) {
-        const details = res.obj["details"] as any;
+        const details = res.obj as any;
         if (details.hasAnnouncement) {
           Utility.toastr(this.toastr, details.message, details.title, details.type);
         }
