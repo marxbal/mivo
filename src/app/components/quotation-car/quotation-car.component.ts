@@ -1153,7 +1153,7 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         _this.carDetails.displacement = null;
         _this.carDetails.classification = null;
         _this.carDetails.seatingCapacity = null;
-        // _this.carDetails.customRiskName = res.obj["customRiskName"];
+        _this.carDetails.customRiskName = null;
         _this.CRNPlaceholder = res.obj["customRiskName"];
       }
     });
