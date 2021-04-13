@@ -115,6 +115,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
   invalidForms: any[] = [];
   withTechControl = false;
 
+  CRNPlaceholder: string = '';
+
   // prevent user to spam the button
   processing: boolean = false;
 
@@ -1151,7 +1153,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
         _this.carDetails.displacement = null;
         _this.carDetails.classification = null;
         _this.carDetails.seatingCapacity = null;
-        _this.carDetails.customRiskName = res.obj["customRiskName"];
+        // _this.carDetails.customRiskName = res.obj["customRiskName"];
+        _this.CRNPlaceholder = res.obj["customRiskName"];
       }
     });
 
