@@ -105,6 +105,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAnnouncement() {
+    this.toastr.clear();
     this.ds.getAnnouncement().then(res => {
       if (res.status) {
         const details = res.obj as any;
