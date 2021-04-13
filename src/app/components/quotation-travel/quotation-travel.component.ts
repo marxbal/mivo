@@ -311,7 +311,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   relationshipOnChange(traveler: FormGroup) {
     var val = traveler.controls['relationship'].value;
-    var maxAge = (val == 'C') ? 21 : 65;
+    var maxAge = (val == 'C') ? 21 : 76;
     var minAge = (val == 'C') ? 0 : 18;
 
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();

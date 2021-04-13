@@ -609,6 +609,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             }
           }
         });
+
+        this.CRNPlaceholder = res.obj["CRNPlaceholder"];
   
         const alternative = res.obj["alternative"] as any[];
         alternative.forEach(a => {
