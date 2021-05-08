@@ -14,10 +14,10 @@ export const AUTH_TOKEN = environment.apiUrl + 'oauth/token';
 export const API_URL = environment.apiUrl + 'api';
 
 //expiration time notification in minutes
-export const EXPIRY_NOTI_MINUTES = 27;
+export const EXPIRY_NOTI_MINUTES = 52;
 
 //expiration time in minutes
-export const EXPIRY_MINUTES = 30;
+export const EXPIRY_MINUTES = 55;
 
 //deployment version
-export const VER = 'v1.20210413';
+export const VER = 'v1.20210503';
