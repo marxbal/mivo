@@ -263,7 +263,24 @@ export class ViewDetailsModalComponent implements OnInit {
       });
     } else {
       this.paymentService.getPaymentUrlViaGlobalPay(data.invoiceNumber).then((response) => {
-        window.location.href = response.url;
+        var mapForm = document.createElement("form");
+        mapForm.method = "POST"; // or "post" if appropriate
+        mapForm.action = response.url;
+        
+        Object.entries(response).forEach((attribute: any[]) => {
+          if (attribute[0] === 'url') {
+            return;
+          }
+          
+          var mapInput = document.createElement("input");
+          mapInput.type = "hidden";
+          mapInput.name = attribute[0].replaceAll('vpc', 'vpc_');
+          mapInput.setAttribute("value", attribute[1]);
+          mapForm.appendChild(mapInput);
+        });
+
+        document.body.appendChild(mapForm);
+        mapForm.submit();
       });
     }
 
