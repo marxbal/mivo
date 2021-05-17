@@ -354,6 +354,10 @@ th.mat-header-cell {
   color: #3a3a3a;
 }
 
+.fa-inverse.fa.fa-info.tutorial {
+  color: #fff;
+}
+
 .modal-header.modal-info {
   background: #3a3a3a;
   color: #fff;
