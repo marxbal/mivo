@@ -1070,24 +1070,31 @@
 
 <div mat-dialog-actions align="end">
   <div class="btn-group" role="group">
+    <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="downloadReceipt(listAccountOutstandingBills)">
+      Print Receipt
+    </button>
     <button *ngIf="type == 'account-outstanding-bills' && !isProceedToPayment" [disabled]="listAccountOutstandingBills.paymentStatus !== '-'" type="button" class="btn btn-success" (click)="pay()">
       Proceed to Payment
-    </button>
-    <button *ngIf="type == p.ACC.SUC"  type="button" class="btn btn-success">
-      Print Policy
     </button>
     <button *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" type="button" class="btn btn-success" (click)="redirectToPayment(listAccountOutstandingBills)">
       I agree
     </button>
+
+    <button *ngIf="type == p.ACC.SUC"  type="button" class="btn btn-success">
+      Print Policy
+    </button>
+
     <button *ngIf="type == 'client-active' || type == 'client-claims'" type="button" class="btn btn-success" (click)="inquire()">
       Inquire
     </button>
+
     <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="downloadRenewalPolicy()">
       Print Renewal Notice
     </button>
     <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="requestRenewal()">
       Request Renewal
     </button>
+
     <button type="button" class="btn btn-primary" (click)="close()">
       Close
     </button>

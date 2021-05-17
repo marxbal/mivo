@@ -20,6 +20,9 @@ import {
 import {
   RenewalPrinting
 } from '../objects/RenewalPrinting';
+import {
+  ReceiptPrinting
+} from '../objects/ReceiptPrinting';
 
 @Injectable()
 export class UtilityService {
@@ -51,6 +54,18 @@ export class UtilityService {
     });
   }
 
+  downloadReceipt(receipt: ReceiptPrinting) {
+    return this.http.post(
+      API_URL + '/utility/downloadReceipt',
+      receipt, {
+        responseType: 'blob'
+      }).map((res: Blob) => {
+      return new Blob([res], {
+        type: 'application/pdf'
+      });
+    });
+  }
+
   async validatePrinting(documentPritingDetails: DocumentPrinting): Promise < ReturnDTO > {
     return this.app.post(documentPritingDetails, '/utility/validatePrinting').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
@@ -64,6 +79,9 @@ export class UtilityService {
   }
 
   async changePassword(oldPass: String, newPass: String): Promise < ReturnDTO > {
-    return this.app.post({oldPass, newPass}, '/utility/changePassword').then(ReturnDTO => ReturnDTO as ReturnDTO);
+    return this.app.post({
+      oldPass,
+      newPass
+    }, '/utility/changePassword').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }

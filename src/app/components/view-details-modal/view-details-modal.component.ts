@@ -92,6 +92,9 @@ import {
 import {
   Globals
 } from '../../utils/global';
+import {
+  ReceiptPrinting
+} from 'src/app/objects/ReceiptPrinting';
 
 @Component({
   selector: 'app-view-details-modal',
@@ -123,6 +126,8 @@ export class ViewDetailsModalComponent implements OnInit {
   listAccountPremiumCollection = new ListAccountPremiumCollection();
   type: String;
 
+  subline: string;
+
   //modal reference
   modalRef: BsModalRef;
   filter: UtilitiesQueryFilter = new UtilitiesQueryFilter();
@@ -135,7 +140,7 @@ export class ViewDetailsModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private paymentService: PaymentService,
     private us: UtilityService,
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.initPaymentForm();
@@ -183,6 +188,7 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.ACC.OUT: {
         this.listAccountOutstandingBills = this.data;
+        this.subline = this.data.policyNumber.substr(0, 3);
         break;
       }
       case page.ACC.COM: {
@@ -228,7 +234,7 @@ export class ViewDetailsModalComponent implements OnInit {
   }
 
   redirectToPayment(data: ListAccountOutstandingBills) {
-    if (this.paymentMethod ===  'paynamics') {
+    if (this.paymentMethod === 'paynamics') {
       const splitName = data.policyHolder.split(',');
       const splitNameFirstMiddle = splitName[1].split(' ');
       const middleName = splitNameFirstMiddle.length > 1 ? splitNameFirstMiddle[splitNameFirstMiddle.length - 1] : '';
@@ -266,12 +272,12 @@ export class ViewDetailsModalComponent implements OnInit {
         var mapForm = document.createElement("form");
         mapForm.method = "POST"; // or "post" if appropriate
         mapForm.action = response.url;
-        
+
         Object.entries(response).forEach((attribute: any[]) => {
           if (attribute[0] === 'url') {
             return;
           }
-          
+
           var mapInput = document.createElement("input");
           mapInput.type = "hidden";
           mapInput.name = attribute[0].replaceAll('vpc', 'vpc_');
@@ -332,11 +338,27 @@ export class ViewDetailsModalComponent implements OnInit {
     Globals.setPage(page.REQ.CRE);
   }
 
+  downloadReceipt(data: ListAccountOutstandingBills): void {
+    const receipt = new ReceiptPrinting();
+
+    receipt.prn = data.prn;
+    receipt.invoiceNumber = data.invoiceNumber;
+    receipt.subline = this.subline;
+
+    this.us.downloadReceipt(receipt).subscribe(data => {
+      if (data != null) {
+        window.open(URL.createObjectURL(data));
+      } else {
+        this.modalRef = Utility.showWarning(this.bms, 'Unable to print receipt at the moment.');
+      }
+    });
+  }
+
   close(): void {
     this.dialogRef.close();
   }
 
-  changePaymentMethod(event) { 
+  changePaymentMethod(event) {
     if (this.paymentMethod === event.target.value) {
       return;
     }
