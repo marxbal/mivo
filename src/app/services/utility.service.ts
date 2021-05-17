@@ -60,14 +60,14 @@ export class UtilityService {
       receipt, {
         responseType: 'blob'
       }).map((res: Blob) => {
-      if (res != null) {
         return new Blob([res], {
           type: 'application/pdf'
         });
-      } else {
-        return res;
-      }
     });
+  }
+
+  async validateReceiptPrinting(receipt: ReceiptPrinting): Promise < ReturnDTO > {
+    return this.app.post(receipt, '/utility/validateReceiptPrinting').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 
   async validatePrinting(documentPritingDetails: DocumentPrinting): Promise < ReturnDTO > {

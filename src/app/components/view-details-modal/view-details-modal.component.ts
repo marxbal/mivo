@@ -345,9 +345,11 @@ export class ViewDetailsModalComponent implements OnInit {
     receipt.invoiceNumber = data.invoiceNumber;
     receipt.subline = this.subline;
 
-    this.us.downloadReceipt(receipt).subscribe(data => {
-      if (data != null) {
-        window.open(URL.createObjectURL(data));
+    this.us.validateReceiptPrinting(receipt).then(data => {
+      if (data.status) {
+        this.us.downloadReceipt(receipt).subscribe(data => {
+          window.open(URL.createObjectURL(data));
+        });
       } else {
         this.modalRef = Utility.showWarning(this.bms, 'Unable to print receipt at the moment.');
       }
