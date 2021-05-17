@@ -169,6 +169,13 @@
     </div>
   </li>
 
+  <li *ngIf="menu.tutorial" [ngClass]="{'active': page==p.TUT.N}" class="nav-item" (click)="setPage(p.TUT.N)">
+    <a class="nav-link">
+      <i class="fas fa-fw fa-info"></i>
+      <span>Tutorial</span>
+    </a>
+  </li>
+
   <li *ngIf="menu.news" [ngClass]="{'active': page==p.NEW.N}" class="nav-item" (click)="setPage(p.NEW.N)">
     <a class="nav-link">
       <i class="fas fa-fw fa-newspaper"></i>

@@ -248,6 +248,9 @@ import {
 import {
   ToastrModule
 } from 'ngx-toastr';
+import {
+  TutorialComponent
+} from './components/tutorial/tutorial.component';
 
 const routes: Routes = [{
     path: "login",
@@ -342,6 +345,7 @@ const routes: Routes = [{
     AccountPremiumCollectionListComponent,
     TermsAndConditionComponent,
     HealthCheckComponent,
+    TutorialComponent,
   ],
   entryComponents: [
     ModalComponent,

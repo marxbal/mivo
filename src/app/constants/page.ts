@@ -55,6 +55,9 @@ export const page = {
     DOC: 'utilities-document-printing',
     CHA: 'utilities-change-password'
   },
+  TUT: {
+    N: 'tutorial'
+  },
   NEW: {
     N: 'news'
   },

@@ -46,6 +46,8 @@
   documentPrinting: boolean= false;
   changePassword: boolean= false;
 
+  tutorial: boolean= false;
+
   news: boolean= false;
 
   faq: boolean= true;
