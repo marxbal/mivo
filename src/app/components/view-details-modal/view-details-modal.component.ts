@@ -126,7 +126,7 @@ export class ViewDetailsModalComponent implements OnInit {
   listAccountPremiumCollection = new ListAccountPremiumCollection();
   type: String;
 
-  subline: string;
+  subline: number;
 
   //modal reference
   modalRef: BsModalRef;
@@ -188,7 +188,7 @@ export class ViewDetailsModalComponent implements OnInit {
       }
       case page.ACC.OUT: {
         this.listAccountOutstandingBills = this.data;
-        this.subline = this.data.policyNumber.substr(0, 3);
+        this.subline = parseInt(this.data.policyNumber.substr(0, 3));
         break;
       }
       case page.ACC.COM: {
