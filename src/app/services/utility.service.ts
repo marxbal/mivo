@@ -60,9 +60,13 @@ export class UtilityService {
       receipt, {
         responseType: 'blob'
       }).map((res: Blob) => {
-      return new Blob([res], {
-        type: 'application/pdf'
-      });
+      if (res != null) {
+        return new Blob([res], {
+          type: 'application/pdf'
+        });
+      } else {
+        return res;
+      }
     });
   }
 
