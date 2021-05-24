@@ -1663,7 +1663,9 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
             this.editMode = false;
             this.hasRoadAssist = res1.obj["hasRoadAssist"];
             const errorCode = res1.obj["errorCode"];
-            if (errorCode == "S") {
+
+            this.withTechControl = errorCode == "S";
+            if (this.withTechControl) {
               //if quotation has a warning
               this.editMode = true;
               this.modalRef = Utility.showHTMLWarning(this.bms, items);
