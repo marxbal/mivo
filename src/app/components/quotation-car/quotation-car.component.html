@@ -1165,16 +1165,18 @@
           </div>
           <!-- .note -->
 
-          <div *ngIf="showProceedToIssuanceBtnGrp && withTechControl">
-            <div class="alert alert-warning note">
-              <p>
-                <strong>Quotation has tech control!</strong> Unable to proceed.
-              </p>
-            </div>
-          </div>
-
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance">
+
+            <div *ngIf="showProceedToIssuanceBtnGrp && withTechControl">
+              <div class="alert alert-warning note">
+                <p>
+                  <strong>Quotation has tech control!</strong> Unable to proceed.
+                </p>
+              </div>
+            </div>
+            <!-- .note -->
+
             <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
               <button
                 *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
