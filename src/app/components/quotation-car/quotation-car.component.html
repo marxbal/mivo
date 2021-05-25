@@ -1165,6 +1165,14 @@
           </div>
           <!-- .note -->
 
+          <div *ngIf="showProceedToIssuanceBtnGrp && withTechControl">
+            <div class="alert alert-warning note">
+              <p>
+                <strong>Quotation has tech control!</strong> Unable to proceed.
+              </p>
+            </div>
+          </div>
+
           <!-- button controls for quotation -->
           <div *ngIf="!isIssuance">
             <div *ngIf="showGenerateBtnGrp" class="btn-group" role="group">
@@ -1203,7 +1211,7 @@
                 class="btn btn-primary"
                 (click)="proceed(2)">Issue Quote</button>
             </div>
-  
+
             <div *ngIf="showProceedToIssuanceBtnGrp" class="text-right">
               <h5><small>Your quotation number:</small> {{carDetails.quotationNumber}}</h5>
             </div>
