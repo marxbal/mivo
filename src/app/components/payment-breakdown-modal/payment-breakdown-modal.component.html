@@ -96,7 +96,7 @@
     <button *ngIf="!isPostPolicy" type="button" class="btn btn-primary" (click)="printQuote()">
       Print Quote
     </button>
-    <button *ngIf="!isPostPolicy" type="button" class="btn btn-primary" (click)="proceedToIssuance(line)">
+    <button *ngIf="!isPostPolicy" [disabled]="withTechControl" type="button" class="btn btn-primary" (click)="proceedToIssuance(line)">
       Proceed to Issuance
     </button>
   </div>

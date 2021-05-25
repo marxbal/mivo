@@ -48,6 +48,7 @@ export class PaymentBreakdownModalComponent implements OnInit {
   payment = this.data.payment;
   isPostPolicy = this.data.isPostPolicy;
   line = this.data.line;
+  withTechControl = (this.data.withTechControl != null || this.data.withTechControl != undefined) ? this.data.withTechControl : false;
 
   commission: any = 0;
   currencyCode: any = 'PHP';

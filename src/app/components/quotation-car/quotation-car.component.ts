@@ -1486,7 +1486,8 @@ export class QuotationCarComponent implements OnInit, AfterViewChecked {
       breakdown: breakdown,
       showExchangeRate: false,
       isPostPolicy: isPostPolicy,
-      line: 'CAR'
+      line: 'CAR',
+      withTechControl: this.withTechControl
     };
 
     this.dialog.open(PaymentBreakdownModalComponent, {
