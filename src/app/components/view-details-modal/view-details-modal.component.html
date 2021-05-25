@@ -1070,9 +1070,9 @@
 
 <div mat-dialog-actions align="end">
   <div class="btn-group" role="group">
-    <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="downloadReceipt(listAccountOutstandingBills)">
+    <!-- <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="downloadReceipt(listAccountOutstandingBills)">
       Print Receipt
-    </button>
+    </button> -->
     <button *ngIf="type == 'account-outstanding-bills' && !isProceedToPayment" [disabled]="listAccountOutstandingBills.paymentStatus !== '-'" type="button" class="btn btn-success" (click)="pay()">
       Proceed to Payment
     </button>
