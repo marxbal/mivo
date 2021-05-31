@@ -20,4 +20,4 @@ export const EXPIRY_NOTI_MINUTES = 52;
 export const EXPIRY_MINUTES = 55;
 
 //deployment version
-export const VER = 'v1.20210503';
+export const VER = 'v1.20210531';

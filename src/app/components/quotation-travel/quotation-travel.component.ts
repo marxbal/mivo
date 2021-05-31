@@ -97,6 +97,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   triggerBreakdown: number = 0;
   travelerHeadCount: number = 1;
 
+  maxAgeAdult: number = 76;
+  minAgeAdult: number = 18;
+  maxAgeChild: number = 21;
+  minAgeChild: number = 0;
+
   travelDetails = new Travel();
   prevTravelDetails: Travel = null;
   changedValues: any[] = [];
@@ -115,7 +120,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   quoteForm: FormGroup;
 
   mindate: Date = new Date();
-  // bdaymindate: Date = moment().subtract(65, 'years').toDate();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
   endDateMinDate: Date = moment().add(1, 'days').toDate();
   enableEndDate: boolean = false;
@@ -311,7 +315,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   relationshipOnChange(traveler: FormGroup) {
     var val = traveler.controls['relationship'].value;
-    var maxAge = (val == 'C') ? 21 : 76;
+    var maxAge = (val == 'C') ? 21 : this.maxAgeAdult;
     var minAge = (val == 'C') ? 0 : 18;
 
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
@@ -699,8 +703,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   newTraveler(onLoad: boolean): FormGroup {
-    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
-    var ageLimit = onLoad ? 18 : 0;
+    const bdaymindate: Date = moment().subtract(this.maxAgeAdult, 'years').toDate();
+    var ageLimit = onLoad ? this.minAgeAdult : this.minAgeChild;
     const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
 
     return this.fb.group({
@@ -716,8 +720,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadTraveler(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
-    const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
-    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 0 : 18, 'years').toDate();
+    const bdaymindate: Date = moment().subtract(relationship == 'C' ? this.maxAgeChild : this.maxAgeAdult, 'years').toDate();
+    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? this.minAgeChild : this.minAgeAdult, 'years').toDate();
 
     return this.fb.group({
       completeName: [completeName, Validators.required],
