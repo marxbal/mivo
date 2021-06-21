@@ -331,7 +331,9 @@ export class PolicyHolderComponent implements OnInit {
     const isPerson = this.policyHolderType == "P";
     this.lastName = isPerson ? this.lastName : "";
 
-    this.tps.getThirdPartyList(1, this.firstName, this.lastName).then((res) => {
+    var activity = this.type == "mortgagee" ? 91 : 1;
+
+    this.tps.getThirdPartyList(activity, this.firstName, this.lastName).then((res) => {
       if (res.status) {
         this.source = res.obj as[];
         if (this.source.length) {
