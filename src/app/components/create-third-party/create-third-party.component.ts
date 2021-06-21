@@ -31,6 +31,7 @@ import {
   BsModalService,
   BsModalRef
 } from 'ngx-bootstrap/modal';
+import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
 
 @Component({
   selector: 'app-create-third-party',
@@ -63,7 +64,12 @@ export class CreateThirdPartyComponent implements OnInit {
     private fb: FormBuilder,
     private tpls: ThirdPartyLOVServices,
     private tps: ThirdPartyService,
-    private bms: BsModalService) {}
+    private bms: BsModalService,
+    private cdref: ChangeDetectorRef) {}
+
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
 
   ngOnInit(): void {
     // getting all list of values needed for creating of third party person/organizaion/company
@@ -91,6 +97,8 @@ export class CreateThirdPartyComponent implements OnInit {
       province: [null],
       city: [null],
       address: ['', Validators.required],
+      address2: [null],
+      address3: [null],
       zipcode: [null],
       email: ['', [Validators.required, Validators.email]],
 
@@ -151,7 +159,13 @@ export class CreateThirdPartyComponent implements OnInit {
   getLOVs() {
     const _this = this;
     this.tpls.getDocumentType().then(res => {
-      _this.TPLOV.documentTypeLOV = res;
+      var types = [];
+      res.forEach(r => {
+        if (r.TIP_DOCUM != 'OTH' && r.TIP_DOCUM != 'MVO') {
+          types.push(r);
+        }
+      });
+      _this.TPLOV.documentTypeLOV = types;
     });
     this.tpls.getPrefix().then(res => {
       _this.TPLOV.prefixLOV = res;

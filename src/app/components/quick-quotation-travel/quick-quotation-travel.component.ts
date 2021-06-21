@@ -66,6 +66,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
   showProductComparison: boolean = false;
   //flag to display product coverage
   showProductCoverage: boolean = false;
+  //flag to show 90 day notice
+  show90DayAlert: boolean = false;
   //modal reference
   modalRef: BsModalRef;
 
@@ -158,6 +160,7 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
     this.quickQuoteForm.get('endDate').valueChanges.subscribe(date => {
       var diff = moment(date).diff(moment(this.quickQuoteForm.get('startDate').value), 'days') + 1;
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.ageRange === '2';
     });
 
     this.quickQuoteForm.get('startDate').valueChanges.subscribe(date => {
@@ -173,8 +176,8 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
       } else {
         this.travelDetails.endDate = null;
       }
-
       this.travelDetails.noOfDays = diff >= 2 ? diff : 0;
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && this.travelDetails.ageRange === '2';
     });
 
     this.quickQuoteForm.get('country').valueChanges.subscribe(countries => {
@@ -193,6 +196,10 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
           this.travelDetails.travelPackage = "P";
         }
       }
+    });
+
+    this.quickQuoteForm.get('ageRange').valueChanges.subscribe(age => {
+      this.show90DayAlert = this.travelDetails.noOfDays > 89 && age === '2';
     });
   }
 
@@ -234,7 +241,9 @@ export class QuickQuotationTravelComponent implements OnInit, AfterViewChecked {
           obj.personalAssistance = details.personalAssistance;
           obj.assist = details.assistOnly;
           obj.currency = details.currency;
-          this.travelData.push(obj);
+          if (details.label != '2500K') {
+            this.travelData.push(obj);
+          }
         });
 
         // hiding product coverage

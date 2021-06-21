@@ -36,6 +36,7 @@ import {
   CarLOVServices
 } from 'src/app/services/lov/car.service';
 
+
 @Component({
   selector: 'app-policy-holder',
   templateUrl: './policy-holder.component.html',
@@ -45,13 +46,21 @@ export class PolicyHolderComponent implements OnInit {
   @Input() title: String;
   @Input() showCreateBtn: boolean;
   @Input() policyHolder: PolicyHolder;
-  @Input() compareTo: PolicyHolder;
   @Input() details: any;
   @Input() isIssuance: boolean;
+  @Input() isCar: boolean = false;
   @Input() type: String;
   @Input() optional: boolean;
   @Input() editMode: boolean;
   @Input() showPrefix: boolean = true;
+  @Input() createList: any[] = [];
+  @Input() policyHolderList: {
+    primary: string,
+    secondary: string,
+    assignee: string,
+    owner: string,
+    driver: string
+  };
   @Input()
   set loadQuotation(value: number) {
     this.triggerCounter = value;
@@ -62,6 +71,8 @@ export class PolicyHolderComponent implements OnInit {
   }
 
   @Output() policyHolderChange = new EventEmitter < PolicyHolder > ();
+  @Output() createListChange = new EventEmitter < any[] > ();
+  @Output() policyHolderListChange = new EventEmitter < {} > ();
   
   _details: any;
   triggerCounter: number;
@@ -80,6 +91,8 @@ export class PolicyHolderComponent implements OnInit {
   //for optional content
   showContent: boolean;
 
+  isDriver: boolean = false;
+
   showSearch: boolean = false;
   showSearchResult: boolean = false;
 
@@ -97,6 +110,8 @@ export class PolicyHolderComponent implements OnInit {
   //modal reference
   modalRef: BsModalRef;
 
+  driverPolicyHolder: Array < PolicyHolder > = [];
+
   constructor(
     private fb: FormBuilder,
     private bms: BsModalService,
@@ -112,6 +127,7 @@ export class PolicyHolderComponent implements OnInit {
     if (this.isIssuance) {
       //can only search company/organization if type is mortgagee
       this.policyHolderType = this.type == 'mortgagee' ? 'C' : 'P';
+      this.isDriver = this.type === 'driver';
 
       if (this.type == 'secondary') {
         var _this = this;
@@ -167,9 +183,12 @@ export class PolicyHolderComponent implements OnInit {
     this.showSearch = false;
     this.showSearchResult = false;
 
-    var label = this.type == 'secondary' ? "Alternative " :
+    var label = 
+      this.type == 'secondary' ? "Alternative " :
       this.type == 'assignee' ? "Assignee " :
-      this.type == 'morgagee' ? "Mortagee " : '';
+      this.type == 'morgagee' ? "Mortagee " :
+      this.type == 'owner' ? "Owner " :
+      this.type == 'driver' ? "Driver " : '';
 
     let title = "Create " + label + "Policy Holder";
 
@@ -180,21 +199,122 @@ export class PolicyHolderComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CreateThirdPartyComponent, {
       width: '1000px',
-      data: modalData
+      data: modalData,
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(thirdParty => {
       // if create button is clicked
       if (!Utility.isUndefined(thirdParty)) {
-        this.setPolicyHolder(thirdParty);
+        var tp = thirdParty as PolicyHolder;
+        var str = thirdParty.documentType + '-' + thirdParty.documentCode;
+        if (this.isCar) {
+          if (this.checkDuplicate(str)) {
+            this.createList.splice(this.createList.indexOf(str), 1);
+            this.createListChange.emit(this.createList);
+  
+            this.modalRef = Utility.showWarning(this.bms, "You are creating a policy holder with the same document type and document code, please use a different ID.");
+            tp.documentCode = '';
+            this.setPolicyHolder(tp);
+          } else {
+            this.createList.push(str);
+            this.createListChange.emit(this.createList);
+            this.validate(str, tp);
+          }
+        } else {
+          this.setPolicyHolder(tp);
+        }
+      } else {
+        this.clear();
       }
     });
   }
 
+  checkDuplicate(str : string) {
+    var isDuplicate = false;
+    this.createList.forEach((res) => {
+      if (res === str) {
+        isDuplicate = true;
+      }
+    });
+    return isDuplicate;
+  }
+
+  validate(str: string, tp: PolicyHolder, isAdd?: boolean) {
+    if (isAdd) {
+      this.showSearch = false;
+      this.showSearchResult = false;
+    }
+
+    if (this.isCar) {
+      if (this.type == 'primary') {
+        if (this.policyHolderList.assignee === str || this.policyHolderList.owner === str || this.policyHolderList.driver === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Primary Policy Holder should not be the same to Assignee, Owner or Driver, please choose or create a new one.");
+        } else {
+          this.policyHolderList.primary = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else if (this.type == 'secondary') {
+        this.policyHolderList.secondary = str;
+        this.policyHolderListChange.emit(this.policyHolderList);
+        this.setPolicyHolder(tp);
+      } else if (this.type == 'assignee') {
+        if (this.policyHolderList.primary === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Assignee Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+        } else {
+          this.policyHolderList.assignee = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else if (this.type == 'owner') {
+        if (this.policyHolderList.primary === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Owner Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+        } else {
+          this.policyHolderList.owner = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else if (this.type == 'driver') {
+        if (this.policyHolderList.primary === str) {
+          this.modalRef = Utility.showWarning(this.bms, "Driver Policy Holder should not be the same to Primary Policy Holder, please choose or create a new one.");
+        } else {
+          this.policyHolderList.driver = str;
+          this.policyHolderListChange.emit(this.policyHolderList);
+          this.setPolicyHolder(tp);
+        }
+      } else {
+        this.setPolicyHolder(tp);
+      }
+    } else {
+      this.setPolicyHolder(tp);
+    }
+  }
+
   clear() {
+    var str = this.policyHolder.documentType + '-' + this.policyHolder.documentCode;
+    this.createList.splice(this.createList.indexOf(str), 1);
+    this.createListChange.emit(this.createList);
+
     this.showSearch = false;
     this.showSearchResult = false;
     this.setPolicyHolder(new PolicyHolder());
+
+    if (this.isCar) {
+      if (this.type === 'primary') {
+        this.policyHolderList.primary = '';
+      } else if (this.type === 'secondary') {
+        this.policyHolderList.secondary = '';
+      } else if (this.type === 'assignee') {
+        this.policyHolderList.assignee = '';
+      } else if (this.type === 'owner') {
+        this.policyHolderList.owner = '';
+      } else if (this.type === 'driver') {
+        this.policyHolderList.driver = '';
+      }
+    }
+
+    this.policyHolderListChange.emit(this.policyHolderList);
   }
 
   setPolicyHolder(update: PolicyHolder) {
@@ -211,7 +331,9 @@ export class PolicyHolderComponent implements OnInit {
     const isPerson = this.policyHolderType == "P";
     this.lastName = isPerson ? this.lastName : "";
 
-    this.tps.getThirdPartyList(1, this.firstName, this.lastName).then((res) => {
+    var activity = this.type == "mortgagee" ? 91 : 1;
+
+    this.tps.getThirdPartyList(activity, this.firstName, this.lastName).then((res) => {
       if (res.status) {
         this.source = res.obj as[];
         if (this.source.length) {
@@ -237,207 +359,21 @@ export class PolicyHolderComponent implements OnInit {
 
   add(row: any, input ? : HTMLInputElement) {
     if (Utility.isUndefined(input) || row.codDocum == input.value) {
-      if (!Utility.isUndefined(this.compareTo) &&
-        (this.type == 'primary' || this.type == 'assignee') &&
-        this.compareTo.documentCode == row.codDocum &&
-        this.compareTo.documentType == row.tipDocum) {
-        // preventing user to choose same policy holder for both primary and assignee
-        this.modalRef = Utility.showWarning(this.bms, "Policy Holder and Assignee can not be the same, choose or create a new one.");
-      } else {
-        this.showSearch = false;
-        this.showSearchResult = false;
+      var str = row.tipDocum + '-' + row.codDocum;
 
-        this.policyHolder.isExisting = true;
-        this.policyHolder.isPerson = this.policyHolderType == "P";
-        this.policyHolder.documentCode = row.codDocum;
-        this.policyHolder.documentType = row.tipDocum;
-        this.policyHolder.firstName = this.firstName;
-        this.policyHolder.lastName = this.lastName;
+      var tp = new PolicyHolder();
 
-        this.setPolicyHolder(this.policyHolder);
-      }
+      tp.isExisting = true;
+      tp.isPerson = this.policyHolderType == "P";
+      tp.documentCode = row.codDocum;
+      tp.documentType = row.tipDocum;
+      tp.firstName = this.firstName;
+      tp.lastName = this.lastName;
+
+      this.validate(str, tp, true);
     } else {
       var completeName = this.policyHolderType == "P" ? this.firstName + " " + this.lastName : this.firstName;
       this.modalRef = Utility.showError(this.bms, "Incorrect document code entered for " + completeName);
     }
   }
 }
-
-// for testing
-const thirdPartyList: any[] = [{
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "P99999",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "MANILA",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "P00000000",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "MAKATI CITY",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "DRI",
-  "codDocum": "DRI-77777",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "BUENAVISTA",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "P77777",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "SANTO TOMAS",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "P1232131",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "MANGALDAN",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "P1111111",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "MANILA",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "231123",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "MAKATI CITY",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "9876111",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "MAKATI CITY",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "TIN",
-  "codDocum": "441-724-648-000",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "LAS PIÑAS CITY",
-  "codActTercero": "1"
-}, {
-  "codCia": 1,
-  "tipDocum": "PAS",
-  "codDocum": "02-3499027-4",
-  "ape2Tercero": "MANAOIS",
-  "nomTercero": "PATRICK",
-  "nom2Tercero": "AMIAN",
-  "dirDomicilioCliente": "LAS PIÑAS CITY",
-  "codActTercero": "1"
-}];
-
-const coverageList: any[] = [{
-  "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "N",
-  "COD_COB": "1001",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "COMP. THIRD PAR. LIAB."
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1100",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "LOSS AND DAMAGE"
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1002",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "OWN DAMAGE"
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1003",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "THEFT"
-}, {
-  "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1004",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "VTPL-BODILY INJURY"
-}, {
-  "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1005",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "VTPL-PROPERTY DAMAGE"
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1007",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "UNNAMED PASS. P.A."
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1008",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "ACTS OF NATURE"
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "N",
-  "COD_COB": "1020",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "STRIKE AND RIOTS"
-}, {
-  "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "N",
-  "COD_COB": "1026",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "ACCD'L DEATH/DISABL."
-}, {
-  "MCA_TIP_CAPITAL": "",
-  "MCA_OBLIGATORIO": "N",
-  "COD_COB": "1040",
-  "IMP_CALCULO": "0",
-  "NOM_COB": "ROAD ASSIST"
-}, {
-  "MCA_TIP_CAPITAL": "5",
-  "MCA_OBLIGATORIO": "N",
-  "COD_COB": "1029",
-  "IMP_CALCULO": "360",
-  "NOM_COB": "ROAD ASSIST 100"
-}, {
-  "MCA_TIP_CAPITAL": "",
-  "MCA_OBLIGATORIO": "N",
-  "COD_COB": "1027",
-  "IMP_CALCULO": "500",
-  "NOM_COB": "MAPFRE ROAD ASSIST"
-}, {
-  "MCA_TIP_CAPITAL": "4",
-  "MCA_OBLIGATORIO": "S",
-  "COD_COB": "1036",
-  "IMP_CALCULO": "1",
-  "NOM_COB": "PERSONAL PROPERTY COVER"
-}];

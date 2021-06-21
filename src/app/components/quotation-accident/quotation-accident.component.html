@@ -101,7 +101,7 @@
                     || quoteForm.controls['effectivityDate'].touched)}">
                     <label for="effectivityDate">Effectivity Date</label>
                     <input type="text" placeholder="Datepicker" class="form-control required"
-                      (bsValueChange)="effectivityDateOnChange(); affecting('effectivityDate', 'Effectivity Date')"
+                      (bsValueChange)="affecting('effectivityDate', 'Effectivity Date')"
                       formControlName="effectivityDate"
                       [(ngModel)]="accidentDetails.effectivityDate"
                       [attr.disabled]="editMode ? null : true"
@@ -443,6 +443,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(1)">Generate</button>
@@ -456,6 +457,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Issue Quote</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(2)">Issue Quote</button>
@@ -465,24 +467,52 @@
           </div>
           <div *ngIf="showProceedToIssuanceBtn" class="btn-group" role="group">
             <button type="button" (click)="newQuote()" class="btn btn-primary">New Quote</button>
-            <button type="button" (click)="printQuote()" class="btn btn-primary">Print Qoute</button>
+            <button type="button" (click)="printQuote()" class="btn btn-primary">Print Quote</button>
             <button type="button" (click)="proceedToIssuance()" class="btn btn-primary">Proceed to Issuance</button>
           </div>
         </div>
 
         <!-- button controls for issuance -->
         <div *ngIf="isIssuance">
+          <div *ngIf="(showSaveBtn && withTechControl) || (showPostBtn && withTechControl)">
+            <div class="alert alert-warning note">
+              <p>
+                <strong>Quotation has tech control!</strong> Unable to issue policy.
+              </p>
+            </div>
+            <!-- .note -->
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary" (click)="newQuote()">New Quote</button>
+              <button type="button" class="btn btn-primary" (click)="newPolicy()">New Policy</button>
+            </div>
+          </div>
+
+          <div *ngIf="showNewPolicyBtn">
+            <div class="alert alert-danger note">
+              <p>
+                <strong>Quotation has error!</strong> Unable to issue policy.
+              </p>
+            </div>
+            <!-- .note -->
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary" (click)="newQuote()">New Quote</button>
+              <button type="button" class="btn btn-primary" (click)="newPolicy()">New Policy</button>
+            </div>
+          </div>
+
           <div *ngIf="showIssuanceGenerateBtn" class="btn-group" role="group">
             <button
               *ngIf="quoteForm.invalid || appGroupPolicy.gpForm.invalid || appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Generate</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(1)">Generate</button>
           </div>
-          <div *ngIf="showSaveBtn" class="btn-group" role="group">
+
+          <div *ngIf="showSaveBtn && !withTechControl" class="btn-group" role="group">
             <button *ngIf="!editMode"
               type="button" class="btn btn-primary"
               (click)="manageBtn(1)">Edit Details</button>
@@ -491,11 +521,13 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Save</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(3)">Save</button>
           </div>
-          <div *ngIf="showPostBtn" class="btn-group" role="group">
+
+          <div *ngIf="showPostBtn && !withTechControl" class="btn-group" role="group">
             <button *ngIf="!editMode"
               type="button" class="btn btn-primary"
               (click)="editMode = !editMode">Edit Details</button>
@@ -504,6 +536,7 @@
               type="button" class="btn btn-primary"
               (click)="openValidationModal(quoteForm, appGroupPolicy.gpForm, appPolicyHolder.phForm)">Post</button>
             <button
+              [disabled]="processing"
               *ngIf="!quoteForm.invalid && !appGroupPolicy.gpForm.invalid && !appPolicyHolder.phForm.invalid"
               type="button" class="btn btn-primary"
               (click)="proceed(4)">Post</button>

@@ -13,6 +13,9 @@ import {
 } from "@angular/common/http";
 
 import {
+  NgxDropzoneModule
+} from "ngx-dropzone";
+import {
   HttpClientModule
 } from "@angular/common/http";
 import {
@@ -43,6 +46,9 @@ import {
   MatTooltipModule,
   MatDialogModule,
 } from "@angular/material";
+import {
+  ChartsModule
+} from 'ng2-charts';
 
 import {
   RouterModule,
@@ -179,6 +185,72 @@ import {
 import {
   FixedCoveragesComponent
 } from './components/fixed-coverages/fixed-coverages.component';
+import {
+  RequestCreateComponent
+} from './components/request-create/request-create.component';
+import {
+  RequestListComponent
+} from './components/request-list/request-list.component';
+import {
+  RequestDetailsModalComponent
+} from './components/request-details-modal/request-details-modal.component';
+import {
+  ClientDetailsListComponent
+} from './components/client-details-list/client-details-list.component';
+import {
+  ViewDetailsModalComponent
+} from './components/view-details-modal/view-details-modal.component';
+import {
+  ClientPolicyActiveListComponent
+} from './components/client-policy-active-list/client-policy-active-list.component';
+import {
+  ClientPolicyCancelledListComponent
+} from './components/client-policy-cancelled-list/client-policy-cancelled-list.component';
+import {
+  ClientPolicyRenewedListComponent
+} from './components/client-policy-renewed-list/client-policy-renewed-list.component';
+import {
+  ClientPolicyNotRenewedListComponent
+} from './components/client-policy-not-renewed-list/client-policy-not-renewed-list.component';
+import {
+  ClientPolicyExpiringListComponent
+} from './components/client-policy-expiring-list/client-policy-expiring-list.component';
+import {
+  ClientPolicyProvisionalListComponent
+} from './components/client-policy-provisional-list/client-policy-provisional-list.component';
+import {
+  ClientQuotationActiveListComponent
+} from './components/client-quotation-active-list/client-quotation-active-list.component';
+import {
+  ClientQuotationProvisionalListComponent
+} from './components/client-quotation-provisional-list/client-quotation-provisional-list.component';
+import {
+  ClientClaimsListComponent
+} from './components/client-claims-list/client-claims-list.component';
+import {
+  AccountOutstandingBillsListComponent
+} from './components/account-outstanding-bills-list/account-outstanding-bills-list.component';
+import {
+  AccountCommissionsPaidListComponent
+} from './components/account-commissions-paid-list/account-commissions-paid-list.component';
+import {
+  AccountEstimatedCommissionsListComponent
+} from './components/account-estimated-commissions-list/account-estimated-commissions-list.component';
+import {
+  AccountPremiumCollectionListComponent
+} from './components/account-premium-collection-list/account-premium-collection-list.component';
+import {
+  TermsAndConditionComponent
+} from './components/terms-and-condition/terms-and-condition.component';
+import {
+  HealthCheckComponent
+} from './components/health-check/health-check.component';
+import {
+  ToastrModule
+} from 'ngx-toastr';
+import {
+  TutorialComponent
+} from './components/tutorial/tutorial.component';
 
 const routes: Routes = [{
     path: "login",
@@ -198,6 +270,14 @@ const routes: Routes = [{
     path: "reload",
     component: ReloadComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: "terms-and-condition",
+    component: TermsAndConditionComponent,
+  },
+  {
+    path: "health-check",
+    component: HealthCheckComponent,
   },
   {
     path: "404",
@@ -245,8 +325,35 @@ const routes: Routes = [{
     CoverageVariableDataComponent,
     CreateThirdPartyComponent,
     FixedCoveragesComponent,
+    RequestCreateComponent,
+    RequestListComponent,
+    RequestDetailsModalComponent,
+    ClientDetailsListComponent,
+    ViewDetailsModalComponent,
+    ClientPolicyActiveListComponent,
+    ClientPolicyCancelledListComponent,
+    ClientPolicyRenewedListComponent,
+    ClientPolicyNotRenewedListComponent,
+    ClientPolicyExpiringListComponent,
+    ClientPolicyProvisionalListComponent,
+    ClientQuotationActiveListComponent,
+    ClientQuotationProvisionalListComponent,
+    ClientClaimsListComponent,
+    AccountOutstandingBillsListComponent,
+    AccountCommissionsPaidListComponent,
+    AccountEstimatedCommissionsListComponent,
+    AccountPremiumCollectionListComponent,
+    TermsAndConditionComponent,
+    HealthCheckComponent,
+    TutorialComponent,
   ],
-  entryComponents: [ModalComponent, PaymentBreakdownModalComponent, CreateThirdPartyComponent],
+  entryComponents: [
+    ModalComponent,
+    PaymentBreakdownModalComponent,
+    CreateThirdPartyComponent,
+    RequestDetailsModalComponent,
+    CoverageVariableDataComponent,
+    ViewDetailsModalComponent],
   imports: [
     AppRoutingModule,
     RouterModule.forRoot(routes),
@@ -262,11 +369,14 @@ const routes: Routes = [{
     HttpClientModule,
     ServiceModule,
     NgSelectModule,
+    NgxDropzoneModule,
     TranslateModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     NgHttpLoaderModule.forRoot(),
+    ChartsModule,
+    ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

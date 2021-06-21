@@ -67,6 +67,8 @@ export class Car {
   secondaryPolicyHolder: PolicyHolder;
   assigneePolicyHolder: PolicyHolder;
   mortgageePolicyHolder: PolicyHolder;
+  ownerPolicyHolder: PolicyHolder;
+  driverPolicyHolder: PolicyHolder;
 
   //group policy
   groupPolicy: GroupPolicy;

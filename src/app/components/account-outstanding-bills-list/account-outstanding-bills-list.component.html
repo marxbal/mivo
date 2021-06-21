@@ -1,0 +1,297 @@
+<div class="row" id="outstandingBillsList">
+  <div class="col-xl-12">
+    <div class="page-header">
+      <h4>Outstanding Bills List</h4>
+    </div>
+    <!-- .page-header -->
+  </div>
+  <!-- .col-xl-12 -->
+
+  <div class="col-xl-12">
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="col-lg-12">
+          <div class="card-body">
+            <form [formGroup]="filterForm">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="policyNumber" class="col-md-12 col-lg-4 col-form-label">Policy Number</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="policyNumber" id="policyNumber"
+                        [(ngModel)]="pageFilter.policyNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="policyHolder" class="col-md-12 col-lg-4 col-form-label">Policy Holder</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="policyHolder" id="policyHolder"
+                        oninput="this.value = this.value.toUpperCase()"
+                        [(ngModel)]="pageFilter.policyHolder">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="prn" class="col-md-12 col-lg-4 col-form-label">PRN</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="prn" id="prn"
+                        [(ngModel)]="pageFilter.prn">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="invoiceNumber" class="col-md-12 col-lg-4 col-form-label">Invoice Number</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="invoiceNumber" id="invoiceNumber"
+                        [(ngModel)]="pageFilter.invoiceNumber">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="currency" class="col-md-12 col-lg-4 col-form-label">Currency</label>
+                    <div class="col-md-12 col-lg-8">
+                      <select class="custom-select mr-sm-2" formControlName="currency" id="currency"
+                        [(ngModel)]="pageFilter.currency">
+                        <option></option>
+                        <option *ngFor="let item of currencyItems" [ngValue]="item">{{ item }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="effectivityDate" class="col-md-12 col-lg-4 col-form-label">Effectivity Date</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="effectivityDate"
+                        [(ngModel)]="pageFilter.effectivityDate" bsDatepicker>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="expiryDate" class="col-md-12 col-lg-4 col-form-label">Expiry Date</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" placeholder="Datepicker" class="form-control" formControlName="expiryDate"
+                        [(ngModel)]="pageFilter.expiryDate" bsDatepicker>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="paymentDateExpiry" class="col-md-12 col-lg-4 col-form-label">Payment Date Expiry</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" placeholder="Datepicker" class="form-control"
+                        formControlName="paymentDateExpiry" [(ngModel)]="pageFilter.paymentDateExpiry" bsDatepicker>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="amount" class="col-md-12 col-lg-4 col-form-label">Amount</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="amount" id="amount"
+                        [(ngModel)]="pageFilter.amount">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="paymentStatus" class="col-md-12 col-lg-4 col-form-label">Payment Status</label>
+                    <div class="col-md-12 col-lg-8">
+                      <select class="custom-select mr-sm-2" formControlName="source" id="paymentStatus"
+                        [(ngModel)]="pageFilter.paymentStatus">
+                        <option></option>
+                        <option *ngFor="let item of paymentStatusItems" [ngValue]="item">{{ item }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="source" class="col-md-12 col-lg-4 col-form-label">Source</label>
+                    <div class="col-md-12 col-lg-8">
+                      <select class="custom-select mr-sm-2" formControlName="source" id="source"
+                        [(ngModel)]="pageFilter.source">
+                        <option></option>
+                        <option *ngFor="let item of sourceItems" [ngValue]="item">{{ item }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <div class="row">
+                    <label for="subline" class="col-md-12 col-lg-4 col-form-label">Subline</label>
+                    <div class="col-md-12 col-lg-8">
+                      <input type="text" class="form-control" formControlName="subline" id="subline"
+                        oninput="this.value = this.value.toUpperCase()"
+                        [(ngModel)]="pageFilter.subline">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="btn-group">
+                    <button class="btn btn-primary" (click)="apply()">Apply</button>
+                    <button class="btn btn-info" (click)="reset()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- .card-body -->
+
+          <div class="clearfix"></div>
+          <div class="divider"></div>
+
+          <div class="flexitable">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+              class="mat-elevation-z8">
+              <ng-container matColumnDef="policyNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Policy Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.policyNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="policyHolder">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-220"> Policy Holder </th>
+                <td mat-cell *matCellDef="let element"> {{element.policyHolder}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> PRN </th>
+                <td mat-cell *matCellDef="let element"> {{element.prn}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="invoiceNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Invoice Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="currency">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
+                <td mat-cell *matCellDef="let element"> {{element.currency}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="effectivityDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Effectivity Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.effectivityDate}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="expiryDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Expiry Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.expiryDate}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="paymentDateExpiry">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-100"> Payment Date Expiry </th>
+                <td mat-cell *matCellDef="let element"> {{element.paymentDateExpiry}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="age">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Age </th>
+                <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="expand-column-120"> Amount (PHP) </th>
+                <td mat-cell *matCellDef="let element" class="amount"> {{element.amount | currency:'PHP': 'symbol-narrow'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="paymentStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Status </th>
+                <td mat-cell *matCellDef="let element"> {{element.paymentStatus}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="source">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Source </th>
+                <td mat-cell *matCellDef="let element"> {{element.source}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="subline">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Subline </th>
+                <td mat-cell *matCellDef="let element"> {{element.subline}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="{{row.paymentStatus}}" (click)="getDetails(row)"></tr>
+            </table>
+          </div>
+
+          <div *ngIf="dataSource.filteredData.length === 0" class="no-data-found">No Data Found</div>
+
+          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="totalItem" [pageIndex]="currentPage"
+            [pageSize]="pageSize" showFirstLastButtons (page)="pageChange($event)"></mat-paginator>
+
+        </div>
+        <!-- .col-lg-12 -->
+      </div>
+      <!-- .card-body -->
+    </div>
+    <!-- .card.shadow -->
+  </div>
+  <!-- .col-xl-12 -->
+</div>
+<!-- #outstandingBillsList -->
+<ng-template #paymentResult let-data>
+  <div class="mat-dialog-header border-bottom">
+    <div class="header row">
+      <div class="col-lg-6">
+        <img src="./assets/images/mivo-logo/mi_logo.png" alt="brand-logo" />
+      </div>
+      <div class="col-lg-6">
+        <!-- <img src="./assets/images/payment/paynamics-logo.png" alt="brand-logo" class="paynamics-logo" /> -->
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content class="payment-result-content">
+    <br>
+
+    <div *ngIf="data.status">
+      <span class="fa-stack fa-md payment-icon success">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+      </span>
+      <br>
+      <br>
+      <h3>Successful Payment</h3>
+      <h6>Your payment has been completed succefully.</h6>
+      <h6>Transaction No: {{ paymentData.vpc_TransactionNo }}</h6>
+    </div>
+
+    <div *ngIf="!data.status">
+      <span class="fa-stack fa-md payment-icon failed">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+      </span>
+      <br>
+      <br>
+      <h3>Unsuccessful Payment</h3>
+      <h6>{{data.errorMessage}}</h6>
+    </div>
+
+    <button type="button" class="btn btn-primary" matDialogClose>
+      Okay
+    </button>
+
+  </mat-dialog-content>
+  <div mat-dialog-actions class="footer">
+    <div class="col-lg-12">
+      <p> <i class="fa fa-lock"></i> Payment transaction secured by <strong>GlobalPay</strong></p>
+    </div>
+  </div>
+</ng-template>

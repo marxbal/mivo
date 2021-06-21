@@ -105,12 +105,12 @@ export class TravelLOVServices {
     return this.lov.getLOV(dto).then(lovs => lovs as any[]);
   }
 
-  async getProduct(carDetails: any): Promise < any[] > {
+  async getProduct(travelDetails: any): Promise < any[] > {
     const dto = new LOV(
       'G2990004',
       '16',
       '|COD_CIA~1' +
-      '|COD_RAMO~' + carDetails.subline);
+      '|COD_RAMO~' + travelDetails.subline);
     return this.lov.getIntLOV(dto, 'COD_MODALIDAD').then(lovs => lovs as any[]);
   }
 }

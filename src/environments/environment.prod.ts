@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  baseUrl: 'https://mivo.mapfreinsurance.com.ph/mivo',
   imgUrl: '/mivo',
-  apiUrl: 'https://ctpl.mapfreinsular.com/travelonline/',
+  apiUrl: 'https://mivo.mapfreinsurance.com.ph/tronws/',
 };

@@ -19,7 +19,6 @@ export interface TablesDTO {
   premium: number;
   netPremium: number;
   tax: number;
-  commission: number;
 }
 
 @Component({
@@ -40,6 +39,9 @@ export class PaymentBreakdownComponent implements OnInit {
 
   payments: any[] = [];
   triggerCounter: number;
+
+  commission: any = 0;
+  currencyCode: any = 'PHP';
 
   constructor() {}
 
@@ -68,17 +70,18 @@ export class PaymentBreakdownComponent implements OnInit {
       } else if (currency == "3") {
         currencyCode = "EUR"
       }
+      this.currencyCode = currencyCode;
   
       var efectivityDate = new Date(receipt["fecEfecRecibo"].substr(0, 10));
       var dueDate = new Date(receipt["fecVctoRecibo"].substr(0, 10));
+      this.commission = receipt['impComis'];
   
       const data: TablesDTO[] = [{
         effectivityDate: Utility.formatDate(efectivityDate),
         dueDate: Utility.formatDate(dueDate),
         premium: receipt["impRecibo"],
         netPremium: receipt["impNeta"],
-        tax: receipt["impImptos"],
-        commission: receipt["impComis"],
+        tax: receipt["impImptos"]
       }];
       var dataSource = new MatTableDataSource(data);
       const obj = {
@@ -87,7 +90,7 @@ export class PaymentBreakdownComponent implements OnInit {
         paymentNumber: paymentNumber,
         currencyCode: currencyCode,
         dataSource: dataSource,
-        displayedColumns: ['effectivityDate', 'dueDate', 'premium', 'netPremium', 'tax', 'commission'],
+        displayedColumns: ['effectivityDate', 'dueDate', 'premium', 'netPremium', 'tax'],
         animationState: 'out',
         showExchangeRate: this.showExchangeRate,
         toggleLabel: 'Show Economic Values',

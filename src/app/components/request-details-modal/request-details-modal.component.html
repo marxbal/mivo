@@ -1,0 +1,160 @@
+<form [formGroup]="requestForm">
+  <h2 mat-dialog-title>View Details</h2>
+  <div mat-dialog-content>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h5>Main Details</h5>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="requestId">Request ID</label>
+            <input type="text" formControlName="requestId" class="form-control required"
+              [(ngModel)]="requestDetailsList.requestId" [readOnly]="true">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="requestHandler">Request Handler</label>
+            <input type="text" formControlName="requestHandler" class="form-control required"
+              [(ngModel)]="requestDetailsList.requestHandler" [attr.disabled]="true">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="requestType">Request Type</label>
+            <input type="text" formControlName="requestType" class="form-control required"
+              [(ngModel)]="requestDetailsList.requestType" [attr.disabled]="true">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="policyNumber">Policy Number</label>
+            <input type="text" formControlName="policyNumber" class="form-control required"
+              [(ngModel)]="requestDetailsList.policyNumber" [attr.disabled]="true">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="status">Status</label>
+            <input type="text" formControlName="status" class="form-control required"
+              [(ngModel)]="requestDetailsList.status" [attr.disabled]="true">
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-lg-12">
+          <div class="form-group">
+            <label for="address">Message</label>
+            <textarea type="text" formControlName="message" class="form-control required"
+              [(ngModel)]="requestDetailsList.message" [attr.disabled]="true"></textarea>
+          </div>
+        </div>
+
+        <div class="form-divider"></div>
+        
+        <div class="col-lg-12">
+          <div class="flexitable">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+              <ng-container matColumnDef="requestHandler">
+                <th mat-header-cell *matHeaderCellDef> Request Handler </th>
+                <td mat-cell *matCellDef="let element"> {{element.requestHandler}} </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="message">
+                <th mat-header-cell *matHeaderCellDef> Message </th>
+                <td mat-cell *matCellDef="let element" [innerHTML]="element.message"> {{element.message}} </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef> User </th>
+                <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="source">
+                <th mat-header-cell *matHeaderCellDef> Source </th>
+                <td mat-cell *matCellDef="let element"> {{element.source}} </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="postDate">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.postDate}} </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+            </table>
+          </div>
+        </div>
+
+        <div *ngIf="dataSource.filteredData.length === 0" class="no-data-found">No Data Found</div>
+        
+        <div class="form-divider"></div>
+
+        <div class="col-lg-12">
+          <div class="form-group" [ngClass]="{'input-error': requestForm.controls['replyMessage'].invalid 
+              && (requestForm.controls['replyMessage'].dirty 
+              || requestForm.controls['replyMessage'].touched)}">
+            <label for="address">Reply</label>
+            <textarea type="text" formControlName="replyMessage" class="form-control required"
+              [(ngModel)]="replyDetails.message"></textarea>
+            <p class="form-error" *ngIf="requestForm.controls['replyMessage'].errors?.required">
+              * reply is required
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group" [ngClass]="{'input-error': requestForm.controls['agentEmail'].invalid 
+              && (requestForm.controls['agentEmail'].dirty 
+              || requestForm.controls['agentEmail'].touched)}">
+            <label for="agentEmail">Agent's Email</label>
+            <input type="text" formControlName="agentEmail" class="form-control required"
+              [(ngModel)]="replyDetails.agentEmail">
+            <p class="form-error" *ngIf="requestForm.controls['agentEmail'].errors?.required">
+              * agent's email is required
+            </p>
+            <p class="form-error" *ngIf="requestForm.controls['agentEmail'].errors?.email">
+              * invalid email format
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group" [ngClass]="{'input-error': requestForm.controls['name'].invalid 
+              && (requestForm.controls['name'].dirty 
+              || requestForm.controls['name'].touched)}">
+            <label for="name">Name</label>
+            <input type="text" formControlName="name" class="form-control required"
+              oninput="this.value = this.value.toUpperCase()" [(ngModel)]="replyDetails.name">
+            <p class="form-error" *ngIf="requestForm.controls['name'].errors?.required">
+              * name is required
+            </p>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-primary" (click)="close()">
+        Close
+      </button>
+      <button [disabled]="requestForm.invalid" type="submit" class="btn btn-primary" (click)="reply()">
+        Reply
+      </button>
+    </div>
+  </div>
+</form>

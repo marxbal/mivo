@@ -33,17 +33,16 @@
       </div>
 
       <!-- for issuance -->
-      <div class="row" *ngIf="isIssuance">
+      <div class="row" *ngIf="isIssuance && !isDriver">
         <div class="col-xl-12">
           <h6>Policy Holder</h6>
         </div>
 
         <div class="col-xl-12">
           <div class="alert alert-info note">
-            <p><strong>Important Reminder:</strong> Click <strong>create</strong> button to create a new policy holder
-              or click <strong>browse</strong> button to
-              search an existing policy holder. Document code and type will be automatically filled once you select or
-              create a policy holder.
+            <p><strong>Important Reminder:</strong> Click <strong>create</strong> button to create a new policy holder 
+              or click <strong>browse</strong> button to search an existing policy holder. Document code and type will 
+              be automatically filled once you select or create a policy holder.
             </p>
           </div>
           <!-- .note -->
@@ -112,6 +111,54 @@
           </div>
         </div>
       </div>
+
+      <!-- for issuance -->
+      <div class="row" *ngIf="isIssuance && isDriver">
+        <div class="col-xl-12">
+          <h6>Policy Holder</h6>
+        </div>
+
+        <div class="col-xl-12">
+          <div class="alert alert-info note">
+            <p><strong>Important Reminder:</strong> Click <strong>create</strong> button to create a new policy holder
+              or click <strong>browse</strong> button to search an existing policy holder. Document code and type will 
+              be automatically added to your list once you select or create a policy holder.
+            </p>
+          </div>
+          <!-- .note -->
+        </div>
+
+        <div class="col-xl-12">
+          <!-- <div *ngFor="let driver of driverPolicyHolder" class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <input type="text" class="form-control required" [value]="driver.documentType" readonly>
+              </div>
+            </div>
+    
+            <div class="col-md-4">
+              <div class="form-group">
+                <input type="text" class="form-control required" [ngValue]="driver.documentCode" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary" (click)="remove(driver.documentCode, driver.documentType)">Remove</button>
+              </div>
+            </div>
+          </div> -->
+        </div>
+
+        <div *ngIf="editMode" class="col-md-12">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary" (click)="browse()">Browse</button>
+            <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+            <button type="button" class="btn btn-default" (click)="clear()">Clear</button>
+          </div>
+        </div>
+      </div>
+
     </form>
 
     <div *ngIf="editMode && showSearch" class="row">

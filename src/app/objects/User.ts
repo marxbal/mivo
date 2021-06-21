@@ -1,8 +1,10 @@
 ﻿import { SelectedAgent } from './SelectedAgent';
 
 export class User {
-  userId: number;
+  companyCode: number;
   role: number;
+  execAgent: boolean;
+  execAgentCode: number;
   agentCode: number;
   userName: string;
   firstName: string;
@@ -10,7 +12,7 @@ export class User {
   fullName: string;
   address: string;
   expiryDay: number;
-  commStructure: number;
+  commercialStructure: number;
   selectedAgent: SelectedAgent;
 
   token: string;

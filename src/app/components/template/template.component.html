@@ -2,7 +2,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <app-sidenav></app-sidenav>
+    <app-sidenav [ngClass]="{'staging': isStaging}"></app-sidenav>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -19,7 +19,21 @@
 
           <app-profile *ngIf="page === p.UTI.CHA"></app-profile>
 
-          <app-outstanding-bills *ngIf="page === p.ACC.OUT"></app-outstanding-bills>
+          <app-account-outstanding-bills-list *ngIf="page === p.ACC.OUT"></app-account-outstanding-bills-list>
+          <app-account-commissions-paid-list *ngIf="page === p.ACC.COM"></app-account-commissions-paid-list>
+          <app-account-estimated-commissions-list *ngIf="page === p.ACC.EST"></app-account-estimated-commissions-list>
+          <app-account-premium-collection-list *ngIf="page === p.ACC.PRE"></app-account-premium-collection-list>
+
+          <app-client-details-list *ngIf="page === p.CLI.CLI"></app-client-details-list>
+          <app-client-policy-active-list *ngIf="page === p.CLI.ACT"></app-client-policy-active-list>
+          <app-client-policy-cancelled-list *ngIf="page === p.CLI.CAN"></app-client-policy-cancelled-list>
+          <app-client-policy-renewed-list *ngIf="page === p.CLI.REN"></app-client-policy-renewed-list>
+          <app-client-policy-not-renewed-list *ngIf="page === p.CLI.NOT"></app-client-policy-not-renewed-list>
+          <app-client-policy-expiring-list *ngIf="page === p.CLI.EXP"></app-client-policy-expiring-list>
+          <app-client-policy-provisional-list *ngIf="page === p.CLI.PRO"></app-client-policy-provisional-list>
+          <app-client-quotation-active-list *ngIf="page === p.CLI.ACTQ"></app-client-quotation-active-list>
+          <app-client-quotation-provisional-list *ngIf="page === p.CLI.PROQ"></app-client-quotation-provisional-list>
+          <app-client-claims-list *ngIf="page === p.CLI.CLA"></app-client-claims-list>
 
           <app-quick-quotation-car *ngIf="page === p.QUI.CAR"></app-quick-quotation-car>
           <app-quick-quotation-home *ngIf="page === p.QUI.HOM"></app-quick-quotation-home>
@@ -35,9 +49,14 @@
           <app-quotation-home *ngIf="page === p.ISS.HOM"></app-quotation-home>
           <app-quotation-travel *ngIf="page === p.ISS.TRA"></app-quotation-travel>
           <app-quotation-accident *ngIf="page === p.ISS.ACC"></app-quotation-accident>
+
+          <app-request-list *ngIf="page === p.REQ.LIS"></app-request-list>
+          <app-request-create *ngIf="page === p.REQ.CRE"></app-request-create>
           
           <app-query *ngIf="page === p.UTI.QUE"></app-query>
           <app-document-printing *ngIf="page === p.UTI.DOC"></app-document-printing>
+
+          <app-tutorial *ngIf="page === p.TUT.N"></app-tutorial>
 
           <app-missing-page *ngIf="page === p.NEW.N"></app-missing-page>
 

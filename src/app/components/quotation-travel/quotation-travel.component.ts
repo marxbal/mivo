@@ -97,6 +97,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   triggerBreakdown: number = 0;
   travelerHeadCount: number = 1;
 
+  maxAgeAdult: number = 76;
+  minAgeAdult: number = 18;
+  maxAgeChild: number = 21;
+  minAgeChild: number = 0;
+
   travelDetails = new Travel();
   prevTravelDetails: Travel = null;
   changedValues: any[] = [];
@@ -104,7 +109,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   invalidForms: any[] = [];
 
-  withTechControl = false;
+  withTechControl: boolean = false;
+
+  // prevent user to spam the button
+  processing: boolean = false;
 
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
@@ -112,7 +120,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   quoteForm: FormGroup;
 
   mindate: Date = new Date();
-  // bdaymindate: Date = moment().subtract(65, 'years').toDate();
   expiryDateMinDate: Date = moment().add(1, 'years').toDate();
   endDateMinDate: Date = moment().add(1, 'days').toDate();
   enableEndDate: boolean = false;
@@ -150,6 +157,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   showPostBtn: boolean = false;
   //flag to show print btn
   showPrintBtn: boolean = false;
+  //flag to show new quote and new policy btn
+  showNewPolicyBtn: boolean = false;
 
   //disable load button
   disableLoadBtn: boolean = true;
@@ -279,6 +288,10 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.travelDetails.travelPackage = this.travelDetails.currency === 1 ?
       "P" :
       null;
+    
+    this.travelDetails.coverageOption = this.travelDetails.currency === 1 ?
+      "CO" :
+      null;
 
     this.tls.getCountryList(this.travelDetails).then(res => {
       res.forEach(country => {
@@ -292,11 +305,17 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     this.tls.getProduct(this.travelDetails).then(res => {
       _this.LOV.productListLOV = res;
     });
+
+    this.removeTravelers();
+
+    this.travelers().push(this.newTraveler(true));
+    this.travelDetails.insuranceCoverage = "I"; // individual
+    this.travelerHeadCount = 1;
   }
 
   relationshipOnChange(traveler: FormGroup) {
     var val = traveler.controls['relationship'].value;
-    var maxAge = (val == 'C') ? 21 : 65;
+    var maxAge = (val == 'C') ? 21 : this.maxAgeAdult;
     var minAge = (val == 'C') ? 0 : 18;
 
     const bdaymindate: Date = moment().subtract(maxAge, 'years').toDate();
@@ -351,15 +370,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
               break;
             }
             // case "ARRIVAL_DATE": {
-            //   const date = Utility.convertStringDate(value);
-            //   this.travelDetails.endDate = date;
-            //   break;
-            // }
             // case "DEPARTURE_DATE": {
-            //   const date = Utility.convertStringDate(value);
-            //   this.travelDetails.startDate = date;
-            //   break;
-            // }
+
             case "VAL_NUM_DAYS_TRIP": {
               this.travelDetails.noOfDays = valueInt;
               break;
@@ -427,13 +439,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           const text: string = t.txtCampo;
           const occurence: number = t.numOcurrencia;
           // const index = occurence - 1;
-          let valueInt: number = undefined;
+          // let valueInt: number = undefined;
   
-          try {
-            valueInt = parseInt(value);
-          } catch (e) {
-            // do nothing
-          }
+          // try {
+          //   valueInt = parseInt(value);
+          // } catch (e) {
+          //   // do nothing
+          // }
   
           switch (code) {
             //country
@@ -455,6 +467,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         });
 
         this.travelDetails.countries = country;
+  
+        const generalInfo = res.obj["generalInfo"];
+        this.travelDetails.subline = generalInfo.codRamo;
+        this.travelDetails.currency = generalInfo.codMon;
+        this.travelDetails.startDate = new Date(generalInfo.fecEfecPoliza.substr(0,10));
+        this.travelDetails.endDate = new Date(generalInfo.fecVctoPoliza.substr(0,10));
 
         var travelers = [];
         tempTravaler.forEach(t => {
@@ -465,13 +483,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             const value: string = td.valCampo;
             const text: string = td.txtCampo;
             const occurence: number = td.numOcurrencia;
-            let valueInt: number = undefined;
+            // let valueInt: number = undefined;
     
-            try {
-              valueInt = parseInt(value);
-            } catch (e) {
-              // do nothing
-            }
+            // try {
+            //   valueInt = parseInt(value);
+            // } catch (e) {
+            //   // do nothing
+            // }
 
             if (t.occurence == occurence) {
               switch (code) {
@@ -519,13 +537,6 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           this.travelDetails.travelers = [];
         }
   
-        const generalInfo = res.obj["generalInfo"];
-        this.travelDetails.subline = generalInfo.codRamo;
-        this.travelDetails.currency = generalInfo.codMon;
-        this.travelDetails.startDate = new Date(generalInfo.fecEfecPoliza);
-        this.travelDetails.endDate = new Date(generalInfo.fecVctoPoliza);
-        // this.travelDetails.sublineEffectivityDate = Utility.formatDate(new Date(generalInfo.fecValidez), "DDMMYYYY");
-  
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
         if (!Utility.isUndefined(generalInfo.numPolizaGrupo)) {
@@ -562,6 +573,14 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
         //cloning details from load quotation
         const deepClone = JSON.parse(JSON.stringify(this.travelDetails));
         this.prevTravelDetails = deepClone;
+
+        //prevent to post policy if quotation has technical control
+        const technicalControl = res.obj["technicalControl"];
+        if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.withTechControl = true;
+          this.editMode = false;
+          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+        }
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
         this.travelDetails.quotationNumber = "";
@@ -684,8 +703,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   newTraveler(onLoad: boolean): FormGroup {
-    const bdaymindate: Date = moment().subtract(65, 'years').toDate();
-    var ageLimit = onLoad ? 18 : 0;
+    const bdaymindate: Date = moment().subtract(this.maxAgeAdult, 'years').toDate();
+    var ageLimit = onLoad ? this.minAgeAdult : this.minAgeChild;
     const bdaymaxdate: Date = moment().subtract(ageLimit, 'years').toDate();
 
     return this.fb.group({
@@ -693,7 +712,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       birthDate: ['', Validators.required],
       relationship: [onLoad ? 'P' : '', Validators.required],
       relationshipLabel: [onLoad ? 'PRIMARY' : ''],
-      passportNumber: ['', Validators.required],
+      passportNumber: ['', this.travelDetails.currency === 1 ? null : Validators.required],
       physicianName: [null],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
@@ -701,15 +720,15 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   loadTraveler(completeName: string, birthDate: Date, relationship: string, relationshipLabel: string, passportNumber: string, physicianName: string): FormGroup {
-    const bdaymindate: Date = moment().subtract(relationship == 'C' ? 21 : 65, 'years').toDate();
-    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? 0 : 18, 'years').toDate();
+    const bdaymindate: Date = moment().subtract(relationship == 'C' ? this.maxAgeChild : this.maxAgeAdult, 'years').toDate();
+    const bdaymaxdate: Date = moment().subtract(relationship == 'C' ? this.minAgeChild : this.minAgeAdult, 'years').toDate();
 
     return this.fb.group({
       completeName: [completeName, Validators.required],
       birthDate: [birthDate, Validators.required],
       relationship: [relationship, Validators.required],
       relationshipLabel: [relationshipLabel],
-      passportNumber: [passportNumber, Validators.required],
+      passportNumber: [passportNumber, this.travelDetails.currency === 1 ? null : Validators.required],
       physicianName: [physicianName],
       bdaymindate: [bdaymindate],
       bdaymaxdate: [bdaymaxdate],
@@ -763,6 +782,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   proceed(type: number) {
+    this.processing = true;
     //if user changes affecting values
     const hasAffectingTraveler = this.checkAffectingTravelers();
     const hasChanges = this.changedValues.length != 0 || hasAffectingTraveler;
@@ -797,6 +817,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
   }
 
   openProceedModal(type: number): void {
+    this.processing = false;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.restoreFocus = false;
     dialogConfig.autoFocus = false;
@@ -882,6 +903,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
       this.showSaveBtn = (opt == 2);
       this.showPostBtn = (opt == 3);
       this.showPrintBtn = (opt == 4);
+      this.showNewPolicyBtn = (opt == 5);
     } else {
       this.showGenerateBtn = (opt == 1);
       this.showIssueQuoteBtn = (opt == 2);
@@ -1082,8 +1104,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     return items;
   }
 
-  //generate and issue quote button
-  issueQuote(mcaTmpPptoMph: string) {
+  assembleData(mcaTmpPptoMph: string) {
     // S for generation and N for issue quotation
     this.travelDetails.mcaTmpPptoMph = mcaTmpPptoMph;
 
@@ -1102,8 +1123,14 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     // to trigger changes when regenerating quotation
     this.showPaymentBreakdown = false;
     this.showCoverage = false;
+  }
+
+  //generate and issue quote button
+  issueQuote(mcaTmpPptoMph: string) {
+    this.assembleData(mcaTmpPptoMph);
 
     this.tis.issueQuote(this.travelDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1130,7 +1157,7 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
           if ("S" == mcaTmpPptoMph) {
             //for generation of quote
-            const message = "You have successfully generated a quotation - " + policyNumber;
+            const message = "You have successfully generated a quotation";
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
@@ -1152,32 +1179,12 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  assembleIssuePolicyData() {
-    // always N for issue policy
-    this.travelDetails.mcaTmpPptoMph = "N";
-
-    // includes group policy to travel details DTO
-    this.travelDetails.groupPolicy = this.groupPolicy;
-    // includes policy holder to travel details DTO
-    this.travelDetails.policyHolder = this.policyHolder;
-
-    // includes travelers to travel details DTO
-    var travelers = this.quoteForm.get('travelers').value;
-    this.travelDetails.travelers = travelers.length ? travelers : [];
-
-    // get product code
-    this.getProductCode();
-  }
-
   //save policy button
   savePolicy() {
-    this.assembleIssuePolicyData();
-
-    // to trigger changes when regenerating quotation
-    this.showCoverage = false;
-    this.showPaymentBreakdown = false;
+    this.assembleData("N");
 
     this.tis.savePolicy(this.travelDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1202,7 +1209,8 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
           const receipt = res.obj["receipt"];
           this.populatePaymentBreakdown(breakdown, receipt);
 
-          if (errorCode == "S") {
+          this.withTechControl = errorCode == 'S';
+          if (this.withTechControl) {
             //if quotation has a warning
             if (this.travelDetails.affecting) {
               items = ["Updated quotation number is: " + policyNumber].concat(items);
@@ -1225,16 +1233,13 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
 
   //post policy button
   postPolicy() {
-    this.assembleIssuePolicyData();
-
-    // hides coverage and payment breakdown
-    this.showCoverage = false;
-    this.showPaymentBreakdown = false;
+    this.assembleData("N");
 
     if (this.withTechControl) {
       this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
     } else {
       this.tis.postPolicy(this.travelDetails).then(res => {
+        this.processing = false;
         if (res.status) {
           //clear affecting fields
           this.changedValues = [];
@@ -1252,9 +1257,11 @@ export class QuotationTravelComponent implements OnInit, AfterViewChecked {
             this.openPaymentBreakdownModal(receipt, breakdown, true);
             this.manageBtn(4);
           } else {
+            this.manageBtn(5);
             this.modalRef = Utility.showHTMLError(this.bms, items);
           }
         } else {
+          this.manageBtn(5);
           this.modalRef = Utility.showError(this.bms, res.message);
         }
       });

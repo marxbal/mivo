@@ -57,6 +57,15 @@ import {
 import {
   LTOService
 } from './lto.service';
+import {
+  RequestService
+} from './request.service';
+import {
+  ClientService
+} from './client.service';
+import {
+  AccountService
+} from './account.service';
 
 /* LOV Services */
 import {
@@ -80,6 +89,7 @@ import {
 import {
   ThirdPartyLOVServices
 } from './lov/third-party-lov-service';
+import { PaymentService } from './payment.service';
 
 @NgModule({
   imports: [
@@ -105,6 +115,9 @@ import {
     PrintingService, //ps
     ThirdPartyService, //tps
     LTOService, //ltos
+    RequestService, //rs
+    ClientService, //cs
+    AccountService, //accs
 
     LovService, //ls
     GroupPolicyLOVServices, //gpls
@@ -112,7 +125,8 @@ import {
     HomeLOVServices, //hls
     TravelLOVServices, //tls
     AccidentLOVServices, //als
-    ThirdPartyLOVServices //tpls
+    ThirdPartyLOVServices, //tpls
+    PaymentService,
   ]
 })
 export class ServiceModule {}

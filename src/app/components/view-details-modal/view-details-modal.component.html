@@ -1,0 +1,1102 @@
+<h2 mat-dialog-title>{{ title || 'View Details'}}</h2>
+<div mat-dialog-content>
+  <div class="container">
+    <!-- MY CLIENT lists -->
+    <!-- CLIENT DETAILS -->
+    <div *ngIf="type == 'client-details'" class="row">
+      <div class="col-md-12">
+        <h5>Client Details</h5>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.name}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.email}}>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.address}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentType">Document Type</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.documentType}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentCode">Document Code</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.documentCode}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="homeTelNumber">Home Tel. No.</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.homeTelNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="BusinessTelNumber">Business Tel. No.</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listClientDetails.businessTelNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="mobileNumber">Mobile Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClientDetails.mobileNumber}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- ACTIVE POLICY -->
+    <div *ngIf="type == 'client-active'" class="row">
+      <div class="col-md-12">
+        <h5>Active Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyActive.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentType">Document Type</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.documentType}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentCode">Document Code</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.documentCode}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyActive.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- CANCELLED POLICY -->
+    <div *ngIf="type == 'client-cancelled'" class="row">
+      <div class="col-md-12">
+        <h5>Cancelled Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyCancelled.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyCancelled.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- RENEWED POLICY -->
+    <div *ngIf="type == 'client-renewed'" class="row">
+      <div class="col-md-12">
+        <h5>Renewed Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyRenewed.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyRenewed.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyRenewed.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyRenewed.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentType">Document Type</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyRenewed.documentType}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentCode">Document Code</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyRenewed.documentCode}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- NOT RENEWED POLICY -->
+    <div *ngIf="type == 'client-not-renewed'" class="row">
+      <div class="col-md-12">
+        <h5>Not Renewed Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyNotRenewed.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyNotRenewed.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyNotRenewed.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyNotRenewed.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyNotRenewed.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyNotRenewed.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- EXPIRING POLICY -->
+    <div *ngIf="type == 'client-expiring'" class="row">
+      <div class="col-md-12">
+        <h5>Expiring Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyExpiring.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyExpiring.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyExpiryDate">Expirty Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyExpiring.policyExpiryDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyExpiring.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyExpiring.email}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="telephoneNumber">Telephone Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyExpiring.telephoneNumber}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- PROVISIONAL POLICY -->
+    <div *ngIf="type == 'client-provisional'" class="row">
+      <div class="col-md-12">
+        <h5>Provisional Policy Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyProvisional.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listPolicyProvisional.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listPolicyProvisional.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- ACTIVE QUOTATION -->
+    <div *ngIf="type == 'client-active-quotation'" class="row">
+      <div class="col-md-12">
+        <h5>Active Quotation Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="quotationNumber">Quotation Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.quotationNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationActive.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationActive.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationActive.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationActive.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- PROVISIONAL QUOTATION -->
+    <div *ngIf="type == 'client-provisional-quotation'" class="row">
+      <div class="col-md-12">
+        <h5>Provisional Quotation Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="quotationNumber">Quotation Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.quotationNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyEffectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.policyEffectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyDueDate">Due Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.policyDueDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="line">Line</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationProvisional.line}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listQuotationProvisional.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listQuotationProvisional.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- CLAIM DETAILS -->
+    <div *ngIf="type == 'client-claims'" class="row">
+      <div class="col-md-12">
+        <h5>Claim Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="claimNumber">Claim Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.claimNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="fileNumber">File Number</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.fileNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="fileName">File Name</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.fileName}}>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="lossDate">Loss Date</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.lossDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="notificationDate">Notification Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listClaimDetails.notificationDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="reserveAmount">Reserve Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.reserveAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listClaimDetails.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- MY ACCOUNT lists -->
+    <!-- OUTSTANDING BILLS -->
+    <div *ngIf="type == 'account-outstanding-bills' && !isProceedToPayment" class="row">
+      <div class="col-md-12">
+        <h5>Outstanding Bills Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="claimNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="prn">PRN</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listAccountOutstandingBills.prn}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="effectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.effectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.expiryDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="paymentDateExpiry">Payment Date Expiry</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.paymentDateExpiry}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="text" class="form-control required" [readOnly]="true" value={{listAccountOutstandingBills.age}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.amount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="paymentStatus">Payment Status</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.paymentStatus}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.source}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="subline">Subline</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountOutstandingBills.subline}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- OUTSTANDING BILLS PROCEED TO PAYMENT -->
+    <form [formGroup]="paymentForm">
+      <div *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" class="row">
+        <div *ngIf="false" class="col-md-12">
+          <h5>Additional Information for Payment</h5>
+        </div>
+        <div *ngIf="false" class="col-md-12">
+          <h6>Pay via:</h6>
+        </div>
+        <div *ngIf="false" class="col-md-12">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="paynamics" formControlName="paymentMethod" id="radioPaynamics" (change)="changePaymentMethod($event)">
+            <label class="form-check-label" for="radioPaynamics">
+              Paynamics
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="globalpay" formControlName="paymentMethod" id="radioGlobalPay" (change)="changePaymentMethod($event)">
+            <label class="form-check-label" for="radioGlobalPay">
+              Global Pay
+            </label>
+          </div>
+        </div>
+        <hr *ngIf="false" class="w-100" />
+        <ng-container *ngIf="paymentMethod === 'paynamics'">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="claimNumber"><span class="required-indicator">*</span>Email</label>
+              <input type="text" class="form-control required" formControlName="email">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="claimNumber">Phone</label>
+              <input type="text" class="form-control" formControlName="phone">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="claimNumber">Mobile</label>
+              <input type="text" class="form-control" formControlName="mobile">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="claimNumber"><span class="required-indicator">*</span>Address 1</label>
+              <input type="text" class="form-control required" formControlName="address1">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="policyHolder">Address 2</label>
+              <input type="text" class="form-control" formControlName="address2">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="prn"><span class="required-indicator">*</span>City/Town</label>
+              <input type="text" class="form-control required"  formControlName="city">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="invoiceNumber"><span class="required-indicator">*</span>Province/State</label>
+              <input type="text" class="form-control required" formControlName="province">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="currency">Zip</label>
+              <input type="text" class="form-control" formControlName="zip">
+            </div>
+          </div>
+          <hr class="w-100" />
+        </ng-container>
+        <div class="col-md-12">
+          <h5>TERMS AND CONDITIONS</h5>
+        </div>
+        <div class="col-md-12">
+          <h6>CANCELLATION AND REFUND</h6>
+        </div>
+        <div class="col-md-12">
+          <p>For policy cancellation and refund, Terms and Conditions of MAPFRE Insurance Corporation shall apply.</p>
+        </div>
+        <div class="col-md-12">
+          <h6>SECURITY CAPABILITIES & POLICY FOR TRANSMISSION OF PAYMENT</h6>
+        </div>
+        <div class="col-md-12">
+          <ul>1. What information do we collect and how do we use it? When you make credit card transaction through this website, we need your personal information such as (e.g. name, e-mail, phone number, address, and etc). This allows us to process and fulfill your transaction successfully. It also helps us in maintaining your account.</ul>
+          <ul>2. How does MAPFRE Insurance protect customer information? When you make transaction, we use a secure server. The secure server software (SSL) encrypts all information you input before it is sent to us. Furthermore, all of the sensitive customer data we collect is protected by several layers of encryption and several layers of security to prevent unauthorized access.</ul>
+          <ul>3. All credit card payments are processed securely through Global Pay. MAPFRE Insular does not store any credit card information on our servers.</ul>
+        </div>
+        <div class="col-md-12">
+          <h6>COPYRIGHT</h6>
+        </div>
+        <div class="col-md-12">
+          <p>All contents included in this site, such as text, graphics, logos, button icons, images, audio clips and software are property of mapfre.com.ph or its content suppliers and protected by Philippine and International copyright laws. The compilation of all contents on this site is the exclusive property of mapfre.com.ph and protected by Philippine and International copyright laws. The reproduction, distribution, transmission, republication or display of the content in this website without consent from mapfre.com.ph is strictly prohibited.</p>
+        </div>
+        <div class="col-md-12">
+          <h6>DISCLAIMER</h6>
+        </div>
+        <div class="col-md-12">
+          <p>This website and the information, services, products and materials available through it are provided "as is" basis, without warranty of any kind, either express or implied, to the extent permitted under any applicable law, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights, Further Mapfre.com.ph does not warrant or make any representations concerning the accuracy, likely results or reliability of the use of the materials on its Internet web or otherwise relating to such materials or on any sites linked to this site.</p>  
+        </div>
+        <div class="col-md-12">
+          <h6>JURISDICTION</h6>
+        </div>
+        <div class="col-md-12">
+          <p>For products and services only available for purchase in the Philippines, these terms and conditions shall be governed by and construed in accordance with Philippine Law. Disputes arising between you and Mapfre.com.ph shall be subject to the exclusive jurisdiction of the courts of the Philippines.</p>  
+        </div>
+        <div class="col-md-12">
+          <span>By clicking 'I agree', you are accepting to the MAPFRE's Payment terms and conditions.</span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </form>
+
+    <!-- COMMISSIONS PAID -->
+    <div *ngIf="type == 'account-commissions-paid'" class="row">
+      <div class="col-md-12">
+        <h5>Commissions Paid Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="receiptAmount">Receipt Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.receiptAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="commissionAmount">Commission Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.commissionAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="withholdingTaxAmount">Withholding Tax Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.withholdingTaxAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountCommissionsPaid.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- ESTIMATED COMMISSIONS -->
+    <div *ngIf="type == 'account-estimated-commissions'" class="row">
+      <div class="col-md-12">
+        <h5>Estimated Commissions Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="policyHolder">Policy Holder</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.policyHolder}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="movementDate">Movement Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.movementDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="receiptAmount">Receipt Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.receiptAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="estimatedCommission">Estimated Commission</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.estimatedCommission}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountEstimatedCommissions.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- PREMIUM COLLECTION -->
+    <div *ngIf="type == 'account-premium-collection'" class="row">
+      <div class="col-md-12">
+        <h5>Premium Collection Details</h5>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="policyNumber">Policy Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.policyNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.currency}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="subline">Subline</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.subline}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.invoiceNumber}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="effectivityDate">Effectivity Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.effectivityDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.expiryDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="collectedDate">Collected Date</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.collectedDate}}>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="collectionType">Collection Type</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.collectionType}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="receiptAmount">Receipt Amount</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.receiptAmount}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="netPremium">Net Premium</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.netPremium}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="surcharge">Surcharge</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.surcharge}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="tax">Tax</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.tax}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="interest">Interest</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.interest}}>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="source">Source</label>
+          <input type="text" class="form-control required" [readOnly]="true"
+            value={{listAccountPremiumCollection.source}}>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+  </div>
+  <!-- .container -->
+</div>
+<!-- mat-dialog-content -->
+
+<div mat-dialog-actions align="end">
+  <div class="btn-group" role="group">
+    <!-- <button *ngIf="type == 'account-outstanding-bills'" type="button" class="btn btn-success" (click)="downloadReceipt(listAccountOutstandingBills)">
+      Print Receipt
+    </button> -->
+    <button *ngIf="type == 'account-outstanding-bills' && !isProceedToPayment" [disabled]="listAccountOutstandingBills.paymentStatus !== '-'" type="button" class="btn btn-success" (click)="pay()">
+      Proceed to Payment
+    </button>
+    <button *ngIf="type == 'account-outstanding-bills' && isProceedToPayment" type="button" class="btn btn-success" (click)="redirectToPayment(listAccountOutstandingBills)">
+      I agree
+    </button>
+
+    <button *ngIf="type == p.ACC.SUC"  type="button" class="btn btn-success">
+      Print Policy
+    </button>
+
+    <button *ngIf="type == 'client-active' || type == 'client-claims'" type="button" class="btn btn-success" (click)="inquire()">
+      Inquire
+    </button>
+
+    <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="downloadRenewalPolicy()">
+      Print Renewal Notice
+    </button>
+    <button *ngIf="type == 'client-expiring'" type="button" class="btn btn-success" (click)="requestRenewal()">
+      Request Renewal
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="close()">
+      Close
+    </button>
+  </div>
+</div>

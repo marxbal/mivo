@@ -18,6 +18,8 @@ export class PolicyHolder {
   province: number; //codProv
   city: number; //codLocalidad
   address: string; //nomDomicilio1
+  address2: string; //nomDomicilio2
+  address3: string; //nomDomicilio3
   zipcode: number; //codPostal
   email: string; //email
   orgDocumentType: string; //tipDocumContacto

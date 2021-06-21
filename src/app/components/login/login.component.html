@@ -1,4 +1,4 @@
-<div id="login">
+<div id="login" [ngClass]="{'staging': isStaging}">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-8 d-none d-lg-block login-panel left-container">
@@ -57,11 +57,11 @@
                 </div>
               </div>
               <div class="col-6 col-sm-6">
-                <div class="text-right">
+                <!-- <div class="text-right">
                   <a class="f-password" href="#">
                     Forgot Password?
                   </a>
-                </div>
+                </div> -->
               </div>
             </div>
           </form>
@@ -69,9 +69,9 @@
         </div>
         <div class="login-footer">
           <ul>
-            <li>About</li>
+            <!-- <li>About</li>
             <li>Privacy</li>
-            <li>Terms and Condition</li>
+            <li><a href="/terms-and-condition">Terms and Condition</a></li> -->
           </ul>
         </div>
       </div>

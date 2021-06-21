@@ -17,7 +17,8 @@ import {
   AgentService
 } from '../../services/agent.service';
 import {
-  CURRENT_USER
+  CURRENT_USER,
+  DASH_INFO
 } from '../../constants/local.storage';
 import {
   SelectedAgent
@@ -25,6 +26,9 @@ import {
 import {
   Utility
 } from 'src/app/utils/utility';
+import {
+  environment
+} from 'src/environments/environment';
 
 @Component({
   selector: 'app-choose-agent',
@@ -36,42 +40,49 @@ export class ChooseAgentComponent implements OnInit {
   commercialStructureLOV: any[];
   agentLOV: any[];
   currentUser = this.auths.currentUserValue;
+  execAgent = this.auths.currentUserValue.execAgent;
   hasSelectedAgent = !Utility.isUndefined(this.currentUser.selectedAgent);
   showCancelBtn: boolean = false;
+  isStaging = !environment.production;
 
   constructor(private router: Router,
     private auths: AuthenticationService,
     private as: AgentService,
-    private fb: FormBuilder) {
-  }
+    private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.createForm();
     const _this = this;
-    if (this.hasSelectedAgent) {
-      this.showCancelBtn = true;
-      this.as.getAgentList(this.currentUser.selectedAgent.commStructure).then(res => {
+
+    if (this.execAgent) {
+      this.as.getEAAgentList(this.currentUser.execAgentCode).then(res => {
         _this.agentLOV = res;
       });
-
-      this.chooseAgentForm.get('commercialStructure').markAsDirty();
       this.chooseAgentForm.get('agent').markAsDirty();
+    } else {
+      this.as.getCommercialStructure().then(res => {
+        _this.commercialStructureLOV = res;
+      });
+      this.chooseAgentForm.get('commercialStructure').markAsDirty();
+      if (this.hasSelectedAgent) {
+        this.showCancelBtn = true;
+        this.as.getAgentList(this.currentUser.selectedAgent.commStructure).then(res => {
+          _this.agentLOV = res;
+        });
+        this.chooseAgentForm.get('agent').markAsDirty();
+      }
     }
-
-    this.as.getCommercialStructure().then(res => {
-      _this.commercialStructureLOV = res;
-    });
   }
 
   createForm() {
     let comval = null;
     let agentval = null;
     if (this.hasSelectedAgent) {
-      comval = this.currentUser.selectedAgent.commStructure;
+      comval = !this.execAgent ? this.currentUser.selectedAgent.commStructure : null;
       agentval = this.currentUser.selectedAgent.agentCode;
     }
     this.chooseAgentForm = this.fb.group({
-      commercialStructure: [comval, Validators.required],
+      commercialStructure: [comval, !this.execAgent ? Validators.required : null],
       agent: [agentval, Validators.required],
     });
   }
@@ -96,25 +107,43 @@ export class ChooseAgentComponent implements OnInit {
     localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
 
     const param = {
-      agentCode: agentCode,
-      userCode: agentCode
+      agentCode: agentCode
     };
 
     this.as.getProductionAgentProfile(JSON.stringify(param)).then(res => {
       if (res.status) {
         var sa = new SelectedAgent();
-        sa.agentCode = parseInt(res.obj["codAgente"]);
-        sa.agentName = res.obj["nomAgente"];
-        sa.documentCode = res.obj["codDocumento"];
-        sa.documentType = res.obj["tipoDocumento"];
-        sa.documentName = res.obj["nomTipoDocumento"];
-        sa.agentType = res.obj["tipoAgente"];
-        sa.agentTypeName = res.obj["nomTipoAgente"];
-        sa.agentAddress = res.obj["dirAgente"];
-        sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
-        currentUser.selectedAgent = sa;
+
+        const agentInfo = res.obj["agentInfo"];
+
+        sa.agentCode = parseInt(agentInfo["codAgente"]);
+        sa.agentName = agentInfo["nomAgente"];
+        sa.documentCode = agentInfo["codDocumento"];
+        sa.documentType = agentInfo["tipoDocumento"];
+        sa.documentName = agentInfo["nomTipoDocumento"];
+        sa.agentType = agentInfo["tipoAgente"];
+        sa.agentTypeName = agentInfo["nomTipoAgente"];
+        sa.agentAddress = agentInfo["dirAgente"];
+        if (!currentUser.execAgent) {
+          sa.commStructure = parseInt(this.chooseAgentForm.get('commercialStructure').value);
+        }
+
+        if (currentUser.execAgent && (sa.agentCode === currentUser.execAgentCode)) {
+          if (this.hasSelectedAgent) {
+            delete currentUser.selectedAgent;
+          }
+        } else {
+          currentUser.selectedAgent = sa;
+          if (!currentUser.execAgent) {
+            currentUser.commercialStructure = sa.commStructure;
+          }
+        }
+
+        currentUser.token = "Bearer " + res.obj["token"];
+
         //adds chosen agent to current user detail
         localStorage.setItem(CURRENT_USER, JSON.stringify(currentUser));
+        localStorage.removeItem(DASH_INFO);
       }
       this.router.navigate(['']);
     });

@@ -14,6 +14,9 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 import {
+  distinctUntilChanged
+} from 'rxjs/operators';
+import {
   Accident
 } from '../../objects/Accident';
 import {
@@ -28,9 +31,6 @@ import {
 import {
   page
 } from 'src/app/constants/page';
-// import {
-//   AuthenticationService
-// } from 'src/app/services/authentication.service';
 import {
   AccidentListObject
 } from 'src/app/objects/LOV/accidentList';
@@ -98,6 +98,11 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   invalidForms: any[] = [];
 
+  withTechControl: boolean = false;
+
+  // prevent user to spam the button
+  processing: boolean = false;
+
   groupPolicy = new GroupPolicy();
   policyHolder = new PolicyHolder();
   quoteForm: FormGroup;
@@ -142,6 +147,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   showPostBtn: boolean = false;
   //flag to show print btn
   showPrintBtn: boolean = false;
+  //flag to show new quote and new policy btn
+  showNewPolicyBtn: boolean = false;
 
   //disable load button
   disableLoadBtn: boolean = true;
@@ -220,7 +227,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   
           switch (code) {
             //general information details
-            //TODO
             case "COD_MODALIDAD": {
               this.accidentDetails.product = valueInt;
               break;
@@ -234,8 +240,10 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   
         const generalInfo = res.obj["generalInfo"];
         this.accidentDetails.subline = generalInfo.codRamo;
-        this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
-        this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        // this.accidentDetails.effectivityDate = new Date(generalInfo.fecEfecPoliza);
+        this.quoteForm.get('effectivityDate').setValue(new Date(generalInfo.fecEfecPoliza.substr(0,10)), {emitEvent:false});
+        // this.accidentDetails.expiryDate = new Date(generalInfo.fecVctoPoliza);
+        this.quoteForm.get('expiryDate').setValue(new Date(generalInfo.fecVctoPoliza.substr(0,10)), {emitEvent:false});
   
         this.groupPolicy = new GroupPolicy;
         this.groupPolicy.agentCode = generalInfo.codAgt;
@@ -415,6 +423,14 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
         //cloning details from load quotation
         const deepClone = JSON.parse(JSON.stringify(this.accidentDetails));
         this.prevAccidentDetails = deepClone;
+
+        //prevent to post policy if quotation has technical control
+        const technicalControl = res.obj["technicalControl"];
+        if (generalInfo.mcaProvisional == "S" && technicalControl.length > 0) {
+          this.withTechControl = true;
+          this.editMode = false;
+          this.modalRef = Utility.showError(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+        }
       } else {
         this.modalRef = Utility.showError(this.bms, res.message);
         this.accidentDetails.quotationNumber = "";
@@ -438,8 +454,15 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   setValidations() {
     var quotationNumber = this.quoteForm.get('quotationNumber');
+    var effectivityDate = this.quoteForm.get('effectivityDate');
+
     quotationNumber.valueChanges.subscribe(number => {
       this.disableLoadBtn = Utility.isUndefined(number);
+    });
+
+    effectivityDate.valueChanges.pipe(distinctUntilChanged()).subscribe(date => {
+      this.accidentDetails.expiryDate = moment(date).add(1, 'years').toDate();
+      this.expiryDateMinDate = this.accidentDetails.expiryDate;
     });
   }
 
@@ -678,13 +701,6 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  effectivityDateOnChange() {
-    setTimeout(() => {
-      this.accidentDetails.expiryDate = moment(this.accidentDetails.effectivityDate).add(1, 'years').toDate();
-      this.expiryDateMinDate = this.accidentDetails.expiryDate;
-    }, 500);
-  }
-
   populateCoverage(coverageList: any[]) {
     this.coverageList = coverageList;
     this.showCoverage = true;
@@ -700,6 +716,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   proceed(type: number) {
+    this.processing = true;
     //if user changes affecting values
     const hasChanges = this.changedValues.length != 0;
 
@@ -733,6 +750,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   }
 
   openProceedModal(type: number): void {
+    this.processing = false;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.restoreFocus = false;
     dialogConfig.autoFocus = false;
@@ -821,6 +839,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
       this.showSaveBtn = (opt == 2);
       this.showPostBtn = (opt == 3);
       this.showPrintBtn = (opt == 4);
+      this.showNewPolicyBtn = (opt == 5);
     } else {
       this.showGenerateBtn = (opt == 1);
       this.showIssueQuoteBtn = (opt == 2);
@@ -892,6 +911,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
   //getting error or warning items
   getErrorItems(res: ReturnDTO, mcaTmpPptoMph: string, isIssuance: boolean) {
+    this.withTechControl = false;
     const resErrorCode = res.obj["errorCode"];
     const resError = res.obj["error"];
 
@@ -914,6 +934,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
             //has error - can't proceed
             items = ["Failed to generate quotation number due to following reason/s:"].concat(arr);
           } else {
+            this.withTechControl = true;
             // has warning - can proceed
             if (isIssuance) {
               items = ["Quotation has technical control due to following reason/s:"].concat(arr);
@@ -933,6 +954,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.assembleData(mcaTmpPptoMph);
 
     this.ais.issueQuote(this.accidentDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -959,7 +981,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
 
           if ("S" == mcaTmpPptoMph) {
             //for generation of quote
-            const message = "You have successfully generated a quotation - " + policyNumber;
+            const message = "You have successfully generated a quotation";
             this.modalRef = Utility.showInfo(this.bms, message);
 
             const coverageList = res.obj["coverageList"];
@@ -1006,6 +1028,7 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
     this.assembleData("N");
 
     this.ais.savePolicy(this.accidentDetails).then(res => {
+      this.processing = false;
       if (res.status) {
         //clear affecting fields
         this.changedValues = [];
@@ -1030,7 +1053,8 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
           const receipt = res.obj["receipt"];
           this.populatePaymentBreakdown(breakdown, receipt);
 
-          if (errorCode == "S") {
+          this.withTechControl = errorCode == 'S';
+          if (this.withTechControl) {
             //if quotation has a warning
             if (this.accidentDetails.affecting) {
               items = ["Updated quotation number is: " + policyNumber].concat(items);
@@ -1055,30 +1079,37 @@ export class QuotationAccidentComponent implements OnInit, AfterViewChecked {
   postPolicy() {
     this.assembleData("N");
 
-    this.ais.postPolicy(this.accidentDetails).then(res => {
-      if (res.status) {
-        //clear affecting fields
-        this.changedValues = [];
+    if (this.withTechControl) {
+      this.modalRef = Utility.showWarning(this.bms, "Quotation has technical control. Please request for approval first before posting the policy.");
+    } else {
+      this.ais.postPolicy(this.accidentDetails).then(res => {
+        this.processing = false;
+        if (res.status) {
+          //clear affecting fields
+          this.changedValues = [];
 
-        var items = this.getErrorItems(res, this.accidentDetails.mcaTmpPptoMph, true);
-        const status = res.obj["status"];
-        const policyNumber = res.obj["policyNumber"];
-        if (status && !Utility.isUndefined(policyNumber)) {
-          this.editMode = false;
-          this.accidentDetails.policyNumber = policyNumber;
+          var items = this.getErrorItems(res, this.accidentDetails.mcaTmpPptoMph, true);
+          const status = res.obj["status"];
+          const policyNumber = res.obj["policyNumber"];
+          if (status && !Utility.isUndefined(policyNumber)) {
+            this.editMode = false;
+            this.accidentDetails.policyNumber = policyNumber;
 
-          const breakdown = res.obj["breakdown"];
-          const receipt = res.obj["receipt"];
-          this.populatePaymentBreakdown(breakdown, receipt);
-          this.openPaymentBreakdownModal(receipt, breakdown, true);
-          this.manageBtn(4);
+            const breakdown = res.obj["breakdown"];
+            const receipt = res.obj["receipt"];
+            this.populatePaymentBreakdown(breakdown, receipt);
+            this.openPaymentBreakdownModal(receipt, breakdown, true);
+            this.manageBtn(4);
+          } else {
+            this.manageBtn(5);
+            this.modalRef = Utility.showHTMLError(this.bms, items);
+          }
         } else {
-          this.modalRef = Utility.showHTMLError(this.bms, items);
+          this.manageBtn(5);
+          this.modalRef = Utility.showError(this.bms, res.message);
         }
-      } else {
-        this.modalRef = Utility.showError(this.bms, res.message);
-      }
-    });
+      });
+    }
   }
 
 }

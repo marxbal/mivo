@@ -2,7 +2,7 @@
 
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" (click)="setPage(p.DAS.N)">
-    <img src="./assets/images/mivo-logo/mivo-logo-light.png" alt="brand-logo" />
+    <img src="./assets/images/{{logo}}.png" alt="brand-logo" />
   </a>
 
   <!-- Divider -->
@@ -29,12 +29,12 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <a *ngIf="menu.outstanding" class="collapse-item" [ngClass]="{'active': page==p.ACC.OUT}"
           (click)="setPage(p.ACC.OUT)"><i class="fas fa-fw fa-star"></i> Outstanding Bills</a>
-        <a *ngIf="menu.commissionsPaid" class="collapse-item"><i class="fas fa-fw fa-money-bill-wave"></i> Commissions
-          Paid</a>
-        <a *ngIf="menu.estimatedCommissions" class="collapse-item"><i class="fas fa-fw fa-calculator"></i> Estimated
-          Commissions</a>
-        <a *ngIf="menu.premiumCollection" class="collapse-item"><i class="fas fa-fw fa-award"></i> Premium
-          Collection</a>
+        <a *ngIf="menu.commissionsPaid" class="collapse-item" [ngClass]="{'active': page==p.ACC.COM}"
+          (click)="setPage(p.ACC.COM)"><i class="fas fa-fw fa-money-bill-wave"></i> Commissions Paid</a>
+        <a *ngIf="menu.estimatedCommissions" class="collapse-item" [ngClass]="{'active': page==p.ACC.EST}"
+          (click)="setPage(p.ACC.EST)"><i class="fas fa-fw fa-calculator"></i> Estimated Commissions</a>
+        <a *ngIf="menu.premiumCollection" class="collapse-item" [ngClass]="{'active': page==p.ACC.PRE}"
+          (click)="setPage(p.ACC.PRE)"><i class="fas fa-fw fa-award"></i> Premium Collection</a>
       </div>
     </div>
   </li>
@@ -48,19 +48,29 @@
     <div id="myClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Clients:</h6>
-        <a class="collapse-item"><i class="fas fa-fw fa-info-circle"></i> Details</a>
+        <a *ngIf="menu.clientDetails" class="collapse-item" [ngClass]="{'active': page==p.CLI.CLI}"
+          (click)="setPage(p.CLI.CLI)"><i class="fas fa-fw fa-info-circle"></i> Details</a>
         <h6 class="collapse-header">Policies:</h6>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-check"></i> Active</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-times"></i> Cancelled</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-sync"></i> Renewed</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-slash"></i> Not Renewed</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-exclamation-triangle"></i> Expiring</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
+        <a *ngIf="menu.active" class="collapse-item" [ngClass]="{'active': page==p.CLI.ACT}"
+          (click)="setPage(p.CLI.ACT)"><i class="fas fa-fw fa-user-check"></i> Active</a>
+        <a *ngIf="menu.cancelled" class="collapse-item" [ngClass]="{'active': page==p.CLI.CAN}"
+          (click)="setPage(p.CLI.CAN)"><i class="fas fa-fw fa-user-times"></i> Cancelled</a>
+        <a *ngIf="menu.renewed" class="collapse-item" [ngClass]="{'active': page==p.CLI.REN}"
+          (click)="setPage(p.CLI.REN)"><i class="fas fa-fw fa-sync"></i> Renewed</a>
+        <a *ngIf="menu.notRenewed" class="collapse-item" [ngClass]="{'active': page==p.CLI.NOT}"
+          (click)="setPage(p.CLI.NOT)"><i class="fas fa-fw fa-user-slash"></i> Not Renewed</a>
+        <a *ngIf="menu.expiring" class="collapse-item" [ngClass]="{'active': page==p.CLI.EXP}"
+          (click)="setPage(p.CLI.EXP)"><i class="fas fa-fw fa-exclamation-triangle"></i> Expiring</a>
+        <a *ngIf="menu.provisional" class="collapse-item" [ngClass]="{'active': page==p.CLI.PRO}"
+          (click)="setPage(p.CLI.PRO)"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
         <h6 class="collapse-header">Quotations:</h6>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-check"></i> Active</a>
-        <a class="collapse-item"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
+        <a *ngIf="menu.activeQuotation" class="collapse-item" [ngClass]="{'active': page==p.CLI.ACTQ}"
+          (click)="setPage(p.CLI.ACTQ)"><i class="fas fa-fw fa-user-check"></i> Active</a>
+        <a *ngIf="menu.provisionalQuotation" class="collapse-item" [ngClass]="{'active': page==p.CLI.PROQ}"
+          (click)="setPage(p.CLI.PROQ)"><i class="fas fa-fw fa-user-clock"></i> Provisional</a>
         <h6 class="collapse-header">Claims:</h6>
-        <a class="collapse-item"><i class="fas fa-fw fa-info-circle"></i> Details</a>
+        <a *ngIf="menu.claims" class="collapse-item" [ngClass]="{'active': page==p.CLI.CLA}"
+          (click)="setPage(p.CLI.CLA)"><i class="fas fa-fw fa-info-circle"></i> Details</a>
       </div>
     </div>
   </li>
@@ -126,10 +136,19 @@
   </li>
 
   <li *ngIf="menu.requests" class="nav-item">
-    <a class="nav-link">
+    <a class="nav-link collapsed" data-toggle="collapse" data-target="#requests" aria-expanded="true"
+      aria-controls="requests">
       <i class="fas fa-fw fa-bell"></i>
       <span>Requests</span>
     </a>
+    <div id="requests" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a *ngIf="menu.requestCreate" class="collapse-item" [ngClass]="{'active': page==p.REQ.CRE}"
+          (click)="setPage(p.REQ.CRE)"><i class="fas fa-fw fa-plus"></i> Create Request</a>
+        <a *ngIf="menu.requestList" class="collapse-item" [ngClass]="{'active': page==p.REQ.LIS}"
+          (click)="setPage(p.REQ.LIS)"><i class="fas fa-fw fa-clipboard-list"></i> Request List</a>
+      </div>
+    </div>
   </li>
 
   <li *ngIf="menu.utilities" class="nav-item">
@@ -148,6 +167,13 @@
           (click)="setPage(p.UTI.CHA)"><i class="fas fa-fw fa-key"></i> Change Password</a>
       </div>
     </div>
+  </li>
+
+  <li *ngIf="menu.tutorial" [ngClass]="{'active': page==p.TUT.N}" class="nav-item" (click)="setPage(p.TUT.N)">
+    <a class="nav-link">
+      <i class="fas fa-fw fa-info"></i>
+      <span>Tutorial</span>
+    </a>
   </li>
 
   <li *ngIf="menu.news" [ngClass]="{'active': page==p.NEW.N}" class="nav-item" (click)="setPage(p.NEW.N)">
@@ -172,19 +198,24 @@
     User Information
   </div>
 
-  <!-- Nav Item - Charts -->
   <li class="nav-item">
+    <div class="nav-link">
+      <i class="fas fa-fw fa-user"></i>
+      <span>{{currentUser.userName}}</span></div>
+  </li>
+
+  <li *ngIf="currentUser.address" class="nav-item">
     <div class="nav-link">
       <i class="fas fa-fw fa-map-marked-alt"></i>
       <span>{{currentUser.address}}</span></div>
   </li>
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <div class="nav-link">
       <i class="fas fa-fw fa-key"></i>
       <span>Your password will expire in <strong>{{currentUser.expiryDay}}
           {{currentUser.expiryDay <= 1 ? 'day' : 'days' }}</strong></span></div>
-  </li>
+  </li> -->
 
   <div *ngIf="hasSelectedAgent">
     <!-- Divider -->
@@ -195,15 +226,13 @@
       Agent Information
     </div>
 
-    <!-- Nav Item - Charts -->
-
     <li class="nav-item">
       <div class="nav-link">
         <i class="fas fa-fw fa-user"></i>
         <span>{{currentUser.selectedAgent.agentName}}</span></div>
     </li>
 
-    <li class="nav-item">
+    <li *ngIf="currentUser.selectedAgent.agentAddress" class="nav-item">
       <div class="nav-link">
         <i class="fas fa-fw fa-map-marked-alt"></i>
         <span>{{currentUser.selectedAgent.agentAddress}}</span></div>

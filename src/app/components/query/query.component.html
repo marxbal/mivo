@@ -18,19 +18,19 @@
                 <label class="input-group-text" for="inputGroupSelect01">Options</label>
               </div>
 
-              <select class="custom-select mr-sm-2 required">
-                <option selected value="policy">Policy</option>
+              <select  value="{{selectedOption}}" [(ngModel)]="selectedOption" class="custom-select mr-sm-2 required" (change)="onSelectOption(selectedOption)">
+                <option value="policy">Policy</option>
                 <option value="claims">Claims</option>
               </select>
             </div>
-          </div>
+          </div> 
 
           <div class="col-xl-9 col-md-7 col-sm-12">
             <div class="input-group">
               <input type="text" class="form-control bg-light small" aria-label="Search"
-                aria-describedby="basic-addon2">
+                aria-describedby="basic-addon2" placeholder="{{optPlaceholder}}" #inputVal>
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="button" (click)="search()">
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>

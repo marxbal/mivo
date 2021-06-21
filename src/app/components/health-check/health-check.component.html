@@ -1,0 +1,105 @@
+<div id="onePageTemplate" [ngClass]="{'staging': isStaging}">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="container">
+          <div class="wrap">
+            <div class="row">
+
+              <div class="col-lg-4 menu">
+                <a class="brand-logo" (click)="redirect()">
+                  <img src="./assets/images/mivo-logo/mivo-logo-light.png" alt="brand-logo" />
+                </a>
+
+                <ul class="health-menu">
+                  <li class="{{backendConfigList.database ? 'live' : ''}}">
+                    DATABASE
+                  </li>
+                  <li>
+                    PRINTING
+                  </li>
+                </ul>
+              </div>
+              <!-- .col-lg-4 -->
+
+              <div class="col-lg-8 details">
+
+                <div class="scroll">
+                  <div class="scroll-wrapper">
+                    <h2>
+                      CONFIGURATIONS
+                    </h2>
+
+                    <div class="top-20">
+                      <h5>
+                        FRONT END
+                      </h5>
+                      <div>
+                        <ul>
+                          <li>
+                            Build Number: <strong>{{version}}</strong>
+                          </li>
+                          <li>
+                            API URL: <strong>{{apiUrl}}</strong>
+                          </li>
+                          <li>
+                            Image URL: <strong>{{imgUrl}}</strong>
+                          </li>
+                          <li>
+                            Production: <strong>{{production}}</strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="top-20">
+                      <h5>
+                        BACKEND
+                      </h5>
+                      <div>
+                        <ul>
+                          <li>
+                            Version: <strong>{{backendConfigList.version}}</strong>
+                          </li>
+                          <li>
+                            Database URL: <strong>{{backendConfigList.dbUrl}}</strong>
+                          </li>
+                          <li>
+                            COCAF Register URL: <strong>{{backendConfigList.cocafRegisterUrl}}</strong>
+                          </li>
+                          <li>
+                            COCAF Verify URL: <strong>{{backendConfigList.cocafVerifyUrl}}</strong>
+                          </li>
+                          <li>
+                            BPM Policy Central URL: <strong>{{backendConfigList.policyCentralUrl}}</strong>
+                          </li>
+                          <li>
+                            BPM Tech Control URL: <strong>{{backendConfigList.techControlUrl}}</strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <!-- .scroll -->
+
+              </div>
+              <!-- .col-lg-8 -->
+
+            </div>
+            <!-- .row -->
+          </div>
+          <!-- .wrap -->
+        </div>
+        <!-- .container -->
+      </div>
+      <!-- .col-lg-12 -->
+
+      <div class="clearfix"></div>
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container-fluid -->
+</div>
+<!-- #onePageTemplate -->

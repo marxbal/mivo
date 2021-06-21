@@ -17,6 +17,12 @@ import {
 import {
   ReturnDTO
 } from '../objects/ReturnDTO';
+import {
+  RenewalPrinting
+} from '../objects/RenewalPrinting';
+import {
+  ReceiptPrinting
+} from '../objects/ReceiptPrinting';
 
 @Injectable()
 export class UtilityService {
@@ -36,6 +42,34 @@ export class UtilityService {
     });
   }
 
+  downloadRenewalPolicy(print: RenewalPrinting) {
+    return this.http.post(
+      API_URL + '/utility/downloadRenewalPolicy',
+      print, {
+        responseType: 'blob'
+      }).map((res: Blob) => {
+      return new Blob([res], {
+        type: 'application/pdf'
+      });
+    });
+  }
+
+  downloadReceipt(receipt: ReceiptPrinting) {
+    return this.http.post(
+      API_URL + '/utility/downloadReceipt',
+      receipt, {
+        responseType: 'blob'
+      }).map((res: Blob) => {
+        return new Blob([res], {
+          type: 'application/pdf'
+        });
+    });
+  }
+
+  async validateReceiptPrinting(receipt: ReceiptPrinting): Promise < ReturnDTO > {
+    return this.app.post(receipt, '/utility/validateReceiptPrinting').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
   async validatePrinting(documentPritingDetails: DocumentPrinting): Promise < ReturnDTO > {
     return this.app.post(documentPritingDetails, '/utility/validatePrinting').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
@@ -46,5 +80,12 @@ export class UtilityService {
 
   async getEndorsementNumber(documentPritingDetails: DocumentPrinting): Promise < ReturnDTO > {
     return this.app.post(documentPritingDetails, '/utility/getEndorsementNumber').then(ReturnDTO => ReturnDTO as ReturnDTO);
+  }
+
+  async changePassword(oldPass: String, newPass: String): Promise < ReturnDTO > {
+    return this.app.post({
+      oldPass,
+      newPass
+    }, '/utility/changePassword').then(ReturnDTO => ReturnDTO as ReturnDTO);
   }
 }

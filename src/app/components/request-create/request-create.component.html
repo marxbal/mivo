@@ -1,0 +1,386 @@
+<div class="row" id="requests">
+  <div class="col-xl-12">
+    <div class="page-header">
+
+      <h4 class="all-caps">
+        <span class="fa-stack fa-md">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+        </span>
+        Create Requests
+      </h4>
+
+    </div>
+    <!-- .page-header -->
+  </div>
+  <!-- .col-xl-12 -->
+
+  <div class="col-xl-12">
+    <div class="card shadow">
+      <div class="card-body">
+
+        <form [formGroup]="requestForm">
+          <div class="row">
+            <div class="col-xl-5 col-md-5 col-sm-12">
+              <div class="form-group input-group mb-3" [ngClass]="{'input-error': requestForm.controls['type'].invalid 
+                  && (requestForm.controls['type'].dirty 
+                  || requestForm.controls['type'].touched)}">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Request Type</label>
+                </div>
+
+                <select class="custom-select mr-sm-2" formControlName="type" [(ngModel)]="requestDetails.type">
+                  <option selected>
+                    <p *ngIf="requestForm.controls['type'].errors?.required">
+                      Select Request Type
+                    </p>
+                  </option>
+                  <!-- <option value="P">Policy Request</option> -->
+                  <option value="E">Endorsement</option>
+                  <option value="R">Renewal</option>
+                  <option value="U">Underwriting</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-divider"></div>
+
+            <div class="col-md-12" *ngIf="showPolicyDetails">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['type1'].invalid 
+                              && (requestForm.controls['type1'].dirty 
+                              || requestForm.controls['type1'].touched)}">
+
+                    <label for="type1">Type 1</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="type1"
+                      [(ngModel)]="requestDetails.type1">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['type1'].errors?.required">
+                      * type 1 is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['type2'].invalid 
+                              && (requestForm.controls['type2'].dirty 
+                              || requestForm.controls['type2'].touched)}">
+
+                    <label for="type2">Type 2</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="type2"
+                      [(ngModel)]="requestDetails.type2">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['type2'].errors?.required">
+                      * type 2 is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['branch'].invalid 
+                              && (requestForm.controls['branch'].dirty 
+                              || requestForm.controls['branch'].touched)}">
+
+                    <label for="branch">Branch</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="branch"
+                      [(ngModel)]="requestDetails.branch">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['branch'].errors?.required">
+                      * branch is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['line'].invalid 
+                              && (requestForm.controls['line'].dirty 
+                              || requestForm.controls['line'].touched)}">
+
+                    <label for="line">Line</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="line"
+                      [(ngModel)]="requestDetails.line">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['line'].errors?.required">
+                      * line is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['subline'].invalid 
+                              && (requestForm.controls['subline'].dirty 
+                              || requestForm.controls['subline'].touched)}">
+
+                    <label for="subline">Subline</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="subline"
+                      [(ngModel)]="requestDetails.subline">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['subline'].errors?.required">
+                      * subline is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['typeOfPolicy'].invalid 
+                        && (requestForm.controls['typeOfPolicy'].dirty 
+                        || requestForm.controls['typeOfPolicy'].touched)}">
+
+                    <label for="typeOfPolicy">Type of Policy</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="typeOfPolicy"
+                      [(ngModel)]="requestDetails.typeOfPolicy">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['typeOfPolicy'].errors?.required">
+                      * type of policy is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['clientName'].invalid 
+                          && (requestForm.controls['clientName'].dirty 
+                          || requestForm.controls['clientName'].touched)}">
+                    <label for="clientName">Client Name</label>
+                    <input type="text" formControlName="clientName" class="form-control required"
+                      [(ngModel)]="requestDetails.clientName">
+                    <p class="form-error" *ngIf="requestForm.controls['clientName'].errors?.required">
+                      * client name is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['clientGroup'].invalid 
+                              && (requestForm.controls['clientGroup'].dirty 
+                              || requestForm.controls['clientGroup'].touched)}">
+
+                    <label for="clientGroup">Client Group</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="clientGroup"
+                      [(ngModel)]="requestDetails.clientGroup">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['clientGroup'].errors?.required">
+                      * client group is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['copyNotify'].invalid 
+                          && (requestForm.controls['copyNotify'].dirty 
+                          || requestForm.controls['copyNotify'].touched)}">
+                    <label for="copyNotify">Copy Notify</label>
+                    <input type="text" formControlName="copyNotify" class="form-control required"
+                      [(ngModel)]="requestDetails.copyNotify" placeholder="Use semicolon (;) as email separator">
+                    <p class="form-error" *ngIf="requestForm.controls['copyNotify'].errors?.required">
+                      * copy notify is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['comments'].invalid 
+                      && (requestForm.controls['comments'].dirty 
+                      || requestForm.controls['comments'].touched)}">
+                    <label for="comments">Comments or Remarks</label>
+                    <textarea type="text" formControlName="comments" class="form-control required"
+                      [(ngModel)]="requestDetails.comments"></textarea>
+                    <p class="form-error" *ngIf="requestForm.controls['comments'].errors?.required">
+                      * comments/remarks is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row">
+                    <ngx-dropzone (change)="onSelect($event)"
+                      accept="image/jpeg,
+                      image/jpg,
+                      image/png,
+                      image/gif,
+                      application/pdf,
+                      application/xls,
+                      application/xlsx,
+                      application/doc,
+                      application/docx,
+                      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                      application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      >
+                      <ngx-dropzone-label>Drop file here</ngx-dropzone-label>
+                      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                  </div>
+                  
+                </div>
+
+                
+
+              </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="showDetails">
+              <div class="row">
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['requestType'].invalid 
+                        && (requestForm.controls['requestType'].dirty 
+                        || requestForm.controls['requestType'].touched)}">
+
+                    <label for="requestType">Request Type</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="requestType"
+                      [(ngModel)]="requestDetails.requestType">
+                      <option *ngIf="showEndorsementRT" value="1">Endorsement</option>
+                      <option *ngIf="showEndorsementRT" value="2">Cancellation</option>
+                      <option *ngIf="showRenewalRT" value="5">Renewal</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Approval</option>
+                      <option *ngIf="showUnderwritingRT" value="S">Rejection</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-4" *ngIf="showUnderwritingRT">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['issueType'].invalid 
+                        && (requestForm.controls['issueType'].dirty 
+                        || requestForm.controls['issueType'].touched)}">
+                    <label for="issueType">Issue Type</label>
+                    <select class="custom-select mr-sm-2 required" formControlName="issueType"
+                      [(ngModel)]="requestDetails.issueType">
+                      <option value="P">Policy</option>
+                      <option value="C">Quotation</option>
+                    </select>
+                    <p class="form-error" *ngIf="requestForm.controls['issueType'].errors?.required">
+                      * issue type is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['policyNumber'].invalid 
+                        && (requestForm.controls['policyNumber'].dirty 
+                        || requestForm.controls['policyNumber'].touched)}">
+                    <label for="policyNumber">Policy Number</label>
+                    <input type="text" formControlName="policyNumber" class="form-control required"
+                      [(ngModel)]="requestDetails.policyNumber">
+                    <p class="form-error" *ngIf="requestForm.controls['policyNumber'].errors?.required">
+                      * policy number is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['reason'].invalid 
+                    && (requestForm.controls['reason'].dirty 
+                    || requestForm.controls['reason'].touched)}">
+                    <label for="reason">Reason</label>
+                    <textarea type="text" formControlName="reason" class="form-control required"
+                      [(ngModel)]="requestDetails.reason"></textarea>
+                    <p class="form-error" *ngIf="requestForm.controls['reason'].errors?.required">
+                      * reason is required
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['agentEmail'].invalid 
+                    && (requestForm.controls['agentEmail'].dirty 
+                    || requestForm.controls['agentEmail'].touched)}">
+                    <label for="agentEmail">Agent's Email</label>
+                    <input type="text" formControlName="agentEmail" class="form-control required"
+                      [(ngModel)]="requestDetails.agentEmail">
+                    <p class="form-error" *ngIf="requestForm.controls['agentEmail'].errors?.required">
+                      * agent's email is required
+                    </p>
+                    <p class="form-error" *ngIf="requestForm.controls['agentEmail'].errors?.email">
+                      * invalid email format
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'input-error': requestForm.controls['name'].invalid 
+                    && (requestForm.controls['name'].dirty 
+                    || requestForm.controls['name'].touched)}">
+                    <label for="name">Name</label>
+                    <input type="text" formControlName="name" class="form-control required"
+                      [(ngModel)]="requestDetails.name"
+                      oninput="this.value = this.value.toUpperCase()">
+                    <p class="form-error" *ngIf="requestForm.controls['name'].errors?.required">
+                      * name is required
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+          </div>
+          <!-- .row -->
+
+          <div class="alert alert-info note">
+            <p>
+              <strong>Important Reminder:</strong> Please make sure to fill out all required fields to enable the button below.
+            </p>
+          </div>
+          <!-- .note -->
+
+          <div class="btn-group" role="group">
+            <button [disabled]="requestForm.invalid" type="button" class="btn btn-primary"
+              (click)="request(requestDetails)">Create Request</button>
+          </div>
+
+          <!-- .btn-group -->
+
+        </form>
+
+      </div>
+      <!-- .card-body -->
+    </div>
+    <!-- .card.shadow -->
+  </div>
+  <!-- .col-xl-12 -->
+</div>
+<!-- #requests -->

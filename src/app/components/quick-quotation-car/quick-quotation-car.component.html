@@ -25,6 +25,14 @@
           <p><strong>Important Reminder:</strong> All the amounts shown on the product comparison table are only
             estimates and must not be taken as the actual premiums of the products.
           </p>
+          <br>
+          <strong>Fixed Values: </strong>
+          <ul>
+            <li>Sum Insured per Passenger: <strong>50,000</strong></li>
+            <li>VTPL BI : <strong>200,000</strong></li>
+            <li>VTPL PD : <strong>200,000</strong></li>
+            <li>LGT : <strong>.75%</strong></li>
+          </ul>
         </div>
         <!-- .note -->
 
@@ -37,6 +45,7 @@
                 <label for="make">Make</label>
                 <select class="custom-select mr-sm-2 required" formControlName="make" (change)="makeOnchange()"
                   [(ngModel)]="carDetails.make">
+                  <option selected></option>
                   <option *ngFor="let make of LOV.makeLOV" [ngValue]="make.COD_MARCA">{{ make.NOM_MARCA }}</option>
                 </select>
                 <p class="form-error" *ngIf="quickQuoteForm.controls['make'].errors?.required">
@@ -251,7 +260,7 @@
                   <ng-container matColumnDef="autoSelect">
                     <th mat-header-cell *matHeaderCellDef class="amount"> Auto Select </th>
                     <td mat-cell *matCellDef="let element" class="amount">
-                      {{element.autoSelect == 0 ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
+                      {{element.autoSelect == 0 || !showAutoSelect ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -336,7 +345,7 @@
                   <ng-container matColumnDef="autoSelect">
                     <th mat-header-cell *matHeaderCellDef class="amount"> Auto Select </th>
                     <td mat-cell *matCellDef="let element" class="amount">
-                      {{element.autoSelect == 0 ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
+                      {{element.autoSelect == 0 || !showAutoSelect ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -409,7 +418,7 @@
                   <ng-container matColumnDef="autoSelect">
                     <th mat-header-cell *matHeaderCellDef class="amount"> Auto Select </th>
                     <td mat-cell *matCellDef="let element" class="amount">
-                      {{element.autoSelect == 0 ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
+                      {{element.autoSelect == 0 || !showAutoSelect ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -481,7 +490,7 @@
                   <ng-container matColumnDef="autoSelect">
                     <th mat-header-cell *matHeaderCellDef class="amount"> Auto Select </th>
                     <td mat-cell *matCellDef="let element" class="amount">
-                      {{element.autoSelect == 0 ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
+                      {{element.autoSelect == 0 || !showAutoSelect ? 'n/a' : element.autoSelect | currency:'PHP': 'symbol-narrow'}} </td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

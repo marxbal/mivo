@@ -31,8 +31,8 @@
             <label for="documentType">Document Type</label>
             <select class="custom-select mr-sm-2 required" formControlName="documentType"
               [(ngModel)]="thirdParty.documentType">
-              <option *ngFor="let type of TPLOV.documentTypeLOV" [ngValue]="type.TIP_DOCUM">{{ type.NOM_DOCUM }}
-              </option>
+              <option selected></option>
+              <option *ngFor="let type of TPLOV.documentTypeLOV" [ngValue]="type.TIP_DOCUM">{{ type.NOM_DOCUM }}</option>
             </select>
             <p class="form-error" *ngIf="tpForm.controls['documentType'].errors?.required">
               * document type is required
@@ -60,6 +60,7 @@
           <div class="form-group">
             <label for="prefix">Prefix</label>
             <select class="custom-select mr-sm-2" formControlName="prefix" [(ngModel)]="thirdParty.prefix">
+              <option selected></option>
               <option *ngFor="let pre of TPLOV.prefixLOV" [ngValue]="pre.TIP_PREFIJO_NOMBRE">{{ pre.NOM_VALOR }}</option>
             </select>
           </div>
@@ -69,6 +70,7 @@
           <div class="form-group">
             <label for="suffix">Suffix</label>
             <select class="custom-select mr-sm-2" formControlName="suffix" [(ngModel)]="thirdParty.suffix">
+              <option selected></option>
               <option *ngFor="let suff of TPLOV.suffixLOV" [ngValue]="suff.TIPO_SUFIJO_NOMBRE">{{ suff.NOM_VALOR }}</option>
             </select>
           </div>
@@ -116,7 +118,7 @@
               || tpForm.controls['gender'].touched)}">
             <label for="gender">Gender</label>
             <select class="custom-select mr-sm-2 required" formControlName="gender" [(ngModel)]="thirdParty.gender" convert-to-number> 
-              <option></option>
+              <option selected></option>
               <option [ngValue]="1">MALE</option>
               <option [ngValue]="0">FEMALE</option>
             </select>
@@ -140,7 +142,8 @@
             || tpForm.controls['mobileNumber'].touched)}">
             <label for="suffix">Mobile Number</label>
             <input type="text" formControlName="mobileNumber" class="form-control required"
-              [(ngModel)]="thirdParty.mobileNumber">
+              [(ngModel)]="thirdParty.mobileNumber"
+              maxlength="12">
             <p class="form-error" *ngIf="tpForm.controls['mobileNumber'].errors?.required">
               * mobile number is required
             </p>
@@ -174,6 +177,7 @@
             <label for="gender">Country</label>
             <select class="custom-select mr-sm-2" formControlName="country" [(ngModel)]="thirdParty.country"
                 (change)="getState()">
+              <option selected></option>
               <option *ngFor="let country of TPLOV.countryLOV" [ngValue]="country.COD_PAIS">{{ country.NOM_PAIS }}
               </option>
             </select>
@@ -185,6 +189,7 @@
             <label for="gender">State</label>
             <select class="custom-select mr-sm-2" formControlName="state" [(ngModel)]="thirdParty.state"
                 (change)="getProvince()">
+              <option selected></option>
               <option *ngFor="let state of TPLOV.stateLOV" [ngValue]="state.COD_ESTADO">{{ state.NOM_ESTADO }}
               </option>
             </select>
@@ -196,6 +201,7 @@
             <label for="province">Province</label>
             <select class="custom-select mr-sm-2" formControlName="province" [(ngModel)]="thirdParty.province"
                 (change)="getCity()">
+              <option selected></option>
               <option *ngFor="let province of TPLOV.provinceLOV" [ngValue]="province.COD_PROV">
                 {{ province.NOM_PROV }}
               </option>
@@ -208,6 +214,7 @@
             <label for="gender">Town/City</label>
             <select class="custom-select mr-sm-2" formControlName="city" [(ngModel)]="thirdParty.city"
                 (change)="getZipCode()">
+              <option selected></option>
               <option *ngFor="let city of TPLOV.cityLOV" [ngValue]="city.COD_LOCALIDAD">
                 {{ city.NOM_LOCALIDAD }}
               </option>
@@ -221,17 +228,38 @@
             || tpForm.controls['address'].touched)}">
             <label for="address">Address</label>
             <textarea type="text" formControlName="address" class="form-control required"
-              [(ngModel)]="thirdParty.address"></textarea>
+              oninput="this.value = this.value.toUpperCase()" 
+              [(ngModel)]="thirdParty.address"
+              maxlength="40"></textarea>
             <p class="form-error" *ngIf="tpForm.controls['address'].errors?.required">
               * address required
             </p>
           </div>
         </div>
 
+        <div class="col-lg-12">
+          <div class="form-group">
+            <textarea type="text" formControlName="address2" class="form-control"
+              oninput="this.value = this.value.toUpperCase()" 
+              [(ngModel)]="thirdParty.address2"
+              maxlength="40"></textarea>
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <div class="form-group">
+            <textarea type="text" formControlName="address3" class="form-control"
+              oninput="this.value = this.value.toUpperCase()" 
+              [(ngModel)]="thirdParty.address3"
+              maxlength="40"></textarea>
+          </div>
+        </div>
+
         <div class="col-md-4">
           <div class="form-group">
-            <label for="gender">Zipcode</label>
+            <label for="zipcode">Zip Code</label>
             <select class="custom-select mr-sm-2" formControlName="zipcode" [(ngModel)]="thirdParty.zipcode">
+              <option selected></option>
               <option *ngFor="let zipcode of TPLOV.zipcodeLOV" [ngValue]="zipcode.COD_POSTAL">
                 {{ zipcode.COD_POSTAL }}
               </option>
@@ -265,7 +293,7 @@
                 <label for="orgDocumentType">Contact Document Type</label>
                 <select class="custom-select mr-sm-2" formControlName="orgDocumentType"
                   [(ngModel)]="thirdParty.orgDocumentType">
-                  <option></option>
+                  <option selected></option>
                   <option *ngFor="let documentType of TPLOV.documentTypeLOV" [ngValue]="documentType.COD_DOCUM">
                     {{ documentType.NOM_DOCUM }}
                   </option>
@@ -286,7 +314,7 @@
                 <label for="orgNationality">Nationality</label>
                 <select class="custom-select mr-sm-2" formControlName="orgNationality"
                   [(ngModel)]="thirdParty.orgNationality">
-                  <option></option>
+                  <option selected></option>
                   <option *ngFor="let nationality of TPLOV.nationalityLOV" [ngValue]="nationality.COD_PAIS">
                     {{ nationality.NOM_PAIS }}
                   </option>
@@ -314,7 +342,7 @@
               <div class="form-group">
                 <label for="orgPost">Post</label>
                 <select class="custom-select mr-sm-2" formControlName="orgPost" [(ngModel)]="thirdParty.orgPost">
-                  <option></option>
+                  <option selected></option>
                   <option *ngFor="let orgPost of TPLOV.orgPostLOV" [ngValue]="orgPost.COD_MARCA">
                     {{ orgPost.NOM_MARCA }}
                   </option>
@@ -327,7 +355,7 @@
                 <label for="orgTypeOfBusiness">Type of Business</label>
                 <select class="custom-select mr-sm-2" formControlName="orgTypeOfBusiness"
                   [(ngModel)]="thirdParty.orgTypeOfBusiness">
-                  <option></option>
+                  <option selected></option>
                   <option *ngFor="let orgTypeOfBusiness of TPLOV.orgTypeOfBusinessLOV"
                     [ngValue]="orgTypeOfBusiness.COD_MARCA">
                     {{ orgTypeOfBusiness.NOM_MARCA }}
@@ -349,6 +377,7 @@
                 <label for="personMaritalStatus">Marital Status</label>
                 <select class="custom-select mr-sm-2" formControlName="personMaritalStatus"
                   [(ngModel)]="thirdParty.personMaritalStatus">
+                  <option selected></option>
                   <option *ngFor="let personMaritalStatus of TPLOV.personMaritalStatusLOV"
                     [ngValue]="personMaritalStatus.COD_EST_CIVIL">
                     {{ personMaritalStatus.NOM_VALOR }}
@@ -362,6 +391,7 @@
                 <label for="personProfession">Profession</label>
                 <select class="custom-select mr-sm-2" formControlName="personProfession"
                   [(ngModel)]="thirdParty.personProfession">
+                  <option selected></option>
                   <option *ngFor="let personProfession of TPLOV.personProfessionLOV"
                     [ngValue]="personProfession.COD_PROFESION">
                     {{ personProfession.NOM_PROFESION }}
@@ -375,6 +405,7 @@
                 <label for="personOccupation">Occupation</label>
                 <select class="custom-select mr-sm-2" formControlName="personOccupation"
                   [(ngModel)]="thirdParty.personOccupation">
+                  <option selected></option>
                   <option *ngFor="let personOccupation of TPLOV.personOccupationLOV"
                     [ngValue]="personOccupation.COD_PROFESION">
                     {{ personOccupation.NOM_PROFESION }}
@@ -388,6 +419,7 @@
                 <label for="personNationality">Nationality</label>
                 <select class="custom-select mr-sm-2" formControlName="personNationality"
                   [(ngModel)]="thirdParty.personNationality">
+                  <option selected></option>
                   <option *ngFor="let nationality of TPLOV.nationalityLOV" [ngValue]="nationality.COD_PAIS">
                     {{ nationality.NOM_PAIS }}
                   </option>
@@ -399,6 +431,7 @@
               <div class="form-group">
                 <label for="personType">Type</label>
                 <select class="custom-select mr-sm-2" formControlName="personType" [(ngModel)]="thirdParty.personType">
+                  <option selected></option>
                   <option *ngFor="let personType of TPLOV.personTypeLOV" [ngValue]="personType.TIP_NACIONALIDAD">
                     {{ personType.NOM_VALOR }}
                   </option>
@@ -431,11 +464,11 @@
 
   <div mat-dialog-actions align="end">
     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary" (click)="cancel()">
-        Cancel
-      </button>
-      <button [disabled]="tpForm.pristine || tpForm.invalid" type="submit" class="btn btn-primary" (click)="create()">
+      <button [disabled]="tpForm.invalid" type="submit" class="btn btn-primary" (click)="create()">
         Create
+      </button>
+      <button type="button" class="btn btn-default" (click)="cancel()">
+        Clear
       </button>
     </div>
   </div>

@@ -10,7 +10,6 @@ import {
 import {
   Observable
 } from 'rxjs';
-
 import {
   AuthenticationService
 } from '../services/authentication.service';

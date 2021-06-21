@@ -36,6 +36,15 @@ import {
 import {
   page
 } from "../../constants/page";
+import {
+  environment
+} from 'src/environments/environment';
+import {
+  ToastrService
+} from 'ngx-toastr';
+import {
+  DashboardService
+} from "src/app/services/dashboard.service";
 
 @Component({
   selector: "app-login",
@@ -49,6 +58,7 @@ export class LoginComponent implements OnInit {
   message: any;
   alert: boolean;
   version = VER;
+  isStaging = !environment.production;
 
   //modal reference
   modalRef: BsModalRef;
@@ -58,10 +68,12 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: BsModalService,
-    private authenticationService: AuthenticationService
+    private auth: AuthenticationService,
+    private ds: DashboardService,
+    private toastr: ToastrService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
+    if (this.auth.currentUserValue) {
       this.router.navigate(["/"]);
     }
     this.createForm();
@@ -70,7 +82,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.modalRef = Utility.modal(
       this.modalService,
-      "You are about to enter MAPFRE Insurance Information System. The access and use of this system is limited to duly authorized personnel and strictly for official use only. MAPFRE Insurance informs all of its employees, agents, representatives, service providers, and all natural or juridical persons having official transactions with the company involving similar access to its information system that Information accessed in MAPFRE SYSTEM is considered property of MAPFRE Insurance and is subject to obligation of confidentiality and security in accordance with the laws on privacy and protection of personal information.",
+      "You are about to enter MAPFRE Insurance Information System. The access and use of this system is limited to duly authorized personnel and strictly for official use only. MAPFRE Insurance informs all of its employees, agents, representatives, service providers, and all natural or juridical persons having official transactions with the company involving similar access to its information system that Information accessed in MAPFRE SYSTEM is considered property of MAPFRE Insurance and is subject to obligation of confidentiality and security in accordance with the laws on privacy and protection of personal information. All registered users of this system shall be monitored and all accesses be recorded by MAPFRE INSURANCE as a matter of right, in accordance with existing and applicable laws and Company Rules and regulations.",
       "MAPFRE INFORMATION USAGE SECURITY NOTICE"
     );
 
@@ -85,8 +97,21 @@ export class LoginComponent implements OnInit {
       });
     }
 
+    this.getAnnouncement();
+
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+  }
+
+  getAnnouncement() {
+    this.ds.getAnnouncement().then(res => {
+      if (res.status) {
+        const details = res.obj as any;
+        if (details.hasAnnouncement) {
+          Utility.toastr(this.toastr, details.message, details.title, details.type);
+        }
+      }
+    });
   }
 
   createForm() {
@@ -108,22 +133,28 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.rememberMe();
     this.loading = true;
-    this.authenticationService
+    this.auth
       .login(this.loginForm.value.username, this.loginForm.value.password)
       .pipe(first())
       .subscribe(
         (data) => {
-          Globals.setPage(page.DAS.N);
-          if (data.role === 1) {
-            this.router.navigate([this.returnUrl]);
+          if (data != null) {
+            Globals.setPage(page.DAS.N);
+            if (data.role === 2) { // if employee
+              this.router.navigate(["/agent"]);
+            } else {
+              this.router.navigate([this.returnUrl]);
+            }
           } else {
-            this.router.navigate(["/agent"]);
+            this.loading = false;
+            this.alert = true;
+            this.message = "Incorrect useraname or password.";
           }
         },
         (err) => {
           this.loading = false;
-          this.alert = true;
-          this.message = err.message;
+            this.alert = true;
+            this.message = "Application Error! " + err.message;
         }
       );
   }

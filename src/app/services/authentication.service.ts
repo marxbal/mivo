@@ -16,7 +16,10 @@ import {
 } from "../objects/User";
 import {
   CURRENT_USER,
-  MENU
+  MENU, 
+  MIVO_AUTH,
+  DASH_INFO,
+  SESSION_TIME
 } from "../constants/local.storage";
 import {
   Page
@@ -31,9 +34,6 @@ import {
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject < User > ;
   public currentUser: Observable < User > ;
-
-  username: String;
-  password: String;
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject < User > (
@@ -58,72 +58,51 @@ export class AuthenticationService {
   //         delete user.password;
   //         localStorage.setItem(CURRENT_USER, JSON.stringify(user));
   //         this.currentUserSubject.next(user);
-  //         this.getPages();
+  //         this.getPages(['account', 'outstanding']);
   //         return user;
   //       })
   //     );
   // }
 
   login(username: String, password: String) {
-    return this.http.get(API_URL + '/auth', {
-      headers: {
-        authorization: this.createBasicAuthToken(username, password)
+    return this.http.post(API_URL + '/auth/login', { username, password }).pipe(map((res) => {
+      if (res["status"]) {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        const user = new User(res["user"]);
+        const pages = res["pages"];
+        const token = res["token"];
+        user.token = 'Bearer ' + token;
+
+        localStorage.setItem(CURRENT_USER, JSON.stringify(user));
+        this.currentUserSubject.next(user);
+
+        this.getPages(pages);
+        return user;
+      } else {
+        return null;
       }
-    }).pipe(map((res) => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      const user = new User();
-      user.userId = 1101;
-      user.role = 1;
-      user.userName = username as string;
-      user.firstName = "MAPFRE";
-      user.lastName = "INSULAR";
-      user.fullName = "MAPFRE INSULAR";
-      user.address = 'Sta. Rita, Olonggapo City, Zambales, Philippines';
-      user.expiryDay = 4;
-      user.token = this.createBasicAuthToken(username, password);
-
-      localStorage.setItem(CURRENT_USER, JSON.stringify(user));
-      this.currentUserSubject.next(user);
-
-      this.getPages();
-
-      return user;
     }));
   }
 
-  createBasicAuthToken(username: String, password: String) {
-    return 'Basic ' + window.btoa(username + ":" + password)
-  }
-
-  getPages() {
-    // removing pages for user
-    const unavailablePages = [
-      "commissionsPaid",
-      "estimatedCommissions",
-      "premiumCollection",
-      // "quickHome",
-      // "quotationHome",
-      // "issuanceHome",
-      "account",
-      "client",
-      "query",
-      "changePassword",
-      "news",
-      "requests",
-    ];
+  getPages(pages: any[]) {
     const page = new Page();
     for (let p in page) {
-      if (unavailablePages.includes(p)) {
-        page[p] = false;
+      //includes all available pages for user
+      if (pages.includes(p)) {
+        page[p] = true;
       }
     }
     localStorage.setItem(MENU, JSON.stringify(page));
+    localStorage.setItem(SESSION_TIME, new Date().toISOString());
   }
 
   logout() {
     // remove user from local storage and set current user to null
     localStorage.removeItem(CURRENT_USER);
     localStorage.removeItem(MENU);
+    localStorage.removeItem(MIVO_AUTH);
+    localStorage.removeItem(DASH_INFO);
+    localStorage.removeItem(SESSION_TIME);
     this.currentUserSubject.next(null);
   }
 }
